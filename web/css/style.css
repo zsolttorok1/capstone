@@ -10,13 +10,17 @@ and open the template in the editor.
 body {
     font-family: 'Open Sans', sans-serif;
     background-color: #f2f2f2;
-}
-.header {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
+    margin: 0px;
 }
 .banner img {
     width: 100%;
+    margin: 0px;
+}
+.content img {
+    margin-top: 50px;
+    margin-left: 50px;
+    width: 20%;
+    height: auto;
 }
 .menu {
     max-width: 1920px;
@@ -28,15 +32,16 @@ body {
 }
 .content {
     width: 1000px; 
-    border-left: 2px solid black;
-    border-right: 2px solid black;
+    /* border-left: 2px solid black;
+    border-right: 2px solid black;  */
     /** border-top: 2px solid black; */
-    margin: 0 auto;
+    margin: 0px auto;
     background-color: white;
 }
 h1.bodyheader {
-    margin-left: 50px;
+    /* margin-left: 50px; */
     margin-right: 50px;
+    display: inline-block;
 }
 p.bodytext {
     margin-left: 150px;
