@@ -7,6 +7,10 @@ and open the template in the editor.
     Created on : Feb 6, 2018, 12:15:15 PM
     Author     : 685442
 */
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f2f2f2;
+}
 .header {
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
@@ -15,12 +19,28 @@ and open the template in the editor.
     width: 100%;
 }
 .menu {
-    max-width: 800px;
+    max-width: 1920px;
     height: 36px;
     display: flex;
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
     background-color: rgba(211, 211, 211, 1);
+}
+.content {
+    width: 1000px; 
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    /** border-top: 2px solid black; */
+    margin: 0 auto;
+    background-color: white;
+}
+h1.bodyheader {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+p.bodytext {
+    margin-left: 150px;
+    margin-right: 150px;
 }
 .menuitem {
     font-family: 'Open Sans', sans-serif;
