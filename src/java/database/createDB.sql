@@ -13,6 +13,71 @@ START WITH 1
 INCREMENT BY 1 
 CACHE 10;
 
+
+USE `item`;
+
+/*Table structure for table `user` */
+
+DROP TABLE IF EXISTS `item`;
+
+CREATE TABLE `item` (
+    `item_name` varchar(100) NOT NULL,
+    `quantity` number(5) NOT NULL,
+    `category` varchar(30) NOT NULL,
+    `description` varchar(2000) NULL,
+
+    PRIMARY KEY (`item_name`),
+) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+USE `report`;
+
+/*Table structure for table `user` */
+
+DROP TABLE IF EXISTS `report`;
+
+CREATE TABLE `report` (
+    `report_name` varchar(50) NOT NULL,
+    `description` varchar(2000) NOT NULL,
+    `date_created` date NOT NULL,
+    `pdf_filepath` varchar(50) NOT NULL,
+
+    PRIMARY KEY (`report_name`)
+) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+USE `phone_number`;
+
+/*Table structure for table `phone_number` */
+
+DROP TABLE IF EXISTS `phone_number`;
+
+CREATE TABLE `phone_number` (
+    `phone_id` number NOT NULL,
+    `phone_number` number NOT NULL,
+    PRIMARY KEY (`phone_id`)
+) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+USE `address`;
+
+/*Table structure for table `address` */
+
+DROP TABLE IF EXISTS `address`;
+
+CREATE TABLE `address` (
+    `address_id` number NOT NULL,
+    `house_number` number NOT NULL,
+    `street` varchar(50) NOT NULL,
+    `city` varchar(50) NOT NULL,
+    `province`varchar(20) NOT NULL,
+    `country` varchar(20) NOT NULL,
+    `postal_code` varchar(20) NOT NULL,
+    PRIMARY KEY (`address_id`),
+) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 USE `user`;
 
 /*Table structure for table `user` */
@@ -35,53 +100,8 @@ CREATE TABLE `user` (
 ) 
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-USE `job_user`;
 
-/*Table structure for table `user` */
 
-DROP TABLE IF EXISTS `job_user`;
-
-CREATE TABLE `job_user` (
-    `user_name` varchar(50) NOT NULL,
-    `job_name` varchar(50) NOT NULL,
-    `hours` number NOT NULL,
-    PRIMARY KEY (`user_name`),
-    PRIMARY KEY (`job_name`),
-    FOREIGN KEY (`user_name`) references user(`user_name`),
-    FOREIGN KEY (`job_name`) references job(`job_name`)
-) 
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-USE `address`;
-
-/*Table structure for table `address` */
-
-DROP TABLE IF EXISTS `address`;
-
-CREATE TABLE `address` (
-    `address_id` number NOT NULL,
-    `house_number` number NOT NULL,
-    `street` varchar(50) NOT NULL,
-    `city` varchar(50) NOT NULL,
-    `province`varchar(20) NOT NULL,
-    `country` varchar(20) NOT NULL,
-    `postal_code` varchar(20) NOT NULL,
-    PRIMARY KEY (`address_id`),
-) 
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-USE `phone_number`;
-
-/*Table structure for table `phone_number` */
-
-DROP TABLE IF EXISTS `phone_number`;
-
-CREATE TABLE `phone_number` (
-    `phone_id` number NOT NULL,
-    `phone_number` number NOT NULL,
-    PRIMARY KEY (`phone_id`)
-) 
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 USE `customer`;
 
@@ -108,6 +128,7 @@ CREATE TABLE `customer` (
 ) 
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
 USE `job`;
 
 /*Table structure for table `customer` */
@@ -132,22 +153,22 @@ CREATE TABLE `job` (
 ) 
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-USE `report`;
+USE `job_user`;
 
 /*Table structure for table `user` */
 
-DROP TABLE IF EXISTS `report`;
+DROP TABLE IF EXISTS `job_user`;
 
-CREATE TABLE `report` (
-    `report_name` varchar(50) NOT NULL,
-    `description` varchar(2000) NOT NULL,
-    `date_created` date NOT NULL,
-    `pdf_filepath` varchar(50) NOT NULL,
-
-    PRIMARY KEY (`report_name`)
+CREATE TABLE `job_user` (
+    `user_name` varchar(50) NOT NULL,
+    `job_name` varchar(50) NOT NULL,
+    `hours` number NOT NULL,
+    PRIMARY KEY (`user_name`),
+    PRIMARY KEY (`job_name`),
+    FOREIGN KEY (`user_name`) references user(`user_name`),
+    FOREIGN KEY (`job_name`) references job(`job_name`)
 ) 
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 USE `job_item`;
 
@@ -168,21 +189,6 @@ CREATE TABLE `job_item` (
 ) 
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-USE `item`;
-
-/*Table structure for table `user` */
-
-DROP TABLE IF EXISTS `item`;
-
-CREATE TABLE `item` (
-    `item_name` varchar(100) NOT NULL,
-    `quantity` number(5) NOT NULL,
-    `category` varchar(30) NOT NULL,
-    `description` varchar(2000) NULL,
-
-    PRIMARY KEY (`item_name`),
-) 
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 /*INSERTS-we need to add a trigger for the sequences */
@@ -204,7 +210,7 @@ insert into `address` (`house_number`, `address_id`, `street`, `city`, `province
     values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
 
 /*Data for the table `phone_number` */
-insert into `phone_number` (`phone_number`)
+insert into `phone_number` (`phone_number`)jja
     values ();
 
 
