@@ -1,7 +1,7 @@
 /*CREATE A FUNCTION, REMOVE THE SEQUENCES, ADD A AUTO INCREMENT FOR ADDRESS 
 AND PHONE TABLES, THE FUNCTION CALLS THE CURRENT VALUE OF AN ID AND INSERT THAT 
 INTO THE DATA */
-DROP DATABASE if exsits CapstoneDB;
+DROP DATABASE if exists CapstoneDB;
 CREATE DATABASE CapstoneDB;
 USE CapstoneDB;
 
@@ -15,8 +15,7 @@ CREATE TABLE `item` (
     `quantity` int(5) NOT NULL,
     `category` varchar(30) NOT NULL,
     `description` varchar(2000) NULL,
-
-    PRIMARY KEY (`item_name`),
+    PRIMARY KEY (`item_name`)
 );
 
 
@@ -30,7 +29,6 @@ CREATE TABLE `report` (
     `description` varchar(2000) NOT NULL,
     `date_created` date NOT NULL,
     `pdf_filepath` varchar(50) NOT NULL,
-
     PRIMARY KEY (`report_name`)
 );
 
@@ -56,7 +54,7 @@ CREATE TABLE `address` (
     `province`varchar(20) NOT NULL,
     `country` varchar(20) NOT NULL,
     `postal_code` varchar(20) NOT NULL,
-    PRIMARY KEY (`address_id`),
+    PRIMARY KEY (`address_id`)
 ) 
 
 
@@ -73,7 +71,6 @@ CREATE TABLE `user` (
     `lastname` varchar(50) NOT NULL,
     `role` varchar(20) NOT NULL,
     `email` varchar(100) NOT NULL,
-
     PRIMARY KEY (`user_name`),
     FOREIGN KEY (`address_id`) references address(`address_id`),
     FOREIGN KEY (`phone_id`) references phone_number(`phone_id`)
@@ -94,7 +91,6 @@ CREATE TABLE `customer` (
     `email` varchar(100) NOT NULL,
     `position` varchar(50) NULL,
     `notes` varchar (2000) NULL,
-    
     PRIMARY KEY (`customer_name`),
     FOREIGN KEY (`job_name`) references job(`job_name`),
     FOREIGN KEY (`phone_id`) references phone_number(`phone_id`),
@@ -116,7 +112,6 @@ CREATE TABLE `job` (
     `date_finished` date NULL,
     `balance` int NOT NULL,
     `status` varchar(50) NULL,
-   
     PRIMARY KEY (`job_name`),
     FOREIGN KEY (`address_id`) references address(`address_id`),
     FOREIGN KEY (`customer_name`) references customer(`customer_name`),
@@ -146,7 +141,6 @@ CREATE TABLE `job_item` (
     `item_name` varchar(100) NOT NULL,
     `note` varchar(2000) NULL,
     `quantity` int(5) NOT NULL,
-
     PRIMARY KEY (`job_name`),
     PRIMARY KEY (`item_name`),
     FOREIGN KEY (`job_name`) references job(`job_name`),
