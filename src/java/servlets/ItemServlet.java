@@ -5,12 +5,16 @@
  */
 package servlets;
 
+import businesslogic.ItemService;
+import domainmodel.Item;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "ItemServlet", urlPatterns = {"/ItemServlet"})
 public class ItemServlet extends HttpServlet {
@@ -26,6 +30,17 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
+        ItemService itemService = new ItemService();
+       
+        String keyword = "";
+        List<Item> items = itemService.searchItem(keyword);
+        
+        //items.add(new Item)
+        
+        session.setAttribute("items", items);
+        
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
@@ -40,9 +55,7 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
-        
+        request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response); 
     }
 
     /**
