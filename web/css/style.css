@@ -1,0 +1,48 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 6, 2018, 12:15:15 PM
+    Author     : 685442
+*/
+.header {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+}
+.banner img {
+    width: 100%;
+}
+.menu {
+    max-width: 800px;
+    height: 36px;
+    display: flex;
+    justify-content: center; /*horizontal center*/
+    align-items: center; /*vertical center*/
+    background-color: rgba(211, 211, 211, 1);
+}
+.menuitem {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13pt;
+    text-align: center;
+    color: black;
+    border-width: 0px;
+    border-style: none;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    text-decoration: none;
+    transition: all 0.2s;
+    height: 36px;
+    display: block;
+    cursor: pointer;
+    line-height: 36px;
+    width:200px;
+}
+.menuitem:hover {
+    /* MOJO RED */
+    background-color: rgba(142, 69, 61, 1); 
+    color: white;
+}
