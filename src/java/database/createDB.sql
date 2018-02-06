@@ -192,25 +192,62 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 /*INSERTS-we need to add a trigger for the sequences */
-/*Data for the table `user` */
 
+/*USER ONE*/
+/*Data for the table `address` */
+insert into `address` (`address_id`,`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+    values (seq_address.NEXTVAL, 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+
+
+/*Data for the table `phone_number` */
+insert into `phone_number` (`phone_id`, `phone_number`)
+    values (seq_phone.NEXTVAL, 4038077189);
+
+
+/*Data for the table `user` */
 insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
-    values ('andrew_grieve', seq_address.NEXTVAL, seq_phone.NEXTVAL, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
-insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
-    values ('james_grieve',  seq_address.NEXTVAL, seq_phone.NEXTVAL, 'James11', 'James', 'Grieve','manager' , 'darklink44459@hotmail.com');
-insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
-    values ('kayla_grieve',  seq_address.NEXTVAL, seq_phone.NEXTVAL, 'Kayla11', 'Kayla', 'Grieve','employee' , 'link44459@hotmail.com');
+    values ('andrew_grieve', seq_address.CURVAL, seq_phone.CURVAL, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
 
 /*Data for the table `job_user` */
 insert into `job_user` (`user_name`, `job_name`, `hours`)
-    values ('james_grieve', 'Brookfield Bathroom on WestTower', 20);
+    values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
 
+
+/*USER TWO*/
 /*Data for the table `address` */
-insert into `address` (`house_number`, `address_id`, `street`, `city`, `province`, `country`, `postal_code`)
-    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+insert into `address` (`address_id`,`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+    values (seq_address.NEXTVAL, 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
 
 /*Data for the table `phone_number` */
-insert into `phone_number` (`phone_number`)jja
-    values ();
+insert into `phone_number` (`phone_id`, `phone_number`)
+    values (seq_phone.NEXTVAL, 4034879866);
+
+/*Data for the table `user` */
+insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
+    values ('james_grieve',  seq_address.CURVAL, seq_phone.CURVAL, 'James11', 'James', 'Grieve','manager' , 'darklink44459@hotmail.com');
+
+/*Data for the table `job_user` */
+insert into `job_user` (`user_name`, `job_name`, `hours`)
+    values ('james_grieve', 'Brookfield Bathroom on WestTower', 0);
+
+
+
+/*USER THREE*/	
+
+/*Data for the table `address` */
+insert into `address` (`address_id`,`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+    values (seq_address.NEXTVAL, 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+
+/*Data for the table `phone_number` */
+insert into `phone_number` (`phone_id`, `phone_number`)
+    values (seq_phone.NEXTVAL, 4037778620);
+
+/*Data for the table `user` */
+insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
+    values ('kayla_grieve',  seq_address.CURVAL, seq_phone.CURVAL, 'Kayla11', 'Kayla', 'Grieve','employee' , 'link44459@hotmail.com');
+
+/*Data for the table `job_user` */
+insert into `job_user` (`user_name`, `job_name`, `hours`)
+    values ('kayla_grieve', 'Brookfield Bathroom on WestTower', 0);
 
 
