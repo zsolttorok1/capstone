@@ -1,21 +1,9 @@
+/*CREATE A FUNCTION, REMOVE THE SEQUENCES, ADD A AUTO INCREMENT FOR ADDRESS 
+AND PHONE TABLES, THE FUNCTION CALLS THE CURRENT VALUE OF AN ID AND INSERT THAT 
+INTO THE DATA */
 DROP DATABASE if exsits CapstoneDB;
 CREATE DATABASE CapstoneDB;
 USE CapstoneDB;
-
-/*SEQUENCE FOR INCREMENT ID */
-CREATE SEQUENCE seq_phone
-MINVALUE 1 
-START WITH 1 
-INCREMENT BY 1 
-CACHE 10;
-
-CREATE SEQUENCE seq_address
-MINVALUE 1 
-START WITH 1 
-INCREMENT BY 1 
-CACHE 10;
-
-
 
 
 /*Table structure for table `user` */
@@ -51,7 +39,7 @@ CREATE TABLE `report` (
 DROP TABLE IF EXISTS `phone_number`;
 
 CREATE TABLE `phone_number` (
-    `phone_id` int NOT NULL,
+    `phone_id` int NOT NULL AUTO_INCREMENT,
     `phone_number` int NOT NULL,
     PRIMARY KEY (`phone_id`)
 );
@@ -61,7 +49,7 @@ CREATE TABLE `phone_number` (
 DROP TABLE IF EXISTS `address`;
 
 CREATE TABLE `address` (
-    `address_id` int NOT NULL,
+    `address_id` int NOT NULL AUTO_INCREMENT,
     `house_int` int NOT NULL,
     `street` varchar(50) NOT NULL,
     `city` varchar(50) NOT NULL,
@@ -164,24 +152,52 @@ CREATE TABLE `job_item` (
     FOREIGN KEY (`job_name`) references job(`job_name`),
     FOREIGN KEY (`item_name`) references item(`item_name`)
 );
+/*FUNCTION FOR INSERTING ON THE PHONE AND ADDRESS */
 
+CREATE OR REPLACE procedure addressProc
+ (address_id OUT number)
+ 
+ RETURN int
+ IS
+ addressNew int;
+ 
+BEGIN
+	Select address_id
+	INTO addressNew
+	from address;
+ 
+END;
+/
+
+CREATE OR REPLACE procedure phoneProc
+ (phone_id OUT number)
+ 
+ RETURN int
+ IS
+ phoneNew int;
+ 
+BEGIN
+	Select phone_id
+	INTO phoneNew
+	from phone_number;
+ 
+END;
+/
 
 /*INSERTS-we need to add a trigger for the sequences */
 
 /*USER ONE*/
 /*Data for the table `address` */
-insert into `address` (`address_id`,`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
-    values (seq_address.NEXTVAL, 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
-
+insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
 
 /*Data for the table `phone_number` */
-insert into `phone_number` (`phone_id`, `phone_number`)
-    values (seq_phone.NEXTVAL, 4038077189);
-
+insert into `phone_number` (`phone_number`)
+    values (4038077189);
 
 /*Data for the table `user` */
 insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
-    values ('andrew_grieve', seq_address.CURVAL, seq_phone.CURVAL, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
+    values ('andrew_grieve', addressProc(), seq_phone.CURVAL, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
 
 /*Data for the table `job_user` */
 insert into `job_user` (`user_name`, `job_name`, `hours`)
@@ -190,12 +206,12 @@ insert into `job_user` (`user_name`, `job_name`, `hours`)
 
 /*USER TWO*/
 /*Data for the table `address` */
-insert into `address` (`address_id`,`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
-    values (seq_address.NEXTVAL, 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
 
 /*Data for the table `phone_number` */
-insert into `phone_number` (`phone_id`, `phone_number`)
-    values (seq_phone.NEXTVAL, 4034879866);
+insert into `phone_number` (`phone_number`)
+    values (4034879866);
 
 /*Data for the table `user` */
 insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
@@ -210,12 +226,12 @@ insert into `job_user` (`user_name`, `job_name`, `hours`)
 /*USER THREE*/	
 
 /*Data for the table `address` */
-insert into `address` (`address_id`,`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
-    values (seq_address.NEXTVAL, 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
 
 /*Data for the table `phone_number` */
-insert into `phone_number` (`phone_id`, `phone_number`)
-    values (seq_phone.NEXTVAL, 4037778620);
+insert into `phone_number` (`phone_number`)
+    values (4037778620);
 
 /*Data for the table `user` */
 insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
