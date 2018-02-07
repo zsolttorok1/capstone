@@ -72,8 +72,8 @@ CREATE TABLE `user` (
     `role` varchar(20) NOT NULL,
     `email` varchar(100) NOT NULL,
     PRIMARY KEY (`user_name`),
-    FOREIGN KEY (`address_id`) references address(`address_id`),
-    FOREIGN KEY (`phone_id`) references phone_number(`phone_id`)
+   CONSTRAINT `FK_User_Address_id`  FOREIGN KEY (`address_id`) references address(`address_id`),
+   CONSTRAINT `FK_User_Phone_id` FOREIGN KEY (`phone_id`) references phone_number(`phone_id`)
 ) 
 
 /*Table structure for table `customer` */
@@ -92,9 +92,9 @@ CREATE TABLE `customer` (
     `position` varchar(50) NULL,
     `notes` varchar (2000) NULL,
     PRIMARY KEY (`customer_name`),
-    FOREIGN KEY (`job_name`) references job(`job_name`),
-    FOREIGN KEY (`phone_id`) references phone_number(`phone_id`),
-    FOREIGN KEY (`address_id`) references address(`address_id`)
+    CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references job(`job_name`),
+    CONSTRAINT `FK_Customer_Phone_id` FOREIGN KEY (`phone_id`) references phone_number(`phone_id`),
+    CONSTRAINT `FK_Customer_Address_id` FOREIGN KEY (`address_id`) references address(`address_id`)
 );
 
 
@@ -113,9 +113,9 @@ CREATE TABLE `job` (
     `balance` int NOT NULL,
     `status` varchar(50) NULL,
     PRIMARY KEY (`job_name`),
-    FOREIGN KEY (`address_id`) references address(`address_id`),
-    FOREIGN KEY (`customer_name`) references customer(`customer_name`),
-    FOREIGN KEY (`report_name`) references report(`report_name`)
+    CONSTRAINT `FK_Job_Address_id` FOREIGN KEY (`address_id`) references address(`address_id`),
+    CONSTRAINT `FK_Job_Customer_name` FOREIGN KEY (`customer_name`) references customer(`customer_name`),
+    CONSTRAINT `FK_Job_Report_name` FOREIGN KEY (`report_name`) references report(`report_name`)
 );
 
 /*Table structure for table `user` */
@@ -128,8 +128,8 @@ CREATE TABLE `job_user` (
     `hours` int NOT NULL,
     PRIMARY KEY (`user_name`),
     PRIMARY KEY (`job_name`),
-    FOREIGN KEY (`user_name`) references user(`user_name`),
-    FOREIGN KEY (`job_name`) references job(`job_name`)
+    CONSTRAINT `FK_Job_User_User_name` FOREIGN KEY (`user_name`) references user(`user_name`),
+    CONSTRAINT `FK_Job_User_Job_name` FOREIGN KEY (`job_name`) references job(`job_name`)
 );
 
 /*Table structure for table `user` */
@@ -143,8 +143,8 @@ CREATE TABLE `job_item` (
     `quantity` int(5) NOT NULL,
     PRIMARY KEY (`job_name`),
     PRIMARY KEY (`item_name`),
-    FOREIGN KEY (`job_name`) references job(`job_name`),
-    FOREIGN KEY (`item_name`) references item(`item_name`)
+    CONSTRAINT `FK_Job_Item_Job_name` FOREIGN KEY (`job_name`) references job(`job_name`),
+    CONSTRAINT `FK_Job_Item_Item_name` FOREIGN KEY (`item_name`) references item(`item_name`)
 );
 /*FUNCTION FOR INSERTING ON THE PHONE AND ADDRESS */
 
