@@ -22,7 +22,7 @@ CREATE TABLE `item` (
 
 /*Table structure for table `user` */
 
-DROP TABLE IF EXISTS `report`;
+
 
 CREATE TABLE `report` (
     `report_name` varchar(50) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE `report` (
 
 /*Table structure for table `phone_number` */
 
-DROP TABLE IF EXISTS `phone_number`;
+
 
 CREATE TABLE `phone_number` (
     `phone_id` int NOT NULL AUTO_INCREMENT,
@@ -44,7 +44,6 @@ CREATE TABLE `phone_number` (
 
 /*Table structure for table `address` */
 
-DROP TABLE IF EXISTS `address`;
 
 CREATE TABLE `address` (
     `address_id` int NOT NULL AUTO_INCREMENT,
@@ -55,7 +54,7 @@ CREATE TABLE `address` (
     `country` varchar(20) NOT NULL,
     `postal_code` varchar(20) NOT NULL,
     PRIMARY KEY (`address_id`)
-) 
+); 
 
 
 /*Table structure for table `user` */
@@ -72,13 +71,12 @@ CREATE TABLE `user` (
     `role` varchar(20) NOT NULL,
     `email` varchar(100) NOT NULL,
     PRIMARY KEY (`user_name`),
-   CONSTRAINT `FK_User_Address_id`  FOREIGN KEY (`address_id`) references address(`address_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-   CONSTRAINT `FK_User_Phone_id` FOREIGN KEY (`phone_id`) references phone_number(`phone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) 
+   CONSTRAINT `FK_User_Address_id`  FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+   CONSTRAINT `FK_User_Phone_id` FOREIGN KEY (`phone_id`) references `phone_number`(`phone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+); 
 
 /*Table structure for table `customer` */
 
-DROP TABLE IF EXISTS `customer`;
 
 CREATE TABLE `customer` (
     `customer_name` varchar(50) NOT NULL,
@@ -92,9 +90,9 @@ CREATE TABLE `customer` (
     `position` varchar(50) NULL,
     `notes` varchar (2000) NULL,
     PRIMARY KEY (`customer_name`),
-    CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references job(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Customer_Phone_id` FOREIGN KEY (`phone_id`) references phone_number(`phone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Customer_Address_id` FOREIGN KEY (`address_id`) references address(`address_id`)  ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `FK_Customer_Phone_id` FOREIGN KEY (`phone_id`) references `phone_number`(`phone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `FK_Customer_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`)  ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 
@@ -113,9 +111,9 @@ CREATE TABLE `job` (
     `balance` int NOT NULL,
     `status` varchar(50) NULL,
     PRIMARY KEY (`job_name`),
-    CONSTRAINT `FK_Job_Address_id` FOREIGN KEY (`address_id`) references address(`address_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Job_Customer_name` FOREIGN KEY (`customer_name`) references customer(`customer_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Job_Report_name` FOREIGN KEY (`report_name`) references report(`report_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_Job_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `FK_Job_Customer_name` FOREIGN KEY (`customer_name`) references `customer`(`customer_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `FK_Job_Report_name` FOREIGN KEY (`report_name`) references `report`(`report_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 /*Table structure for table `user` */
@@ -128,8 +126,8 @@ CREATE TABLE `job_user` (
     `hours` int NOT NULL,
     PRIMARY KEY (`user_name`),
     PRIMARY KEY (`job_name`),
-    CONSTRAINT `FK_Job_User_User_name` FOREIGN KEY (`user_name`) references user(`user_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Job_User_Job_name` FOREIGN KEY (`job_name`) references job(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_Job_User_User_name` FOREIGN KEY (`user_name`) references `user`(`user_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `FK_Job_User_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 /*Table structure for table `user` */
@@ -143,8 +141,8 @@ CREATE TABLE `job_item` (
     `quantity` int(5) NOT NULL,
     PRIMARY KEY (`job_name`),
     PRIMARY KEY (`item_name`),
-    CONSTRAINT `FK_Job_Item_Job_name` FOREIGN KEY (`job_name`) references job(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Job_Item_Item_name` FOREIGN KEY (`item_name`) references item(`item_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_Job_Item_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `FK_Job_Item_Item_name` FOREIGN KEY (`item_name`) references `item`(`item_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 /*FUNCTION FOR INSERTING ON THE PHONE AND ADDRESS */
 
