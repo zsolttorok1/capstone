@@ -90,10 +90,11 @@ CREATE TABLE `customer` (
     `position` varchar(50) NULL,
     `notes` varchar (2000) NULL,
     PRIMARY KEY (`customer_name`),
-    CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    --CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT `FK_Customer_Phone_id` FOREIGN KEY (`phone_id`) references `phone_number`(`phone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT `FK_Customer_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`)  ON DELETE RESTRICT ON UPDATE RESTRICT
 );
+
 
 
 /*Table structure for table `customer` */
@@ -124,8 +125,8 @@ CREATE TABLE `job_user` (
     `user_name` varchar(50) NOT NULL,
     `job_name` varchar(50) NOT NULL,
     `hours` int NOT NULL,
-    PRIMARY KEY (`user_name`),
-    PRIMARY KEY (`job_name`),
+    PRIMARY KEY (`user_name`, `job_name`),
+    --PRIMARY KEY (`job_name`),
     CONSTRAINT `FK_Job_User_User_name` FOREIGN KEY (`user_name`) references `user`(`user_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT `FK_Job_User_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
@@ -139,98 +140,109 @@ CREATE TABLE `job_item` (
     `item_name` varchar(100) NOT NULL,
     `note` varchar(2000) NULL,
     `quantity` int(5) NOT NULL,
-    PRIMARY KEY (`job_name`),
-    PRIMARY KEY (`item_name`),
+    PRIMARY KEY (`job_name`, `item_name`),
+    --PRIMARY KEY (`item_name`),
     CONSTRAINT `FK_Job_Item_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT `FK_Job_Item_Item_name` FOREIGN KEY (`item_name`) references `item`(`item_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-/*FUNCTION FOR INSERTING ON THE PHONE AND ADDRESS */
-
-CREATE OR REPLACE procedure addressProc
- (address_id OUT number)
- 
- RETURN int
- IS
- addressNew int;
- 
-BEGIN
-	Select address_id
-	INTO addressNew
-	from address;
- 
-END;
-/
-
-CREATE OR REPLACE procedure phoneProc
- (phone_id OUT number)
- 
- RETURN int
- IS
- phoneNew int;
- 
-BEGIN
-	Select phone_id
-	INTO phoneNew
-	from phone_number;
- 
-END;
-/
-
-/*INSERTS-we need to add a trigger for the sequences */
-
-/*USER ONE*/
-/*Data for the table `address` */
-insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
-    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
-
-/*Data for the table `phone_number` */
-insert into `phone_number` (`phone_number`)
-    values (4038077189);
-
-/*Data for the table `user` */
-insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
-    values ('andrew_grieve', addressProc(), seq_phone.CURVAL, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
-
-/*Data for the table `job_user` */
-insert into `job_user` (`user_name`, `job_name`, `hours`)
-    values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
 
 
-/*USER TWO*/
-/*Data for the table `address` */
-insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
-    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+--Add Contraint for job 
+--CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 
-/*Data for the table `phone_number` */
-insert into `phone_number` (`phone_number`)
-    values (4034879866);
-
-/*Data for the table `user` */
-insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
-    values ('james_grieve',  seq_address.CURVAL, seq_phone.CURVAL, 'James11', 'James', 'Grieve','manager' , 'darklink44459@hotmail.com');
-
-/*Data for the table `job_user` */
-insert into `job_user` (`user_name`, `job_name`, `hours`)
-    values ('james_grieve', 'Brookfield Bathroom on WestTower', 0);
+ALTER TABLE customer
+ADD CONSTRAINT `FK_Customer_Job_name` 
+FOREIGN KEY (`job_name`) references `job`(`job_name`);
 
 
 
-/*USER THREE*/	
-
-/*Data for the table `address` */
-insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
-    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
-
-/*Data for the table `phone_number` */
-insert into `phone_number` (`phone_number`)
-    values (4037778620);
-
-/*Data for the table `user` */
-insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
-    values ('kayla_grieve',  seq_address.CURVAL, seq_phone.CURVAL, 'Kayla11', 'Kayla', 'Grieve','employee' , 'link44459@hotmail.com');
-
-/*Data for the table `job_user` */
-insert into `job_user` (`user_name`, `job_name`, `hours`)
-    values ('kayla_grieve', 'Brookfield Bathroom on WestTower', 0);
-
+-- /*FUNCTION FOR INSERTING ON THE PHONE AND ADDRESS */
+-- 
+-- CREATE OR REPLACE procedure addressProc
+--  (address_id OUT number)
+--  
+--  RETURN int
+--  IS
+--  addressNew int;
+--  
+-- BEGIN
+-- 	Select address_id
+-- 	INTO addressNew
+-- 	from address;
+--  
+-- END;
+-- /
+-- 
+-- CREATE OR REPLACE procedure phoneProc
+--  (phone_id OUT number)
+--  
+--  RETURN int
+--  IS
+--  phoneNew int;
+--  
+-- BEGIN
+-- 	Select phone_id
+-- 	INTO phoneNew
+-- 	from phone_number;
+--  
+-- END;
+-- /
+-- 
+-- /*INSERTS-we need to add a trigger for the sequences */
+-- 
+-- /*USER ONE*/
+-- /*Data for the table `address` */
+-- insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+--     values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+-- 
+-- /*Data for the table `phone_number` */
+-- insert into `phone_number` (`phone_number`)
+--     values (4038077189);
+-- 
+-- /*Data for the table `user` */
+-- insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
+--     values ('andrew_grieve', addressProc(), seq_phone.CURVAL, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
+-- 
+-- /*Data for the table `job_user` */
+-- insert into `job_user` (`user_name`, `job_name`, `hours`)
+--     values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
+-- 
+-- 
+-- /*USER TWO*/
+-- /*Data for the table `address` */
+-- insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+--     values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+-- 
+-- /*Data for the table `phone_number` */
+-- insert into `phone_number` (`phone_number`)
+--     values (4034879866);
+-- 
+-- /*Data for the table `user` */
+-- insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
+--     values ('james_grieve',  seq_address.CURVAL, seq_phone.CURVAL, 'James11', 'James', 'Grieve','manager' , 'darklink44459@hotmail.com');
+-- 
+-- /*Data for the table `job_user` */
+-- insert into `job_user` (`user_name`, `job_name`, `hours`)
+--     values ('james_grieve', 'Brookfield Bathroom on WestTower', 0);
+-- 
+-- 
+-- 
+-- /*USER THREE*/	
+-- 
+-- /*Data for the table `address` */
+-- insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+--     values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+-- 
+-- /*Data for the table `phone_number` */
+-- insert into `phone_number` (`phone_number`)
+--     values (4037778620);
+-- 
+-- /*Data for the table `user` */
+-- insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
+--     values ('kayla_grieve',  seq_address.CURVAL, seq_phone.CURVAL, 'Kayla11', 'Kayla', 'Grieve','employee' , 'link44459@hotmail.com');
+-- 
+-- /*Data for the table `job_user` */
+-- insert into `job_user` (`user_name`, `job_name`, `hours`)
+--     values ('kayla_grieve', 'Brookfield Bathroom on WestTower', 0);
+-- 
 
