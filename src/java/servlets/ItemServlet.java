@@ -31,16 +31,16 @@ public class ItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        //instanciating all used services
         HttpSession session = request.getSession();
         ItemService itemService = new ItemService();
        
+        //logic
         String keyword = "";
         List<Item> items = itemService.searchItem(keyword);
-        
-        //items.add(new Item)
-        
+                
+        //saving attributes to session
         session.setAttribute("items", items);
-        
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
@@ -55,6 +55,20 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        
+        if (action != null && action.equals("insert")) {
+            String itemName = request.getParameter("itemName");
+            String quantity = request.getParameter("quantity");
+            String category = request.getParameter("category");
+            String description = request.getParameter("description");
+            String note = request.getParameter("note");
+            
+            ItemService itemService = new ItemService();
+            itemService.addItem(itemName, quantity, category, description, note);
+        }
+        
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response); 
     }
 
