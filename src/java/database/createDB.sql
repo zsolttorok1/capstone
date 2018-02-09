@@ -192,44 +192,45 @@ call phone_proc(@phone_new);
 insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
     values ('andrew_grieve', @address_new, @phone_new, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
 
-
 /*Data for the table `job_user` */
 --insert into `job_user` (`user_name`, `job_name`, `hours`)
 --    values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
 
-
 /*USER TWO*/
 /*Data for the table `address` */
---insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
---     values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
 -- 
 -- /*Data for the table `phone_number` */
--- insert into `phone_number` (`phone_number`)
---     values (4034879866);
--- 
+insert into `phone` (`phone_number`)
+     values (4034879866);
+
+call address_proc(@address_new);
+call phone_proc(@phone_new);
+
 -- /*Data for the table `user` */
--- insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
---     values ('james_grieve',  seq_address.CURVAL, seq_phone.CURVAL, 'James11', 'James', 'Grieve','manager' , 'darklink44459@hotmail.com');
--- 
+insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
+   values ('james_grieve',  @address_new, @phone_new, 'James11', 'James', 'Grieve','manager' , 'darklink44459@hotmail.com');
+
 -- /*Data for the table `job_user` */
--- insert into `job_user` (`user_name`, `job_name`, `hours`)
---     values ('james_grieve', 'Brookfield Bathroom on WestTower', 0);
--- 
--- 
--- 
+--insert into `job_user` (`user_name`, `job_name`, `hours`)
+--   values ('james_grieve', 'Brookfield Bathroom on WestTower', 0);
+
 -- /*USER THREE*/	
--- 
+
 -- /*Data for the table `address` */
--- insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
---     values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
--- 
+insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+    values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
+
+call address_proc(@address_new);
+call phone_proc(@phone_new);
 -- /*Data for the table `phone_number` */
--- insert into `phone_number` (`phone_number`)
---     values (4037778620);
+insert into `phone` (`phone_number`)
+    values (4037778620);
 -- 
 -- /*Data for the table `user` */
--- insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
---     values ('kayla_grieve',  seq_address.CURVAL, seq_phone.CURVAL, 'Kayla11', 'Kayla', 'Grieve','employee' , 'link44459@hotmail.com');
+insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
+  values ('kayla_grieve',  @address_new, @phone_new, 'Kayla11', 'Kayla', 'Grieve','employee' , 'link44459@hotmail.com');
 -- 
 -- /*Data for the table `job_user` */
 -- insert into `job_user` (`user_name`, `job_name`, `hours`)
