@@ -152,29 +152,23 @@ ALTER TABLE customer
 ADD CONSTRAINT `FK_Customer_Job_name` 
 FOREIGN KEY (`job_name`) references `job`(`job_name`);
 
-
-
 /*FUNCTION FOR INSERTING ON THE PHONE AND ADDRESS */
 DELIMITER $$
 CREATE procedure `address_proc` 
-(OUT address_id int)
+(OUT address_new int)
 BEGIN
-    declare addressNew int;
-
-    select address_id
-    into addressNew
+    select max(address_id)
+    into address_new
     from address;
 END;
 $$
  
-CREATE OR REPLACE procedure `phone_proc`
-(OUT phone_id int)
+CREATE procedure `phone_proc`
+(OUT phone_new int)
 BEGIN
-    declare phoneNew int;
-
-    select phone_id
-    into phoneNew
-    from phone_number;
+    select max(phone_id)
+    into phone_new
+    from phone;
 END;
 $$
 
@@ -191,19 +185,22 @@ insert into `address` (`house_number`,  `street`, `city`, `province`, `country`,
 insert into `phone` (`phone_number`)
     values (4038077189);
 
-/*Data for the table `user` */
---insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
---    values ('andrew_grieve', call address_proc();, call phone_proc();, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
+call address_proc(@address_new);
+call phone_proc(@phone_new);
 
--- 
--- /*Data for the table `job_user` */
--- insert into `job_user` (`user_name`, `job_name`, `hours`)
---     values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
--- 
--- 
--- /*USER TWO*/
--- /*Data for the table `address` */
--- insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
+/*Data for the table `user` */
+insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
+    values ('andrew_grieve', @address_new, @phone_new, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
+
+
+/*Data for the table `job_user` */
+--insert into `job_user` (`user_name`, `job_name`, `hours`)
+--    values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
+
+
+/*USER TWO*/
+/*Data for the table `address` */
+--insert into `address` (`house_number`,  `street`, `city`, `province`, `country`, `postal_code`)
 --     values (236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4');
 -- 
 -- /*Data for the table `phone_number` */
