@@ -25,7 +25,16 @@
             </div>
         </div>
         <h1 class="bodyheaderc">ITEM</h1>
+        <p>${errormessage}</p>
         <div class="addbutton">Add New Job</div>
+        <form method="POST" action="item" class="formcenter">
+            Item Name: <input type="text" name="name" /><br>
+            Description: <input type="text" name="description" /><br>
+            Category: <input type="text" name="category" /><br>
+            Quantity: <input type="text" name="quantity" /><br>
+            <input type="hidden" name="action" value="add">
+            <input type="submit" value="save">
+        </form>
         <c:forEach var="item" items="${sessionScope.itemList}">
             <div class="row">
                 <div class="rowitem">${item.itemName}</div>
