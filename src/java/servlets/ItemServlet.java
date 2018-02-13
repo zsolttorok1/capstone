@@ -58,16 +58,18 @@ public class ItemServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-
+        String regex = "";
 
         if (action != null && action.equals("add")) {
             String itemName = request.getParameter("name");
             String quantity = request.getParameter("quantity");
             String category = request.getParameter("category");
             String description = request.getParameter("description");
+            
+            
             String note = null;
 
-            if(itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty()&& description !=null && !description.isEmpty()) {
+            if(itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty()&& description !=null && !description.isEmpty() && quantity.matches("\\d+")) {
                 ItemService itemService = new ItemService();
                 itemService.addItem(itemName, quantity, category, description, note);
             } else {
