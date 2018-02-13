@@ -38,4 +38,27 @@ public class ItemService {
         
         return itemBroker.getAll();
     }
+    //edit 
+    public boolean edit(String itemName, String quantity, String category, String description, String note)
+    {
+        ItemBroker itemBroker = new ItemBroker();
+        Item item = itemBroker.getByName(itemName);
+        
+        int quantity2 = Integer.parseInt(quantity);
+        item.setQuantity(quantity2);
+        item.setCategory(category);
+        item.setDescription(description);
+        
+        return itemBroker.update(item);
+    }
+   public boolean delete(String itemName){
+       ItemBroker itemBroker = new ItemBroker();
+       Item deletedItem = itemBroker.getByName(itemName);
+       return itemBroker.delete(deletedItem);
+   }
+
+    private int parseInteger(int quantity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

@@ -172,12 +172,12 @@ BEGIN
 END;
 $$
 
-CREATE PROCEDURE insert_item_proc
-    (IN p_item_name varchar,
-    IN p_quantity int,
-    IN p_categoty varchar,
-    IN p_description varchar,
-    out p_return int)
+CREATE PROCEDURE `insert_item_proc`
+    (IN p_item_name varchar(100),
+    IN p_quantity int(5),
+    IN p_categoty varchar(30),
+    IN p_description varchar(2000),
+    OUT p_return int)
 BEGIN
     declare v_item_count int;
     declare v_old_description_count int;
@@ -194,46 +194,23 @@ BEGIN
             from item
             where p_item_name = item_name;
 
-        v_new_description_count := CHAR_LENGTH(v_new_description_count);
+        set v_new_description_count = CHAR_LENGTH(p_description);
 
-        if v_new_description_count > v_old_description_count
-
+        if v_new_description_count > v_old_description_count then
+            UPDATE item
+                SET description = p_description;
         UPDATE item
-            SET quantity = quantity + p_quantity, category = p_categoty, description = p_description;
+            SET quantity = quantity + p_quantity, category = p_categoty;
+        end if;
 
-        
+        set p_return = 1;
     else
         insert into `item` (`item_name`, `quantity`, `category`, `description`)
-            values ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
-    
+            values (p_item_name, p_quantity, p_categoty, p_description);
+        set p_return = 1;
+    end if;
 END;
 $$
-
-CREATE TRIGGER insert_item_trig BEFORE INSERT ON item
-    FOR EACH ROW SET
-BEGIN
-    declare v_item_count int;
-
-    select sum(item_name)
-    into v_item_count
-    from item
-    where item_name = item_name;
-
-    if v_item_count > 0 then
-        UPDATE item
-            SET quantity = quantity + 
-    else
-        insert into `item` (`item_name`, `quantity`, `category`, `description`)
-            values ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
-    
-        
-
-    IF NEW.amount < 0 THEN
-        SET NEW.amount = 0;
-        ELSEIF NEW.amount > 100 THEN
-            SET NEW.amount = 100;
-        END IF;
-END;
 
 delimiter ;
  
