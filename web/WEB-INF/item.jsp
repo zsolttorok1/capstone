@@ -28,7 +28,7 @@
         <div class="addbutton">Add New Job</div>
         <c:forEach var="item" items="${sessionScope.itemList}">
             <div class="row">
-                <div class="rowitem">${item.item_name}</div>
+                <div class="rowitem">${item.itemName}</div>
                 <div class="rowitem">${item.description}</div>
                 <div class="rowitem">${item.category}</div>
                 <div class="rowitem">${item.quantity}</div>
