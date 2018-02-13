@@ -43,11 +43,17 @@ h1.bodyheader {
     margin-right: 50px;
     display: inline-block;
 }
+h1.bodyheaderc {
+    /* margin-left: 50px; */
+    text-align: center;
+    
+}
 p.bodytext {
     margin-left: 150px;
     margin-right: 150px;
 }
-.menuitem {
+
+.menuitem a:link {
     font-family: 'Open Sans', sans-serif;
     font-size: 13pt;
     text-align: center;
@@ -66,8 +72,80 @@ p.bodytext {
     line-height: 36px;
     width:200px;
 }
-.menuitem:hover {
-    /* MOJO RED */
+
+.menuitem a:visited {
+    color: black;
+}
+
+.menuitem a:active {
+
+    color: black;
+}
+
+.menuitem a:hover {
     background-color: rgba(142, 69, 61, 1); 
     color: white;
+}
+/*
+**Employee Pages
+*/
+
+.addbutton {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13pt;
+    text-align: center;
+    color: black;
+    border-width: 1px;
+    border-style: solid;
+    background-color: lightgray;
+    padding-top: 0px;
+    padding-right: 10px;
+    padding-bottom: 0px;
+    padding-left: 10px;
+    transition: all 0.2s;
+    height: 36px;
+    cursor: pointer;
+    line-height: 36px;
+    width:200px;
+    margin: auto;
+}
+
+.row {
+    max-width: 1280px;
+    height: 36px;
+    margin: auto;
+    display: flex;
+    justify-content: center; /*horizontal center*/
+    align-items: center; /*vertical center*/
+    background-color: rgba(211, 211, 211, 1);
+}
+
+.fixedmenu {
+    max-width: 1920px;
+    height: 50px;
+    display: flex;
+    align-items: center; /*vertical center*/
+    background-color: rgba(211, 211, 211, 1);
+}
+
+.fixedleft {
+    align-items: center; /*vertical center*/
+    justify-content: center; /*horizontal center*/
+}
+
+.menuicon {
+    max-height: 50px;
+    max-width: 45px;
+}
+
+.breadcrumb {
+    padding-left: 20px;
+}
+
+.fixedright {
+    float: right;
+}
+
+.logout {
+    float: right;
 }
