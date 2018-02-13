@@ -56,20 +56,19 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        //Variables
         String action = request.getParameter("action");
-        String regex = "";
+        String selectedItemName = request.getParameter("selectedItemName");
 
+        //Adding an Item 
         if (action != null && action.equals("add")) {
             String itemName = request.getParameter("name");
             String quantity = request.getParameter("quantity");
             String category = request.getParameter("category");
             String description = request.getParameter("description");
-            
-            
             String note = null;
 
-            if(itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty()&& description !=null && !description.isEmpty() && quantity.matches("\\d+")) {
+            if (itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty() && description != null && !description.isEmpty() && quantity.matches("\\d+")) {
                 ItemService itemService = new ItemService();
                 itemService.addItem(itemName, quantity, category, description, note);
             } else {
@@ -78,9 +77,33 @@ public class ItemServlet extends HttpServlet {
                 return;
             }
         } else if (action.equals("delete")) {
+            if (selectedItemName != null) {
+                ItemService itemService = new ItemService();
+                itemService.delete(selectedItemName);
+                request.setAttribute("errorMessage", "You Deleted a item");
 
+            } else {
+                request.setAttribute("errorMessage", "You can notdelte ");
+                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
+                return;
+            }
         } else if (action.equals("edit")) {
+            String itemName = request.getParameter("name");
+            String quantity = request.getParameter("quantity");
+            String category = request.getParameter("category");
+            String description = request.getParameter("description");
+            String note = null;
+            
+            if (itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty() && description != null && !description.isEmpty() && quantity.matches("\\d+")) {
+                ItemService itemService = new ItemService();
+                itemService.addItem(itemName, quantity, category, description,note);
+                request.setAttribute("errorMessage", "You Edited your Item");
+            } else {
+                request.setAttribute("errorMessage", "You can not edit");
+                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
+                return;
 
+            }
         }
 
         HttpSession session = request.getSession();
@@ -89,7 +112,7 @@ public class ItemServlet extends HttpServlet {
         //logic
         String keyword = "anything";
         List<Item> itemList = itemService.searchItem(keyword);
-        
+
         session.setAttribute("itemList", itemList);
         request.setAttribute("errorMessage", "Item Successfully added");
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
