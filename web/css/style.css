@@ -120,12 +120,19 @@ p.bodytext {
     background-color: rgba(211, 211, 211, 1);
 }
 
+.rowitem {
+    border-bottom: 1px solid black;
+    height: 36px;
+    width: 400px;
+}
+
 .fixedmenu {
     max-width: 1920px;
     height: 50px;
     display: flex;
     align-items: center; /*vertical center*/
     background-color: rgba(211, 211, 211, 1);
+    margin:0 auto;
 }
 
 .fixedleft {
@@ -143,9 +150,15 @@ p.bodytext {
 }
 
 .fixedright {
+    border: 1px solid black;
+    max-width: 200px;
     float: right;
 }
 
 .logout {
-    float: right;
+    
+}
+
+.formcenter {
+    text-align: center;
 }
