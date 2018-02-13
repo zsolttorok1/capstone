@@ -25,6 +25,7 @@
             </div>
         </div>
         <h1 class="bodyheaderc">ITEM</h1>
+        <p>${errormessage}</p>
         <div class="addbutton">Add New Job</div>
         <form method="POST" action="item" class="formcenter">
             Item Name: <input type="text" name="name" /><br>
