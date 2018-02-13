@@ -69,5 +69,24 @@ p.bodytext {
 .menuitem:hover {
     /* MOJO RED */
     background-color: rgba(142, 69, 61, 1); 
+}
+
+.menuitem a:link {
+    text-decoration: none;
+    color: black;
+}
+
+.menuitem a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+.menuitem a:active {
+    text-decoration: none;
+    color: black;
+}
+
+.menuitem a:hover {
+    text-decoration: none;
     color: white;
 }

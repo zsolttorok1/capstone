@@ -23,7 +23,7 @@
             <div class="menuitem">GALLERY</div>
             <div class="menuitem">QUOTE</div>
             <div class="menuitem">CONTACT US</div>
-            <div class="menuitem">EMPLOYEE LOGIN</div>
+            <div class="menuitem"><a href="item">EMPLOYEE LOGIN</a></div>
         </div>
         
         <div class="content">
