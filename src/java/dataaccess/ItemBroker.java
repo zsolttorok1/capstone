@@ -53,28 +53,72 @@ public class ItemBroker {
     }
     
     public boolean insert(Item item) {
-//        ConnectionPool pool = ConnectionPool.getInstance();
-//        Connection connection = pool.getConnection();
-//        
-//        try {
-//            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item");
-//            //pstmt.setInt(2, 110592);
-//            
-//            int updatedRows = pstmt.executeUpdate();
-//            
-//            while (rs.next()) {
-//                String itemName = rs.getString("ITEM_NAME");
-//                int quantity = rs.getInt("QUANTITY");
-//                String category = rs.getString("CATEGORY");
-//                String description = rs.getString("DESCRIPTION");
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        finally {
-//            pool.freeConnection(connection);
-//        }
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+      
+           try {
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO item(ITEM_NAME, QUANTITY, CATEGORY, DESCRIPTION) VALUES (?, ?, ?, ?)");
+            pstmt.setString(1, item.getItemName());
+            pstmt.setInt(2, item.getQuantity());
+            pstmt.setString(3, item.getCategory());
+            pstmt.setString(4, item.getDescription());
+            
+            int updatedRows = pstmt.executeUpdate();
+                
+          } catch (SQLException ex) {
+              Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+          }
+          finally {
+            pool.freeConnection(connection);
+          }
         
         return true;
     }
+    public boolean update(Item item) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+                
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE item SET "
+                + "QUANTITY = ?, CATEGORY = ?, DESCRIPTION = ? "
+                + "WHERE ITEM_NAME =?");
+            pstmt.setInt(2, item.getQuantity());
+            pstmt.setString(3, item.getCategory());
+            pstmt.setString(4, item.getDescription());
+            
+            ResultSet rs = pstmt.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            pool.freeConnection(connection);
+        }
+                
+        return true;
+    }
+    
+    public boolean delete(Item item) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+                
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM item WHERE ITEM_NAME = ?");
+            pstmt.setInt(2, item.getQuantity());
+            pstmt.setString(3, item.getCategory());
+            pstmt.setString(2, item.getDescription());
+            
+            ResultSet rs = pstmt.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            pool.freeConnection(connection);
+        }
+                
+        return true;
+    }
+    
+
 }
