@@ -119,3 +119,33 @@ p.bodytext {
     align-items: center; /*vertical center*/
     background-color: rgba(211, 211, 211, 1);
 }
+
+.fixedmenu {
+    max-width: 1920px;
+    height: 50px;
+    display: flex;
+    align-items: center; /*vertical center*/
+    background-color: rgba(211, 211, 211, 1);
+}
+
+.fixedleft {
+    align-items: center; /*vertical center*/
+    justify-content: center; /*horizontal center*/
+}
+
+.menuicon {
+    max-height: 50px;
+    max-width: 45px;
+}
+
+.breadcrumb {
+    padding-left: 20px;
+}
+
+.fixedright {
+    float: right;
+}
+
+.logout {
+    float: right;
+}

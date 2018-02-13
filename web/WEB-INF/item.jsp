@@ -15,6 +15,15 @@
         <title>Items</title>
     </head>
     <body>
+        <div class="fixedmenu">
+            <div class="fixedleft">
+                <img class="menuicon" src="res/lion.png" />
+                <a class="breadcrumb" href="main">Item</a>
+            </div>
+            <div class="fixedright">
+                <a class="logout" href="main">Logout</a>
+            </div>
+        </div>
         <h1 class="bodyheaderc">ITEM</h1>
         <div class="addbutton">Add New Job</div>
         <c:forEach var="item" items="${itemList}">
