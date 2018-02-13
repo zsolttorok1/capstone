@@ -129,15 +129,15 @@ p.bodytext {
 .fixedmenu {
     max-width: 1920px;
     height: 50px;
-    display: flex;
+    display: block;
     align-items: center; /*vertical center*/
     background-color: rgba(211, 211, 211, 1);
     margin:0 auto;
+    position: relative;
 }
 
 .fixedleft {
-    align-items: center; /*vertical center*/
-    justify-content: center; /*horizontal center*/
+    position: absolute;
 }
 
 .menuicon {
@@ -147,12 +147,20 @@ p.bodytext {
 
 .breadcrumb {
     padding-left: 20px;
+    line-height: 50px;
+    display: inline;
+    position: absolute;
 }
 
 .fixedright {
-    border: 1px solid black;
     max-width: 200px;
     float: right;
+    height: 50px;
+    display: flex;
+}
+
+.fixedright a {
+    line-height: 50px;
 }
 
 .logout {
