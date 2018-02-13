@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,5 +17,13 @@
     <body>
         <h1 class="bodyheaderc">ITEM</h1>
         <div class="addbutton">Add New Job</div>
+        <c:forEach var="item" items="${itemList}">
+            <div class="row">
+                <div class="rowitem">${item.item_name}</div>
+                <div class="rowitem">${item.description}</div>
+                <div class="rowitem">${item.category}</div>
+                <div class="rowitem">${item.quantity}</div>
+            </div>
+        </c:forEach>
     </body>
 </html>

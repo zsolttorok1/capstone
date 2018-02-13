@@ -109,3 +109,13 @@ p.bodytext {
     width:200px;
     margin: auto;
 }
+
+.row {
+    max-width: 1280px;
+    height: 36px;
+    margin: auto;
+    display: flex;
+    justify-content: center; /*horizontal center*/
+    align-items: center; /*vertical center*/
+    background-color: rgba(211, 211, 211, 1);
+}
