@@ -51,7 +51,7 @@ public class ItemService {
         
         return itemBroker.update(item);
     }
-   public boolean delete(String itemName, String quantity, String category, String description, String note){
+   public boolean delete(String itemName){
        ItemBroker itemBroker = new ItemBroker();
        Item deletedItem = itemBroker.getByName(itemName);
        return itemBroker.delete(deletedItem);
