@@ -59,7 +59,6 @@ public class ItemServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        request.setAttribute("errorMessage", "JHHXFJFXIYCXJFKGHLU:KHFXJGDFHLUHJFXG");
 
         if (action != null && action.equals("add")) {
             String itemName = request.getParameter("name");
@@ -71,7 +70,6 @@ public class ItemServlet extends HttpServlet {
             if(itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty()&& description !=null && !description.isEmpty()) {
                 ItemService itemService = new ItemService();
                 itemService.addItem(itemName, quantity, category, description, note);
-                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
             } else {
                 request.setAttribute("errorMessage", "The following fields need to be entered: Item Name, quantity, category and description");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
@@ -83,6 +81,15 @@ public class ItemServlet extends HttpServlet {
 
         }
 
+        HttpSession session = request.getSession();
+        ItemService itemService = new ItemService();
+
+        //logic
+        String keyword = "anything";
+        List<Item> itemList = itemService.searchItem(keyword);
+        
+        session.setAttribute("itemList", itemList);
+        request.setAttribute("errorMessage", "Item Successfully added");
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
