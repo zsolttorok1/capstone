@@ -14,11 +14,33 @@ import java.util.logging.Logger;
 public class ItemBroker {
 
     public Item getByName(String itemName) {
-        // make prepared statement query, using itemName.
-        // return result as Item 
-        
-        //i'm just faking it now:
-        return new Item();
+       ConnectionPool pool = ConnectionPool.getInstance();
+       Connection connection = pool.getConnection();
+       Item item = null;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item WHERE itemName ?");
+            pstmt.setString(1, itemName);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                String itemName2 = rs.getString("ITEM_NAME");
+                int quantity = rs.getInt("QUANTITY");
+                String category = rs.getString("CATEGORY");
+                String description = rs.getString("DESCRIPTION");
+                
+                item = new Item(itemName2, quantity, category, description, null);
+            }
+            pool.freeConnection(connection);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            pool.freeConnection(connection);
+        }
+        return item;
+
     }
     
     public List<Item> getAll() {
