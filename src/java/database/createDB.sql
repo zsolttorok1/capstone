@@ -172,6 +172,69 @@ BEGIN
 END;
 $$
 
+CREATE PROCEDURE insert_item_proc
+    (IN p_item_name varchar,
+    IN p_quantity int,
+    IN p_categoty varchar,
+    IN p_description varchar,
+    out p_return int)
+BEGIN
+    declare v_item_count int;
+    declare v_old_description_count int;
+    declare v_new_description_count int;
+
+    select sum(item_name)
+        into v_item_count
+        from item
+        where p_item_name = item_name;
+
+    if v_item_count > 0 then
+        select CHAR_LENGTH(description)
+            into v_old_description_count
+            from item
+            where p_item_name = item_name;
+
+        v_new_description_count := CHAR_LENGTH(v_new_description_count);
+
+        if v_new_description_count > v_old_description_count
+
+        UPDATE item
+            SET quantity = quantity + p_quantity, category = p_categoty, description = p_description;
+
+        
+    else
+        insert into `item` (`item_name`, `quantity`, `category`, `description`)
+            values ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
+    
+END;
+$$
+
+CREATE TRIGGER insert_item_trig BEFORE INSERT ON item
+    FOR EACH ROW SET
+BEGIN
+    declare v_item_count int;
+
+    select sum(item_name)
+    into v_item_count
+    from item
+    where item_name = item_name;
+
+    if v_item_count > 0 then
+        UPDATE item
+            SET quantity = quantity + 
+    else
+        insert into `item` (`item_name`, `quantity`, `category`, `description`)
+            values ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
+    
+        
+
+    IF NEW.amount < 0 THEN
+        SET NEW.amount = 0;
+        ELSEIF NEW.amount > 100 THEN
+            SET NEW.amount = 100;
+        END IF;
+END;
+
 delimiter ;
  
 /*INSERTS-we need to add a trigger for the sequences */
