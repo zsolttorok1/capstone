@@ -110,9 +110,28 @@ p.bodytext {
     margin: auto;
 }
 
-.row {
-    max-width: 1280px;
+.rowHeader {
+    font-size: 20px;
+    font-weight: bold;
+    max-width: 1000px;
     height: 36px;
+    margin: auto;
+    display: flex;
+    justify-content: center; /*horizontal center*/
+    align-items: center; /*vertical center*/
+    background-color: rgba(142, 69, 61, 1); 
+}
+
+.rowitemHeader {
+    border-bottom: 1px solid black;
+    height: 36px;
+    width: 400px;
+    display: flex;
+}
+
+.row {
+    max-width: 1000px;
+    height: 50px;
     margin: auto;
     display: flex;
     justify-content: center; /*horizontal center*/
@@ -122,8 +141,9 @@ p.bodytext {
 
 .rowitem {
     border-bottom: 1px solid black;
-    height: 36px;
+    height: 50px;
     width: 400px;
+    display: flex;
 }
 
 .fixedmenu {
@@ -141,6 +161,7 @@ p.bodytext {
 }
 
 .menuicon {
+    padding-left: 15px;
     max-height: 50px;
     max-width: 45px;
 }
@@ -157,6 +178,7 @@ p.bodytext {
     float: right;
     height: 50px;
     display: flex;
+    padding-right: 15px;
 }
 
 .fixedright a {
