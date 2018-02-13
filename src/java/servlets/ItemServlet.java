@@ -80,7 +80,7 @@ public class ItemServlet extends HttpServlet {
         } else if (action.equals("delete")) {
              if(selectedItemName !=null) {
                     ItemService itemService = new ItemService();
-                   // itemService.delete(selectedItemName);
+                    itemService.delete(selectedItemName);
                     request.setAttribute("errorMessage", "You Deleted a item");
 
                 } else {
