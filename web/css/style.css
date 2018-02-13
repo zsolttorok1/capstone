@@ -43,11 +43,17 @@ h1.bodyheader {
     margin-right: 50px;
     display: inline-block;
 }
+h1.bodyheaderc {
+    /* margin-left: 50px; */
+    text-align: center;
+    
+}
 p.bodytext {
     margin-left: 150px;
     margin-right: 150px;
 }
-.menuitem {
+
+.menuitem a:link {
     font-family: 'Open Sans', sans-serif;
     font-size: 13pt;
     text-align: center;
@@ -66,27 +72,40 @@ p.bodytext {
     line-height: 36px;
     width:200px;
 }
-.menuitem:hover {
-    /* MOJO RED */
-    background-color: rgba(142, 69, 61, 1); 
-}
-
-.menuitem a:link {
-    text-decoration: none;
-    color: black;
-}
 
 .menuitem a:visited {
-    text-decoration: none;
     color: black;
 }
 
 .menuitem a:active {
-    text-decoration: none;
+
     color: black;
 }
 
 .menuitem a:hover {
-    text-decoration: none;
+    background-color: rgba(142, 69, 61, 1); 
     color: white;
+}
+/*
+**Employee Pages
+*/
+
+.addbutton {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13pt;
+    text-align: center;
+    color: black;
+    border-width: 1px;
+    border-style: solid;
+    background-color: lightgray;
+    padding-top: 0px;
+    padding-right: 10px;
+    padding-bottom: 0px;
+    padding-left: 10px;
+    transition: all 0.2s;
+    height: 36px;
+    cursor: pointer;
+    line-height: 36px;
+    width:200px;
+    margin: auto;
 }

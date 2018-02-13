@@ -18,11 +18,11 @@
             <img src="res/bannerP.png" />
         </div>
         <div class="menu">
-            <div class="menuitem">HOME</div>
-            <div class="menuitem">ABOUT US</div>
-            <div class="menuitem">GALLERY</div>
-            <div class="menuitem">QUOTE</div>
-            <div class="menuitem">CONTACT US</div>
+            <div class="menuitem"><a href="item">HOME</a></div>
+            <div class="menuitem"><a href="item">ABOUT US</a></div>
+            <div class="menuitem"><a href="item">GALLERY</a></div>
+            <div class="menuitem"><a href="item">QUOTE</a></div>
+            <div class="menuitem"><a href="item">CONTACT US</a></div>
             <div class="menuitem"><a href="item">EMPLOYEE LOGIN</a></div>
         </div>
         
