@@ -56,17 +56,17 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        //Variables
         String action = request.getParameter("action");
-        String regex = "";
-
+        String selectedItemName = request.getParameter("selectedItemName");
+        
+        //Adding an Item 
         if (action != null && action.equals("add")) {
             String itemName = request.getParameter("name");
             String quantity = request.getParameter("quantity");
             String category = request.getParameter("category");
             String description = request.getParameter("description");
-            
-            
+
             String note = null;
 
             if(itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty()&& description !=null && !description.isEmpty() && quantity.matches("\\d+")) {
@@ -78,7 +78,16 @@ public class ItemServlet extends HttpServlet {
                 return;
             }
         } else if (action.equals("delete")) {
+             if(selectedItemName !=null) {
+                    ItemService itemService = new ItemService();
+                   // itemService.delete(selectedItemName);
+                    request.setAttribute("errorMessage", "You Deleted a item");
 
+                } else {
+                    request.setAttribute("errorMessage", "You can notdelte ");
+                    getServletContext().getRequestDispatcher("/WEB-INF/items.jsp").forward(request, response);
+                    return;
+                }
         } else if (action.equals("edit")) {
 
         }

@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : InventoryServlet
     Created on : Feb 6, 2018, 1:10:21 PM
     Author     : 725899
