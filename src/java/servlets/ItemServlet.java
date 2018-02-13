@@ -59,16 +59,19 @@ public class ItemServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
+        request.setAttribute("errorMessage", "JHHXFJFXIYCXJFKGHLU:KHFXJGDFHLUHJFXG");
+
         if (action != null && action.equals("add")) {
-            String itemName = request.getParameter("itemName");
+            String itemName = request.getParameter("name");
             String quantity = request.getParameter("quantity");
             String category = request.getParameter("category");
             String description = request.getParameter("description");
-            String note = request.getParameter("note");
+            String note = null;
 
             if(itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty()&& description !=null && !description.isEmpty()) {
                 ItemService itemService = new ItemService();
                 itemService.addItem(itemName, quantity, category, description, note);
+                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
             } else {
                 request.setAttribute("errorMessage", "The following fields need to be entered: Item Name, quantity, category and description");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
