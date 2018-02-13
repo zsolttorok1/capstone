@@ -22,7 +22,7 @@ public class ItemServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request servlet req```1uest
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
@@ -30,18 +30,18 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         //instanciating all used services
         HttpSession session = request.getSession();
         ItemService itemService = new ItemService();
-       
+
         //logic
         String keyword = "anything";
         List<Item> itemList = itemService.searchItem(keyword);
-                
+
         //saving attributes to session
         session.setAttribute("itemList", itemList);
-        
+
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
@@ -56,21 +56,43 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String action = request.getParameter("action");
-        
-        if (action != null && action.equals("insert")) {
-            String itemName = request.getParameter("itemName");
+        String regex = "";
+
+        if (action != null && action.equals("add")) {
+            String itemName = request.getParameter("name");
             String quantity = request.getParameter("quantity");
             String category = request.getParameter("category");
             String description = request.getParameter("description");
-            String note = request.getParameter("note");
             
-            ItemService itemService = new ItemService();
-            itemService.addItem(itemName, quantity, category, description, note);
+            
+            String note = null;
+
+            if(itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty()&& description !=null && !description.isEmpty() && quantity.matches("\\d+")) {
+                ItemService itemService = new ItemService();
+                itemService.addItem(itemName, quantity, category, description, note);
+            } else {
+                request.setAttribute("errorMessage", "The following fields need to be entered: Item Name, quantity, category and description");
+                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
+                return;
+            }
+        } else if (action.equals("delete")) {
+
+        } else if (action.equals("edit")) {
+
         }
+
+        HttpSession session = request.getSession();
+        ItemService itemService = new ItemService();
+
+        //logic
+        String keyword = "anything";
+        List<Item> itemList = itemService.searchItem(keyword);
         
-        request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response); 
+        session.setAttribute("itemList", itemList);
+        request.setAttribute("errorMessage", "Item Successfully added");
+        request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
     /**
