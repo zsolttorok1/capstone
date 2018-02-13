@@ -14,7 +14,7 @@ CREATE TABLE `item` (
     `item_name` varchar(100) NOT NULL,
     `quantity` int(5) NOT NULL,
     `category` varchar(30) NOT NULL,
-    `description` varchar(2000) NULL,
+    `description` varchar(2000) NOT NULL,
     PRIMARY KEY (`item_name`)
 );
 
@@ -192,11 +192,17 @@ call phone_proc(@phone_new);
 insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstname`, `lastname`, `role`, `email`)
     values ('andrew_grieve', @address_new, @phone_new, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
 
+/* adding some items */ 
+insert into `item` (`item_name`, `quantity`, `category`, `description`)
+    values ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
+
+insert into `item` (`item_name`, `quantity`, `category`, `description`)
+    values ('Thick Master 2000', 5, 'Brushes', 'Great for making solid straight strokes.');
+
 
 /*Data for the table `job_user` */
 --insert into `job_user` (`user_name`, `job_name`, `hours`)
 --    values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
-
 
 /*USER TWO*/
 /*Data for the table `address` */

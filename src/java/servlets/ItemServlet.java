@@ -36,11 +36,12 @@ public class ItemServlet extends HttpServlet {
         ItemService itemService = new ItemService();
        
         //logic
-        String keyword = "";
-        List<Item> items = itemService.searchItem(keyword);
+        String keyword = "anything";
+        List<Item> itemList = itemService.searchItem(keyword);
                 
         //saving attributes to session
-        session.setAttribute("items", items);
+        session.setAttribute("itemList", itemList);
+        
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
