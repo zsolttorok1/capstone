@@ -59,12 +59,13 @@ public class ItemServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
+
         if (action != null && action.equals("add")) {
-            String itemName = request.getParameter("itemName");
+            String itemName = request.getParameter("name");
             String quantity = request.getParameter("quantity");
             String category = request.getParameter("category");
             String description = request.getParameter("description");
-            String note = request.getParameter("note");
+            String note = null;
 
             if(itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty()&& description !=null && !description.isEmpty()) {
                 ItemService itemService = new ItemService();
@@ -80,6 +81,15 @@ public class ItemServlet extends HttpServlet {
 
         }
 
+        HttpSession session = request.getSession();
+        ItemService itemService = new ItemService();
+
+        //logic
+        String keyword = "anything";
+        List<Item> itemList = itemService.searchItem(keyword);
+        
+        session.setAttribute("itemList", itemList);
+        request.setAttribute("errorMessage", "Item Successfully added");
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 

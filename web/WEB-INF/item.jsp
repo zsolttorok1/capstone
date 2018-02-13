@@ -25,9 +25,9 @@
             </div>
         </div>
         <h1 class="bodyheaderc">ITEM</h1>
-        <p>${errormessage}</p>
+        <p>${errorMessage}</p>
         <div class="addbutton">Add New Job</div>
-        <form method="POST" action="item" class="formcenter">
+        <form method="post" action="item" class="formcenter">
             Item Name: <input type="text" name="name" /><br>
             Description: <input type="text" name="description" /><br>
             Category: <input type="text" name="category" /><br>
