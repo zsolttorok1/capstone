@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ItemBroker {
-
     public Item getByName(String itemName) {
        ConnectionPool pool = ConnectionPool.getInstance();
        Connection connection = pool.getConnection();
@@ -22,7 +21,7 @@ public class ItemBroker {
             pstmt.setString(1, itemName);
             
             ResultSet rs = pstmt.executeQuery();
-            
+                        
             while (rs.next()) {
                 String itemName2 = rs.getString("ITEM_NAME");
                 int quantity = rs.getInt("QUANTITY");
@@ -74,25 +73,27 @@ public class ItemBroker {
         return itemList;
     }
     
-    public boolean insert(Item item) {
+    public String insert(Item item) {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         String result = null;
       
-           try {
+        try {
             PreparedStatement pstmt = connection.prepareStatement("select insert_item_func(?, ?, ?, ?)");
             pstmt.setString(1, item.getItemName());
             pstmt.setInt(2, item.getQuantity());
             pstmt.setString(3, item.getCategory());
             pstmt.setString(4, item.getDescription());
-            
+
             ResultSet rs = pstmt.executeQuery();
-            
+
             while (rs.next()) {
                 result = rs.getString(1);
             }
             pool.freeConnection(connection);
-                
+            
+            connection.commit();
+
           } catch (SQLException ex) {
               Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
           }
@@ -100,15 +101,7 @@ public class ItemBroker {
             pool.freeConnection(connection);
           }
         
-           if (result.equals("inserted")) {
-               return true;
-           }
-           else if (result.equals("updated")) {
-                return true;
-           }
-           else {
-               return false;
-           }
+        return result;
     }
     public boolean update(Item item) {
         ConnectionPool pool = ConnectionPool.getInstance();
