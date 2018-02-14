@@ -83,7 +83,7 @@ public class ItemServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "You Deleted a item");
 
             } else {
-                request.setAttribute("errorMessage", "You can notdelte ");
+                request.setAttribute("errorMessage", "You can not delete ");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
                 return;
             }

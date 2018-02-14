@@ -5,6 +5,7 @@ DROP DATABASE if exists CapstoneDB;
 CREATE DATABASE CapstoneDB;
 USE CapstoneDB;
 
+SET global sql_mode='STRICT_ALL_TABLES';
 
 /*Table structure for table `user` */
 
@@ -18,11 +19,7 @@ CREATE TABLE `item` (
     PRIMARY KEY (`item_name`)
 );
 
-
-
 /*Table structure for table `user` */
-
-
 
 CREATE TABLE `report` (
     `report_name` varchar(50) NOT NULL,
@@ -172,43 +169,43 @@ BEGIN
 END;
 $$
 
-CREATE PROCEDURE `insert_item_proc`
-    (IN p_item_name varchar(100),
-    IN p_quantity int(5),
-    IN p_categoty varchar(30),
-    IN p_description varchar(2000),
-    OUT p_return int)
+CREATE FUNCTION `insert_item_func`
+    (p_item_name varchar(100),
+    p_quantity int(5),
+    p_categoty varchar(30),
+    p_description varchar(2000))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+
 BEGIN
-    declare v_item_count int;
-    declare v_old_description_count int;
-    declare v_new_description_count int;
+    DECLARE v_old_description_count int(4);
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
 
-    select sum(item_name)
-        into v_item_count
-        from item
-        where p_item_name = item_name;
+    DECLARE CONTINUE HANDLER FOR 1062
+        BEGIN
+            SELECT CHAR_LENGTH(description)
+                INTO v_old_description_count
+                FROM item
+                WHERE p_item_name = item_name;
 
-    if v_item_count > 0 then
-        select CHAR_LENGTH(description)
-            into v_old_description_count
-            from item
-            where p_item_name = item_name;
+            IF CHAR_LENGTH(p_description) > v_old_description_count THEN
+                UPDATE item
+                    SET description = p_description
+                    WHERE p_item_name = item_name;
+            END IF;
 
-        set v_new_description_count = CHAR_LENGTH(p_description);
-
-        if v_new_description_count > v_old_description_count then
             UPDATE item
-                SET description = p_description;
-        UPDATE item
-            SET quantity = quantity + p_quantity, category = p_categoty;
-        end if;
-
-        set p_return = 1;
-    else
-        insert into `item` (`item_name`, `quantity`, `category`, `description`)
-            values (p_item_name, p_quantity, p_categoty, p_description);
-        set p_return = 1;
-    end if;
+                SET quantity = quantity + p_quantity, category = p_categoty
+                WHERE p_item_name = item_name;
+            return 'updated';
+        END;
+  
+    INSERT INTO `item` (`item_name`, `quantity`, `category`, `description`)
+        VALUES (p_item_name, p_quantity, p_categoty, p_description);
+    return 'inserted';
 END;
 $$
 
@@ -235,9 +232,11 @@ insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstnam
 /* adding some items */ 
 insert into `item` (`item_name`, `quantity`, `category`, `description`)
     values ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
-
 insert into `item` (`item_name`, `quantity`, `category`, `description`)
     values ('Thick Master 2000', 5, 'Brushes', 'Great for making solid straight strokes.');
+select insert_item_func ('Hairy Harold', 5, 'Brushes', 'We dont use this on walls.');
+select insert_item_func ('Hairy Harold', 2, 'Brushes', 'We dont use this on walls, way too hairy.');
+select insert_item_func ('Devil Beater', 5, 'Brushes', 'Bob Ross favorite.');
 
 
 /*Data for the table `job_user` */

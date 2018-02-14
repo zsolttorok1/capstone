@@ -77,15 +77,21 @@ public class ItemBroker {
     public boolean insert(Item item) {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
+        String result = null;
       
            try {
-            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO item(ITEM_NAME, QUANTITY, CATEGORY, DESCRIPTION) VALUES (?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_item_func(?, ?, ?, ?)");
             pstmt.setString(1, item.getItemName());
             pstmt.setInt(2, item.getQuantity());
             pstmt.setString(3, item.getCategory());
             pstmt.setString(4, item.getDescription());
             
-            int updatedRows = pstmt.executeUpdate();
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                result = rs.getString(1);
+            }
+            pool.freeConnection(connection);
                 
           } catch (SQLException ex) {
               Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,7 +100,15 @@ public class ItemBroker {
             pool.freeConnection(connection);
           }
         
-        return true;
+           if (result.equals("inserted")) {
+               return true;
+           }
+           else if (result.equals("updated")) {
+                return true;
+           }
+           else {
+               return false;
+           }
     }
     public boolean update(Item item) {
         ConnectionPool pool = ConnectionPool.getInstance();
