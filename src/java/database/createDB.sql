@@ -169,6 +169,7 @@ BEGIN
 END;
 $$
 
+/* functions for ITEM */
 CREATE FUNCTION `insert_item_func`
     (p_item_name varchar(100),
     p_quantity int(5),
@@ -176,7 +177,6 @@ CREATE FUNCTION `insert_item_func`
     p_description varchar(2000))
     RETURNS varchar(20)
 NOT DETERMINISTIC
-
 BEGIN
     DECLARE v_old_description_count int(4);
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
@@ -202,10 +202,46 @@ BEGIN
                 WHERE p_item_name = item_name;
             return 'updated';
         END;
-  
+
     INSERT INTO `item` (`item_name`, `quantity`, `category`, `description`)
         VALUES (p_item_name, p_quantity, p_categoty, p_description);
     return 'inserted';
+END;
+$$
+
+CREATE FUNCTION `delete_item_func`
+    (p_item_name varchar(100))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+  
+    DELETE FROM `item` 
+        WHERE item_name = p_item_name;
+    return 'deleted';
+END;
+$$
+
+CREATE FUNCTION `update_item_func`
+    (p_item_name varchar(100),
+    p_quantity int(5),
+    p_categoty varchar(30),
+    p_description varchar(2000))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+  
+    UPDATE item
+        SET quantity = p_quantity, category = p_categoty, description = p_description
+        WHERE p_item_name = item_name;
+    return 'updated';
 END;
 $$
 
@@ -230,14 +266,11 @@ insert into `user` (`user_name`, `address_id`, `phone_id`, `password`, `firstnam
     values ('andrew_grieve', @address_new, @phone_new, 'Green2012', 'Andrew', 'Grieve','owner' , 'agrieve2@hotmail.com');
 
 /* adding some items */ 
-insert into `item` (`item_name`, `quantity`, `category`, `description`)
-    values ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
-insert into `item` (`item_name`, `quantity`, `category`, `description`)
-    values ('Thick Master 2000', 5, 'Brushes', 'Great for making solid straight strokes.');
+select insert_item_func ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
+select insert_item_func ('Thick Master 2000', 5, 'Brushes', 'Great for making solid straight strokes.');
 select insert_item_func ('Hairy Harold', 5, 'Brushes', 'We dont use this on walls.');
 select insert_item_func ('Hairy Harold', 2, 'Brushes', 'We dont use this on walls, way too hairy.');
 select insert_item_func ('Devil Beater', 5, 'Brushes', 'Bob Ross favorite.');
-
 
 /*Data for the table `job_user` */
 --insert into `job_user` (`user_name`, `job_name`, `hours`)

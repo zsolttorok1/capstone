@@ -6,12 +6,12 @@ import java.util.List;
 
 public class ItemService { 
     
-    public boolean addItem(String itemName, String quantity, String category, String description, String note) {
+    public String addItem(String itemName, String quantity, String category, String description, String note) {
         //check for nulls
         if (itemName == null || quantity == null || category == null || description == null) {
-            return false;
+            return "error";
         }
-        
+          
         //check for values being valid
         
         //try catch this
