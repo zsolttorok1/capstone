@@ -35,6 +35,12 @@
             <input type="hidden" name="action" value="add">
             <input type="submit" value="save">
         </form>
+        <div class="rowHeader">
+            <div class="rowitemHeader">Item Name</div>
+            <div class="rowitemHeader">Description</div>
+            <div class="rowitemHeader">Category</div>
+            <div class="rowitemHeader">Quantity</div>
+        </div>
         <c:forEach var="item" items="${sessionScope.itemList}">
             <div class="row">
                 <div class="rowitem">${item.itemName}</div>
