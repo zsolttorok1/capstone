@@ -135,6 +135,11 @@ p.bodytext {
     text-align: center;
 }
 
+.addPlus {
+    max-height: 50px;
+    padding: 10px;
+}
+
 .row {
     max-width: 1000px;
     height: 70px;
@@ -142,17 +147,51 @@ p.bodytext {
     display: flex;
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
+    border: 3px outset;
+    background-color: white;
+}
+
+.rowAdd {
+    max-width: 1000px;
+    height: 50px;
+    margin: auto;
+    display: none;
+    justify-content: center; /*horizontal center*/
+    align-items: center; /*vertical center*/
+    border: 3px outset;
+}
+
+.row:hover {
+    background-color: lightgray;
 }
 
 .rowitem {
-    border-right: 1px solid black;
     height: 70px;
     width: 400px;
     display: flex;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.rowitemAdd {
+    height: 50px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+}
+.rowAddOptions {
+    max-width: 1000px;
+    height: 50px;
+    margin: auto;
+    display: none;
+    justify-content: center; /*horizontal center*/
+    align-items: center; /*vertical center*/
+}
+
+.rowAddButton {
+    height: 30px;
+    width: 50%;
+    display: flex;
 }
 
 .fixedmenu {
@@ -198,20 +237,6 @@ p.bodytext {
     
 }
 
-.formcenter {
-    text-align: center;
-    display: none;
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
 
 .formItem {
     background-color: #fefefe;

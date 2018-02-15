@@ -6,14 +6,16 @@
 
 
 // Get the form
-var form = document.getElementById('formcenter');
+var form = document.getElementById('formcenter2');
+var buttons = document.getElementById('addbuttons');
 
 // Get the button that opens the form
 var btn = document.getElementById("addbutton");
 
 // When the user clicks the button, open the form 
 btn.onclick = function() {
-    form.style.display = "block";
+    form.style.display = "flex";
+    buttons.style.display = "flex";
 };
 
 // When the user clicks anywhere outside of the form, close it

@@ -27,26 +27,30 @@
         <h1 class="bodyheaderc">ITEM</h1>
         <p class="center">${errorMessage}</p>
         
-        <div class="addbutton" id="addbutton">Add New Item</div>
-        
-        <div class="formcenter" id="formcenter">
-            <form method="post" action="item" class="formItem">
-                <h2>Add item Information</h2>
-                Item Name: <input type="text" name="name" /><br>
-                Description: <input type="text" name="description" /><br>
-                Category: <input type="text" name="category" /><br>
-                Quantity: <input type="text" name="quantity" /><br>
-                <input type="hidden" name="action" value="add">
-                <input type="submit" value="save">
-            </form>
-        </div>
-        
         <div class="rowHeader">
             <div class="rowitemHeader">Item Name</div>
             <div class="rowitemHeader">Description</div>
             <div class="rowitemHeader">Category</div>
             <div class="rowitemHeader">Quantity</div>
         </div>
+        <div class="row" id="addbutton">
+            <img class="addPlus" src="res/plus.png" />
+        </div>
+        <form method="post" action="item">
+            <div class="rowAdd" id="formcenter2">
+                <div class="rowitemAdd"><input type="text" name="name" /></div>
+                <div class="rowitemAdd"><input type="text" name="description" /></div>
+                <div class="rowitemAdd"><input type="text" name="category" /></div>
+                <div class="rowitemAdd"><input type="text" name="quantity" /></div>
+            </div>
+            <div class="rowAddOptions" id="addbuttons">
+                <div class="rowAddButton">
+                    <input type="hidden" name="action" value="add">
+                    <input type="submit" value="save">
+                </div>
+            </div>
+        </form>
+        
         <c:forEach var="item" items="${sessionScope.itemList}">
             <div class="row">
                 <div class="rowitem">${item.itemName}</div>
@@ -55,6 +59,7 @@
                 <div class="rowitem">${item.quantity}</div>
             </div>
         </c:forEach>
+        
         
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>
     </body>
