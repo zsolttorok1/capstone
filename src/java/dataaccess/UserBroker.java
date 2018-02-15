@@ -113,4 +113,112 @@ public class UserBroker {
         return userList;
     }
    
+    public String insert(User user) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        String result = null;
+        
+        try {
+            ArrayList phoneIdList = new ArrayList();
+            PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?)");
+            pstmt.setString(1, user.getUsername());
+            pstmt.setInt(2, user.getAddress());
+           
+            for(int i = 0; i < phoneIdList.size(); i++){
+                pstmt.setInt(3, user.getPhone().get(i));
+            }
+            pstmt.setString(4, user.getPassword());
+            pstmt.setString(5, user.getFirstName());
+            pstmt.setString(6, user.getLastName());
+            pstmt.setString(7, user.getRole());
+            pstmt.setString(8, user.getEmail());
+            pstmt.setInt(9, user.getHourlyRate());
+            pstmt.setInt(10, user.getHours());
+            
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                result = rs.getString(1);
+            }
+            pool.freeConnection(connection);
+            
+            connection.commit();
+
+          } catch (SQLException ex) {
+              Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
+          }
+          finally {
+            pool.freeConnection(connection);
+          }
+        
+        return result;
+    }
+    
+        public boolean update(User user) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+                
+        try {
+            ArrayList phoneIdList = new ArrayList();
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE user SET "
+                + "ADDRESS_ID = ?, PHONE_ID = ?, PASSWORD = ?, FIRSTNAME = ?, LASTNAME =?, "
+                + "ROLE = ?, EMAIL = ?, HOURLYRATE =?, HOURLY = ? WHERE USER_NAME =?");
+            pstmt.setString(1, user.getUsername());
+            pstmt.setInt(2, user.getAddress());
+           
+            for(int i = 0; i < phoneIdList.size(); i++){
+                pstmt.setInt(3, user.getPhone().get(i));
+            }
+            pstmt.setString(4, user.getPassword());
+            pstmt.setString(5, user.getFirstName());
+            pstmt.setString(6, user.getLastName());
+            pstmt.setString(7, user.getRole());
+            pstmt.setString(8, user.getEmail());
+            pstmt.setInt(9, user.getHourlyRate());
+            pstmt.setInt(10, user.getHours());
+            
+            ResultSet rs = pstmt.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            pool.freeConnection(connection);
+        }
+                
+        return true;
+    }
+
+            public boolean delete(User user) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+                
+        try {
+            ArrayList phoneIdList = new ArrayList();
+            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM user WHERE USER_NAME = ?");
+            pstmt.setString(1, user.getUsername());
+            pstmt.setInt(2, user.getAddress());
+           
+            for(int i = 0; i < phoneIdList.size(); i++){
+                pstmt.setInt(3, user.getPhone().get(i));
+            }
+            pstmt.setString(4, user.getPassword());
+            pstmt.setString(5, user.getFirstName());
+            pstmt.setString(6, user.getLastName());
+            pstmt.setString(7, user.getRole());
+            pstmt.setString(8, user.getEmail());
+            pstmt.setInt(9, user.getHourlyRate());
+            pstmt.setInt(10, user.getHours());
+            
+            ResultSet rs = pstmt.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            pool.freeConnection(connection);
+        }
+                
+        return true;
+    }
 }
