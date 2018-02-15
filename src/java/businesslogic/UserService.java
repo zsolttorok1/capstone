@@ -10,5 +10,28 @@ package businesslogic;
  * @author 742227
  */
 public class UserService {
+//        public String addUser() {
+//       
+//    }
+//    
+//    public User viewUser() {
+//
+//    }
+//        
+//    public User<User> searchUser() {
+//
+//    }
+//    
+//    public boolean edit()
+//    {
+//
+//    }
+//   public boolean delete(){
+//       
+//   }
+
+    private int parseInteger(int quantity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
