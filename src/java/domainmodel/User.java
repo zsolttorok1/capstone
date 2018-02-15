@@ -19,21 +19,21 @@ public class User {
     private String lastName;
     private String role;
     
-    private ArrayList<String> phone;
-    private String address;
+    private ArrayList<Integer> phone;
+    private int address;
     private String email;
     
     private int hourlyRate;
     private int hours;
     
-    public User(String username, String password, String firstName, String lastName, String role,ArrayList<String> phone,String address,String email, int hourlyRate, int hours) {
+    public User(String username, int address,ArrayList<Integer> phone, String password, String firstName, String lastName,String role, String email, int hourlyRate, int hours) {
         this.username = username;
+        this.address = address;
+        this.phone = phone;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
-        this.phone = phone;
-        this.address = address;
         this.email = email;
         this.hourlyRate = hourlyRate;
         this.hours = hours;
@@ -79,19 +79,19 @@ public class User {
         this.role = role;
     }
 
-    public ArrayList<String> getPhone() {
+    public ArrayList<Integer> getPhone() {
         return phone;
     }
 
-    public void setPhone(ArrayList<String> phone) {
+    public void setPhone(ArrayList<Integer> phone) {
         this.phone = phone;
     }
 
-    public String getAddress() {
+    public int getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(int address) {
         this.address = address;
     }
 
