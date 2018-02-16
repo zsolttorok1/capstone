@@ -61,8 +61,5 @@ public class UserService {
        return userBroker.delete(deletedUser);
    }
 
-    private int parseInteger(int quantity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+ 
 }
