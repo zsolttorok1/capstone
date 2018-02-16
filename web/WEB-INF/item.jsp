@@ -38,15 +38,15 @@
         </div>
         <form method="post" action="item">
             <div class="rowAdd" id="formcenter2">
-                <div class="rowitemAdd"><input type="text" name="name" /></div>
-                <div class="rowitemAdd"><input type="text" name="description" /></div>
-                <div class="rowitemAdd"><input type="text" name="category" /></div>
-                <div class="rowitemAdd"><input type="text" name="quantity" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="name" placeholder="Item Name" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="description" placeholder="Description" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="category" placeholder="Category" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="quantity" placeholder="Quantity" /></div>
             </div>
             <div class="rowAddOptions" id="addbuttons">
                 <div class="rowAddButton">
                     <input type="hidden" name="action" value="add">
-                    <input type="submit" value="save">
+                    <input type="submit" value="Save">
                 </div>
                 <div class="rowAddButton">
                     <input type="hidden" name="action" value="cancel">

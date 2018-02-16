@@ -178,13 +178,15 @@ p.bodytext {
     display: flex;
     justify-content: center;
 }
+
+.addText {
+    width: 100%;
+}
 .rowAddOptions {
     max-width: 1000px;
-    height: 50px;
     margin: auto;
     display: none;
     justify-content: center; /*horizontal center*/
-    align-items: center; /*vertical center*/
 }
 
 .rowAddButton {
