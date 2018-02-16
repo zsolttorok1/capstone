@@ -34,6 +34,8 @@ public class UserService {
     public List<User> searchUser(String keyword) {
         UserBroker userBroker = new UserBroker();
         
+        //this always return all items for now
+        
         return userBroker.getAll();
     }
     
