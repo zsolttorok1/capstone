@@ -30,18 +30,27 @@ public class UserService {
        
        return user;
     }
-//        
-//    public User<User> searchUser() {
-//
-//    }
-//    
-//    public boolean edit()
-//    {
-//
-//    }
-//   public boolean delete(){
-//       
-//   }
+        
+    public User<User> searchUser(String keyword) {
+        UserBroker userBroker = new UserBroker();
+        
+        return userBroker.getAll();
+    }
+    
+    public boolean edit(String userName, int address, ArrayList<Integer> phone, String password, String firstName, String lastName,String role, String email, int hourlyRate, int hours){
+        UserBroker userBroker = new UserBroker();
+        User user = userBroker.getByName(userName);
+        
+        user.setAddress(address);
+        user.setPhone(phone);
+        user.set
+        return userBroker.update(user);
+    }
+   public boolean delete(String userName){
+       UserBroker userBroker = new UserBroker();
+       User deletedUser = userBroker.getByName(userName);
+       return userBroker.delete(deletedUser);
+   }
 
     private int parseInteger(int quantity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
