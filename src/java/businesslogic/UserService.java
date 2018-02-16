@@ -30,7 +30,7 @@ public class UserService {
        
        return user;
     }
-        
+   /*     
     public User<User> searchUser(String keyword) {
         UserBroker userBroker = new UserBroker();
         
@@ -46,6 +46,7 @@ public class UserService {
         user.set
         return userBroker.update(user);
     }
+*/
    public boolean delete(String userName){
        UserBroker userBroker = new UserBroker();
        User deletedUser = userBroker.getByName(userName);
