@@ -96,7 +96,7 @@ public class ItemServlet extends HttpServlet {
             
             if (itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty() && description != null && !description.isEmpty() && quantity.matches("\\d+")) {
                 ItemService itemService = new ItemService();
-                itemService.addItem(itemName, quantity, category, description,note);
+                itemService.edit(itemName, quantity, category, description,note);
                 request.setAttribute("errorMessage", "You Edited your Item");
             } else {
                 request.setAttribute("errorMessage", "You can not edit");
