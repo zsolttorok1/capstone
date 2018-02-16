@@ -48,6 +48,10 @@
                     <input type="hidden" name="action" value="add">
                     <input type="submit" value="save">
                 </div>
+                <div class="rowAddButton">
+                    <input type="hidden" name="action" value="cancel">
+                    <input type="button" value="Cancel" id="cancel">
+                </div>
             </div>
         </form>
         

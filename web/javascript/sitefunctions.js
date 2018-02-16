@@ -5,18 +5,23 @@
  */
 
 
-// Get the form
 var form = document.getElementById('formcenter2');
 var buttons = document.getElementById('addbuttons');
-
-// Get the button that opens the form
+var cancel = document.getElementById('cancel');
 var btn = document.getElementById("addbutton");
 
 // When the user clicks the button, open the form 
 btn.onclick = function() {
     form.style.display = "flex";
     buttons.style.display = "flex";
+    btn.style.display = "none";
 };
+
+cancel.onclick = function() {
+    form.style.display = "none";
+    buttons.style.display = "none";
+    btn.style.display = "flex";
+}
 
 // When the user clicks anywhere outside of the form, close it
 window.onclick = function(event) {
