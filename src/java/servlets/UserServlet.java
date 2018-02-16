@@ -76,8 +76,8 @@ public class UserServlet extends HttpServlet {
         try {
 
             if (action.equals("delete")) {
-                us.delete(username, address, phoneId, password, firstname, lastname, role, email, hourlyRate, hours);
-                //request.setAttribute("errorMessage", "User Deleted");
+                us.delete(username);
+                request.setAttribute("errorMessage", "User Deleted");
                 //HttpSession session = request.getSession();
                 //session.invalidate();
             } else if (action.equals("edit")) {

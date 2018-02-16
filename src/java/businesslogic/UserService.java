@@ -30,9 +30,11 @@ public class UserService {
        
        return user;
     }
-   /*     
-    public User<User> searchUser(String keyword) {
+        
+    public List<User> searchUser(String keyword) {
         UserBroker userBroker = new UserBroker();
+        
+        //this always return all items for now
         
         return userBroker.getAll();
     }
@@ -43,18 +45,22 @@ public class UserService {
         
         user.setAddress(address);
         user.setPhone(phone);
-        user.set
+        user.setPassword(password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setRole(role);
+        user.setEmail(email);
+        user.setHourlyRate(hourlyRate);
+        user.setHours(hours);
+        
         return userBroker.update(user);
     }
-*/
+
    public boolean delete(String userName){
        UserBroker userBroker = new UserBroker();
        User deletedUser = userBroker.getByName(userName);
        return userBroker.delete(deletedUser);
    }
 
-    private int parseInteger(int quantity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+ 
 }
