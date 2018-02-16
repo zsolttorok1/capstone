@@ -8,7 +8,8 @@ public class ItemService {
     
     public String addItem(String itemName, String quantity, String category, String description, String note) {
         //check for nulls
-        if (itemName == null || quantity == null || category == null || description == null) {
+        if (itemName == null || quantity == null || category == null || description == null
+                || itemName.isEmpty() || quantity.isEmpty() || category.isEmpty() || description.isEmpty()) {
             return "error";
         }
           

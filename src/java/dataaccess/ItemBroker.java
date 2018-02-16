@@ -17,7 +17,7 @@ public class ItemBroker {
        Connection connection = pool.getConnection();
        Item item = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item WHERE itemName ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item WHERE item_name ?");
             pstmt.setString(1, itemName);
             
             ResultSet rs = pstmt.executeQuery();
@@ -50,7 +50,7 @@ public class ItemBroker {
         
         try {
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item");
-            //pstmt.setInt(2, 110592);
+            
             
             ResultSet rs = pstmt.executeQuery();
             
