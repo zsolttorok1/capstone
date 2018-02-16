@@ -31,7 +31,7 @@ public class UserService {
        return user;
     }
         
-    public User<User> searchUser(String keyword) {
+    public List<User> searchUser(String keyword) {
         UserBroker userBroker = new UserBroker();
         
         return userBroker.getAll();
@@ -43,7 +43,14 @@ public class UserService {
         
         user.setAddress(address);
         user.setPhone(phone);
-        user.set
+        user.setPassword(password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setRole(role);
+        user.setEmail(email);
+        user.setHourlyRate(hourlyRate);
+        user.setHours(hours);
+        
         return userBroker.update(user);
     }
    public boolean delete(String userName){
