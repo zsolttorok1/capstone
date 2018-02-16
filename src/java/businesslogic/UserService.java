@@ -55,6 +55,7 @@ public class UserService {
         
         return userBroker.update(user);
     }
+
    public boolean delete(String userName){
        UserBroker userBroker = new UserBroker();
        User deletedUser = userBroker.getByName(userName);
