@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class UserService {
 
-    public String addUser(String userName, String address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate, int hours) {
+    public String addUser(String userName, String address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate) {
         //check for nulls
         if (userName == null || address == null || phone.isEmpty() || password == null || firstName == null || lastName == null
                 || role == null || email == null || hourlyRate == 0 || hours == 0
@@ -29,7 +29,7 @@ public class UserService {
             return "error";
         }
 
-        User user = new User(userName, intAddress, phone, password, firstName, lastName, role, email, hourlyRate, hours);
+        User user = new User(userName, intAddress, phone, password, firstName, lastName, role, email, hourlyRate);
 
         UserBroker userBroker = new UserBroker();
         return userBroker.insert(user);
@@ -50,7 +50,7 @@ public class UserService {
         return userBroker.getAll();
     }
 
-    public String edit(String userName, String address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate, int hours) {
+    public String edit(String userName, String address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate) {
         UserBroker userBroker = new UserBroker();
         User user = userBroker.getByName(userName);
 
@@ -72,7 +72,6 @@ public class UserService {
         user.setRole(role);
         user.setEmail(email);
         user.setHourlyRate(hourlyRate);
-        user.setHours(hours);
 
         return userBroker.update(user);
     }
