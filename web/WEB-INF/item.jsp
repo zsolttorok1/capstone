@@ -33,7 +33,7 @@
             <div class="rowitemHeader">Category</div>
             <div class="rowitemHeader">Quantity</div>
         </div>
-        <div class="row" id="addbutton">
+        <div class="addRow" id="addbutton">
             <img class="addPlus" src="res/plus.png" />
         </div>
         <form method="post" action="item">
@@ -56,11 +56,27 @@
         </form>
         
         <c:forEach var="item" items="${sessionScope.itemList}">
-            <div class="row">
-                <div class="rowitem">${item.itemName}</div>
-                <div class="rowitem">${item.description}</div>
-                <div class="rowitem">${item.category}</div>
-                <div class="rowitem">${item.quantity}</div>
+            <div class="rowWrapper">
+                <div class="row">
+                    <div class="rowitem">${item.itemName}</div>
+                    <div class="rowitem">${item.description}</div>
+                    <div class="rowitem">${item.category}</div>
+                    <div class="rowitem">${item.quantity}</div>
+                </div>
+                <div class="listOptions">
+                    <div class="listButton">
+                        <input type="hidden" name="action" value="cancel">
+                        <input type="button" value="View" id="cancel">
+                    </div>
+                    <div class="listButton">
+                        <input type="hidden" name="action" value="cancel">
+                        <input type="button" value="Delete" id="cancel">
+                    </div>
+                    <div class="listButton">
+                        <input type="hidden" name="action" value="cancel">
+                        <input type="button" value="Cancel" id="cancel">
+                    </div>
+                </div>
             </div>
         </c:forEach>
         
