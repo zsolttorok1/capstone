@@ -81,7 +81,7 @@ public class ItemServlet extends HttpServlet {
                 ItemService itemService = new ItemService();
                 itemService.delete(selectedItemName);
                 request.setAttribute("errorMessage", "You Deleted a item");
-
+                return;
             } else {
                 request.setAttribute("errorMessage", "You can not delete ");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
