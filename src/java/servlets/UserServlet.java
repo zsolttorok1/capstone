@@ -63,8 +63,11 @@ public class UserServlet extends HttpServlet {
         String firstname = request.getParameter("firstName");
         String lastname = request.getParameter("lastName");
         String role = request.getParameter("role");
+        //fake array
+        ArrayList<Integer> arrayPhoneIdNew = new ArrayList();
         
         int phoneId = 0;
+        
         String email = request.getParameter("email");
         int address = 0;
         int hourlyRate = 0;
@@ -77,7 +80,7 @@ public class UserServlet extends HttpServlet {
 
             if (action.equals("delete")) {
                 us.delete(username);
-                request.setAttribute("errorMessage", "User Deleted");
+                //request.setAttribute("errorMessage", "User Deleted");
                 //HttpSession session = request.getSession();
                 //session.invalidate();
             } else if (action.equals("edit")) {
@@ -89,12 +92,15 @@ public class UserServlet extends HttpServlet {
                 //String phoneId = request.getParameter("phoneId");
                 String email1 = request.getParameter("email");
                 String address1 = request.getParameter("address");
+                int addressInt = Integer.parseInt(address1);
+                //fake array
+                ArrayList<Integer> arrayPhoneId = new ArrayList();
                 
                 //changed
                 hourlyRate = 0;
                 hours = 0;
 
-                //us.update(username, password, email, active1, firstname, lastname, role, company);
+                us.edit(username1, addressInt, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate, hours);
                 //request.setAttribute("errorMessage", "User Edited");
                 //request.setAttribute("Change", "User Edited");
                 //UserService us = new UserService();
@@ -108,7 +114,7 @@ public class UserServlet extends HttpServlet {
 
             } else if (action.equals("add")) {
                 //TODO get role not null
-                // us.insert(newUserName, newPass, newEmail, newActive, newFName, newLName, newCompany);
+                us.addUser(username, address, arrayPhoneIdNew, password, firstname, lastname, role, email, hourlyRate, hours);
                 request.setAttribute("errorMessage", "User Added");
                 //might have to change userserive to accpet role hmm cant do that might have to setRole
             }
