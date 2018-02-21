@@ -36,7 +36,7 @@ public class CustomerService {
         return customerBroker.insert(customer);
     }
 
-    public Customer viewItem(String customerName) {
+    public Customer viewCustomer(String customerName) {
         CustomerBroker customerBroker = new CustomerBroker();
 
         Customer customer = customerBroker.getByName(customerName);
@@ -44,7 +44,7 @@ public class CustomerService {
         return customer;
     }
 
-    public List<Customer> searchItem(String keyword) {
+    public List<Customer> searchCustomer(String keyword) {
         CustomerBroker customerBroker = new CustomerBroker();
 
         //this always return all items for now
@@ -82,8 +82,8 @@ public class CustomerService {
 
     public String delete(String customerName) {
         CustomerBroker customerBroker = new CustomerBroker();
-        Customer deletedItem = customerBroker.getByName(customerName);
-        return customerBroker.delete(deletedItem);
+        Customer deletedCustomer = customerBroker.getByName(customerName);
+        return customerBroker.delete(deletedCustomer);
     }
 
     private int parseInteger(int addressId) {
