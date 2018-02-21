@@ -65,8 +65,11 @@
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
-                        <input type="hidden" name="action" value="cancel">
-                        <input type="button" value="View" id="cancel">
+                        <form method="post" action="item">
+                            <input type="hidden" name="action" value="view">
+                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="button" value="View" id="cancel">
+                        </form>
                     </div>
                     <div class="listButton">
                         <form method="post" action="item">
