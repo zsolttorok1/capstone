@@ -101,7 +101,7 @@ public class UserServlet extends HttpServlet {
                 hourlyRate = 0;
                 hours = 0;
 
-                us.edit(username1, address1, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate, hours);
+                us.edit(username1, address1, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate);
                 //request.setAttribute("errorMessage", "User Edited");
                 //request.setAttribute("Change", "User Edited");
                 //UserService us = new UserService();
@@ -112,10 +112,12 @@ public class UserServlet extends HttpServlet {
                 getServletContext().getRequestDispatcher("/WEB-INF/main.jsp").forward(request, response);
                 return;
             } else if (action.equals("editPhone")) {
-
-            } else if (action.equals("add")) {
+                //need to find a way to add this
+            } else if (action.equals("editHours")) {
+                //need to find a way to add this
+            }else if (action.equals("add")) {
                 //TODO get role not null
-                us.addUser(username, address, arrayPhoneIdNew, password, firstname, lastname, role, email, hourlyRate, hours);
+                us.addUser(username, address, arrayPhoneIdNew, password, firstname, lastname, role, email, hourlyRate);
                 request.setAttribute("errorMessage", "User Added");
                 //might have to change userserive to accpet role hmm cant do that might have to setRole
             }
