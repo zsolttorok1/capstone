@@ -132,7 +132,7 @@ public class ItemBroker {
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM item WHERE ITEM_NAME = ?");
             pstmt.setString(1, item.getItemName());
 
-            ResultSet rs = pstmt.executeQuery();
+            int rs = pstmt.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
