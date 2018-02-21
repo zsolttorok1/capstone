@@ -9,13 +9,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class JobService {
-    public String addJob(String jobName, String addressId, String customerName, String reportName, String description, 
+
+    public String addJob(String jobName, String addressId, String customerName, String reportName, String description,
             Date dateStarted, Date dateFinished, String balance, String status) {
         //check for nulls
-        if (jobName == null || addressId == null || customerName == null || reportName == null || description == null ||
-                dateStarted == null || dateFinished == null || balance == null || status == null || jobName.isEmpty() || 
-                addressId.isEmpty() || customerName.isEmpty() || reportName.isEmpty() || description.isEmpty() ||
-                balance.isEmpty()) {
+        if (jobName == null || addressId == null || customerName == null || reportName == null || description == null
+                || dateStarted == null || dateFinished == null || balance == null || status == null || jobName.isEmpty()
+                || addressId.isEmpty() || customerName.isEmpty() || reportName.isEmpty() || description.isEmpty()
+                || balance.isEmpty()) {
             //could not check to see if dateStarted could be empty....
             return "error";
         }
@@ -32,8 +33,8 @@ public class JobService {
             Logger.getLogger(JobBroker.class.getName()).log(Level.SEVERE, null, ex);
             return "error";
         }
-        Job job = new Job(jobName, intAddress, customerName, reportName, description, dateStarted, dateFinished, 
-        intBalance, status);
+        Job job = new Job(jobName, intAddress, customerName, reportName, description, dateStarted, dateFinished,
+                intBalance, status);
 
         JobBroker jobBroker = new JobBroker();
         return jobBroker.insert(job);
@@ -54,7 +55,7 @@ public class JobService {
         return jobBroker.getAll();
     }
 
-    public String edit(String jobName, String addressId, String customerName, String reportName, String description, 
+    public String edit(String jobName, String addressId, String customerName, String reportName, String description,
             Date dateStarted, Date dateFinished, String balance, String status) {
         JobBroker jobBroker = new JobBroker();
         Job job = jobBroker.getByName(jobName);
@@ -72,7 +73,7 @@ public class JobService {
             Logger.getLogger(JobBroker.class.getName()).log(Level.SEVERE, null, ex);
             return "error";
         }
-        
+
         job.setAddressId(intAddress);
         job.setCustomerName(customerName);
         job.setReportName(reportName);
@@ -81,7 +82,7 @@ public class JobService {
         job.setDateFinished(dateFinished);
         job.setBalance(intBalance);
         job.setStatus(status);
-        
+
         return jobBroker.update(job);
     }
 
@@ -95,4 +96,10 @@ public class JobService {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public List<Job> getByUser(String keyword) {
+        JobBroker jobBroker = new JobBroker();
+
+        //this always return all items for now
+        return jobBroker.getJobByUser(keyword);
+    }
 }
