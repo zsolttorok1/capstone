@@ -12,8 +12,7 @@ public class UserService {
     public String addUser(String userName, String address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate) {
         //check for nulls
         if (userName == null || address == null || phone.isEmpty() || password == null || firstName == null || lastName == null
-                || role == null || email == null || hourlyRate == 0 || hours == 0
-                || userName.isEmpty() || address.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty()
+                || role == null || email == null || hourlyRate == 0 || userName.isEmpty() || address.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty()
                 || role.isEmpty() || email.isEmpty()) {
             return "error";
         }

@@ -214,6 +214,6 @@ public class UserBroker {
             pool.freeConnection(connection);
         }
 
-        return "deleled";
+        return "deleted";
     }
 }

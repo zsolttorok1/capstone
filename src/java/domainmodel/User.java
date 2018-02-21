@@ -17,9 +17,9 @@ public class User implements Serializable {
     private String email;
 
     private int hourlyRate;
-    private int hours;
+    //private int hours;
 
-    public User(String username, int address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate, int hours) {
+    public User(String username, int address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate) {
         this.username = username;
         this.address = address;
         this.phone = phone;
@@ -29,7 +29,7 @@ public class User implements Serializable {
         this.role = role;
         this.email = email;
         this.hourlyRate = hourlyRate;
-        this.hours = hours;
+        
     }
 
     public String getUsername() {
@@ -104,12 +104,12 @@ public class User implements Serializable {
         this.hourlyRate = hourlyRate;
     }
 
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
+//    public int getHours() {
+//        return hours;
+//    }
+//
+//    public void setHours(int hours) {
+//        this.hours = hours;
+//    }
 
 }
