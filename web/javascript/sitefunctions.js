@@ -34,15 +34,18 @@ cancel.onclick = function() {
 };
 
 var rowWrapper = document.getElementsByClassName("rowWrapper");
-rowWrapper[1].addEventListener("click", displayOptions, false);
+for(var i = 0; i < rowWrapper.length; i++){
+    rowWrapper[i].addEventListener("click", displayOptions, false);
+}
 
 function displayOptions(e) {
     console.log(e.target);
     var newtarget = e.target;
     var allRows = document.getElementsByClassName("listOptions");
+    var allRows2 = document.getElementsByClassName("row");
     //close all items
     for(var i = 0; i < allRows.length; i++){
-        allRows[i].style.backgroundColor = "white";
+        allRows2[i].style.backgroundColor = "white";
         allRows[i].style.display = "none";
     }
     //display current item
