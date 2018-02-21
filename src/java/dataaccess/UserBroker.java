@@ -38,7 +38,7 @@ public class UserBroker {
             String role = null;
             String email = null;
             int hourlyRate = 0;
-            int hourly = 0;
+            //int hourly = 0;
 
             while (rs.next()) {
                 userName2 = rs.getString("USER_NAME");
@@ -51,10 +51,10 @@ public class UserBroker {
                 role = rs.getString("ROLE");
                 email = rs.getString("EMAIL");
                 hourlyRate = rs.getInt("HOURLYRATE");
-                hourly = rs.getInt("HOURLY");
+                //hourly = rs.getInt("HOURLY");
 
             }
-            user = new User(userName2, addressId, phoneIdList, password, firstname, lastname, role, email, hourlyRate, hourly);
+            user = new User(userName2, addressId, phoneIdList, password, firstname, lastname, role, email, hourlyRate);
             pool.freeConnection(connection);
         } catch (SQLException ex) {
             Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +86,7 @@ public class UserBroker {
             String role = null;
             String email = null;
             int hourlyRate = 0;
-            int hourly = 0;
+            //int hourly = 0;
 
             while (rs.next()) {
                 userName2 = rs.getString("USER_NAME");
@@ -99,9 +99,9 @@ public class UserBroker {
                 role = rs.getString("ROLE");
                 email = rs.getString("EMAIL");
                 hourlyRate = rs.getInt("HOURLYRATE");
-                hourly = rs.getInt("HOURLY");
+                //hourly = rs.getInt("HOURLY");
             }
-            user = new User(userName2, addressId, phoneIdList, password, firstname, lastname, role, email, hourlyRate, hourly);
+            user = new User(userName2, addressId, phoneIdList, password, firstname, lastname, role, email, hourlyRate);
             userList.add(user);
         } catch (SQLException ex) {
             Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
@@ -132,7 +132,7 @@ public class UserBroker {
             pstmt.setString(7, user.getRole());
             pstmt.setString(8, user.getEmail());
             pstmt.setInt(9, user.getHourlyRate());
-            pstmt.setInt(10, user.getHours());
+            //pstmt.setInt(10, user.getHours());
 
             ResultSet rs = pstmt.executeQuery();
 
@@ -160,7 +160,7 @@ public class UserBroker {
             ArrayList phoneIdList = new ArrayList();
             PreparedStatement pstmt = connection.prepareStatement("UPDATE user SET "
                     + "ADDRESS_ID = ?, PHONE_ID = ?, PASSWORD = ?, FIRSTNAME = ?, LASTNAME =?, "
-                    + "ROLE = ?, EMAIL = ?, HOURLYRATE =?, HOURLY = ? WHERE USER_NAME =?");
+                    + "ROLE = ?, EMAIL = ?, HOURLYRATE =? WHERE USER_NAME =?");
 
             pstmt.setInt(2, user.getAddress());
 
@@ -173,7 +173,7 @@ public class UserBroker {
             pstmt.setString(7, user.getRole());
             pstmt.setString(8, user.getEmail());
             pstmt.setInt(9, user.getHourlyRate());
-            pstmt.setInt(10, user.getHours());
+            //pstmt.setInt(10, user.getHours());
 
             ResultSet rs = pstmt.executeQuery();
 
@@ -204,7 +204,7 @@ public class UserBroker {
             pstmt.setString(7, user.getRole());
             pstmt.setString(8, user.getEmail());
             pstmt.setInt(9, user.getHourlyRate());
-            pstmt.setInt(10, user.getHours());
+            //pstmt.setInt(10, user.getHours());
 
             ResultSet rs = pstmt.executeQuery();
 
