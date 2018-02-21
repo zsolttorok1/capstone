@@ -148,6 +148,20 @@ p.bodytext {
     align-items: center; /*vertical center*/
     border: 3px outset;
     background-color: white;
+    pointer-events: none;
+    
+}
+
+.addRow {
+    max-width: 1000px;
+    height: 70px;
+    margin: auto;
+    display: flex;
+    justify-content: center; /*horizontal center*/
+    align-items: center; /*vertical center*/
+    border: 3px outset;
+    background-color: white;
+    
 }
 
 .rowAdd {
@@ -189,10 +203,24 @@ p.bodytext {
     justify-content: center; /*horizontal center*/
 }
 
+.listOptions {
+    max-width: 1000px;
+    margin: auto;
+    display: none;
+    justify-content: center; /*horizontal center*/
+}
+
 .rowAddButton {
     height: 30px;
     width: 50%;
     display: flex;
+}
+
+.listButton {
+    height: 30px;
+    width: 33%;
+    display: inline-flex;
+    justify-content: center;
 }
 
 .fixedmenu {
