@@ -89,7 +89,7 @@ public class JobBroker {
         String result = null;
 
         try {
-            PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, job.getJobName());
             pstmt.setInt(2, job.getAddressId());
             pstmt.setString(3, job.getCustomerName());

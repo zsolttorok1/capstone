@@ -117,7 +117,7 @@ public class CustomerBroker {
 
         try {
             ArrayList phoneIdList = new ArrayList();
-            PreparedStatement pstmt = connection.prepareStatement("select insert_customer_func(?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_customer_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, customer.getCustomerName());
             pstmt.setString(2, customer.getJobName());
 

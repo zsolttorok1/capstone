@@ -119,7 +119,7 @@ public class UserBroker {
 
         try {
             ArrayList phoneIdList = new ArrayList();
-            PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, user.getUsername());
             pstmt.setInt(2, user.getAddress());
 
