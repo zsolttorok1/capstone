@@ -193,18 +193,7 @@ public class UserBroker {
         try {
             ArrayList phoneIdList = new ArrayList();
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM user WHERE USER_NAME = ?");
-            pstmt.setInt(2, user.getAddress());
-
-            for (int i = 0; i < phoneIdList.size(); i++) {
-                pstmt.setInt(3, user.getPhone().get(i));
-            }
-            pstmt.setString(4, user.getPassword());
-            pstmt.setString(5, user.getFirstName());
-            pstmt.setString(6, user.getLastName());
-            pstmt.setString(7, user.getRole());
-            pstmt.setString(8, user.getEmail());
-            pstmt.setInt(9, user.getHourlyRate());
-            //pstmt.setInt(10, user.getHours());
+            pstmt.setString(1, user.getUsername());
 
             ResultSet rs = pstmt.executeQuery();
 

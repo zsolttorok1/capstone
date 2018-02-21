@@ -193,19 +193,7 @@ public class CustomerBroker {
         try {
             ArrayList phoneIdList = new ArrayList();
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM customer WHERE CUSTOMER_NAME = ?");
-            pstmt.setString(2, customer.getJobName());
-
-            for (int i = 0; i < phoneIdList.size(); i++) {
-                pstmt.setInt(3, customer.getPhoneId().get(i));
-            }
-
-            pstmt.setInt(4, customer.getAddressId());
-            pstmt.setString(5, customer.getFirstName());
-            pstmt.setString(6, customer.getLastName());
-            pstmt.setString(7, customer.getCompanyName());
-            pstmt.setString(8, customer.getEmail());
-            pstmt.setString(9, customer.getPosition());
-            pstmt.setString(10, customer.getNote());
+            pstmt.setString(1, customer.getCustomerName());
 
             ResultSet rs = pstmt.executeQuery();
 
