@@ -160,6 +160,7 @@ p.bodytext {
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
     border: 3px outset;
+    box-sizing: border-box;
     background-color: white;
     
 }
@@ -214,6 +215,11 @@ p.bodytext {
     height: 30px;
     width: 50%;
     display: flex;
+}
+
+.rowWrapper {
+    max-width: 1000px;
+    margin: auto;
 }
 
 .listButton {
