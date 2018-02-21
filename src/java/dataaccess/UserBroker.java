@@ -23,7 +23,7 @@ public class UserBroker {
         Connection connection = pool.getConnection();
         User user = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM user WHERE item_name ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM user WHERE item_name = ?");
             pstmt.setString(1, userName);
 
             ResultSet rs = pstmt.executeQuery();
@@ -119,7 +119,7 @@ public class UserBroker {
 
         try {
             ArrayList phoneIdList = new ArrayList();
-            PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, user.getUsername());
             pstmt.setInt(2, user.getAddress());
 
@@ -193,18 +193,7 @@ public class UserBroker {
         try {
             ArrayList phoneIdList = new ArrayList();
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM user WHERE USER_NAME = ?");
-            pstmt.setInt(2, user.getAddress());
-
-            for (int i = 0; i < phoneIdList.size(); i++) {
-                pstmt.setInt(3, user.getPhone().get(i));
-            }
-            pstmt.setString(4, user.getPassword());
-            pstmt.setString(5, user.getFirstName());
-            pstmt.setString(6, user.getLastName());
-            pstmt.setString(7, user.getRole());
-            pstmt.setString(8, user.getEmail());
-            pstmt.setInt(9, user.getHourlyRate());
-            //pstmt.setInt(10, user.getHours());
+            pstmt.setString(1, user.getUsername());
 
             ResultSet rs = pstmt.executeQuery();
 

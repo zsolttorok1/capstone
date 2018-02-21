@@ -18,7 +18,7 @@ public class JobBroker {
         Connection connection = pool.getConnection();
         Job job = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM job WHERE job_name ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM job WHERE job_name = ?");
             pstmt.setString(1, jobName);
 
             ResultSet rs = pstmt.executeQuery();
@@ -89,7 +89,7 @@ public class JobBroker {
         String result = null;
 
         try {
-            PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, job.getJobName());
             pstmt.setInt(2, job.getAddressId());
             pstmt.setString(3, job.getCustomerName());
@@ -152,14 +152,7 @@ public class JobBroker {
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM job WHERE JOB_NAME = ?");
-            pstmt.setInt(2, job.getAddressId());
-            pstmt.setString(3, job.getCustomerName());
-            pstmt.setString(4, job.getReportName());
-            pstmt.setString(5, job.getDescription());
-            pstmt.setDate(6, job.getDateStarted());
-            pstmt.setDate(7, job.getDateFinished());
-            pstmt.setInt(8, job.getBalance());
-            pstmt.setString(9, job.getStatus()); 
+            pstmt.setString(1, job.getJobName());
 
             ResultSet rs = pstmt.executeQuery();
 

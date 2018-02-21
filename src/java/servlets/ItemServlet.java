@@ -59,6 +59,8 @@ public class ItemServlet extends HttpServlet {
         //Variables
         String action = request.getParameter("action");
         String selectedItemName = request.getParameter("selectedItemName");
+        
+        String errorMessage = "";
 
         //Adding an Item 
         if (action != null && action.equals("add")) {
@@ -71,19 +73,21 @@ public class ItemServlet extends HttpServlet {
             if (itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty() && description != null && !description.isEmpty() && quantity.matches("\\d+")) {
                 ItemService itemService = new ItemService();
                 itemService.addItem(itemName, quantity, category, description, note);
+                errorMessage = "Item Successfully added";
             } else {
                 request.setAttribute("errorMessage", "The following fields need to be entered: Item Name, quantity, category and description");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
                 return;
             }
-        } else if (action.equals("delete")) {
+        } else if (action != null && action.equals("delete")) {
             if (selectedItemName != null) {
                 ItemService itemService = new ItemService();
                 itemService.delete(selectedItemName);
-                request.setAttribute("errorMessage", "You Deleted a item");
-                return;
+                errorMessage = "You deleted an item.";
+                //request.setAttribute("errorMessage", "You deleted an item.");
+
             } else {
-                request.setAttribute("errorMessage", "You can not delete ");
+                request.setAttribute("errorMessage", "You do not have the authority to DELETE me.");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
                 return;
             }
@@ -97,7 +101,7 @@ public class ItemServlet extends HttpServlet {
             if (itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty() && description != null && !description.isEmpty() && quantity.matches("\\d+")) {
                 ItemService itemService = new ItemService();
                 itemService.edit(itemName, quantity, category, description,note);
-                request.setAttribute("errorMessage", "You Edited your Item");
+                request.setAttribute("errorMessage", "You edited your Item");
             } else {
                 request.setAttribute("errorMessage", "You can not edit");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
@@ -114,7 +118,7 @@ public class ItemServlet extends HttpServlet {
         List<Item> itemList = itemService.searchItem(keyword);
 
         session.setAttribute("itemList", itemList);
-        request.setAttribute("errorMessage", "Item Successfully added");
+        request.setAttribute("errorMessage", errorMessage);
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
