@@ -63,13 +63,14 @@ public class UserServlet extends HttpServlet {
         String firstname = request.getParameter("firstName");
         String lastname = request.getParameter("lastName");
         String role = request.getParameter("role");
+        String address = request.getParameter("address");
         //fake array
         ArrayList<Integer> arrayPhoneIdNew = new ArrayList();
         
         int phoneId = 0;
         
         String email = request.getParameter("email");
-        int address = 0;
+        
         int hourlyRate = 0;
         int hours = 0;
 
@@ -92,7 +93,7 @@ public class UserServlet extends HttpServlet {
                 //String phoneId = request.getParameter("phoneId");
                 String email1 = request.getParameter("email");
                 String address1 = request.getParameter("address");
-                int addressInt = Integer.parseInt(address1);
+                
                 //fake array
                 ArrayList<Integer> arrayPhoneId = new ArrayList();
                 
@@ -100,7 +101,7 @@ public class UserServlet extends HttpServlet {
                 hourlyRate = 0;
                 hours = 0;
 
-                us.edit(username1, addressInt, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate, hours);
+                us.edit(username1, address1, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate, hours);
                 //request.setAttribute("errorMessage", "User Edited");
                 //request.setAttribute("Change", "User Edited");
                 //UserService us = new UserService();
