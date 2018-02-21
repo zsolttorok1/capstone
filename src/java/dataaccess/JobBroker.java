@@ -164,4 +164,40 @@ public class JobBroker {
 
         return "deleted";
     }
+    public List<Job> getJobByUser(String userName) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        
+        
+        List<Job> jobList = new ArrayList<>();
+        Job job = null;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM job WHERE user_name = ?");
+            pstmt.setString(1, userName);
+            
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String jobName = rs.getString("JOB_NAME");
+                int addressId = rs.getInt("ADDRESS_ID");    
+                String customerName = rs.getString("CUSTOMER_NAME");
+                String reportName = rs.getString("REPORT_NAME");
+                String description = rs.getString("DESCRIPTION");
+                Date dateStarted = rs.getDate("DATE_STARTED");
+                Date dateFinished = rs.getDate("DATE_FINISHED");
+                int balance = rs.getInt("BALANCE");
+                String status = rs.getString("STATUS");
+
+                job = new Job(jobName, addressId, customerName, reportName, description,
+                dateStarted, dateFinished, balance, status);
+                jobList.add(job);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(JobBroker.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            pool.freeConnection(connection);
+        }
+
+        return jobList;
+    }
 }
