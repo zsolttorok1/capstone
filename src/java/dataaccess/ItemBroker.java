@@ -18,7 +18,7 @@ public class ItemBroker {
         Connection connection = pool.getConnection();
         Item item = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item WHERE item_name ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item WHERE item_name = ?");
             pstmt.setString(1, itemName);
 
             ResultSet rs = pstmt.executeQuery();
@@ -130,11 +130,9 @@ public class ItemBroker {
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM item WHERE ITEM_NAME = ?");
-            pstmt.setInt(2, item.getQuantity());
-            pstmt.setString(3, item.getCategory());
-            pstmt.setString(2, item.getDescription());
+            pstmt.setString(1, item.getItemName());
 
-            ResultSet rs = pstmt.executeQuery();
+            int rs = pstmt.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);

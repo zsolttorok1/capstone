@@ -69,12 +69,15 @@
                         <input type="button" value="View" id="cancel">
                     </div>
                     <div class="listButton">
-                        <input type="hidden" name="action" value="cancel">
-                        <input type="button" value="Delete" id="cancel">
+                        <form method="post" action="item">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="submit" value="Delete">
+                        </form>
                     </div>
                     <div class="listButton">
                         <input type="hidden" name="action" value="cancel">
-                        <input type="button" value="Cancel" id="cancel">
+                        <input type="button" value="Cancel" id="cancelbox">
                     </div>
                 </div>
             </div>
