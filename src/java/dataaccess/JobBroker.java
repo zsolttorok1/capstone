@@ -18,7 +18,7 @@ public class JobBroker {
         Connection connection = pool.getConnection();
         Job job = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM job WHERE job_name ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM job WHERE job_name = ?");
             pstmt.setString(1, jobName);
 
             ResultSet rs = pstmt.executeQuery();

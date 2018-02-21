@@ -23,7 +23,7 @@ public class UserBroker {
         Connection connection = pool.getConnection();
         User user = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM user WHERE item_name ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM user WHERE item_name = ?");
             pstmt.setString(1, userName);
 
             ResultSet rs = pstmt.executeQuery();

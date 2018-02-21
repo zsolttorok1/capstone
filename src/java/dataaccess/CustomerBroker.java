@@ -18,7 +18,7 @@ public class CustomerBroker {
         Connection connection = pool.getConnection();
         Customer customer = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM customer WHERE customer_name ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM customer WHERE customer_name = ?");
             pstmt.setString(1, customerName);
 
             ResultSet rs = pstmt.executeQuery();
