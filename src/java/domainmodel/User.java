@@ -1,32 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domainmodel;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-/**
- *
- * @author 742227
- */
-public class User {
+public class User implements Serializable {
+
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private String role;
-    
+
     private ArrayList<Integer> phone;
     private int address;
     private String email;
-    
+
     private int hourlyRate;
     private int hours;
-    
-    public User(String username, int address,ArrayList<Integer> phone, String password, String firstName, String lastName,String role, String email, int hourlyRate, int hours) {
+
+    public User(String username, int address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate, int hours) {
         this.username = username;
         this.address = address;
         this.phone = phone;
@@ -118,9 +111,5 @@ public class User {
     public void setHours(int hours) {
         this.hours = hours;
     }
-    
-    
-    
-    
-    
+
 }
