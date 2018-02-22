@@ -91,7 +91,9 @@ public class ItemServlet extends HttpServlet {
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
                 return;
             }
-        } else if (action.equals("edit")) {
+        } else if (action != null && action.equals("view")) {
+            getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+            
             String itemName = request.getParameter("name");
             String quantity = request.getParameter("quantity");
             String category = request.getParameter("category");

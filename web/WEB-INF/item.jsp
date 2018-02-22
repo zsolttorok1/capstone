@@ -58,15 +58,18 @@
         <c:forEach var="item" items="${sessionScope.itemList}">
             <div class="rowWrapper">
                 <div class="row">
-                    <div class="rowitem">${item.itemName}</div>
-                    <div class="rowitem">${item.description}</div>
-                    <div class="rowitem">${item.category}</div>
-                    <div class="rowitem">${item.quantity}</div>
+                    <div class="rowitem" name="name">${item.itemName}</div>
+                    <div class="rowitem" name="description">${item.description}</div>
+                    <div class="rowitem" name="category">${item.category}</div>
+                    <div class="rowitem" name="quantity">${item.quantity}</div>
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
-                        <input type="hidden" name="action" value="cancel">
-                        <input type="button" value="View" id="cancel">
+                        <form method="post" action="viewItem">
+                            <input type="hidden" name="action" value="view">
+                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="submit" value="View">
+                        </form>
                     </div>
                     <div class="listButton">
                         <form method="post" action="item">
