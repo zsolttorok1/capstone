@@ -46,7 +46,7 @@ public class ItemService {
         //this always return all items for now
         return itemBroker.getAll();
     }
-
+    //edit 
     public String edit(String itemName, String quantity, String category, String description, String note) {
         ItemBroker itemBroker = new ItemBroker();
         Item item = itemBroker.getByName(itemName);
@@ -66,7 +66,6 @@ public class ItemService {
 
         return itemBroker.update(item);
     }
-
     public String delete(String itemName) {
         ItemBroker itemBroker = new ItemBroker();
         Item deletedItem = itemBroker.getByName(itemName);
