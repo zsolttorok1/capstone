@@ -13,26 +13,40 @@ var cancel = document.getElementById('cancel');
 var btn = document.getElementById("addbutton");
 var itembtn = document.getElementById("listbutton");
 
+var editbtn = document.getElementById("editIcon");
+var editInputs = document.getElementsByClassName("contentBodyInput");
 
 
-// When the user clicks the button, open the form 
-btn.onclick = function() {
-    form.style.display = "flex";
-    addbuttons.style.display = "flex";
-    btn.style.display = "none";
-};
+
+if (btn !== null) {
+    // When the user clicks the button, open the form 
+    btn.onclick = function() {
+        form.style.display = "flex";
+        addbuttons.style.display = "flex";
+        btn.style.display = "none";
+    };
+}
+    
+if (editbtn !== null) {
+    editbtn.onclick = function() {
+        for (var i = 0; i<editInputs.length; i++) {
+            editInputs[i].style.display = "block";
+        }
+    };
+}
 /**
 itembtn.onclick = function() {
     listbuttons.style.display = "none";
     listbuttons.style.display = "flex";
 };
 */
-cancel.onclick = function() {
-    form.style.display = "none";
-    addbuttons.style.display = "none";
-    btn.style.display = "flex";
-};
-
+if (cancel !== null) {
+    cancel.onclick = function() {
+        form.style.display = "none";
+        addbuttons.style.display = "none";
+        btn.style.display = "flex";
+    };
+}
 var rowWrapper = document.getElementsByClassName("rowWrapper");
 for(var i = 0; i < rowWrapper.length; i++){
     rowWrapper[i].addEventListener("click", displayOptions, false);

@@ -150,6 +150,7 @@ p.bodytext {
     border: 3px outset;
     background-color: white;
     pointer-events: none;
+    overflow: hidden;
     
 }
 
@@ -183,7 +184,8 @@ p.bodytext {
 .rowitem {
     height: 70px;
     width: 400px;
-    display: flex;
+    max-width: 250px;
+    box-sizing: border-box;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -224,10 +226,9 @@ p.bodytext {
 }
 
 .listButton {
-    height: 30px;
     width: 33%;
-    display: inline-flex;
     justify-content: center;
+    text-align: center;
 }
 
 .fixedmenu {
@@ -297,13 +298,47 @@ p.bodytext {
     cursor: pointer;
 }
 
+.contentInfo {
+    padding-left: 5px;
+}
+
 .contentHeader {
     text-decoration: underline;
     font-weight: bold;
+    font-size: 14pt;
+    padding-top: 5px;
+}
+
+.contentBody {
+}
+
+.contentBodyInput {
+    display: none;
 }
 
 .viewcontent {
     width: 750px; 
     margin: 0px auto;
     background-color: white;
+    border-bottom: 4px solid gray;
+    border-right: 4px solid gray;
+}
+
+.editIcon {
+    text-align: right;
+    max-height: 35px;
+    width: auto;
+    padding: 5px;
+    float: right;
+}
+
+.editIcon:hover {
+    text-align: right;
+    max-height: 35px;
+    width: auto;
+    padding-right: 5px;
+    padding-top: 5px;
+    float: right;
+    background-color: lightgray;
+    cursor: pointer;
 }

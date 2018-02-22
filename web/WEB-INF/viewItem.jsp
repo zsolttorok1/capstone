@@ -27,14 +27,22 @@
         <h1 class="bodyheaderc">ITEM VIEW</h1>
         <p class="center">${errorMessage}</p>
         <div class="viewcontent">
-            <p class="contentHeader">Name and Category</p>
-            <p>${itemName} (${category})}</p>
-            <p class="contentHeader">Description</p>
-            <p>${description}</p>
-            <p class="contentHeader">Quantity</p>
-            <p>${quantity}</p>
-            <p class="contentHeader">Additional Notes</p>
-            <p>${notes}</p>
+            <div>
+                <img class="editIcon" src="res/editIcon.png" title="Edit" id="editIcon" />
+            </div>
+            <div class="contentInfo">
+                <p class="contentHeader">Name and Category</p>
+                <p>${itemName} (${category})</p>
+                <p class="contentHeader">Description</p>
+                <p class="contentBody">${description}</p>
+                <input type="text" class="contentBodyInput" placeholder="Description" />
+                <p class="contentHeader">Quantity</p>
+                <p class="contentBody">${quantity}</p>
+                <input type="number" class="contentBodyInput" placeholder="Quantity" />
+                <p class="contentHeader">Additional Notes</p>
+                <p class="contentBody">${notes}</p>
+            </div>
         </div>
+        <script src="javascript/sitefunctions.js" type="text/javascript"></script>
     </body>
 </html>
