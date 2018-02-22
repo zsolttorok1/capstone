@@ -295,3 +295,14 @@ p.bodytext {
     text-decoration: none;
     cursor: pointer;
 }
+
+.contentHeader {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.viewcontent {
+    width: 750px; 
+    margin: 0px auto;
+    background-color: white;
+}

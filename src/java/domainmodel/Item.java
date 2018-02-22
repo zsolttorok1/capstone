@@ -15,7 +15,7 @@ public class Item implements Serializable {
         this.quantity = quantity;
         this.category = category;
         this.description = description;
-        this.note = note;
+        this.note = "";
     }
 
     public Item() {
