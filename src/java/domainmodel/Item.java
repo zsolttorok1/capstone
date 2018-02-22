@@ -1,8 +1,9 @@
 package domainmodel;
-    
+
 import java.io.Serializable;
 
 public class Item implements Serializable {
+
     private String itemName;
     private int quantity;
     private String category;
@@ -14,7 +15,7 @@ public class Item implements Serializable {
         this.quantity = quantity;
         this.category = category;
         this.description = description;
-        this.note = note;
+        this.note = "";
     }
 
     public Item() {
@@ -60,4 +61,3 @@ public class Item implements Serializable {
         this.note = note;
     }
 }
-

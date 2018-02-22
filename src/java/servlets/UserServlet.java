@@ -26,7 +26,8 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet"})
 public class UserServlet extends HttpServlet {
-         @Override
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -37,11 +38,11 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Logged out");
         }
 
-       // getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        // getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         // stop other execution of code
-
     }
-     /**
+
+    /**
      * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
@@ -53,56 +54,78 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         UserService us = new UserService();
-        UserService ns = new UserService();
+
         String action = request.getParameter("action");
         String selectedUserName = request.getParameter("selectedUsername");
 
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String firstname = request.getParameter("firstName");
+        String lastname = request.getParameter("lastName");
+        String role = request.getParameter("role");
+        String address = request.getParameter("address");
+        //fake array
+        ArrayList<Integer> arrayPhoneIdNew = new ArrayList();
+        
+        int phoneId = 0;
+        
+        String email = request.getParameter("email");
+        
+        int hourlyRate = 0;
+        int hours = 0;
+
         HttpSession session1 = request.getSession();
         String user1 = (String) session1.getAttribute("user");
+
         try {
 
             if (action.equals("delete")) {
-                //us.update(username1, password1, email1, active1, firstname1, lastname1, role1, company2);
+                us.delete(username);
                 //request.setAttribute("errorMessage", "User Deleted");
                 //HttpSession session = request.getSession();
                 //session.invalidate();
             } else if (action.equals("edit")) {
                 String username1 = request.getParameter("username");
-                String password1 = request.getParameter("username");
-                String firstname1 = request.getParameter("username");
-                String lastname1 = request.getParameter("username");
-                String role1 = request.getParameter("username");
-                String phone = request.getParameter("username");
-                String email1 = request.getParameter("username");
-                String address = request.getParameter("username");
+                String password1 = request.getParameter("password");
+                String firstname1 = request.getParameter("firstName");
+                String lastname1 = request.getParameter("lastName");
+                String role1 = request.getParameter("role");
+                //String phoneId = request.getParameter("phoneId");
+                String email1 = request.getParameter("email");
+                String address1 = request.getParameter("address");
+                
+                //fake array
+                ArrayList<Integer> arrayPhoneId = new ArrayList();
+                
+                //changed
+                hourlyRate = 0;
+                hours = 0;
 
-                int hourlyRate = 0;
-                int hours = 0;
-       
-
-                //us.update(username, password, email, active1, firstname, lastname, role, company);
+                us.edit(username1, address1, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate);
                 //request.setAttribute("errorMessage", "User Edited");
                 //request.setAttribute("Change", "User Edited");
-         
                 //UserService us = new UserService();
                 // HttpSession session = request.getSession();
                 //String selectedUser = (String) session.getAttribute("user");
-                try {
-                   // User users = us.get(selectedUser);
-                    //request.setAttribute("selectedUser", users);
-                } catch (Exception ex) {
-                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-               //List of Users list the users out here
-
+                //List of Users list the users out here
                 //request.setAttribute("users", users);
                 getServletContext().getRequestDispatcher("/WEB-INF/main.jsp").forward(request, response);
                 return;
+            } else if (action.equals("editPhone")) {
+                //need to find a way to add this
+            } else if (action.equals("editHours")) {
+                //need to find a way to add this
+            }else if (action.equals("add")) {
+                //TODO get role not null
+                us.addUser(username, address, arrayPhoneIdNew, password, firstname, lastname, role, email, hourlyRate);
+                request.setAttribute("errorMessage", "User Added");
+                //might have to change userserive to accpet role hmm cant do that might have to setRole
             }
         } catch (Exception ex) {
             request.setAttribute("errorMessage", "Whoops.  Could not perform that action.");
         }
-     
-        
+        getServletContext().getRequestDispatcher("/WEB-INF/main.jsp").forward(request, response);
+        return;
+
     }
 }
