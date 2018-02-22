@@ -54,8 +54,8 @@ public class ItemBroker {
             
             ResultSet rs = pstmt.executeQuery();
             
-            while (rs.next()) {
-                String itemName = rs.getString("ITEM_NAME");
+            while (rs.next()) { 
+               String itemName = rs.getString("ITEM_NAME");
                 int quantity = rs.getInt("QUANTITY");
                 String category = rs.getString("CATEGORY");
                 String description = rs.getString("DESCRIPTION");
@@ -103,10 +103,11 @@ public class ItemBroker {
         
         return result;
     }
+    
     public boolean update(Item item) {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
-                
+        
         try {
             PreparedStatement pstmt = connection.prepareStatement("UPDATE item SET "
                 + "QUANTITY = ?, CATEGORY = ?, DESCRIPTION = ? "

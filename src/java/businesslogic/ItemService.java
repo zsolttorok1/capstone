@@ -39,8 +39,7 @@ public class ItemService {
         return itemBroker.getAll();
     }
     //edit 
-    public boolean edit(String itemName, String quantity, String category, String description, String note)
-    {
+    public boolean edit(String itemName, String quantity, String category, String description, String note) {
         ItemBroker itemBroker = new ItemBroker();
         Item item = itemBroker.getByName(itemName);
         
@@ -51,11 +50,11 @@ public class ItemService {
         
         return itemBroker.update(item);
     }
-   public boolean delete(String itemName){
-       ItemBroker itemBroker = new ItemBroker();
-       Item deletedItem = itemBroker.getByName(itemName);
-       return itemBroker.delete(deletedItem);
-   }
+    public boolean delete(String itemName) {
+        ItemBroker itemBroker = new ItemBroker();
+        Item deletedItem = itemBroker.getByName(itemName);
+        return itemBroker.delete(deletedItem);
+    }
 
     private int parseInteger(int quantity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
