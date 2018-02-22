@@ -5,9 +5,11 @@
  */
 package servlets;
 
+import businesslogic.CustomerService;
 import businesslogic.ItemService;
 import businesslogic.JobService;
 import businesslogic.UserService;
+import domainmodel.Customer;
 import domainmodel.Item;
 import domainmodel.Job;
 import domainmodel.User;
@@ -97,12 +99,20 @@ public class SearchServlet extends HttpServlet {
                 //adds users to keyword search
                 List<User> users = new ArrayList();
                 users = ns1.searchUser(keyword);
-                hits.add(jobList);
                 hits.add(users);
                 
                 //add all jobs
+                hits.add(jobList);
                 
+                //add reports
+                //ReportService rs = new ReportService();
+                //List<Reports> reportList = rs.searchReport(keyword);
+                //hits.add(reportList);
                 
+                //add Customer
+                CustomerService cs = new CustomerService();
+                List<Customer> customerList = cs.searchCustomer(keyword);
+                hits.add(customerList);
                 
                 request.setAttribute("search", hits);
                 return;
