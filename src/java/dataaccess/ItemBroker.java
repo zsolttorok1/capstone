@@ -26,7 +26,7 @@ public class ItemBroker {
             while (rs.next()) {
                 String itemName2 = rs.getString("ITEM_NAME");
                 int quantity = rs.getInt("QUANTITY");
-                String category = rs.getString("CATEGORY");
+                String category = rs.getString("CATEGORY_ID");
                 String description = rs.getString("DESCRIPTION");
 
                 item = new Item(itemName2, quantity, category, description, null);
@@ -49,14 +49,16 @@ public class ItemBroker {
         List<Item> itemList = new ArrayList<>();
 
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT i.item_name, i.quantity, c.category_name, i.description "
+                    + "FROM `item` i "
+                    + "JOIN `category` c ON c.category_id = i.category_id;");
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 String itemName = rs.getString("ITEM_NAME");
                 int quantity = rs.getInt("QUANTITY");
-                String category = rs.getString("CATEGORY");
+                String category = rs.getString("CATEGORY_NAME");
                 String description = rs.getString("DESCRIPTION");
 
                 Item item = new Item(itemName, quantity, category, description, null);
@@ -107,11 +109,12 @@ public class ItemBroker {
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("UPDATE item SET "
-                    + "QUANTITY = ?, CATEGORY = ?, DESCRIPTION = ? "
+                    + "QUANTITY = ?, CATEGORY_ID = ?, DESCRIPTION = ? "
                     + "WHERE ITEM_NAME =?");
-            pstmt.setInt(2, item.getQuantity());
-            pstmt.setString(3, item.getCategory());
-            pstmt.setString(4, item.getDescription());
+            pstmt.setInt(1, item.getQuantity());
+            pstmt.setString(2, item.getCategory());
+            pstmt.setString(3, item.getDescription());
+            pstmt.setString(4, item.getItemName());
 
             ResultSet rs = pstmt.executeQuery();
 

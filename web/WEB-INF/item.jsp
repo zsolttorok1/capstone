@@ -21,6 +21,9 @@
                 <a class="breadcrumb" href="item">Item</a>
             </div>
             <div class="fixedright">
+                <form method="get" action="item">
+                    <input type="text" placeholder="Search..." />
+                </form>
                 <a class="logout" href="main">Logout</a>
             </div>
         </div>
