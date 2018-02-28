@@ -162,18 +162,18 @@ public class UserBroker {
                     + "ADDRESS_ID = ?, PHONE_ID = ?, PASSWORD = ?, FIRSTNAME = ?, LASTNAME =?, "
                     + "ROLE = ?, EMAIL = ?, HOURLYRATE =? WHERE USER_NAME =?");
 
-            pstmt.setInt(2, user.getAddress());
+            pstmt.setInt(1, user.getAddress());
 
             for (int i = 0; i < phoneIdList.size(); i++) {
-                pstmt.setInt(3, user.getPhone().get(i));
+                pstmt.setInt(2, user.getPhone().get(i));
             }
-            pstmt.setString(4, user.getPassword());
-            pstmt.setString(5, user.getFirstName());
-            pstmt.setString(6, user.getLastName());
-            pstmt.setString(7, user.getRole());
-            pstmt.setString(8, user.getEmail());
-            pstmt.setInt(9, user.getHourlyRate());
-            //pstmt.setInt(10, user.getHours());
+            pstmt.setString(3, user.getPassword());
+            pstmt.setString(4, user.getFirstName());
+            pstmt.setString(5, user.getLastName());
+            pstmt.setString(6, user.getRole());
+            pstmt.setString(7, user.getEmail());
+            pstmt.setInt(8, user.getHourlyRate());
+            pstmt.setString(9, user.getUsername());
 
             ResultSet rs = pstmt.executeQuery();
 

@@ -126,14 +126,16 @@ public class JobBroker {
             PreparedStatement pstmt = connection.prepareStatement("UPDATE job SET "
                     + "ADDRESS_ID = ?, CUSTOMER_NAME = ?, REPORT_NAME = ?, DESCRIPTION =?, "
                     + "DATE_STARTED = ?, DATE_FINISHED = ?, BALANCE = ?, STATUS = ? WHERE JOB_NAME =?");
-            pstmt.setInt(2, job.getAddressId());
-            pstmt.setString(3, job.getCustomerName());
-            pstmt.setString(4, job.getReportName());
-            pstmt.setString(5, job.getDescription());
-            pstmt.setDate(6, job.getDateStarted());
-            pstmt.setDate(7, job.getDateFinished());
-            pstmt.setInt(8, job.getBalance());
-            pstmt.setString(9, job.getStatus());        
+            pstmt.setInt(1, job.getAddressId());
+            pstmt.setString(2, job.getCustomerName());
+            pstmt.setString(3, job.getReportName());
+            pstmt.setString(4, job.getDescription());
+            pstmt.setDate(5, job.getDateStarted());
+            pstmt.setDate(6, job.getDateFinished());
+            pstmt.setInt(7, job.getBalance());
+            pstmt.setString(8, job.getStatus());   
+            pstmt.setString(9, job.getJobName());
+            
 
             ResultSet rs = pstmt.executeQuery();
 
