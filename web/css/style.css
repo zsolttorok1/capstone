@@ -313,7 +313,7 @@ p.bodytext {
 }
 
 .contentBodyInput {
-    display: none;
+    /* display: none; */
 }
 
 .viewcontent {

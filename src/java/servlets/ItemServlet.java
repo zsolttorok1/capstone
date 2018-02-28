@@ -93,23 +93,14 @@ public class ItemServlet extends HttpServlet {
             }
         } else if (action != null && action.equals("view")) {
             getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
-            
+            return;
+            /*
             String itemName = request.getParameter("name");
             String quantity = request.getParameter("quantity");
             String category = request.getParameter("category");
             String description = request.getParameter("description");
             String note = null;
-            
-            if (itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty() && description != null && !description.isEmpty() && quantity.matches("\\d+")) {
-                ItemService itemService = new ItemService();
-                itemService.edit(itemName, quantity, category, description,note);
-                request.setAttribute("errorMessage", "You edited your Item");
-            } else {
-                request.setAttribute("errorMessage", "You can not edit");
-                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
-                return;
-
-            }
+            */
         }
 
         HttpSession session = request.getSession();
