@@ -13,7 +13,7 @@ public class User implements Serializable {
     private String province;
     private String country;
     private String postalCode;
-    List<Integer> phoneNumberList;
+    List<Long> phoneNumberList;
     private String password;
     private String firstName;
     private String lastName;
@@ -22,7 +22,7 @@ public class User implements Serializable {
     private int hourlyRate;
     //private int hours;
 
-    public User(String username, int houseNumber, String street, String city, String province, String country, String postalCode, List<Integer> phoneNumberList, String password, String firstname, String lastname, String role, String email, int hourlyRate) {
+    public User(String username, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String password, String firstname, String lastname, String role, String email, int hourlyRate) {
         this.username = username;
         this.houseNumber = houseNumber;
         this.street = street;
@@ -112,11 +112,11 @@ public class User implements Serializable {
         this.postalCode = postalCode;
     }
 
-    public List<Integer> getPhoneNumberList() {
+    public List<Long> getPhoneNumberList() {
         return phoneNumberList;
     }
 
-    public void setPhoneNumberList(List<Integer> phoneNumberList) {
+    public void setPhoneNumberList(List<Long> phoneNumberList) {
         this.phoneNumberList = phoneNumberList;
     }
 

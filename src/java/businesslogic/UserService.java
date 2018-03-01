@@ -24,14 +24,14 @@ public class UserService {
         //check for values being valid
         int intHouseNumber = 0;
         int intHourlyRate = 0;
-        ArrayList<Integer> intPhoneNumberList = new ArrayList<>();
+        ArrayList<Long> intPhoneNumberList = new ArrayList<>();
         
         //try catch these
         try {
             intHouseNumber = Integer.parseInt(houseNumber);
             intHourlyRate = Integer.parseInt(hourlyRate);
             for (String phoneNumber : phoneNumberList) {
-                intPhoneNumberList.add(Integer.parseInt(phoneNumber));
+                intPhoneNumberList.add(Long.parseLong(phoneNumber));
             }
             
         } catch (NumberFormatException ex) {
@@ -81,14 +81,14 @@ public class UserService {
         //check for values being valid
         int intHouseNumber = 0;
         int intHourlyRate = 0;
-        ArrayList<Integer> intPhoneNumberList = new ArrayList<>();
+        ArrayList<Long> intPhoneNumberList = new ArrayList<>();
         
         //try catch these
         try {
             intHouseNumber = Integer.parseInt(houseNumber);
             intHourlyRate = Integer.parseInt(hourlyRate);
             for (String phoneNumber : phoneNumberList) {
-                intPhoneNumberList.add(Integer.parseInt(phoneNumber));
+                intPhoneNumberList.add(Long.parseLong(phoneNumber));
             }
             
         } catch (NumberFormatException ex) {

@@ -65,8 +65,8 @@ public class UserBroker {
             String province = null;
             String country = null;
             String postalCode = null;
-            int phoneNumber = 0;
-            List<Integer> phoneNumberList = new ArrayList<>();
+            long phoneNumber = 0;
+            List<Long> phoneNumberList = new ArrayList<>();
             String password = null;
             String firstname = null;
             String lastname = null;
@@ -82,7 +82,7 @@ public class UserBroker {
                 province = rs.getString("PROVINCE");
                 country = rs.getString("COUNTRY");
                 postalCode = rs.getString("POSTAL_CODE");
-                phoneNumber = rs.getInt("PHONE_NUMBER");
+                phoneNumber = rs.getLong("PHONE_NUMBER");
                 phoneNumberList.add(phoneNumber); //adds all phone numbers to the phoneNumberList
                 password = rs.getString("PASSWORD");
                 firstname = rs.getString("FIRSTNAME");
@@ -127,7 +127,7 @@ public class UserBroker {
                 String province = rs.getString("PROVINCE");
                 String country = rs.getString("COUNTRY");
                 String postalCode = rs.getString("POSTAL_CODE");
-                int phoneNumber = rs.getInt("PHONE_NUMBER");
+                long phoneNumber = rs.getLong("PHONE_NUMBER");
                 String password = rs.getString("PASSWORD");
                 String firstName = rs.getString("FIRSTNAME");
                 String lastName = rs.getString("LASTNAME");
@@ -138,7 +138,7 @@ public class UserBroker {
                 
                 //if userList isEmpty, or last user = current user
                 if (userList.isEmpty() || !((User)userList.get(userList.size()-1)).getFirstName().equals(userName)) {
-                    List<Integer> phoneNumberList = new ArrayList<>();
+                    List<Long> phoneNumberList = new ArrayList<>();
                     
                     user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
                     userList.add(user);
@@ -164,7 +164,7 @@ public class UserBroker {
         String status = null;
 
         try {
-            for (int phoneNumber : user.getPhoneNumberList()) {
+            for (long phoneNumber : user.getPhoneNumberList()) {
                 PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 pstmt.setString(1, user.getUsername());
                 pstmt.setInt(2, user.getHouseNumber());
@@ -173,7 +173,7 @@ public class UserBroker {
                 pstmt.setString(5, user.getProvince());
                 pstmt.setString(6, user.getCountry());
                 pstmt.setString(7, user.getPostalCode());
-                pstmt.setInt(8, phoneNumber);
+                pstmt.setLong(8, phoneNumber);
                 pstmt.setString(9, user.getPassword());
                 pstmt.setString(10, user.getFirstName());
                 pstmt.setString(11, user.getLastName());

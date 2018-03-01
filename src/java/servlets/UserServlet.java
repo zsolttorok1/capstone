@@ -38,6 +38,7 @@ public class UserServlet extends HttpServlet {
         UserService userService = new UserService();
         request.setAttribute("userList", userService.searchUser(""));
 
+        request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
         // getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         // stop other execution of code
     }

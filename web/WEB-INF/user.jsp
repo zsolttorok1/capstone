@@ -66,7 +66,9 @@
                 <div class="row">
                     <div class="rowitem" name="username">${user.username}</div>
                     <div class="rowitem" name="email">${user.email}</div>
-                    <div class="rowitem" name="phone">${user.phone}</div>
+                    <c:forEach var="phone" items="${sessionScope.phoneNumberList}">
+                        <div class="rowitem" name="phone">${phone}</div>
+                    </c:forEach>
                     <div class="rowitem" name="firstname">${user.firstname}</div>
                     <div class="rowitem" name="lastname">${user.lastname}</div>
                 </div>
