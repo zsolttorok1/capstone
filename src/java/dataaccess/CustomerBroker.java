@@ -161,20 +161,21 @@ public class CustomerBroker {
                     + "JOB_NAME = ?, PHONE_ID = ?, ADDRESS_ID = ?, FIRST_NAME = ?, LAST_NAME =?, "
                     + "COMPANY_NAME = ?, EMAIL = ?, POSITION = ?, NOTE =? WHERE CUSTOMER_NAME =?");
 
-            pstmt.setString(2, customer.getJobName());
+            pstmt.setString(1, customer.getJobName());
 
             for (int i = 0; i < phoneIdList.size(); i++) {
-                pstmt.setInt(3, customer.getPhoneId().get(i));
+                pstmt.setInt(2, customer.getPhoneId().get(i));
             }
 
-            pstmt.setInt(4, customer.getAddressId());
-            pstmt.setString(5, customer.getFirstName());
-            pstmt.setString(6, customer.getLastName());
-            pstmt.setString(7, customer.getCompanyName());
-            pstmt.setString(8, customer.getEmail());
-            pstmt.setString(9, customer.getPosition());
-            pstmt.setString(10, customer.getNote());
-
+            pstmt.setInt(3, customer.getAddressId());
+            pstmt.setString(4, customer.getFirstName());
+            pstmt.setString(5, customer.getLastName());
+            pstmt.setString(6, customer.getCompanyName());
+            pstmt.setString(7, customer.getEmail());
+            pstmt.setString(8, customer.getPosition());
+            pstmt.setString(9, customer.getNote());
+            pstmt.setString(10, customer.getCustomerName());
+            
             ResultSet rs = pstmt.executeQuery();
 
         } catch (SQLException ex) {

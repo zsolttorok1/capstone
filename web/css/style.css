@@ -259,10 +259,7 @@ p.bodytext {
 }
 
 .fixedright {
-    max-width: 200px;
     float: right;
-    height: 50px;
-    display: flex;
     padding-right: 15px;
 }
 
@@ -313,7 +310,7 @@ p.bodytext {
 }
 
 .contentBodyInput {
-    display: none;
+    /* display: none; */
 }
 
 .viewcontent {

@@ -26,7 +26,7 @@ if (btn !== null) {
         btn.style.display = "none";
     };
 }
-    
+   /* 
 if (editbtn !== null) {
     editbtn.onclick = function() {
         for (var i = 0; i<editInputs.length; i++) {
@@ -34,6 +34,7 @@ if (editbtn !== null) {
         }
     };
 }
+*/
 /**
 itembtn.onclick = function() {
     listbuttons.style.display = "none";
