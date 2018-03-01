@@ -6,13 +6,10 @@
 package servlets;
 
 import businesslogic.UserService;
-import domainmodel.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +34,9 @@ public class UserServlet extends HttpServlet {
             session.invalidate();
             request.setAttribute("errorMessage", "Logged out");
         }
+        
+        UserService userService = new UserService();
+        request.setAttribute("userList", userService.searchUser(""));
 
         // getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         // stop other execution of code
@@ -54,8 +54,11 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         UserService us = new UserService();
-
+        
+        Map<String, String[]> parameters = request.getParameterMap();
+        
         String action = request.getParameter("action");
+        
         String selectedUserName = request.getParameter("selectedUsername");
 
         String username = request.getParameter("username");
@@ -101,7 +104,7 @@ public class UserServlet extends HttpServlet {
                 hourlyRate = 0;
                 hours = 0;
 
-                us.edit(username1, address1, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate);
+                //us.edit(username1, address1, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate);
                 //request.setAttribute("errorMessage", "User Edited");
                 //request.setAttribute("Change", "User Edited");
                 //UserService us = new UserService();
@@ -117,7 +120,7 @@ public class UserServlet extends HttpServlet {
                 //need to find a way to add this
             }else if (action.equals("add")) {
                 //TODO get role not null
-                us.addUser(username, address, arrayPhoneIdNew, password, firstname, lastname, role, email, hourlyRate);
+                //us.addUser(username, address, arrayPhoneIdNew, password, firstname, lastname, role, email, hourlyRate);
                 request.setAttribute("errorMessage", "User Added");
                 //might have to change userserive to accpet role hmm cant do that might have to setRole
             }

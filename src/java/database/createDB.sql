@@ -232,7 +232,7 @@ BEGIN
             UPDATE item
                 SET quantity = quantity + p_quantity, category_id = v_category_id
                 WHERE p_item_name = item_name;
-       
+
             return 'updated';
     end if;
 
@@ -309,6 +309,39 @@ BEGIN
     DELETE FROM `item` 
         WHERE item_name = p_item_name;
     return 'deleted';
+END;
+$$
+
+CREATE PROCEDURE `clean_category_proc`()
+BEGIN
+    /* deleting unused category entries */
+    DELETE FROM category
+        WHERE category_id NOT IN
+        (SELECT category_id FROM item);
+END;
+$$
+
+CREATE TRIGGER insert_item_clean_trig
+    AFTER INSERT ON `item` 
+    FOR EACH ROW
+BEGIN
+    CALL clean_category_proc();
+END;
+$$
+
+CREATE TRIGGER update_item_clean_trig
+    AFTER UPDATE ON `item` 
+    FOR EACH ROW
+BEGIN
+    CALL clean_category_proc();
+END;
+$$
+
+CREATE TRIGGER delete_item_clean_trig
+    AFTER DELETE ON `item` 
+    FOR EACH ROW
+BEGIN
+    CALL clean_category_proc();
 END;
 $$
 
@@ -466,8 +499,6 @@ BEGIN
 END;
 $$
 
-/* **********************************************************************/
-
 CREATE FUNCTION `get_role_id_by_name`
     (p_role_name varchar(20))
     RETURNS int
@@ -534,6 +565,79 @@ BEGIN
 END;
 $$
 
+CREATE FUNCTION `delete_user_func`
+    (p_user_name varchar(50))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+  
+    DELETE FROM `user` 
+        WHERE user_name = p_user_name;
+    return 'deleted';
+END;
+$$
+
+CREATE PROCEDURE `clean_phone_proc`()
+BEGIN
+    /* deleting unused phone entries */
+    DELETE FROM phone
+        WHERE phone_id NOT IN
+        (SELECT phone_id FROM `user`);
+END;
+$$
+
+CREATE PROCEDURE `clean_phone_user_proc`()
+BEGIN
+    /* deleting unused phone_user entries */
+    DELETE FROM phone_user
+        WHERE phone_id NOT IN
+        (SELECT phone_id FROM `user`);
+END;
+$$
+
+CREATE PROCEDURE `clean_address_proc`()
+BEGIN
+    /* deleting unused address entries */
+    DELETE FROM address
+        WHERE address_id NOT IN
+        (SELECT address_id FROM `user`);
+END;
+$$
+
+CREATE TRIGGER insert_user_clean_trig
+    AFTER INSERT ON `user` 
+    FOR EACH ROW
+BEGIN
+    CALL clean_phone_proc();
+    CALL clean_phone_user_proc();
+    CALL clean_address_proc();
+END;
+$$
+
+CREATE TRIGGER update_user_clean_trig
+    AFTER UPDATE ON `user` 
+    FOR EACH ROW
+BEGIN
+    CALL clean_phone_proc();
+    CALL clean_phone_user_proc();
+    CALL clean_address_proc();
+END;
+$$
+
+CREATE TRIGGER delete_user_clean_trig
+    AFTER DELETE ON `user` 
+    FOR EACH ROW
+BEGIN
+    CALL clean_phone_proc();
+    CALL clean_phone_user_proc();
+    CALL clean_address_proc();
+END;
+$$
+
 delimiter ;
  
 /* adding USERS */
@@ -557,3 +661,6 @@ select insert_item_func ('Thick Master 2000', 5, 'Brushes', 'Great for making so
 select insert_item_func ('Hairy Harold', 5, 'Brushes', 'We dont use this on walls.');
 select insert_item_func ('Hairy Harold', 2, 'Brushes', 'We dont use this on walls, way too hairy.');
 select insert_item_func ('Devil Beater', 5, 'Brushes', 'Bob Ross favorite.');
+
+INSERT INTO `category` (`category_id`, `category_name`) VALUES ('3', 'Spoiled Milk');
+INSERT INTO `category` (`category_id`, `category_name`) VALUES ('10', 'Doesnt exist anymore');

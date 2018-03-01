@@ -27,13 +27,13 @@ public class ItemService {
         }
         Item item = new Item(itemName, intQuantity, category, description, note);
 
-        ItemBroker itemBroker = new ItemBroker();
+        ItemBroker itemBroker = ItemBroker.getInstance();
         return itemBroker.insert(item);
 
     }
 
     public Item viewItem(String itemName) {
-        ItemBroker itemBroker = new ItemBroker();
+        ItemBroker itemBroker = ItemBroker.getInstance();
 
         Item item = itemBroker.getByName(itemName);
 
@@ -41,14 +41,14 @@ public class ItemService {
     }
 
     public List<Item> searchItem(String keyword) {
-        ItemBroker itemBroker = new ItemBroker();
+        ItemBroker itemBroker = ItemBroker.getInstance();
 
         //this always return all items for now
         return itemBroker.getAll();
     }
     //edit 
     public String edit(String itemName, String quantity, String category, String description, String note) {
-        ItemBroker itemBroker = new ItemBroker();
+        ItemBroker itemBroker = ItemBroker.getInstance();
         Item item = itemBroker.getByName(itemName);
 
         int intQuantity = 0;
@@ -67,7 +67,7 @@ public class ItemService {
         return itemBroker.update(item);
     }
     public String delete(String itemName) {
-        ItemBroker itemBroker = new ItemBroker();
+        ItemBroker itemBroker = ItemBroker.getInstance();
         Item deletedItem = itemBroker.getByName(itemName);
         return itemBroker.delete(deletedItem);
     }
