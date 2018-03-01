@@ -1,39 +1,59 @@
 package domainmodel;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
-
+    
     private String username;
+    private int houseNumber;
+    private String street;
+    private String city;
+    private String province;
+    private String country;
+    private String postalCode;
+    List<Integer> phoneNumberList;
     private String password;
     private String firstName;
     private String lastName;
     private String role;
-
-    private ArrayList<Integer> phone;
-    private int address;
     private String email;
-
     private int hourlyRate;
     //private int hours;
 
-    public User(String username, int address, ArrayList<Integer> phone, String password, String firstName, String lastName, String role, String email, int hourlyRate) {
+    public User(String username, int houseNumber, String street, String city, String province, String country, String postalCode, List<Integer> phoneNumberList, String password, String firstname, String lastname, String role, String email, int hourlyRate) {
         this.username = username;
-        this.address = address;
-        this.phone = phone;
+        this.houseNumber = houseNumber;
+        this.street = street;
+        this.city = city;
+        this.province = province;
+        this.country = country;
+        this.postalCode = postalCode;
+        this.phoneNumberList = phoneNumberList;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = firstname;
+        this.lastName = lastname;
         this.role = role;
         this.email = email;
         this.hourlyRate = hourlyRate;
-        
     }
-
+    
     public User() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.username = "";
+        this.houseNumber = 0;
+        this.street = "";
+        this.city = "";
+        this.province = "";
+        this.country = "";
+        this.postalCode = "";
+        this.phoneNumberList = new ArrayList<>();
+        this.password = "";
+        this.firstName = "";
+        this.lastName = "";
+        this.role = "";
+        this.email = "";
+        this.hourlyRate = 0;
     }
 
     public String getUsername() {
@@ -42,6 +62,62 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(int houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public List<Integer> getPhoneNumberList() {
+        return phoneNumberList;
+    }
+
+    public void setPhoneNumberList(List<Integer> phoneNumberList) {
+        this.phoneNumberList = phoneNumberList;
     }
 
     public String getPassword() {
@@ -56,7 +132,7 @@ public class User implements Serializable {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstname(String firstName) {
         this.firstName = firstName;
     }
 
@@ -76,22 +152,6 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public ArrayList<Integer> getPhone() {
-        return phone;
-    }
-
-    public void setPhone(ArrayList<Integer> phone) {
-        this.phone = phone;
-    }
-
-    public int getAddress() {
-        return address;
-    }
-
-    public void setAddress(int address) {
-        this.address = address;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -107,13 +167,4 @@ public class User implements Serializable {
     public void setHourlyRate(int hourlyRate) {
         this.hourlyRate = hourlyRate;
     }
-
-//    public int getHours() {
-//        return hours;
-//    }
-//
-//    public void setHours(int hours) {
-//        this.hours = hours;
-//    }
-
 }
