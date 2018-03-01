@@ -5,6 +5,8 @@
  */
 package servlets;
 
+import businesslogic.UserService;
+import domainmodel.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -25,9 +27,12 @@ public class BackupServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("user");
+        User user1 = new User();
+        UserService ns1 = new UserService();
+        user1 = ns1.viewUser(user);
         //doesnt allow users with out an account to get to this page
         //need to add only owner can see
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute("user") == null || user1.getRole().equalsIgnoreCase("Manager") || user1.getRole().equalsIgnoreCase("Employee")) {
             response.sendRedirect("login");
 
             return;

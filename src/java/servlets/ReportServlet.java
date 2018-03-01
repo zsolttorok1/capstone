@@ -7,6 +7,8 @@ package servlets;
 
 import businesslogic.UserService;
 import domainmodel.User;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -45,13 +47,33 @@ public class ReportServlet extends HttpServlet {
         String action = request.getParameter("action");
         String selectedReportName = request.getParameter("selectedUsername");
         if (action.equals("view")) {
-            
-            
-            
+            //ReportService rs = new ReportService();
+            //Report report = new Report();
+            //report = rs.viewItem(selectedReportName);
+
+            // request.setAttribute("reportName", report.getReportName());
+            // request.setAttribute("description", report.getDescription());
+            // request.setAttribute("dateCreated", report.getDateCreated());
+            // String pdfPath= report.getPDFFilePath());
+            request.setAttribute("pdf", "");
+
+        } else if (action.equals("generate")) {
+          //request.setAttribute("reportName", report.getReportName());
+            // request.setAttribute("description", report.getDescription());
+            // request.setAttribute("dateCreated", report.getDateCreated());
+            // String pdfPath= report.getPDFFilePath());
+                File file = new File("res/reports");
+                PrintWriter out
+                        = new PrintWriter(
+                                new FileWriter(file));
+                
+                 
+                    out.println();
+                
+
+                out.close();
+           
+
         }
-        else if (action.equals("generate")) {
-            
-        
-        }
-}
+    }
 }
