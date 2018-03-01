@@ -18,8 +18,8 @@
         <div class="fixedmenu">
             <div class="fixedleft">
                 <img class="menuicon" src="res/lion.png" />
-                <a class="breadcrumb" href="item">Item</a><br>
-                <a class="breadcrumb" href="user">User</a>
+                <a class="breadcrumb" href="user">User</a><br>
+                <a class="breadcrumb" href="item">Item</a>
             </div>
             <div class="fixedright">
                 <form method="get" action="item">
@@ -28,24 +28,26 @@
                 <a class="logout" href="main">Logout</a>
             </div>
         </div>
-        <h1 class="bodyheaderc">ITEM</h1>
+        <h1 class="bodyheaderc">USER</h1>
         <p class="center">${errorMessage}</p>
         
         <div class="rowHeader">
-            <div class="rowitemHeader">Item Name</div>
-            <div class="rowitemHeader">Description</div>
-            <div class="rowitemHeader">Category</div>
-            <div class="rowitemHeader">Quantity</div>
+            <div class="rowitemHeader">Username</div>
+            <div class="rowitemHeader">Email</div>
+            <div class="rowitemHeader">Phone</div>
+            <div class="rowitemHeader">First Name</div>
+            <div class="rowitemHeader">Last Name</div>
         </div>
         <div class="addRow" id="addbutton">
             <img class="addPlus" src="res/plus.png" />
         </div>
-        <form method="post" action="item">
+        <form method="post" action="user">
             <div class="rowAdd" id="formcenter2">
-                <div class="rowitemAdd"><input class="addText" type="text" name="name" placeholder="Item Name" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="description" placeholder="Description" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="category" placeholder="Category" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="quantity" placeholder="Quantity" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="username" placeholder="Username" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="email" placeholder="Email" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="phone" placeholder="Phone" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="firstname" placeholder="First Name" /></div>
+                <div class="rowitemAdd"><input class="addText" type="text" name="lastname" placeholder="Last Name" /></div>
             </div>
             <div class="rowAddOptions" id="addbuttons">
                 <div class="rowAddButton">
@@ -59,13 +61,14 @@
             </div>
         </form>
         
-        <c:forEach var="item" items="${sessionScope.itemList}">
+        <c:forEach var="user" items="${sessionScope.userList}">
             <div class="rowWrapper">
                 <div class="row">
-                    <div class="rowitem" name="name">${item.itemName}</div>
-                    <div class="rowitem" name="description">${item.description}</div>
-                    <div class="rowitem" name="category">${item.category}</div>
-                    <div class="rowitem" name="quantity">${item.quantity}</div>
+                    <div class="rowitem" name="username">${user.username}</div>
+                    <div class="rowitem" name="email">${user.email}</div>
+                    <div class="rowitem" name="phone">${user.phone}</div>
+                    <div class="rowitem" name="firstname">${user.firstname}</div>
+                    <div class="rowitem" name="lastname">${user.lastname}</div>
                 </div>
                 <div class="listOptions">
                     <div class="listButton">

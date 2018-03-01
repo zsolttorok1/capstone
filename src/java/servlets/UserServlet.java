@@ -5,7 +5,9 @@
  */
 package servlets;
 
+import businesslogic.ItemService;
 import businesslogic.UserService;
+import domainmodel.Item;
 import domainmodel.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,15 +33,7 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action");
-        if (action != null && action.equals("logout")) {
-            HttpSession session = request.getSession();
-            session.invalidate();
-            request.setAttribute("errorMessage", "Logged out");
-        }
-
-        // getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-        // stop other execution of code
+        
     }
 
     /**
