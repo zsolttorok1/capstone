@@ -12,13 +12,44 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ItemBroker {
-
+    private static ItemBroker itemBroker;
+    private ConnectionPool pool;
+    private Connection connection;
+    
+    public static ItemBroker getInstance() {
+        if (itemBroker == null) {
+            itemBroker = new ItemBroker();
+        }
+        
+        return itemBroker;
+    }
+    
+    private ItemBroker() {
+    }
+    
+    private void getConnection() {
+        pool = ConnectionPool.getInstance();
+        connection = pool.getConnection();
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //returns "Item, null"
     public Item getByName(String itemName) {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        getConnection();
+        
         Item item = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM item WHERE item_name = ?");
+            connection.setAutoCommit(false);
+            
+            PreparedStatement pstmt = connection.prepareStatement(""
+                    + "SELECT i.item_name, i.quantity, c.category_name, i.description"
+                    + "     FROM item i" 
+                    + "     JOIN `category` c ON c.category_id = i.category_id"
+                    + "     WHERE i.item_name = ?;");
             pstmt.setString(1, itemName);
 
             ResultSet rs = pstmt.executeQuery();
@@ -26,32 +57,30 @@ public class ItemBroker {
             while (rs.next()) {
                 String itemName2 = rs.getString("ITEM_NAME");
                 int quantity = rs.getInt("QUANTITY");
-                String category = rs.getString("CATEGORY_ID");
+                String category = rs.getString("CATEGORY_NAME");
                 String description = rs.getString("DESCRIPTION");
 
                 item = new Item(itemName2, quantity, category, description, null);
             }
-            pool.freeConnection(connection);
-
         } catch (SQLException ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             pool.freeConnection(connection);
         }
         return item;
-
     }
 
+    //returns "List of items, empty List, null"
     public List<Item> getAll() {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        getConnection();
 
         List<Item> itemList = new ArrayList<>();
 
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT i.item_name, i.quantity, c.category_name, i.description "
-                    + "FROM `item` i "
-                    + "JOIN `category` c ON c.category_id = i.category_id;");
+            PreparedStatement pstmt = connection.prepareStatement(""
+                    + "SELECT i.item_name, i.quantity, c.category_name, i.description" 
+                    + "   FROM item i" 
+                    + "   JOIN `category` c ON c.category_id = i.category_id;");
 
             ResultSet rs = pstmt.executeQuery();
 
@@ -73,10 +102,11 @@ public class ItemBroker {
         return itemList;
     }
 
+    //returns "inserted, updated, error, exception"
     public String insert(Item item) {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        String result = null;
+        getConnection();
+        
+        String status = null;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("select insert_item_func(?, ?, ?, ?)");
@@ -87,63 +117,124 @@ public class ItemBroker {
 
             ResultSet rs = pstmt.executeQuery();
 
+            //get the status report from current database function
             while (rs.next()) {
-                result = rs.getString(1);
+                status = rs.getString(1);
             }
-            pool.freeConnection(connection);
-
-            connection.commit();
+            
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            //if all good, commit
+            else {
+                connection.commit();
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+                return "exception";
+            } catch (SQLException ex1) {
+                Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return "exception";
         } finally {
             pool.freeConnection(connection);
         }
 
-        return result;
+        return status;
     }
 
+    //returns "updated, error, exception"
     public String update(Item item) {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        getConnection();
+        
+        String status = null;
 
         try {
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE item SET "
-                    + "QUANTITY = ?, CATEGORY_ID = ?, DESCRIPTION = ? "
-                    + "WHERE ITEM_NAME =?");
-            pstmt.setInt(1, item.getQuantity());
-            pstmt.setString(2, item.getCategory());
-            pstmt.setString(3, item.getDescription());
-            pstmt.setString(4, item.getItemName());
+            PreparedStatement pstmt = connection.prepareStatement("select update_item_func(?, ?, ?, ?)");
+
+            pstmt.setString(1, item.getItemName());    
+            pstmt.setInt(2, item.getQuantity());
+            pstmt.setString(3, item.getCategory());
+            pstmt.setString(4, item.getDescription());
 
             ResultSet rs = pstmt.executeQuery();
-
+            
+            //get the status report from current database function
+            while (rs.next()) {
+                status = rs.getString(1);
+            }
+            
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            //if all good, commit
+            else {
+                connection.commit();
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex1);
+                return "exception";
+            }
+            return "exception";
         } finally {
             pool.freeConnection(connection);
         }
 
-        return "updated";
+        return status;
     }
 
+    //returns "deleted, error, exception"
     public String delete(Item item) {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        getConnection();
+        
+        String status = null;
 
         try {
-            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM item WHERE ITEM_NAME = ?");
+            PreparedStatement pstmt = connection.prepareStatement("select delete_item_func(?)");
             pstmt.setString(1, item.getItemName());
 
-            int rs = pstmt.executeUpdate();
+            ResultSet rs = pstmt.executeQuery();
+            
+             //get the status report from current database function
+            while (rs.next()) {
+                status = rs.getString(1);
+            }
+            
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            //if all good, commit
+            else {
+                connection.commit();
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex1);
+                return "exception";
+            }
+            return "exception";
         } finally {
             pool.freeConnection(connection);
         }
 
-        return "deleted";
+        return status;
     }
-
 }
