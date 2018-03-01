@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
  *
  * @author 742227
  */
-@WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet"})
 public class UserServlet extends HttpServlet {
 
     @Override
