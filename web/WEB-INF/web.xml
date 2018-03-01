@@ -6,7 +6,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>item</welcome-file>
+        <welcome-file>user</welcome-file>
     </welcome-file-list>
     
     <servlet>

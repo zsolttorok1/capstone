@@ -137,7 +137,7 @@ public class UserBroker {
                 //hourly = rs.getInt("HOURLY");
                 
                 //if userList isEmpty, or last user = current user
-                if (userList.isEmpty() || !((User)userList.get(userList.size()-1)).getFirstName().equals(userName)) {
+                if (userList.isEmpty() || !((User)userList.get(userList.size()-1)).getUserName().equals(userName)) {
                     List<Long> phoneNumberList = new ArrayList<>();
                     
                     user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
@@ -166,7 +166,7 @@ public class UserBroker {
         try {
             for (long phoneNumber : user.getPhoneNumberList()) {
                 PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                pstmt.setString(1, user.getUsername());
+                pstmt.setString(1, user.getUserName());
                 pstmt.setInt(2, user.getHouseNumber());
                 pstmt.setString(3, user.getStreet());
                 pstmt.setString(4, user.getCity());
@@ -234,7 +234,7 @@ public class UserBroker {
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("select delete_user_func(?)");
-            pstmt.setString(1, user.getUsername());
+            pstmt.setString(1, user.getUserName());
 
             ResultSet rs = pstmt.executeQuery();
             

@@ -55,9 +55,14 @@ public class UserService {
 
     public List<User> searchUser(String keyword) {
         UserBroker userBroker = UserBroker.getInstance();
-
+        
         //this always return all items for now
-        return userBroker.getAll();
+        List<User> userList = userBroker.getAll();
+                
+        return userList;
+        
+        
+        
     }
 
     public String update(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, ArrayList<String> phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
@@ -96,7 +101,7 @@ public class UserService {
             return "error";
         }
 
-        user.setUsername(userName);
+        user.setUserName(userName);
         user.setHouseNumber(intHouseNumber);
         user.setStreet(street);
         user.setCity(city);
