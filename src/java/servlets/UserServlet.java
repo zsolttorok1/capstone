@@ -101,7 +101,7 @@ public class UserServlet extends HttpServlet {
                 hourlyRate = 0;
                 hours = 0;
 
-                us.edit(username1, address1, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate);
+                us.edit(username1, address1, arrayPhoneId, password1, firstname1, lastname1, role1, email, hourlyRate);
                 //request.setAttribute("errorMessage", "User Edited");
                 //request.setAttribute("Change", "User Edited");
                 //UserService us = new UserService();
