@@ -46,6 +46,8 @@ public class ViewItemServlet extends HttpServlet {
         String action = request.getParameter("action");
         String selectedItemName = request.getParameter("selectedItemName");
         
+        String errorMessage = "";
+        
         if (action != null && action.equals("view")) {
             if (selectedItemName != null && !selectedItemName.equals("")) {
                 
@@ -71,9 +73,75 @@ public class ViewItemServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "didnt work");
             }
         }
+        else if (action != null && action.equals("save")) {
+                
+            
+            String itemName = request.getParameter("name");
+            String quantity = request.getParameter("quantityEdit");
+            String category = request.getParameter("categoryEdit");
+            String description = request.getParameter("descriptionEdit");
+            String note = null;
+            
+            if (itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty() && description != null && !description.isEmpty() && quantity.matches("\\d+")) {
+                ItemService itemService = new ItemService();
+                itemService.edit(itemName, quantity, category, description, note);
+                errorMessage = "Item Successfully Changed";
+                
+                Item item = new Item();
+                item = itemService.viewItem(itemName);
+                
+                request.setAttribute("itemName", item.getItemName());
+                request.setAttribute("description", item.getDescription());
+                request.setAttribute("category", item.getCategory());
+                request.setAttribute("quantity", item.getQuantity());
+                if (item.getNote() != null && !item.getNote().equals("")){
+                    request.setAttribute("notes", item.getNote());
+                }
+                else {
+                    request.setAttribute("notes", "No Additional Notes Available.");
+                }
+                
+                getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+                return;
+            } else {
+                request.setAttribute("errorMessage", "The following fields need to be entered: Item Name, quantity, category and description");
+                
+                ItemService itemService = new ItemService();
+                itemService.edit(itemName, quantity, category, description, note);
+                errorMessage = "Item Successfully Changed";
+                
+                Item item = new Item();
+                item = itemService.viewItem(selectedItemName);
+                
+                request.setAttribute("itemName", item.getItemName());
+                request.setAttribute("description", item.getDescription());
+                request.setAttribute("category", item.getCategory());
+                request.setAttribute("quantity", item.getQuantity());
+                if (item.getNote() != null && !item.getNote().equals("")){
+                    request.setAttribute("notes", item.getNote());
+                }
+                else {
+                    request.setAttribute("notes", "No Additional Notes Available.");
+                }
+                
+                getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+                return;
+            }
+        }
         else {
             request.setAttribute("errorMessage", "outside didnt work");
         }
+        
+        HttpSession session = request.getSession();
+        ItemService itemService = new ItemService();
+
+        //logic
+        String keyword = "anything";
+        List<Item> itemList = itemService.searchItem(keyword);
+
+        session.setAttribute("itemList", itemList);
+        request.setAttribute("errorMessage", errorMessage);
+        request.getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
     }
 
 }

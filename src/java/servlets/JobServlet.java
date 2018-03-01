@@ -49,7 +49,7 @@ public class JobServlet extends HttpServlet {
 
         String errorMessage = "";
 
-        //Adding an Item 
+        //Adding an Job
         if (action != null && action.equals("add")) {
             String jobName = request.getParameter("jobName");
             String addressId = request.getParameter("addressId");
