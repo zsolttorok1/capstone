@@ -7,6 +7,7 @@ package servlets;
 
 import businesslogic.ItemService;
 import businesslogic.UserService;
+import domainmodel.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,9 @@ public class UserServlet extends HttpServlet {
         }
         
         UserService userService = new UserService();
-        request.setAttribute("userList", userService.searchUser(""));
+        List<User> userList = userService.searchUser("");
+        
+        request.setAttribute("userList", userList);
 
         request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
         // getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);

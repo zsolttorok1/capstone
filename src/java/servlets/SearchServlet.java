@@ -123,7 +123,7 @@ public class SearchServlet extends HttpServlet {
                 hits.add(user1);
                 
                 //add jobs only the user is associated to
-                jobList= js.getByUser(user1.getUsername());
+                jobList= js.getByUser(user1.getUserName());
                 hits.add(jobList);
                 
                 request.setAttribute("search", hits);

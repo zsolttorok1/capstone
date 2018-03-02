@@ -61,29 +61,29 @@
             </div>
         </form>
         
-        <c:forEach var="user" items="${sessionScope.userList}">
+        <c:forEach var="user" items="${userList}">
             <div class="rowWrapper">
                 <div class="row">
-                    <div class="rowitem" name="username">${user.username}</div>
+                    <div class="rowitem" name="username">${user.userName}</div>
                     <div class="rowitem" name="email">${user.email}</div>
-                    <c:forEach var="phone" items="${sessionScope.phoneNumberList}">
+                    <c:forEach var="phone" items="${user.phoneNumberList}">
                         <div class="rowitem" name="phone">${phone}</div>
                     </c:forEach>
-                    <div class="rowitem" name="firstname">${user.firstname}</div>
-                    <div class="rowitem" name="lastname">${user.lastname}</div>
+                    <div class="rowitem" name="firstname">${user.firstName}</div>
+                    <div class="rowitem" name="lastname">${user.lastName}</div>
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
                         <form method="post" action="viewItem">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="hidden" name="selectedItemName" value="${user.userName}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
                         <form method="post" action="item">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="hidden" name="selectedItemName" value="${user.userName}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>

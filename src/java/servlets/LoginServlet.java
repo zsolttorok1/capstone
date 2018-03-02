@@ -76,11 +76,11 @@ public class LoginServlet extends HttpServlet {
                 //makes a user
         User user = new User();
 
-        user.setUsername(userName);
+        user.setUserName(userName);
         user.setPassword(passWord);
 
         //Checks if user object has a username and password and if null then
-        if (user.getUsername() == null || user.getUsername().isEmpty()
+        if (user.getUserName() == null || user.getUserName().isEmpty()
                 || user.getPassword() == null || user.getPassword().isEmpty()) {
             // set error message
             request.setAttribute("errorMessage", "Both values are required");
@@ -100,35 +100,35 @@ public class LoginServlet extends HttpServlet {
         
         try {
 
-            users = (User)us.viewUser(user.getUsername());
+            users = (User)us.viewUser(user.getUserName());
             pass = users.getPassword();
             role = users.getRole();
 
-            if (users.getUsername() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Owner")) {
+            if (users.getUserName() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Owner")) {
                 owner = true;
 
             }
-            if (users.getUsername() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Manager")) {
+            if (users.getUserName() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Manager")) {
                 manager = true;
             }
-            if (users.getUsername() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Employee")) {
+            if (users.getUserName() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Employee")) {
                 employee = true;
             }
             if (owner) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user", users.getUsername());
+                session.setAttribute("user", users.getUserName());
                 session.setAttribute("Object", users);
                 response.sendRedirect("job");
                 //getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
             } else if (manager) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user", users.getUsername());
+                session.setAttribute("user", users.getUserName());
                 session.setAttribute("Object", users);
                 response.sendRedirect("job");
                 //getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
             } else if (employee) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user", users.getUsername());
+                session.setAttribute("user", users.getUserName());
                 session.setAttribute("Object", users);
                 response.sendRedirect("job");
 
