@@ -1,11 +1,15 @@
-/*
+/*Reference https://www.youtube.com/watch?v=OTV61E9xBTc
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package servlets;
 
+import businesslogic.JobService;
+import businesslogic.ReportService;
 import businesslogic.UserService;
+import domainmodel.Job;
+import domainmodel.Report;
 import domainmodel.User;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,6 +21,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 
 /**
  *
@@ -47,22 +53,27 @@ public class ReportServlet extends HttpServlet {
         String action = request.getParameter("action");
         String selectedReportName = request.getParameter("selectedUsername");
         if (action.equals("view")) {
-            //ReportService rs = new ReportService();
-            //Report report = new Report();
-            //report = rs.viewItem(selectedReportName);
+            ReportService rs = new ReportService();
+            Report report = new Report();
+            //report = rs.getByName(selectedReportName);
 
             // request.setAttribute("reportName", report.getReportName());
             // request.setAttribute("description", report.getDescription());
             // request.setAttribute("dateCreated", report.getDateCreated());
-            // String pdfPath= report.getPDFFilePath());
             request.setAttribute("pdf", "");
 
         } else if (action.equals("generate")) {
-          //request.setAttribute("reportName", report.getReportName());
+
+            ReportService rs = new ReportService();
+            Report report = new Report();
             // request.setAttribute("description", report.getDescription());
             // request.setAttribute("dateCreated", report.getDateCreated());
             // String pdfPath= report.getPDFFilePath());
-                File file = new File("res/reports");
+
+            //make job object(by jobname)
+            JobService jobService = new JobService();
+            Job job = new Job();
+            /*                File file = new File("res/reports");
                 PrintWriter out
                         = new PrintWriter(
                                 new FileWriter(file));
@@ -73,7 +84,12 @@ public class ReportServlet extends HttpServlet {
 
                 out.close();
            
+             */
 
+            PDDocument doc = new PDDocument(); // create pdf doc
+            doc.addPage(new PDPage()); // adds page to pdf
+            doc.save("filename"); // saves repoprt filename
+            doc.close(); //close file
         }
     }
 }
