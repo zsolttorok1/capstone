@@ -1,4 +1,4 @@
-/*
+/*Reference https://www.youtube.com/watch?v=OTV61E9xBTc
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 
 /**
  *
@@ -58,22 +60,20 @@ public class ReportServlet extends HttpServlet {
             // request.setAttribute("reportName", report.getReportName());
             // request.setAttribute("description", report.getDescription());
             // request.setAttribute("dateCreated", report.getDateCreated());
-            
-            
             request.setAttribute("pdf", "");
 
         } else if (action.equals("generate")) {
-     
-           ReportService rs = new ReportService();
-           Report report = new Report();
+
+            ReportService rs = new ReportService();
+            Report report = new Report();
             // request.setAttribute("description", report.getDescription());
             // request.setAttribute("dateCreated", report.getDateCreated());
             // String pdfPath= report.getPDFFilePath());
-            
+
             //make job object(by jobname)
             JobService jobService = new JobService();
             Job job = new Job();
-                File file = new File("res/reports");
+            /*                File file = new File("res/reports");
                 PrintWriter out
                         = new PrintWriter(
                                 new FileWriter(file));
@@ -84,7 +84,12 @@ public class ReportServlet extends HttpServlet {
 
                 out.close();
            
+             */
 
+            PDDocument doc = new PDDocument(); // create pdf doc
+            doc.addPage(new PDPage()); // adds page to pdf
+            doc.save("filename"); // saves repoprt filename
+            doc.close(); //close file
         }
     }
 }
