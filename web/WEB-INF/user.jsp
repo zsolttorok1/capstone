@@ -66,9 +66,11 @@
                 <div class="row">
                     <div class="rowitem" name="username">${user.userName}</div>
                     <div class="rowitem" name="email">${user.email}</div>
-                    <c:forEach var="phone" items="${user.phoneNumberList}">
-                        <div class="rowitem" name="phone">${phone}</div>
-                    </c:forEach>
+                    <div class="rowitem" name="phone">
+                        <c:forEach var="phone" items="${user.phoneNumberList}">
+                            ${phone}
+                        </c:forEach>
+                    </div>
                     <div class="rowitem" name="firstname">${user.firstName}</div>
                     <div class="rowitem" name="lastname">${user.lastName}</div>
                 </div>
