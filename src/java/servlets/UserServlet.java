@@ -59,7 +59,7 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         UserService us = new UserService();
         
-        Map<String, String[]> parameters = request.getParameterMap();
+//        Map<String, String[]> parameters = request.getParameterMap();
         
         String action = request.getParameter("action");
         
