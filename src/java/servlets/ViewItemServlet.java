@@ -67,6 +67,7 @@ public class ViewItemServlet extends HttpServlet {
                 }
                 
                 request.getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+                return;
             }
             
             else {

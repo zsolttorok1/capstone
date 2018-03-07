@@ -246,18 +246,25 @@ $$
 CREATE FUNCTION `update_item_func`
     (p_item_name varchar(100),
     p_quantity int(5),
-    p_categoty varchar(30),
+    p_category_name varchar(30),
     p_description varchar(2000))
     RETURNS varchar(20)
 NOT DETERMINISTIC
 BEGIN
+    DECLARE v_category_id int;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
         BEGIN
             return 'error';
         END;
   
+/* get category_id from category_name */
+    set v_category_id = get_category_id_by_name(p_category_name);
+    if (v_category_id = -1) then
+        return 'error';
+    end if;
+
     UPDATE item
-        SET quantity = p_quantity, category = p_categoty, description = p_description
+        SET quantity = p_quantity, category_id = v_category_id, description = p_description
         WHERE p_item_name = item_name;
     return 'updated';
 END;
