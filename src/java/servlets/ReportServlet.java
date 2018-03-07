@@ -1,4 +1,5 @@
 /*Reference https://www.youtube.com/watch?v=OTV61E9xBTc
+ *Reference https://pdfbox.apache.org/docs/2.0.8/javadocs/org/apache/pdfbox/pdmodel/PDPageContentStream.html
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -43,11 +44,14 @@ public class ReportServlet extends HttpServlet {
         user1 = ns1.viewUser(user);
         //doesnt allow users with out an account to get to this page
         //need to add only owner can see
-        if (session.getAttribute("user") == null || user1.getRole().equalsIgnoreCase("Manager") || user1.getRole().equalsIgnoreCase("Employee")) {
-            response.sendRedirect("login");
-
-            return;
-        }
+//        if (session.getAttribute("user") == null || user1.getRole().equalsIgnoreCase("Manager") || user1.getRole().equalsIgnoreCase("Employee")) {
+//            response.sendRedirect("login");
+//
+//            return;
+//        }
+        
+        request.getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
+        return;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -74,35 +78,49 @@ public class ReportServlet extends HttpServlet {
             // String pdfPath= report.getPDFFilePath());
 
             //make job object(by jobname)
-            JobService jobService = new JobService();
+            String selectedJobName = request.getParameter("JobName");
+            String pdfName = request.getParameter("pdfName");
+            
             Job job = new Job();
-            /*                File file = new File("res/reports");
-                PrintWriter out
-                        = new PrintWriter(
-                                new FileWriter(file));
-                
-                 
-                    out.println();
-                
-
-                out.close();
+            job.setJobName(selectedJobName);
            
-             */
-
             PDDocument doc = new PDDocument(); // create pdf doc
             PDPage page1 = new PDPage();
             doc.addPage(page1); // adds page to pdf
             PDPageContentStream content = new PDPageContentStream(doc, page1);
             
             content.beginText();
-            content.showText(job.getCustomerName());
+            content.showText("Job Name: "+ job.getJobName());
+            content.showText("Customer Name: "+job.getCustomerName());
+            content.showText("--------------------------------------------------------");
+            content.showText("Date Started: "+job.getDateStarted()+"");
+            content.showText("Date Finished: "+job.getDateFinished()+"");
+            content.newLine();
+            content.showText("Job Descriotion: "+job.getDescription());
+            content.newLine();
+            //content.showText(items?);
             content.setFont(PDType1Font.HELVETICA , 27);
             content.moveTo(260, 750);
             
-            //content.drawIamge();
+            //close text
             content.endText();
-            doc.save("filename"); // saves repoprt filename
+            
+            content.beginText();
+            content.showText("Job Balance: "+ job.getBalance());
+            content.showText("Job Status: "+ job.getStatus());
+            content.setFont(PDType1Font.HELVETICA , 27);
+            content.moveTo(400, 750);
+            //close text
+            content.endText();
+            
+            doc.save("filename.pdf"); // saves repoprt filename
             doc.close(); //close file
+            
+            System.out.println("your file created in : " + System.getProperty("user.dir"));
         }
+        
+        request.setAttribute("errorMessage", "test report generated");
+        request.getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
     }
+
 }

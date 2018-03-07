@@ -45,4 +45,13 @@
         <url-pattern>/viewItem</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>ReportServlet</servlet-name>
+        <servlet-class>servlets.ReportServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportServlet</servlet-name>
+        <url-pattern>/report</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
