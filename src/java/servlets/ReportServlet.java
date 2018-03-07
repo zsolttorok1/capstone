@@ -44,11 +44,14 @@ public class ReportServlet extends HttpServlet {
         user1 = ns1.viewUser(user);
         //doesnt allow users with out an account to get to this page
         //need to add only owner can see
-        if (session.getAttribute("user") == null || user1.getRole().equalsIgnoreCase("Manager") || user1.getRole().equalsIgnoreCase("Employee")) {
-            response.sendRedirect("login");
-
-            return;
-        }
+//        if (session.getAttribute("user") == null || user1.getRole().equalsIgnoreCase("Manager") || user1.getRole().equalsIgnoreCase("Employee")) {
+//            response.sendRedirect("login");
+//
+//            return;
+//        }
+        
+        request.getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
+        return;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -113,5 +116,9 @@ public class ReportServlet extends HttpServlet {
             doc.save("filename.pdf"); // saves repoprt filename
             doc.close(); //close file
         }
+        
+        request.setAttribute("errorMessage", "test report generated");
+        request.getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
     }
+
 }
