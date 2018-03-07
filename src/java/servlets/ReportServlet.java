@@ -112,6 +112,8 @@ public class ReportServlet extends HttpServlet {
             
             doc.save("filename.pdf"); // saves repoprt filename
             doc.close(); //close file
+            
+            System.out.println("your file created in : " + System.getProperty("user.dir"));
         }
     }
 }
