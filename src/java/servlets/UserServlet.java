@@ -60,6 +60,7 @@ public class UserServlet extends HttpServlet {
         UserService us = new UserService();
         
         Map<String, String[]> parameters = request.getParameterMap();
+        String errorMessage = "";
         
         String action = request.getParameter("action");
         
@@ -87,8 +88,8 @@ public class UserServlet extends HttpServlet {
         try {
 
             if (action.equals("delete")) {
-                us.delete(username);
-                //request.setAttribute("errorMessage", "User Deleted");
+                us.delete(selectedUserName);
+                errorMessage = "You deleted an item.";
                 //HttpSession session = request.getSession();
                 //session.invalidate();
             } else if (action.equals("edit")) {
@@ -131,8 +132,20 @@ public class UserServlet extends HttpServlet {
         } catch (Exception ex) {
             request.setAttribute("errorMessage", "Whoops.  Could not perform that action.");
         }
-        getServletContext().getRequestDispatcher("/WEB-INF/main.jsp").forward(request, response);
-        return;
+        
+        
+        
+        HttpSession session = request.getSession();
+        ItemService itemService = new ItemService();
+
+        //logic
+        String keyword = "anything";
+        UserService userService = new UserService();
+        List<User> userList = userService.searchUser("");
+
+        session.setAttribute("userList", userList);
+        request.setAttribute("errorMessage", errorMessage);
+        request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
 
     }
 }

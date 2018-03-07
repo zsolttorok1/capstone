@@ -582,7 +582,7 @@ BEGIN
             return 'error';
         END;
   
-    DELETE FROM `user` 
+    DELETE FROM `USER`
         WHERE user_name = p_user_name;
     return 'deleted';
 END;
