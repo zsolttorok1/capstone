@@ -23,6 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
 
 /**
  *
@@ -87,7 +90,17 @@ public class ReportServlet extends HttpServlet {
              */
 
             PDDocument doc = new PDDocument(); // create pdf doc
-            doc.addPage(new PDPage()); // adds page to pdf
+            PDPage page1 = new PDPage();
+            doc.addPage(page1); // adds page to pdf
+            PDPageContentStream content = new PDPageContentStream(doc, page1);
+            
+            content.beginText();
+            content.showText(job.getCustomerName());
+            content.setFont(PDType1Font.HELVETICA , 27);
+            content.moveTo(260, 750);
+            
+            //content.drawIamge();
+            content.endText();
             doc.save("filename"); // saves repoprt filename
             doc.close(); //close file
         }
