@@ -78,14 +78,14 @@
                     <div class="listButton">
                         <form method="post" action="viewItem">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="selectedItemName" value="${user.userName}">
+                            <input type="hidden" name="selectedUsername" value="${user.userName}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
-                        <form method="post" action="item">
+                        <form method="post" action="user">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="selectedItemName" value="${user.userName}">
+                            <input type="hidden" name="selectedUsername" value="${user.userName}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>

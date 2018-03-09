@@ -26,7 +26,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
+
 
 /**
  *
@@ -79,10 +79,10 @@ public class ReportServlet extends HttpServlet {
 
             //make job object(by jobname)
             String selectedJobName = request.getParameter("JobName");
-            String pdfName = request.getParameter("pdfName");
+            //String pdfName = request.getParameter("pdfName");
             
             Job job = new Job();
-            job.setJobName(selectedJobName);
+            //job.setJobName(selectedJobName);
            
             PDDocument doc = new PDDocument(); // create pdf doc
             PDPage page1 = new PDPage();
@@ -90,32 +90,37 @@ public class ReportServlet extends HttpServlet {
             PDPageContentStream content = new PDPageContentStream(doc, page1);
             
             content.beginText();
-            content.showText("Job Name: "+ job.getJobName());
-            content.showText("Customer Name: "+job.getCustomerName());
+            content.setFont(PDType1Font.HELVETICA , 27);
+            //content.moveTo(260, 750); having problems
+            //content.showText("Job Name: "+ job.getJobName());
+            //content.showText("Customer Name: "+job.getCustomerName());
             content.showText("--------------------------------------------------------");
-            content.showText("Date Started: "+job.getDateStarted()+"");
-            content.showText("Date Finished: "+job.getDateFinished()+"");
+            //content.showText("Date Started: "+job.getDateStarted()+"");
+            //content.showText("Date Finished: "+job.getDateFinished()+"");
             content.newLine();
-            content.showText("Job Descriotion: "+job.getDescription());
+            content.showText("sample!!!!!!");
+            //content.showText("Job Descriotion: "+job.getDescription());
             content.newLine();
             //content.showText(items?);
-            content.setFont(PDType1Font.HELVETICA , 27);
-            content.moveTo(260, 750);
+            
+            
             
             //close text
             content.endText();
             
             content.beginText();
-            content.showText("Job Balance: "+ job.getBalance());
-            content.showText("Job Status: "+ job.getStatus());
             content.setFont(PDType1Font.HELVETICA , 27);
-            content.moveTo(400, 750);
+            content.showText("sample!!!!!!");
+           // content.showText("Job Balance: "+ job.getBalance());
+            //content.showText("Job Status: "+ job.getStatus());
+            
+            //content.moveTo(400, 750); having problems
             //close text
             content.endText();
+            content.close();
+            doc.save("c:/temp/report.pdf"); // saves repoprt filename
             
-            doc.save("filename.pdf"); // saves repoprt filename
             doc.close(); //close file
-            
             System.out.println("your file created in : " + System.getProperty("user.dir"));
         }
         
