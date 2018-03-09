@@ -8,7 +8,6 @@
     <welcome-file-list>
         <welcome-file>user</welcome-file>
     </welcome-file-list>
-    
     <servlet>
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>servlets.MainServlet</servlet-class>
@@ -17,7 +16,6 @@
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/main</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>ItemServlet</servlet-name>
         <servlet-class>servlets.ItemServlet</servlet-class>
@@ -26,7 +24,6 @@
         <servlet-name>ItemServlet</servlet-name>
         <url-pattern>/item</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>servlets.UserServlet</servlet-class>
@@ -35,7 +32,6 @@
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/user</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>ViewItemServlet</servlet-name>
         <servlet-class>servlets.ViewItemServlet</servlet-class>
@@ -44,7 +40,14 @@
         <servlet-name>ViewItemServlet</servlet-name>
         <url-pattern>/viewItem</url-pattern>
     </servlet-mapping>
-    
+    <servlet>
+        <servlet-name>ViewUserServlet</servlet-name>
+        <servlet-class>servlets.ViewUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewUserServlet</servlet-name>
+        <url-pattern>/viewUser</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ReportServlet</servlet-name>
         <servlet-class>servlets.ReportServlet</servlet-class>

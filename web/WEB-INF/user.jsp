@@ -76,7 +76,7 @@
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
-                        <form method="post" action="viewItem">
+                        <form method="post" action="viewUser">
                             <input type="hidden" name="action" value="view">
                             <input type="hidden" name="selectedUsername" value="${user.userName}">
                             <input type="submit" value="View">
