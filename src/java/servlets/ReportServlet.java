@@ -81,7 +81,7 @@ public class ReportServlet extends HttpServlet {
             String selectedJobName = request.getParameter("JobName");
             //String pdfName = request.getParameter("pdfName");
             
-           // Job job = new Job();
+            Job job = new Job();
             //job.setJobName(selectedJobName);
            
             PDDocument doc = new PDDocument(); // create pdf doc
@@ -92,7 +92,7 @@ public class ReportServlet extends HttpServlet {
             content.beginText();
             content.setFont(PDType1Font.HELVETICA , 27);
             //content.moveTo(260, 750); having problems
-           // content.showText("Job Name: "+ job.getJobName());
+            //content.showText("Job Name: "+ job.getJobName());
             //content.showText("Customer Name: "+job.getCustomerName());
             content.showText("--------------------------------------------------------");
             //content.showText("Date Started: "+job.getDateStarted()+"");
