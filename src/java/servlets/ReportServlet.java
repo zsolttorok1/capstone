@@ -1,5 +1,6 @@
 /*Reference https://www.youtube.com/watch?v=OTV61E9xBTc
  *Reference https://pdfbox.apache.org/docs/2.0.8/javadocs/org/apache/pdfbox/pdmodel/PDPageContentStream.html
+ *Reference https://www.tutorialspoint.com/pdfbox/pdfbox_quick_guide.htm
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -91,10 +92,12 @@ public class ReportServlet extends HttpServlet {
             
             content.beginText();
             content.setFont(PDType1Font.HELVETICA , 27);
-            //content.moveTo(260, 750); having problems
+             //having problems
             //content.showText("Job Name: "+ job.getJobName());
             //content.showText("Customer Name: "+job.getCustomerName());
+            content.newLineAtOffset(25, 700);
             content.showText("--------------------------------------------------------");
+            content.newLineAtOffset(0, 600);
             //content.showText("Date Started: "+job.getDateStarted()+"");
             //content.showText("Date Finished: "+job.getDateFinished()+"");
             content.newLine();
@@ -103,21 +106,27 @@ public class ReportServlet extends HttpServlet {
             content.newLine();
             //content.showText(items?);
             
-            
-            
             //close text
             content.endText();
             
+            
+            //content.lineTo(0, 0);
+            
+            
             content.beginText();
+            
             content.setFont(PDType1Font.HELVETICA , 27);
             content.showText("sample!!!!!!");
            // content.showText("Job Balance: "+ job.getBalance());
             //content.showText("Job Status: "+ job.getStatus());
             
-            //content.moveTo(400, 750); having problems
+         
             //close text
+            
             content.endText();
             content.close();
+           // content.moveTo(-260, 750);
+            
             doc.save("c:/temp/report.pdf"); // saves repoprt filename
             
             doc.close(); //close file
