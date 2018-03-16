@@ -23,7 +23,7 @@ CREATE TABLE `item` (
     `category_id` int NOT NULL,
     `description` varchar(2000) NOT NULL,
     PRIMARY KEY (`item_name`),
-    CONSTRAINT `FK_User_Category_id` FOREIGN KEY (`category_id`) references `category`(`category_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_User_Category_id` FOREIGN KEY (`category_id`) references `category`(`category_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /* Table structure for table `user` */
@@ -81,24 +81,19 @@ CREATE TABLE `user` (
     `email` varchar(100) NOT NULL,
     `hourly_rate` decimal(10,2) NOT NULL,
     PRIMARY KEY (`user_name`),
-    CONSTRAINT `FK_User_Address_id`  FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_User_Role_id`  FOREIGN KEY (`role_id`) references `role`(`role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_User_Address_id`  FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_User_Role_id`  FOREIGN KEY (`role_id`) references `role`(`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- CONSTRAINT `FK_User_Address_id`  FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+--     CONSTRAINT `FK_User_Role_id`  FOREIGN KEY (`role_id`) references `role`(`role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 
 CREATE TABLE `phone_user` (
     `user_name` varchar(50) NOT NULL,
     `phone_id` int NOT NULL,
     PRIMARY KEY (`user_name`, `phone_id`),
-    CONSTRAINT `FK_PU_user_name`  FOREIGN KEY (`user_name`) references `user`(`user_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_PU_phone_id` FOREIGN KEY (`phone_id`) references `phone`(`phone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-);
-
-CREATE TABLE `phone_customer` (
-    `customer_name` varchar(50) NOT NULL,
-    `phone_id` int NOT NULL,
-    PRIMARY KEY (`customer_name`, `phone_id`),
-    CONSTRAINT `FK_PU_customer_name`  FOREIGN KEY (`customer_name`) references `customer`(`customer_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_PC_phone_id` FOREIGN KEY (`customer_id`) references `phone`(`phone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_PU_user_name`  FOREIGN KEY (`user_name`) references `user`(`user_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_PU_phone_id` FOREIGN KEY (`phone_id`) references `phone`(`phone_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /*Table structure for table `customer` */
@@ -116,11 +111,19 @@ CREATE TABLE `customer` (
     `notes` varchar (2000) NULL,
     PRIMARY KEY (`customer_name`),
     --CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Customer_Phone_id` FOREIGN KEY (`phone_id`) references `phone`(`phone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Customer_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`)  ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_Customer_Phone_id` FOREIGN KEY (`phone_id`) references `phone`(`phone_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_Customer_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-/*Table structure for table `customer` */
+CREATE TABLE `phone_customer` (
+    `customer_name` varchar(50) NOT NULL,
+    `phone_id` int NOT NULL,
+    PRIMARY KEY (`customer_name`, `phone_id`),
+    CONSTRAINT `FK_PC_customer_name`  FOREIGN KEY (`customer_name`) references `customer`(`customer_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_PC_phone_id` FOREIGN KEY (`phone_id`) references `phone`(`phone_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/*Table structure for table `job` */
 
 DROP TABLE IF EXISTS `job`;
 

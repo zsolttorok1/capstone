@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,7 +40,7 @@
                     <p class="contentBody">${firstname} ${lastname}</p>
                     
                     <p class="contentHeader">Address</p>
-                    <p class="contentBody">${address_id}</p>
+                    <p class="contentBody">${houseNo} ${address}</p>
                     
                     <p class="contentHeader">Phone Number(s)</p>
                     <p class="contentBody">
