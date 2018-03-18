@@ -92,45 +92,69 @@ public class ReportServlet extends HttpServlet {
             
             content.beginText();
             content.setFont(PDType1Font.HELVETICA , 27);
-             //having problems
-            //content.showText("Job Name: "+ job.getJobName());
-            //content.showText("Customer Name: "+job.getCustomerName());
-            content.newLineAtOffset(25, 700);
-            content.setLineJoinStyle(1);
-            content.showText("--------------------------------------------------------");
-            content.newLineAtOffset(0, 600);
-            //content.showText("Date Started: "+job.getDateStarted()+"");
-            //content.showText("Date Finished: "+job.getDateFinished()+"");
-            content.newLine();
-            content.showText("Job Description");
-            //content.showText("Job Descriotion: "+job.getDescription());
-            content.newLine();
-            //content.showText(items?);
+            //moves rge next line displayed to this spot
+            content.newLineAtOffset(25, 740);
             
+            //displays this line to screen
+            content.showText("Job Name");
+            //content.showText("Job Name: "+ job.getJobName());
             //close text
             content.endText();
             
             
-            //makeline
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA , 27);
+            content.newLineAtOffset(25, 710);
+            content.showText("Customer Name");
+            //content.showText("Customer Name: "+job.getCustomerName());
+            content.endText();
+            
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA , 20);
+            content.newLineAtOffset(25, 660);
+            content.showText("Date Started");
+            //content.showText("Date Started: "+job.getDateStarted()+"");
+            content.endText();
+            
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA , 20);
+            content.newLineAtOffset(25, 630);
+            content.showText("Date Finished");
+            //content.showText("Date Finished: "+job.getDateFinished()+"");
+            content.endText();
+            
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA , 20);
+            content.newLineAtOffset(25, 510);
+            content.showText("Job Description:");
+            //content.showText("Job Descriotion: "+job.getDescription());
+            content.endText();
+            
+            //make a soild line
             content.setLineWidth(0.5f);
-            content.moveTo(40f, 30f);
-            content.lineTo(570f, 30f);
+            content.moveTo(25, 700);
+            content.lineTo(570f, 700f);
             content.closeAndStroke();
             
-           
+            //Begin new text
             content.beginText();
-            
-            content.setFont(PDType1Font.HELVETICA , 27);
-            content.showText("sample!!!!!!");
-           // content.showText("Job Balance: "+ job.getBalance());
+            content.setFont(PDType1Font.HELVETICA , 20);
+            content.newLineAtOffset(400, 660);
+            content.showText("Job Status!!!!!!");
             //content.showText("Job Status: "+ job.getStatus());
             
-         
-            //close text
-            
             content.endText();
+            
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA , 20);
+            content.newLineAtOffset(400, 630);
+            content.showText("Job Balance!!!!!!");
+            //content.showText("Job Balance: "+ job.getBalance());
+            content.endText();
+            
+            //close conetent Stream
             content.close();
-           // content.moveTo(-260, 750);
+           
             
             doc.save("c:/temp/report.pdf"); // saves repoprt filename
             
