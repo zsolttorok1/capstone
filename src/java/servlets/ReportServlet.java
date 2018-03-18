@@ -96,12 +96,13 @@ public class ReportServlet extends HttpServlet {
             //content.showText("Job Name: "+ job.getJobName());
             //content.showText("Customer Name: "+job.getCustomerName());
             content.newLineAtOffset(25, 700);
+            content.setLineJoinStyle(1);
             content.showText("--------------------------------------------------------");
             content.newLineAtOffset(0, 600);
             //content.showText("Date Started: "+job.getDateStarted()+"");
             //content.showText("Date Finished: "+job.getDateFinished()+"");
             content.newLine();
-            content.showText("sample!!!!!!");
+            content.showText("Job Description");
             //content.showText("Job Descriotion: "+job.getDescription());
             content.newLine();
             //content.showText(items?);
@@ -110,9 +111,13 @@ public class ReportServlet extends HttpServlet {
             content.endText();
             
             
-            //content.lineTo(0, 0);
+            //makeline
+            content.setLineWidth(0.5f);
+            content.moveTo(40f, 30f);
+            content.lineTo(570f, 30f);
+            content.closeAndStroke();
             
-            
+           
             content.beginText();
             
             content.setFont(PDType1Font.HELVETICA , 27);
