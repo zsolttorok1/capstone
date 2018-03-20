@@ -4,43 +4,35 @@
  * and open the template in the editor.
  */
 
+//Add Form Modal
+var modal = document.getElementById('myModal');
+var btn = document.getElementById("myBtn");
 
-var form = document.getElementById('formcenter2');
-var addbuttons = document.getElementById('addbuttons');
+//Object Buttons
 var listbuttons = document.getElementById('listbuttons');
-//document.getElementById("listbutton").addEventListener("click", displayDate(this));
 var cancel = document.getElementById('cancel');
-var btn = document.getElementById("addbutton");
 var itembtn = document.getElementById("listbutton");
 
+//TO DO Edit Button in View Pages
 var editbtn = document.getElementById("editIcon");
 var editInputs = document.getElementsByClassName("contentBodyInput");
 
 
+//dont remove these comments please 
 
-if (btn !== null) {
-    // When the user clicks the button, open the form 
-    btn.onclick = function() {
-        form.style.display = "flex";
-        addbuttons.style.display = "flex";
-        btn.style.display = "none";
-    };
+//Add Modal Form
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
 }
-   /* 
-if (editbtn !== null) {
-    editbtn.onclick = function() {
-        for (var i = 0; i<editInputs.length; i++) {
-            editInputs[i].style.display = "block";
-        }
-    };
+//close on anywhere click
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
-*/
-/**
-itembtn.onclick = function() {
-    listbuttons.style.display = "none";
-    listbuttons.style.display = "flex";
-};
-*/
+
+//Object highlight
 if (cancel !== null) {
     cancel.onclick = function() {
         form.style.display = "none";
