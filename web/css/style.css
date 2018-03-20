@@ -147,7 +147,7 @@ p.bodytext {
     display: flex;
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
-    border: 3px outset;
+    border-bottom: 0.5px solid darkgray;
     background-color: white;
     pointer-events: none;
     overflow: hidden;
@@ -161,7 +161,7 @@ p.bodytext {
     display: flex;
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
-    border: 3px outset;
+    border-bottom: 0.5px solid darkgray;
     box-sizing: border-box;
     background-color: white;
     
@@ -239,6 +239,7 @@ p.bodytext {
     background-color: rgba(211, 211, 211, 1);
     margin:0 auto;
     position: relative;
+    background-color: #36454f;
 }
 
 .fixedleft {
@@ -256,6 +257,7 @@ p.bodytext {
     line-height: 50px;
     display: inline;
     position: absolute;
+    color: white;
 }
 
 .fixedright {
@@ -268,7 +270,7 @@ p.bodytext {
 }
 
 .logout {
-    
+    color: white;
 }
 
 
@@ -317,8 +319,13 @@ p.bodytext {
     width: 750px; 
     margin: 0px auto;
     background-color: white;
-    border-bottom: 4px solid gray;
-    border-right: 4px solid gray;
+    border-bottom: 3px solid gray;
+    border-right: 3px solid gray;
+    border-left: 3px solid gray;
+    box-sizing: border-box;
+    padding-bottom: 2px;
+    padding-left: 2px;
+
 }
 
 .editIcon {

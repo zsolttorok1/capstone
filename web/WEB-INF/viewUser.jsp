@@ -44,7 +44,7 @@
                     
                     <p class="contentHeader">Phone Number(s)</p>
                     <p class="contentBody">
-                        <c:forEach var="phone" items="${user.phoneNumberList}">
+                        <c:forEach var="phone" items="${phoneNumberList}">
                             ${phone}<br>
                         </c:forEach>
                     </p>
