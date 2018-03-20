@@ -37,27 +37,22 @@
             <div class="rowitemHeader">Category</div>
             <div class="rowitemHeader">Quantity</div>
         </div>
-        <div class="addRow" id="addbutton">
+        <div class="addRow" id="myBtn">
             <img class="addPlus" src="res/plus.png" />
         </div>
-        <form method="post" action="item">
-            <div class="rowAdd" id="formcenter2">
-                <div class="rowitemAdd"><input class="addText" type="text" name="name" placeholder="Item Name" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="description" placeholder="Description" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="category" placeholder="Category" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="quantity" placeholder="Quantity" /></div>
-            </div>
-            <div class="rowAddOptions" id="addbuttons">
-                <div class="rowAddButton">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <form method="post" action="item">
+                    <h1>New Item</h1>
+                    Item Name: <input type="text" name="name" placeholder="Item Name" /><br>
+                    Description: <input type="text" name="description" placeholder="Description" /><br>
+                    Category: <input type="text" name="category" placeholder="Category" /><br>
+                    Quantity: <input type="number" name="quantity" placeholder="Quantity" /><br>
                     <input type="hidden" name="action" value="add">
                     <input type="submit" value="Save">
-                </div>
-                <div class="rowAddButton">
-                    <input type="hidden" name="action" value="cancel">
-                    <input type="button" value="Cancel" id="cancel">
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
         
         <c:forEach var="item" items="${sessionScope.itemList}">
             <div class="rowWrapper">
