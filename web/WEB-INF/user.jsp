@@ -1,7 +1,7 @@
 <%--
     Document   : InventoryServlet
     Created on : Feb 6, 2018, 1:10:21 PM
-    Author     : 725899
+    Author     : 685442
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -20,6 +20,7 @@
                 <img class="menuicon" src="res/lion.png" />
                 <a class="breadcrumb" href="user">User</a><br>
                 <a class="breadcrumb" href="item">Item</a>
+                <a class="breadcrumb" href="customer">Customer</a>
             </div>
             <div class="fixedright">
                 <form method="get" action="item">
@@ -37,30 +38,28 @@
             <div class="rowitemHeader">Phone</div>
             <div class="rowitemHeader">First Name</div>
             <div class="rowitemHeader">Last Name</div>
+            
         </div>
-        <div class="addRow" id="addbutton">
+        <div class="addRow" id="myBtn">
             <img class="addPlus" src="res/plus.png" />
         </div>
-        <form method="post" action="user">
-            <div class="rowAdd" id="formcenter2">
-                <div class="rowitemAdd"><input class="addText" type="text" name="username" placeholder="Username" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="email" placeholder="Email" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="phone" placeholder="Phone" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="firstname" placeholder="First Name" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="lastname" placeholder="Last Name" /></div>
-            </div>
-            <div class="rowAddOptions" id="addbuttons">
-                <div class="rowAddButton">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <form method="post" action="user">
+                    <h1>New User</h1>
+                    Username: <input type="text" name="username" placeholder="Username" /><br>
+                    First Name: <input type="text" name="firstname" placeholder="First Name" /><br>
+                    Last Name: <input type="text" name="lastname" placeholder="Last Name" /><br>
+                    Email: <input type="text" name="email" placeholder="Email" /><br>
+                    Phone: <input type="text" name="phone" placeholder="Phone" /><br>
+                    Address: <input type="text" name="address" placeholder="Address" /><br>
+                    Role: <input type="text" name="role" placeholder="Role" /><br>
+                    Pay Rate: <input type="text" name="hourly_rate" placeholder="Pay Rate" /><br>
                     <input type="hidden" name="action" value="add">
                     <input type="submit" value="Save">
-                </div>
-                <div class="rowAddButton">
-                    <input type="hidden" name="action" value="cancel">
-                    <input type="button" value="Cancel" id="cancel">
-                </div>
+                </form>
             </div>
-        </form>
-        
+        </div>
         <c:forEach var="user" items="${userList}">
             <div class="rowWrapper">
                 <div class="row">

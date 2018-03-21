@@ -7,11 +7,15 @@ package servlets;
 
 import businesslogic.CustomerService;
 import businesslogic.JobService;
+import businesslogic.UserService;
+import domainmodel.Customer;
+import domainmodel.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,14 +36,19 @@ public class CustomerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String user = (String) session.getAttribute("user");
-        //doesnt allow users with out an account to get to this page
-        if (session.getAttribute("user") == null) {
-            response.sendRedirect("login");
-
-            return;
+        String action = request.getParameter("action");
+        if (action != null && action.equals("logout")) {
+            HttpSession session = request.getSession();
+            session.invalidate();
+            request.setAttribute("errorMessage", "Logged out");
         }
+        
+        CustomerService customerService = new CustomerService();
+        List<Customer> customerList = customerService.searchCustomer("");
+        
+        request.setAttribute("customerList", customerList);
+
+        request.getRequestDispatcher("/WEB-INF/customer.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -90,9 +90,29 @@ p.bodytext {
     background-color: rgba(142, 69, 61, 1); 
     color: white;
 }
-/*
-**Employee Pages
-*/
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: white; /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    text-align: center;
+}
 
 .addbutton {
     font-family: 'Open Sans', sans-serif;
@@ -147,7 +167,7 @@ p.bodytext {
     display: flex;
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
-    border: 3px outset;
+    border-bottom: 0.5px solid darkgray;
     background-color: white;
     pointer-events: none;
     overflow: hidden;
@@ -161,7 +181,7 @@ p.bodytext {
     display: flex;
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
-    border: 3px outset;
+    border-bottom: 0.5px solid darkgray;
     box-sizing: border-box;
     background-color: white;
     
@@ -239,6 +259,7 @@ p.bodytext {
     background-color: rgba(211, 211, 211, 1);
     margin:0 auto;
     position: relative;
+    background-color: #36454f;
 }
 
 .fixedleft {
@@ -256,6 +277,7 @@ p.bodytext {
     line-height: 50px;
     display: inline;
     position: absolute;
+    color: white;
 }
 
 .fixedright {
@@ -268,7 +290,7 @@ p.bodytext {
 }
 
 .logout {
-    
+    color: white;
 }
 
 
@@ -278,21 +300,6 @@ p.bodytext {
     padding-bottom: 20px;
     border: 1px solid #888;
     width: 30%;
-}
-
-/* The Close Button */
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 .contentInfo {
@@ -317,8 +324,13 @@ p.bodytext {
     width: 750px; 
     margin: 0px auto;
     background-color: white;
-    border-bottom: 4px solid gray;
-    border-right: 4px solid gray;
+    border-bottom: 3px solid gray;
+    border-right: 3px solid gray;
+    border-left: 3px solid gray;
+    box-sizing: border-box;
+    padding-bottom: 2px;
+    padding-left: 2px;
+
 }
 
 .editIcon {
