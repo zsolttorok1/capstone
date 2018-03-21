@@ -431,7 +431,7 @@ BEGIN
             WHERE p_user_name = user_name;
     end if;
 
-    CALL clean_address_proc();
+--     CALL clean_address_proc();
 
     return 'inserted user';
 END;
@@ -481,7 +481,7 @@ BEGIN
         set i = i + 1;
     end while;
 
-    CALL clean_phone_proc();
+--     CALL clean_phone_proc();
 
     return 'inserted user phone';
 END;
@@ -828,22 +828,22 @@ select insert_user_phone_func ('andrew_grieve', '4038077189,4038077111,403807722
 --insert into `job_user` (`user_name`, `job_name`, `hours`)
 --    values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
 
--- select insert_user_func ('james_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', 'James11', 'James', 'Grieve', 'manager', 'darklink44459@hotmail.com', 23.41);
--- select insert_user_phone_func ('andrew_grieve', '4034879866,');
--- --insert into `job_user` (`user_name`, `job_name`, `hours`)
--- --   values ('james_grieve', 'Brookfield Bathroom on WestTower', 0);
--- 
--- select insert_user_func ('kayla_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', 'Kayla11', 'Kayla', 'Grieve', 'employee', 'link44459@hotmail.com', 18.32);
--- select insert_user_phone_func ('andrew_grieve', '4037778620,');
--- -- insert into `job_user` (`user_name`, `job_name`, `hours`)
--- --     values ('kayla_grieve', 'Brookfield Bathroom on WestTower', 0);
--- 
--- /* adding ITEMS */
--- select insert_item_func ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
--- select insert_item_func ('Thick Master 2000', 5, 'Brushes', 'Great for making solid straight strokes.');
--- select insert_item_func ('Hairy Harold', 5, 'Brushes', 'We dont use this on walls.');
--- select insert_item_func ('Hairy Harold', 2, 'Brushes', 'We dont use this on walls, way too hairy.');
--- select insert_item_func ('Devil Beater', 5, 'Brushes', 'Bob Ross favorite.');
--- 
--- INSERT INTO `category` (`category_id`, `category_name`) VALUES ('3', 'Spoiled Milk');
--- INSERT INTO `category` (`category_id`, `category_name`) VALUES ('10', 'Doesnt exist anymore');
+select insert_user_func ('james_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', 'James11', 'James', 'Grieve', 'manager', 'darklink44459@hotmail.com', 23.41);
+select insert_user_phone_func ('james_grieve', '4034879866,');
+--insert into `job_user` (`user_name`, `job_name`, `hours`)
+--   values ('james_grieve', 'Brookfield Bathroom on WestTower', 0);
+
+select insert_user_func ('kayla_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', 'Kayla11', 'Kayla', 'Grieve', 'employee', 'link44459@hotmail.com', 18.32);
+select insert_user_phone_func ('kayla_grieve', '4037778620,');
+-- insert into `job_user` (`user_name`, `job_name`, `hours`)
+--     values ('kayla_grieve', 'Brookfield Bathroom on WestTower', 0);
+
+/* adding ITEMS */
+select insert_item_func ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
+select insert_item_func ('Thick Master 2000', 5, 'Brushes', 'Great for making solid straight strokes.');
+select insert_item_func ('Hairy Harold', 5, 'Brushes', 'We dont use this on walls.');
+select insert_item_func ('Hairy Harold', 2, 'Brushes', 'We dont use this on walls, way too hairy.');
+select insert_item_func ('Devil Beater', 5, 'Brushes', 'Bob Ross favorite.');
+
+INSERT INTO `category` (`category_id`, `category_name`) VALUES ('3', 'Spoiled Milk');
+INSERT INTO `category` (`category_id`, `category_name`) VALUES ('10', 'Doesnt exist anymore');
