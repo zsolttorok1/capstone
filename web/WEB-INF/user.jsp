@@ -18,9 +18,6 @@
         <div class="fixedmenu">
             <div class="fixedleft">
                 <img class="menuicon" src="res/lion.png" />
-                <a class="breadcrumb" href="user">User</a><br>
-                <a class="breadcrumb" href="item">Item</a>
-                <a class="breadcrumb" href="customer">Customer</a>
             </div>
             <div class="fixedright">
                 <form method="get" action="item">
@@ -29,6 +26,19 @@
                 <a class="logout" href="main">Logout</a>
             </div>
         </div>
+        
+        <div id="mySidenav" class="sidenav">
+            <a href="item">Item Inventory</a>
+            <a href="user">Employees</a>
+            <a href="customer">Customers</a>
+            <a href="jobs">Jobs</a>
+            <a href="reports">Reports</a>
+            <a href="">----</a>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
+        </div>
+        
+        <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
+        
         <h1 class="bodyheaderc">USER</h1>
         <p class="center">${errorMessage}</p>
         

@@ -114,6 +114,41 @@ p.bodytext {
     text-align: center;
 }
 
+.sidenav {
+    display: none;
+    height: 100%;
+    width: 175px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: #3e4f5b;
+    overflow-x: hidden;
+    padding-top: 10px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: graytext;
+}
+
+.sidenav .closebtn {
+    position: relative;
+    top: 0;
+    right: 25px;
+    font-size: 25px;
+    margin-left: 25px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+}
+
 .addbutton {
     font-family: 'Open Sans', sans-serif;
     font-size: 13pt;
