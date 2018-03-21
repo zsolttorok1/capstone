@@ -172,6 +172,14 @@ CREATE TABLE `job_item` (
     CONSTRAINT `FK_Job_Item_Item_name` FOREIGN KEY (`item_name`) references `item`(`item_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
+/* Table structure for table `quote` */
+CREATE TABLE `quote` (
+    `name` varchar(100) NOT NULL,
+    `description` varchar(100) NOT NULL,
+    `email` varchar(100) NOT NULL,
+    PRIMARY KEY (`name`)
+);
+
 --Add Contraint for job 
 --CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 
