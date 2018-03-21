@@ -64,5 +64,12 @@
         <servlet-name>ReportServlet</servlet-name>
         <url-pattern>/report</url-pattern>
     </servlet-mapping>
-    
+        <servlet>
+        <servlet-name>QuoteServlet</servlet-name>
+        <servlet-class>servlets.QuoteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuoteServlet</servlet-name>
+        <url-pattern>/quote</url-pattern>
+    </servlet-mapping>
 </web-app>
