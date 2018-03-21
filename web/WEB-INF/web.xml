@@ -44,6 +44,14 @@
         <servlet-name>ViewItemServlet</servlet-name>
         <url-pattern>/viewItem</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewUserServlet</servlet-name>
+        <servlet-class>servlets.ViewUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewUserServlet</servlet-name>
+        <url-pattern>/viewUser</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>ReportServlet</servlet-name>

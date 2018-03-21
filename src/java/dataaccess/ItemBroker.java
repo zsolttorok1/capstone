@@ -123,7 +123,7 @@ public class ItemBroker {
             }
             
             //if something unexpected happened, rollback any changes.
-            if (status == null || status.equals("error")) {
+            if (status == null || status.contains("error")) {
                 connection.rollback();
                 return "error";
             }

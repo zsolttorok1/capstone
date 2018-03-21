@@ -164,41 +164,56 @@ public class UserBroker {
         String status = null;
 
         try {
-            for (long phoneNumber : user.getPhoneNumberList()) {
-                PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                pstmt.setString(1, user.getUserName());
-                pstmt.setInt(2, user.getHouseNumber());
-                pstmt.setString(3, user.getStreet());
-                pstmt.setString(4, user.getCity());
-                pstmt.setString(5, user.getProvince());
-                pstmt.setString(6, user.getCountry());
-                pstmt.setString(7, user.getPostalCode());
-                pstmt.setLong(8, phoneNumber);
-                pstmt.setString(9, user.getPassword());
-                pstmt.setString(10, user.getFirstName());
-                pstmt.setString(11, user.getLastName());
-                pstmt.setString(12, user.getRole());
-                pstmt.setString(13, user.getEmail());
-                pstmt.setInt(14, user.getHourlyRate());
-                //pstmt.setInt(10, user.getHours());
+            PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            pstmt.setString(1, user.getUserName());
+            pstmt.setInt(2, user.getHouseNumber());
+            pstmt.setString(3, user.getStreet());
+            pstmt.setString(4, user.getCity());
+            pstmt.setString(5, user.getProvince());
+            pstmt.setString(6, user.getCountry());
+            pstmt.setString(7, user.getPostalCode());
+            pstmt.setString(8, user.getPassword());
+            pstmt.setString(9, user.getFirstName());
+            pstmt.setString(10, user.getLastName());
+            pstmt.setString(11, user.getRole());
+            pstmt.setString(12, user.getEmail());
+            pstmt.setInt(13, user.getHourlyRate());
+            //pstmt.setInt(10, user.getHours());
 
-                ResultSet rs = pstmt.executeQuery();
-                
-                //get the status report from current database function
-                while (rs.next()) {
-                    status = rs.getString(1);
-                }
-            
-                //if something unexpected happened, rollback any changes.
-                if (status == null || status.equals("error")) {
-                    connection.rollback();
-                    return "error";
-                }
-                //if all good, commit
-                else {
-                    connection.commit();
-                }
+            ResultSet rs = pstmt.executeQuery();
+            //get the status report from current database function
+            while (rs.next()) {
+                status = rs.getString(1);
             }
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+
+            //inserting phone numbers
+            String stringPhoneNumberList = "";
+            for (long phoneNumber : user.getPhoneNumberList()) {
+                stringPhoneNumberList += phoneNumber + ",";
+            }
+            pstmt = connection.prepareStatement("select insert_user_phone_func(?, ?)");
+            pstmt.setString(1, user.getUserName());
+            pstmt.setString(2, stringPhoneNumberList);
+            
+            rs = pstmt.executeQuery();
+            //get the status report from current database function
+            while (rs.next()) {
+                status = rs.getString(1);
+            }
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            
+            //if all good, commit
+            connection.commit();
+            
         } catch (SQLException ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
             try {
@@ -217,13 +232,13 @@ public class UserBroker {
 
     //returns "updated, error, exception"
     public String update(User user) {
-        String returnValue = insert(user);
+        String status = insert(user);
       
-        if (returnValue != null && (returnValue.contains("updated") || returnValue.contains("inserted"))) {
+        if (status != null && (status.contains("updated") || status.contains("inserted"))) {
             return "updated";
         }
         
-        return returnValue; //expection, error
+        return status; //expection, error
     }
 
     //returns "deleted, error, exception"

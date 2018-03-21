@@ -12,7 +12,7 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Items</title>
+        <title>Users</title>
     </head>
     <body>
         <div class="fixedmenu">
@@ -76,16 +76,16 @@
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
-                        <form method="post" action="viewItem">
+                        <form method="post" action="viewUser">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="selectedUsername" value="${user.userName}">
+                            <input type="hidden" name="userName" value="${user.userName}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
                         <form method="post" action="user">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="selectedUsername" value="${user.userName}">
+                            <input type="hidden" name="userName" value="${user.userName}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>

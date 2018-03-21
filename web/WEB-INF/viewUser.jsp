@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,32 +25,32 @@
             </div>
         </div>
         <h1 class="bodyheaderc">USER VIEW</h1>
-        <p class="center">${errorMessage}</p>
+        <p class="center">${message}</p>
         <div class="viewcontent">
             <div>
                 <img class="editIcon" src="res/editIcon.png" title="Edit" id="editIcon" />
             </div>
-            <form method="post" action="viewItem">
+            <form method="post" action="viewUser">
                 <div class="contentInfo">
                     
                     <p class="contentHeader">Username</p>
-                    <p>${userName}</p>
+                    <p class="contentBody"><input type="text" name="userName" value="${user.userName}"></p>
                     
                     <p class="contentHeader">Name</p>
-                    <p class="contentBody">${firstname} ${lastname}</p>
+                    <p class="contentBody">${user.firstName} ${user.lastName}</p>
                     
                     <p class="contentHeader">Address</p>
-                    <p class="contentBody">${address_id}</p>
+                    <p class="contentBody"></p>
                     
                     <p class="contentHeader">Phone Number(s)</p>
                     <p class="contentBody">
-                        <c:forEach var="phone" items="${user.phoneNumberList}">
-                            ${phone}<br>
+                        <c:forEach var="phoneNumber" items="${user.phoneNumberList}">
+                            <input type="text" name="phoneNumberList[]" value=${phoneNumber}>
                         </c:forEach>
                     </p>
                     
                     <p class="contentHeader">Email</p>
-                    <p class="contentBody">${email}</p>
+                    <p class="contentBody"><input type="text" name="email" value="${user.email}"></p>
                     
                 </div>
                 <input type="hidden" name="action" value="save">

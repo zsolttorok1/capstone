@@ -100,7 +100,7 @@ public class LoginServlet extends HttpServlet {
         
         try {
 
-            users = (User)us.viewUser(user.getUserName());
+            users = (User)us.getByUserName(user.getUserName());
             pass = users.getPassword();
             role = users.getRole();
 

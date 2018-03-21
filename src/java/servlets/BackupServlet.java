@@ -29,7 +29,7 @@ public class BackupServlet extends HttpServlet {
         String user = (String) session.getAttribute("user");
         User user1 = new User();
         UserService ns1 = new UserService();
-        user1 = ns1.viewUser(user);
+        user1 = ns1.getByUserName(user);
         //doesnt allow users with out an account to get to this page
         //need to add only owner can see
         if (session.getAttribute("user") == null || user1.getRole().equalsIgnoreCase("Manager") || user1.getRole().equalsIgnoreCase("Employee")) {

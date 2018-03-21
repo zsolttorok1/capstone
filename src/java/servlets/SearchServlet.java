@@ -48,7 +48,7 @@ public class SearchServlet extends HttpServlet {
 
         UserService ns1 = new UserService();
         try {
-            user1 = ns1.viewUser(user);
+            user1 = ns1.getByUserName(user);
             request.setAttribute("user", user1);
         } catch (Exception ex) {
             Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,7 +79,7 @@ public class SearchServlet extends HttpServlet {
             
             //finds user requesting search
             try {
-                user1 = ns1.viewUser(user);
+                user1 = ns1.getByUserName(user);
             } catch (Exception ex) {
                 Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

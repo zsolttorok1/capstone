@@ -22,7 +22,7 @@ public class User implements Serializable {
     private int hourlyRate;
     //private int hours;
 
-    public User(String userName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String password, String firstname, String lastname, String role, String email, int hourlyRate) {
+    public User(String userName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String password, String firstName, String lastName, String role, String email, int hourlyRate) {
         this.userName = userName;
         this.houseNumber = houseNumber;
         this.street = street;
@@ -32,8 +32,8 @@ public class User implements Serializable {
         this.postalCode = postalCode;
         this.phoneNumberList = phoneNumberList;
         this.password = password;
-        this.firstName = firstname;
-        this.lastName = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.role = role;
         this.email = email;
         this.hourlyRate = hourlyRate;
@@ -132,7 +132,7 @@ public class User implements Serializable {
         return firstName;
     }
 
-    public void setFirstname(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
