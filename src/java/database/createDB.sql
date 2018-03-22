@@ -174,10 +174,10 @@ CREATE TABLE `job_item` (
 
 /* Table structure for table `quote` */
 CREATE TABLE `quote` (
-    `name` varchar(100) NOT NULL,
-    `description` varchar(100) NOT NULL,
+    `quote_name` varchar(100) NOT NULL,
     `email` varchar(100) NOT NULL,
-    PRIMARY KEY (`name`)
+    `description` varchar(100) NOT NULL, 
+    PRIMARY KEY (`quote_name`)
 );
 
 --Add Contraint for job 
@@ -548,6 +548,20 @@ BEGIN
             return 'error';
         END;
 
+/* functions for QUOTE */
+CREATE FUNCTION `insert_quote_func`
+    (q_name varchar(100),
+    p_email varchar(30),
+    p_description varchar(2000))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+
     /* find out if Phone_User is already in the database */
     SELECT count(user_name)
         INTO v_phone_user_count
@@ -650,6 +664,23 @@ BEGIN
     return 'deleted';
 
     CALL clean_address_proc();
+END;
+$$
+
+CREATE FUNCTION `delete_quote_func`
+    (p_name varchar(50))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+    DELETE FROM `quote` 
+        WHERE quote_name = p_name;
+    return 'deleted';
+
 END;
 $$
 
