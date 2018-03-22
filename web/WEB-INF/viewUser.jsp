@@ -24,7 +24,7 @@
                 <a class="logout" href="main">Logout</a>
             </div>
         </div>
-        <h1 class="bodyheaderc">USER VIEW</h1>
+        <h1 class="bodyheaderc">USER VIEW FOR: ${user.userName}</h1>
         <p class="center">${message}</p>
         <div class="viewcontent">
             <div>
@@ -32,9 +32,6 @@
             </div>
             <form method="post" action="viewUser">
                 <div class="contentInfo">
-                    
-                    <p class="contentHeader">Username</p>
-                    <p class="contentBody"><input type="text" name="userName" value="${user.userName}"></p>
                     
                     <p class="contentHeader">Name</p>
                     <p class="contentBody">${user.firstName} ${user.lastName}</p>
@@ -54,6 +51,7 @@
                     
                 </div>
                 <input type="hidden" name="action" value="save">
+                <input type="hidden" name="userName" value="${user.userName}">
                 <input type="submit" value="Save Changes">
             </form>
         </div>

@@ -18,9 +18,6 @@
         <div class="fixedmenu">
             <div class="fixedleft">
                 <img class="menuicon" src="res/lion.png" />
-                <a class="breadcrumb" href="customer">Customer</a><br>
-                <a class="breadcrumb" href="item">Item</a>
-                <a class="breadcrumb" href="user">User</a>
             </div>
             <div class="fixedright">
                 <form method="get" action="item">
@@ -29,6 +26,19 @@
                 <a class="logout" href="main">Logout</a>
             </div>
         </div>
+        
+        <div id="mySidenav" class="sidenav">
+            <a href="item">Item Inventory</a>
+            <a href="user">Employees</a>
+            <a href="customer">Customers</a>
+            <a href="jobs">Jobs</a>
+            <a href="reports">Reports</a>
+            <a href="">----</a>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
+        </div>
+        
+        <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
+        
         <h1 class="bodyheaderc">CUSTOMERS</h1>
         <p class="center">${errorMessage}</p>
         
@@ -42,25 +52,22 @@
         <div class="addRow" id="addbutton">
             <img class="addPlus" src="res/plus.png" />
         </div>
-        <form method="post" action="user">
-            <div class="rowAdd" id="formcenter2">
-                <div class="rowitemAdd"><input class="addText" type="text" name="username" placeholder="Username" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="email" placeholder="Email" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="phone" placeholder="Phone" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="firstname" placeholder="First Name" /></div>
-                <div class="rowitemAdd"><input class="addText" type="text" name="lastname" placeholder="Last Name" /></div>
-            </div>
-            <div class="rowAddOptions" id="addbuttons">
-                <div class="rowAddButton">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <form method="post" action="user">
+                    <h1>New Customer</h1>
+                    First Name: <input type="text" name="firstname" placeholder="First Name" /><br>
+                    Last Name: <input type="text" name="lastname" placeholder="Last Name" /><br>
+                    Email: <input type="text" name="email" placeholder="Email" /><br>
+                    Phone: <input type="text" name="phone" placeholder="Phone" /><br>
+                    Address: <input type="text" name="address" placeholder="Address" /><br>
+                    Company: <input type="text" name="company" placeholder="Company" /><br>
+                    Position: <input type="text" name="position" placeholder="Position" /><br>
                     <input type="hidden" name="action" value="add">
                     <input type="submit" value="Save">
-                </div>
-                <div class="rowAddButton">
-                    <input type="hidden" name="action" value="cancel">
-                    <input type="button" value="Cancel" id="cancel">
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
         
         <c:forEach var="customer" items="${customerList}">
             <div class="rowWrapper">
@@ -73,16 +80,16 @@
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
-                        <form method="post" action="viewUser">
+                        <form method="post" action="viewCustomer">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="selectedUsername" value="${customer.firstName}">
+                            <input type="hidden" name="selectedUsername" value="${customer.customerName}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
-                        <form method="post" action="user">
+                        <form method="post" action="customer">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="selectedUsername" value="${customer.firstName}">
+                            <input type="hidden" name="selectedUsername" value="${customer.customerName}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>

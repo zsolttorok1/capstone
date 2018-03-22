@@ -59,3 +59,12 @@ function displayOptions(e) {
     newtarget.getElementsByClassName("listOptions")[0].style.display = "flex";
     newtarget.getElementsByClassName("row")[0].style.backgroundColor = "lightgray";
 }
+
+// NavBar
+function openNav() {
+    document.getElementById("mySidenav").style.display = "block";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.display = "none";
+}
