@@ -37,6 +37,9 @@ public class UserService {
         
         //this always return all items for now
         List<User> userList = userBroker.getAll();
+        
+        if (userList == null)
+            return null;
                 
         return userList;
     }
@@ -53,17 +56,15 @@ public class UserService {
         User user = null;
         String status = "";
         
-        if (userNew.getUserName() != null) {
+        if (userNew.getUserName() != null) 
             user = userBroker.getByName(userNew.getUserName());
-        }
-        else {
+        else 
             return "invalid userName";
-        }
         
-        if (user == null) {
+        if (user == null)
             return "username not found while attempting to update. Check database connection.";
-        }
-
+        
+        
         //prepare changed attributes on the updatable User
         if (userNew.getHouseNumber() > 0 )
             user.setHouseNumber(userNew.getHouseNumber());
@@ -130,9 +131,9 @@ public class UserService {
             status += "invalid phoneNumberList ";
         }
         else {
-            for (int i=0; i < user.getPhoneNumberList().size() - 1; i++) {
+            for (int i=0; i < user.getPhoneNumberList().size(); i++) {
                 //regex this check for right number of digits, format, etc
-                if (user.getPhoneNumberList().get(i) == 0) {
+                if (user.getPhoneNumberList().get(i) <= 0) {
                     status += "invalid phoneNumberFormat at phone entry#" + (i+1) + " ";
                 }
             }
@@ -195,14 +196,16 @@ public class UserService {
         }
         if (phoneNumberList != null && phoneNumberList.length != 0) {
             ArrayList<Long> intPhoneNumberList = new ArrayList<>();
-            try {
-                for (int i=0; i < phoneNumberList.length; i++) {
-                    intPhoneNumberList.add(Long.parseLong(phoneNumberList[i]));
+            
+            for (int i=0; i < phoneNumberList.length; i++) {
+                try {
+                    long phoneNumber = Long.parseLong(phoneNumberList[i]); 
+                    intPhoneNumberList.add(phoneNumber);
+                } catch (NumberFormatException ex) {
+                    intPhoneNumberList.add(-1L);
                 }
                 
                 user.setPhoneNumberList(intPhoneNumberList);
-            } catch (NumberFormatException ex) {
-                user.setPhoneNumberList(null);
             }
         }
         if (password != null && !password.isEmpty()) {

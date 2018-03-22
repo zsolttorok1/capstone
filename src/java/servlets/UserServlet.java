@@ -28,22 +28,16 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String action = request.getParameter("action");
-        if (action != null && action.equals("logout")) {
-            HttpSession session = request.getSession();
-            session.invalidate();
-            request.setAttribute("errorMessage", "Logged out");
-        }
         
         UserService userService = new UserService();
         List<User> userList = userService.searchUser("");
+        if (userList == null) {
+            request.setAttribute("message", "No users found. This seems like a database connection error.");
+        }
         
         request.setAttribute("userList", userList);
 
         request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
-        // getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-        // stop other execution of code
     }
 
     /**
@@ -57,95 +51,40 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserService us = new UserService();
-        
-        Map<String, String[]> parameters = request.getParameterMap();
-        String errorMessage = "";
-        
-        String action = request.getParameter("action");
-        
-        String selectedUserName = request.getParameter("selectedUsername");
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String firstname = request.getParameter("firstName");
-        String lastname = request.getParameter("lastName");
-        String role = request.getParameter("role");
-        String address = request.getParameter("address");
-        //fake array
-        ArrayList<Integer> arrayPhoneIdNew = new ArrayList();
-        
-        int phoneId = 0;
-        
-        String email = request.getParameter("email");
-        
-        int hourlyRate = 0;
-        int hours = 0;
-
-        HttpSession session1 = request.getSession();
-        String user1 = (String) session1.getAttribute("user");
-
-        try {
-
-            if (action.equals("delete")) {
-                us.delete(selectedUserName);
-                errorMessage = "You deleted an item.";
-                //HttpSession session = request.getSession();
-                //session.invalidate();
-            } else if (action.equals("edit")) {
-                String username1 = request.getParameter("username");
-                String password1 = request.getParameter("password");
-                String firstname1 = request.getParameter("firstName");
-                String lastname1 = request.getParameter("lastName");
-                String role1 = request.getParameter("role");
-                //String phoneId = request.getParameter("phoneId");
-                String email1 = request.getParameter("email");
-                String address1 = request.getParameter("address");
-                
-                //fake array
-                ArrayList<Integer> arrayPhoneId = new ArrayList();
-                
-                //changed
-                hourlyRate = 0;
-                hours = 0;
-
-                //us.edit(username1, address1, arrayPhoneId, password, firstname1, lastname1, role1, email, hourlyRate);
-                //request.setAttribute("errorMessage", "User Edited");
-                //request.setAttribute("Change", "User Edited");
-                //UserService us = new UserService();
-                // HttpSession session = request.getSession();
-                //String selectedUser = (String) session.getAttribute("user");
-                //List of Users list the users out here
-                //request.setAttribute("users", users);
-                getServletContext().getRequestDispatcher("/WEB-INF/main.jsp").forward(request, response);
-                return;
-            } else if (action.equals("editPhone")) {
-                //need to find a way to add this
-            } else if (action.equals("editHours")) {
-                //need to find a way to add this
-            }else if (action.equals("add")) {
-                //TODO get role not null
-                //us.addUser(username, address, arrayPhoneIdNew, password, firstname, lastname, role, email, hourlyRate);
-                request.setAttribute("errorMessage", "User Added");
-                //might have to change userserive to accpet role hmm cant do that might have to setRole
-            }
-        } catch (Exception ex) {
-            request.setAttribute("errorMessage", "Whoops.  Could not perform that action.");
-        }
-        
-        
-        
-        HttpSession session = request.getSession();
-        ItemService itemService = new ItemService();
-
-        //logic
-        String keyword = "anything";
         UserService userService = new UserService();
+        
+        String message = "";
+        String action = request.getParameter("action");
+        String userName = request.getParameter("userName");
+
+        if (action.equals("delete")) {
+            userService.delete(userName);
+            message = "You deleted the item.";
+        } else if (action.equals("add")) {
+            String houseNumber = request.getParameter("houseNumber");
+            String street = request.getParameter("street");
+            String city = request.getParameter("city");
+            String province = request.getParameter("province");
+            String country = request.getParameter("country");
+            String postalCode = request.getParameter("postalCode");
+            String[] phoneNumberList = request.getParameterValues("phoneNumberList[]");
+            String firstName = request.getParameter("firstName");
+            String role = request.getParameter("role");
+            String email = request.getParameter("email");
+            String hourlyRate = request.getParameter("hourlyRate");
+
+            String status = userService.insert(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, action, firstName, firstName, role, email, hourlyRate);
+
+            request.setAttribute("message", status);
+        }
+
         List<User> userList = userService.searchUser("");
+        if (userList == null) {
+            message = "User not found. This seems like a database connection error.";
+        }
 
-        session.setAttribute("userList", userList);
-        request.setAttribute("errorMessage", errorMessage);
+        request.setAttribute("message", message);
+        request.setAttribute("userList", userList);
         request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
-
     }
 }

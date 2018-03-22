@@ -40,7 +40,7 @@
         <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
         
         <h1 class="bodyheaderc">USER</h1>
-        <p class="center">${errorMessage}</p>
+        <p class="center">${message}</p>
         
         <div class="rowHeader">
             <div class="rowitemHeader">Username</div>
