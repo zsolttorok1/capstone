@@ -109,8 +109,9 @@ p.bodytext {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
+    padding-bottom: 100px;
     border: 1px solid #888;
-    width: 40%;
+    width: 30%;
     text-align: center;
 }
 
@@ -385,4 +386,42 @@ p.bodytext {
     float: right;
     background-color: lightgray;
     cursor: pointer;
+}
+
+
+/* DivTable.com */
+.divTable{
+	display: table;
+	width: 100%;
+        text-align: left;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+}
+.divTableCell, .divTableHead {
+	display: table-cell;
+	padding: 3px;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+
+.phonePlus {
+    max-height: 20px;
+    top: 5px;
+    position: relative;
 }
