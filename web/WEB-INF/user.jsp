@@ -33,6 +33,7 @@
             <a href="customer">Customers</a>
             <a href="jobs">Jobs</a>
             <a href="reports">Reports</a>
+            <a href="quotes">Quotes</a>
             <a href="">----</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
         </div>

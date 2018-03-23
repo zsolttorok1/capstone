@@ -1,7 +1,7 @@
 <%--
     Document   : InventoryServlet
     Created on : Feb 6, 2018, 1:10:21 PM
-    Author     : 725899
+    Author     : 685442
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -33,6 +33,7 @@
             <a href="customer">Customers</a>
             <a href="jobs">Jobs</a>
             <a href="reports">Reports</a>
+            <a href="quotes">Quotes</a>
             <a href="">----</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
         </div>
@@ -54,13 +55,34 @@
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <form method="post" action="item">
-                    <h1>New Item</h1>
-                    Item Name: <input type="text" name="name" placeholder="Item Name" /><br>
-                    Description: <input type="text" name="description" placeholder="Description" /><br>
-                    Category: <input type="text" name="category" placeholder="Category" /><br>
-                    Quantity: <input type="number" name="quantity" placeholder="Quantity" /><br>
-                    <input type="hidden" name="action" value="add">
-                    <input type="submit" value="Save">
+                    <div class="divTable">
+                        <div class="divTableBody">
+                            <div class="divTableRow">
+                                <div class="divTableHead">
+                                    New Item
+                                </div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Item Name:</div>
+                                <div class="divTableCell"><input name="name" type="text" placeholder="Item Name" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Description:</div>
+                                <div class="divTableCell"><input name="description" type="text" placeholder="Description" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Category:</div>
+                                <div class="divTableCell"><input name="category" type="text" placeholder="Category" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Quantity:</div>
+                                <div class="divTableCell"><input name="quantity" type="number" placeholder="Quantity" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell"><input name="action" type="hidden" value="add" /> <input type="submit" value="Save" /></div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
