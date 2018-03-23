@@ -2,36 +2,43 @@ package domainmodel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Customer implements Serializable {
 
     private String customerName;
-    private String jobName;
-    private ArrayList<Integer> phoneId;
-    private int addressId;
+    private int houseNumber;
+    private String street;
+    private String city;
+    private String province;
+    private String country;
+    private String postalCode;
+    List<Long> phoneNumberList;
     private String firstName;
     private String lastName;
     private String companyName;
     private String email;
     private String position;
-    private String note;
+    private String notes;
 
-    public Customer(String customerName, String jobName, ArrayList<Integer> phoneId, int addressId,
-            String firstName, String lastName, String companyName, String email, String position, String note) {
+    public Customer(String customerName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
         this.customerName = customerName;
-        this.jobName = jobName;
-        this.phoneId = phoneId;
-        this.addressId = addressId;
+        this.houseNumber = houseNumber;
+        this.street = street;
+        this.city = city;
+        this.province = province;
+        this.country = country;
+        this.postalCode = postalCode;
+        this.phoneNumberList = phoneNumberList;
         this.firstName = firstName;
         this.lastName = lastName;
         this.companyName = companyName;
         this.email = email;
         this.position = position;
-        this.note = note;
+        this.notes = notes;
     }
-
+    
     public Customer() {
-
     }
 
     public String getCustomerName() {
@@ -42,28 +49,60 @@ public class Customer implements Serializable {
         this.customerName = customerName;
     }
 
-    public String getJobName() {
-        return jobName;
+    public int getHouseNumber() {
+        return houseNumber;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public void setHouseNumber(int houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
-    public ArrayList<Integer> getPhoneId() {
-        return phoneId;
+    public String getStreet() {
+        return street;
     }
 
-    public void setPhoneId(ArrayList<Integer> phoneId) {
-        this.phoneId = phoneId;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public int getAddressId() {
-        return addressId;
+    public String getCity() {
+        return city;
     }
 
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public List<Long> getPhoneNumberList() {
+        return phoneNumberList;
+    }
+
+    public void setPhoneNumberList(List<Long> phoneNumberList) {
+        this.phoneNumberList = phoneNumberList;
     }
 
     public String getFirstName() {
@@ -106,12 +145,14 @@ public class Customer implements Serializable {
         this.position = position;
     }
 
-    public String getNote() {
-        return note;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
+    
+    
 
 }

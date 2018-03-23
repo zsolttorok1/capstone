@@ -209,7 +209,7 @@ public class UserBroker {
             for (long phoneNumber : user.getPhoneNumberList()) {
                 stringPhoneNumberList += phoneNumber + ",";
             }
-            pstmt = connection.prepareStatement("select insert_user_phone_func(?, ?)");
+            pstmt = connection.prepareStatement("select insert_phoneList_user_func(?, ?)");
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, stringPhoneNumberList);
             

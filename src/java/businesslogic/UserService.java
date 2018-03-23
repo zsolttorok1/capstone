@@ -204,9 +204,8 @@ public class UserService {
                 } catch (NumberFormatException ex) {
                     intPhoneNumberList.add(-1L);
                 }
-                
-                user.setPhoneNumberList(intPhoneNumberList);
             }
+            user.setPhoneNumberList(intPhoneNumberList);
         }
         if (password != null && !password.isEmpty()) {
             //we need to hash the password, and store that hash value instead

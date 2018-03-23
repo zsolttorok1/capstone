@@ -90,7 +90,7 @@ public class ViewUserServlet extends HttpServlet {
             
             status = userService.update(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, action, firstName, firstName, role, email, hourlyRate);
             
-            request.setAttribute("message", "User Updated.");
+            request.setAttribute("message", status);
             
             User user = userService.getByUserName(userName);
             if (user == null) {
