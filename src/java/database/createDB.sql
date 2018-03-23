@@ -426,9 +426,9 @@ BEGIN
     end while;
 
     /* deleting unused phone entries */
-    DELETE FROM phone
-        WHERE phone_id NOT IN
-        (SELECT phone_id FROM `phone_user`);
+--     DELETE FROM phone
+--         WHERE phone_id NOT IN
+--         (SELECT phone_id FROM `phone_user`);
 
     return 'inserted user phone';
 END;
@@ -615,9 +615,9 @@ BEGIN
         WHERE user_name = p_user_name;
 
     /* deleting unused phone entries */
-    DELETE FROM phone
-        WHERE phone_id NOT IN
-        (SELECT phone_id FROM `phone_user`);
+--     DELETE FROM phone
+--         WHERE phone_id NOT IN
+--         (SELECT phone_id FROM `phone_user`);
 
     return 'deleted';
 END;
@@ -735,9 +735,9 @@ BEGIN
     end while;
 
     /* deleting unused phone entries */
-    DELETE FROM phone
-        WHERE phone_id NOT IN
-        (SELECT phone_id FROM `phone_customer`);
+--     DELETE FROM phone
+--         WHERE phone_id NOT IN
+--         (SELECT phone_id FROM `phone_customer`);
 
     return 'inserted customer phone';
 END;
@@ -789,9 +789,9 @@ BEGIN
     return 'deleted';
 
     /* deleting unused phone entries */
-    DELETE FROM phone
-        WHERE phone_id NOT IN
-        (SELECT phone_id FROM `phone_customer`);
+--     DELETE FROM phone
+--         WHERE phone_id NOT IN
+--         (SELECT phone_id FROM `phone_customer`);
 END;
 $$
 

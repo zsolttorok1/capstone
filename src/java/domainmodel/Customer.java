@@ -16,22 +16,22 @@ public class Customer implements Serializable {
     private String position;
     private String notes;
 
-//    public Customer(String customerName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
-//        this.customerName = customerName;
-//        this.houseNumber = houseNumber;
-//        this.street = street;
-//        this.city = city;
-//        this.province = province;
-//        this.country = country;
-//        this.postalCode = postalCode;
-//        this.phoneNumberList = phoneNumberList;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.companyName = companyName;
-//        this.email = email;
-//        this.position = position;
-//        this.notes = notes;
-//    }
+    public Customer(String customerName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+        this.customerName = customerName;
+        setHouseNumber(houseNumber);
+        setStreet(street);
+        setCity(city);
+        setProvince(province);
+        setCountry(country);
+        setPostalCode(postalCode);
+        this.phoneNumberList = phoneNumberList;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.companyName = companyName;
+        this.email = email;
+        this.position = position;
+        this.notes = notes;
+    }
     
     public Customer() {
     }
@@ -53,43 +53,43 @@ public class Customer implements Serializable {
     }
 
     public String getStreet() {
-        return address.;
+        return address.getStreet();
     }
 
     public void setStreet(String street) {
-        this.street = street;
+        this.address.setStreet(street);;
     }
 
     public String getCity() {
-        return city;
+        return address.getCity();
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.address.setCity(city);;
     }
 
     public String getProvince() {
-        return province;
+        return address.getProvince();
     }
 
     public void setProvince(String province) {
-        this.province = province;
+        this.address.setProvince(province);
     }
 
     public String getCountry() {
-        return country;
+        return this.address.getCountry();
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        this.address.setCountry(country);
     }
 
     public String getPostalCode() {
-        return postalCode;
+        return address.getPostalCode();
     }
 
     public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+        this.address.setPostalCode(postalCode);
     }
 
     public List<Long> getPhoneNumberList() {
