@@ -7,12 +7,7 @@ import java.util.List;
 public class Customer implements Serializable {
 
     private String customerName;
-    private int houseNumber;
-    private String street;
-    private String city;
-    private String province;
-    private String country;
-    private String postalCode;
+    private Address address;
     List<Long> phoneNumberList;
     private String firstName;
     private String lastName;
@@ -21,22 +16,22 @@ public class Customer implements Serializable {
     private String position;
     private String notes;
 
-    public Customer(String customerName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
-        this.customerName = customerName;
-        this.houseNumber = houseNumber;
-        this.street = street;
-        this.city = city;
-        this.province = province;
-        this.country = country;
-        this.postalCode = postalCode;
-        this.phoneNumberList = phoneNumberList;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.companyName = companyName;
-        this.email = email;
-        this.position = position;
-        this.notes = notes;
-    }
+//    public Customer(String customerName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+//        this.customerName = customerName;
+//        this.houseNumber = houseNumber;
+//        this.street = street;
+//        this.city = city;
+//        this.province = province;
+//        this.country = country;
+//        this.postalCode = postalCode;
+//        this.phoneNumberList = phoneNumberList;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.companyName = companyName;
+//        this.email = email;
+//        this.position = position;
+//        this.notes = notes;
+//    }
     
     public Customer() {
     }
@@ -50,15 +45,15 @@ public class Customer implements Serializable {
     }
 
     public int getHouseNumber() {
-        return houseNumber;
+        return address.getHouseNumber();
     }
 
     public void setHouseNumber(int houseNumber) {
-        this.houseNumber = houseNumber;
+        this.address.setHouseNumber(houseNumber);
     }
 
     public String getStreet() {
-        return street;
+        return address.;
     }
 
     public void setStreet(String street) {
