@@ -64,7 +64,11 @@
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell">Username:</div>
-                                <div class="divTableCell"><input name="username" type="text" placeholder="Username" /></div>
+                                <div class="divTableCell"><input name="userNameAdd" type="text" placeholder="Username" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Password:</div>
+                                <div class="divTableCell"><input name="password" type="password" placeholder="Password" /></div>
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell">First Name:</div>
@@ -117,7 +121,7 @@
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell">Pay Rate:</div>
-                                <div class="divTableCell"><input name="hourly_rate" type="text" placeholder="Pay Rate" /></div>
+                                <div class="divTableCell"><input name="hourlyRate" type="text" placeholder="Pay Rate" /></div>
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell"><input name="action" type="hidden" value="add" /> <input type="submit" value="Save" /></div>
