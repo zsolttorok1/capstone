@@ -55,17 +55,70 @@
         </div>
         <div id="myModal" class="modal">
             <div class="modal-content">
-                <form method="post" action="user">
-                    <h1>New Customer</h1>
-                    First Name: <input type="text" name="firstname" placeholder="First Name" /><br>
-                    Last Name: <input type="text" name="lastname" placeholder="Last Name" /><br>
-                    Email: <input type="text" name="email" placeholder="Email" /><br>
-                    Phone: <input type="text" name="phone" placeholder="Phone" /><br>
-                    Address: <input type="text" name="address" placeholder="Address" /><br>
-                    Company: <input type="text" name="company" placeholder="Company" /><br>
-                    Position: <input type="text" name="position" placeholder="Position" /><br>
-                    <input type="hidden" name="action" value="add">
-                    <input type="submit" value="Save">
+                <form method="post" action="customer">
+                    <div class="divTable">
+                        <div class="divTableBody">
+                            <div class="divTableRow">
+                                <div class="divTableHead">New User</div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">First Name:</div>
+                                <div class="divTableCell"><input name="firstName" type="text" placeholder="First Name" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Last Name:</div>
+                                <div class="divTableCell"><input name="lastName" type="text" placeholder="Last Name" /></div>
+                            </div>
+                                <div class="divTableRow">
+                                <div class="divTableCell">Email:</div>
+                                <div class="divTableCell"><input name="emailAddress" type="text" placeholder="Email" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Phone:</div>
+                                <div class="divTableCell"><input name="phoneNumberList[]" id="phoneField" type="text" placeholder="Phone" /></div>
+                                <div class="divTableCell" onClick="addNumberInput()"><img class="phonePlus" src="res/plus.png" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell"></div>
+                                <div class="divTableCell" id="btnPhone"></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">House Number:</div>
+                                <div class="divTableCell"><input name="houseNumber" type="text" placeholder="House Number" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Street Name:</div>
+                                <div class="divTableCell"><input name="street" type="text" placeholder="Street Name" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">City:</div>
+                                <div class="divTableCell"><input name="city" type="text" placeholder="City" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Province:</div>
+                                <div class="divTableCell"><input name="province" type="text" placeholder="Province" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Postal Code:</div>
+                                <div class="divTableCell"><input name="postalCode" type="text" placeholder="Postal Code" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Country:</div>
+                                <div class="divTableCell"><input name="country" type="text" placeholder="Country" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Company:</div>
+                                <div class="divTableCell"><input name="companyName" type="text" placeholder="Company" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Position:</div>
+                                <div class="divTableCell"><input name="position" type="text" placeholder="Position" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell"><input name="action" type="hidden" value="add" /> <input type="submit" value="Save" /></div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -77,7 +130,7 @@
                     <div class="rowitem" name="company">${customer.companyName}</div>
                     <div class="rowitem" name="phone">
                         <c:forEach var="phone" items="${customer.phoneNumberList}">
-                            ${phone}
+                            ${phone}<br>
                         </c:forEach>
                     </div>
                     <div class="rowitem" name="email">${customer.email}</div>

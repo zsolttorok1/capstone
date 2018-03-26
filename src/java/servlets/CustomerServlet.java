@@ -64,12 +64,14 @@ public class CustomerServlet extends HttpServlet {
             String postalCode = request.getParameter("postalCode");
             String[] phoneNumberList = request.getParameterValues("phoneNumberList[]");
             String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
             String companyName = request.getParameter("companyName");
-            String email = request.getParameter("email");
+            String email = request.getParameter("emailAddress");
             String position = request.getParameter("position");
-            String notes = request.getParameter("notes");
+            //String notes = request.getParameter("notes");
+            String customerNameAdd = firstName + "_" + lastName + houseNumber;
             
-            String status = customerService.insert(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList, action, firstName, firstName, companyName, email, notes);
+            String status = customerService.insert(customerNameAdd, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstName, lastName, companyName, email, position, " ");
 
             request.setAttribute("message", status);
         }
@@ -80,7 +82,7 @@ public class CustomerServlet extends HttpServlet {
         }
 
         request.setAttribute("message", message);
-        request.setAttribute("userList", customerList);
+        request.setAttribute("customerList", customerList);
         request.getRequestDispatcher("/WEB-INF/customer.jsp").forward(request, response);
     }
 }
