@@ -50,7 +50,7 @@
             <div class="rowitemHeader">Email</div>
             <div class="rowitemHeader">Address</div>
         </div>
-        <div class="addRow" id="addbutton">
+        <div class="addRow" id="myBtn">
             <img class="addPlus" src="res/plus.png" />
         </div>
         <div id="myModal" class="modal">
@@ -87,14 +87,14 @@
                     <div class="listButton">
                         <form method="post" action="viewCustomer">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="selectedUsername" value="${customer.customerName}">
+                            <input type="hidden" name="customerName" value="${customer.customerName}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
                         <form method="post" action="customer">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="selectedUsername" value="${customer.customerName}">
+                            <input type="hidden" name="customerName" value="${customer.customerName}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>

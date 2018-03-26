@@ -56,6 +56,14 @@
         <servlet-name>ViewUserServlet</servlet-name>
         <url-pattern>/viewUser</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewCustomerServlet</servlet-name>
+        <servlet-class>servlets.ViewCustomerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewCustomerServlet</servlet-name>
+        <url-pattern>/viewCustomer</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>ReportServlet</servlet-name>
