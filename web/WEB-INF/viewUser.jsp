@@ -34,10 +34,18 @@
                 <div class="contentInfo">
                     
                     <p class="contentHeader">Name</p>
-                    <p class="contentBody">${user.firstName} ${user.lastName}</p>
+                    <p class="contentBody"><input type="text" name="firstName" value="${user.firstName}">
+                        <input type="text" name="lastName" value="${user.lastName}">
+                    </p>
                     
                     <p class="contentHeader">Address</p>
-                    <p class="contentBody"></p>
+                    <p class="contentBody">Street: <input type="text" name="houseNumber" value="${user.houseNumber}">
+                        <input type="text" name="street" value="${user.street}">,<br>
+                        City & Province: <input type="text" name="city" value="${user.city}">
+                        <input type="text" name="province" value="${user.province}"><br>
+                        Postal Code: <input type="text" name="postalCode" value="${user.postalCode}"><br>
+                        Country: <input type="text" name="country" value="${user.country}">
+                    </p>
                     
                     <p class="contentHeader">Phone Number(s)</p>
                     <p class="contentBody">
@@ -48,6 +56,11 @@
                     
                     <p class="contentHeader">Email</p>
                     <p class="contentBody"><input type="text" name="email" value="${user.email}"></p>
+                    
+                    <p class="contentHeader">Role & Pay Rate</p>
+                    <p class="contentBody"><input type="text" name="role" value="${user.role}">
+                    <input type="text" name="hourlyRate" value="${user.hourlyRate}">$/hr
+                    </p>
                     
                 </div>
                 <input type="hidden" name="action" value="save">
