@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #f2f2f2;
+    background-color: #e6ecf0;
     margin: 0px;
 }
 
@@ -109,8 +109,9 @@ p.bodytext {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
+    padding-bottom: 100px;
     border: 1px solid #888;
-    width: 40%;
+    width: 30%;
     text-align: center;
 }
 
@@ -171,23 +172,27 @@ p.bodytext {
 
 .rowHeader {
     font-size: 20px;
-    font-weight: bold;
-    max-width: 1000px;
+    max-width: 1100px;
     height: 36px;
     margin: auto;
     margin-top: 25px;
     display: flex;
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
-    background-color: rgba(142, 69, 61, 1); 
+    background-color: #517791;
     color: white;
 }
 
 .rowitemHeader {
-    border-bottom: 1px solid black;
     height: 36px;
     width: 400px;
-    text-align: center;
+    padding-left: 10px;
+}
+
+.rowitemHeaderEmail {
+    height: 36px;
+    width: 435px;
+    padding-left: 10px;
 }
 
 .addPlus {
@@ -196,7 +201,7 @@ p.bodytext {
 }
 
 .row {
-    max-width: 1000px;
+    max-width: 1100px;
     height: 70px;
     margin: auto;
     display: flex;
@@ -210,7 +215,7 @@ p.bodytext {
 }
 
 .addRow {
-    max-width: 1000px;
+    max-width: 1100px;
     height: 70px;
     margin: auto;
     display: flex;
@@ -223,7 +228,7 @@ p.bodytext {
 }
 
 .rowAdd {
-    max-width: 1000px;
+    max-width: 1100px;
     height: 50px;
     margin: auto;
     display: none;
@@ -245,6 +250,14 @@ p.bodytext {
     padding-right: 10px;
 }
 
+.rowitemEmail {
+    height: 70px;
+    width: 435px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .rowitemAdd {
     height: 50px;
     width: 400px;
@@ -256,14 +269,14 @@ p.bodytext {
     width: 100%;
 }
 .rowAddOptions {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
     display: none;
     justify-content: center; /*horizontal center*/
 }
 
 .listOptions {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
     display: none;
     justify-content: center; /*horizontal center*/
@@ -276,7 +289,7 @@ p.bodytext {
 }
 
 .rowWrapper {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
 }
 
@@ -305,6 +318,7 @@ p.bodytext {
     padding-left: 15px;
     max-height: 50px;
     max-width: 45px;
+    display: inline;
 }
 
 .breadcrumb {
@@ -385,4 +399,42 @@ p.bodytext {
     float: right;
     background-color: lightgray;
     cursor: pointer;
+}
+
+
+/* DivTable.com */
+.divTable{
+	display: table;
+	width: 100%;
+        text-align: left;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+}
+.divTableCell, .divTableHead {
+	display: table-cell;
+	padding: 3px;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+
+.phonePlus {
+    max-height: 20px;
+    top: 5px;
+    position: relative;
 }
