@@ -18,6 +18,7 @@ public class Customer implements Serializable {
 
     public Customer(String customerName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
         this.customerName = customerName;
+        this.address = new Address();
         setHouseNumber(houseNumber);
         setStreet(street);
         setCity(city);
@@ -34,6 +35,15 @@ public class Customer implements Serializable {
     }
     
     public Customer() {
+        this.customerName = "";
+        this.address = new Address();
+        this.phoneNumberList = new ArrayList<>();
+        this.firstName = "";
+        this.lastName = "";
+        this.companyName = "";
+        this.email = "";
+        this.position = "";
+        this.notes = "";
     }
 
     public String getCustomerName() {
