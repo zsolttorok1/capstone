@@ -5,8 +5,11 @@
  */
 package servlets;
 
+import businesslogic.QuoteService;
+import domainmodel.Quote;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +25,16 @@ import javax.servlet.http.HttpSession;
 public class QuoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                QuoteService quoteService = new QuoteService();
+
+        String keyword = "anything";
+        List<Quote> quoteList = quoteService.searchQuote(keyword);
+        if (quoteList == null) {
+            request.setAttribute("message", "Quote not found. This seems like a database connection error.");
+        }
+
+        request.setAttribute("quoteList", quoteList);
+        request.getRequestDispatcher("/WEB-INF/viewQuote.jsp").forward(request, response);
       
     }
 
@@ -36,7 +49,7 @@ public class QuoteServlet extends HttpServlet {
         
         String errorMessage = "";
 
-        //Adding an Job
+        //Adding an Quote
         if (action != null && action.equals("submit")) {
               if (name != null && email != null && description !=null) {
                 
