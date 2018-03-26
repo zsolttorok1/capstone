@@ -15,5 +15,4 @@ public class Job implements Serializable{
     private Date dateFinished;
     private int balance; 
     private String status; 
-
 }

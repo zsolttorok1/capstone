@@ -24,6 +24,7 @@
                     <input type="text" placeholder="Search..." />
                 </form>
                 <a class="logout" href="main">Logout</a>
+                <a class="logout" href="login?action=logout">RealLogout</a>
             </div>
         </div>
         

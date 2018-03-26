@@ -19,7 +19,6 @@ public class Quote {
         this.name = name;
         this.email = email;
         this.description = description;
-
     }
 
     public String getName() {

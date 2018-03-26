@@ -2,8 +2,12 @@ package businesslogic;
 
 import dataaccess.UserBroker;
 import domainmodel.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import utilities.HashingUtil;
 
 public class UserService {
 
@@ -34,9 +38,14 @@ public class UserService {
 
     public List<User> searchUser(String keyword) {
         UserBroker userBroker = UserBroker.getInstance();
+        List<User> userList = null;
         
-        //this always return all items for now
-        List<User> userList = userBroker.getAll();
+        if (!keyword.isEmpty()) {
+            userList = userBroker.search(keyword);
+        }
+        else {
+            userList = userBroker.getAll();
+        }
         
         if (userList == null)
             return null;
@@ -240,5 +249,19 @@ public class UserService {
         User deletedUser = userBroker.getByName(userName);
         
         return userBroker.delete(deletedUser);
+    }
+    
+    //returns "(role), invalid, null" 
+    public String login(String username, String password) {
+        String status = "";
+        
+        if (username != null && password != null && !username.equals("") && !password.equals("")) {
+            UserBroker userBroker = UserBroker.getInstance();
+            status = userBroker.login(username, password);
+                       
+            if (status == null)
+                return "error while attempting to login. Check database connection.";
+        }
+        return status;
     }
 }

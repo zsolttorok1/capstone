@@ -1,49 +1,89 @@
-package servlets;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import businesslogic.UserService;
+package servlets;
 
-import domainmodel.User;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import businesslogic.UserService;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+import utilities.CookieUtil;
 
 /**
  *
- * @author 742227
+ * @author 725899
  */
 public class LoginServlet extends HttpServlet {
-    
+
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String action = request.getParameter("action");
-        if (action != null && action.equals("logout")) {
+        throws ServletException, IOException {
+            String action = (String) request.getParameter("action");
+            String status = request.getParameter("status");
+            
+            String message = null;
             HttpSession session = request.getSession();
-            session.invalidate();
-            request.setAttribute("errorMessage", "Logged out");
-        }
 
-        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-        // stop other execution of code
+            //cookie check: if found prefill form values
+            String userName = CookieUtil.getCookieValue(request.getCookies(), "userName");
+            if (userName != null && !userName.equals("")) {
+                request.setAttribute("checked", "checked");
+                request.setAttribute("userName", userName);
+                request.setAttribute("message", message);
+            }
+            
+            //session checks out, but not a logout attempt: if true then user is already logged in, redirect to homepage
+            if (session.getAttribute("userName") != null && action == null) {
+                response.sendRedirect("user");
+                return;
+            }
+           
+            //logout trigger check: if found kills current session
+            if (action != null && action.equals("logout")) {
+                message = "You have successfully logged out.";
+                session.removeAttribute("userName");
+                session.removeAttribute("role");
+                session.invalidate();
+                request.setAttribute("message", message);
+            }
+            
+            //password reset trigger check
+            if (action != null && action.equals("resetPassword")) {
+                response.sendRedirect("resetPassword");
+                return;
+            }
+            
+            //status 0 = default
+            //status 1 = OK: user's email found in database and email sent.
+            //status 2 = Error: email not found in database.
+            //status 3 = OK: password successfuly changed.
+            //status 4 = Error: request expired
 
+            if (status != null && status.equals("1"))
+                request.setAttribute("message", "Password reset request link sent to the provided email address.");
+            else if (status != null && status.equals("2"))
+                request.setAttribute("message", "Error: provided email address not found in database.");
+            else if (status != null && status.equals("3"))
+                request.setAttribute("message", "Password successfuly changed! You may login with the new one.");
+            else if (status != null && status.equals("4"))
+                request.setAttribute("message", "Error: This password reset request is expired or never existed. You may make a new one.");
+            
+            //on any other cases: forward to loginpage please
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); 
     }
 
     /**
@@ -56,93 +96,76 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-         //Start of login code
-        String userName = request.getParameter("userName");
-        String passWord = request.getParameter("passWord");
-
-        
-        // validation
-        if (userName == null || userName.isEmpty() || passWord == null || passWord.isEmpty()) {
-            // set error message
-
-            request.setAttribute("errorMessage", "Both values are required");
-
-            // forward the request back to login page.jsp
-            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-            // stop other execution of code
-            return;
-        }
-                //makes a user
-        User user = new User();
-
-        user.setUserName(userName);
-        user.setPassword(passWord);
-
-        //Checks if user object has a username and password and if null then
-        if (user.getUserName() == null || user.getUserName().isEmpty()
-                || user.getPassword() == null || user.getPassword().isEmpty()) {
-            // set error message
-            request.setAttribute("errorMessage", "Both values are required");
-
-            // forward the request back to index.jsp
-            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-            // stop other execution of code
-            return;
-        }
-        boolean owner = false;
-        boolean manager = false;
-        boolean employee = false;
-        UserService us = new UserService();
-        User users = null;
-        String pass = null;
-        String role = "null";
-        
-        try {
-
-            users = (User)us.getByUserName(user.getUserName());
-            pass = users.getPassword();
-            role = users.getRole();
-
-            if (users.getUserName() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Owner")) {
-                owner = true;
-
+        throws ServletException, IOException {
+            boolean rememberMe = false;
+            String message = null;
+            String userName = (String) request.getParameter("userName");
+            String password = (String) request.getParameter("password");
+            String rememberMeString = (String) request.getParameter("remember");
+            if (rememberMeString != null) {
+                rememberMe = Boolean.parseBoolean(rememberMeString);
             }
-            if (users.getUserName() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Manager")) {
-                manager = true;
+            
+            if (userName != null && password != null
+                && !userName.equals("") && !password.equals("")) {
+                    UserService userService = new UserService();
+                    String status = userService.login(userName, password);
+                    
+                    if (status == null && status.contains("error")) {
+                        message = "error while attempting to login. Check database connection.";
+                    }
+                    else if (status.equals("invalid")) {
+                        message = "Invalid username or password.";
+                    }
+                    //if login values are valid: do a session/cookie setup and redirect the user to home page
+                    else {                                             
+                        //set username session
+                        HttpSession session = request.getSession();
+                        session.setAttribute("userName", userName);
+                        session.setAttribute("role", status);
+                        session.setMaxInactiveInterval(60*60*24);  // expires after a day
+                        
+                        //set username cookie
+                        Cookie usernameCookie = new Cookie("userName", userName);
+                        
+                        //"remember me" checkbox on: feed the browser with username cookie
+                        if (rememberMe) {
+                            usernameCookie.setMaxAge(60*60*24*365); // persistent for a year
+                            usernameCookie.setPath("/");            // allowing access by entire app
+                            response.addCookie(usernameCookie);
+                        }
+                        //"remember me" checkbox off: request to browser to forget username cookie
+                        else {
+                            if (usernameCookie != null) {
+                                usernameCookie.setMaxAge(0); //effectively deleting the cookie, once it arrives
+                                usernameCookie.setPath("/");
+                                response.addCookie(usernameCookie);
+                            }
+                        }
+                        
+                        //routing the user to the privileged page                    
+                        response.sendRedirect("user");
+                        return;
+                   }
             }
-            if (users.getUserName() != null && pass != null && pass.equals(passWord) && role.equalsIgnoreCase("Employee")) {
-                employee = true;
-            }
-            if (owner) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", users.getUserName());
-                session.setAttribute("Object", users);
-                response.sendRedirect("job");
-                //getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
-            } else if (manager) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", users.getUserName());
-                session.setAttribute("Object", users);
-                response.sendRedirect("job");
-                //getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
-            } else if (employee) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", users.getUserName());
-                session.setAttribute("Object", users);
-                response.sendRedirect("job");
-
-            } else {
-                request.setAttribute("errorMessage", "Invaild username or password");
-                getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            else {
+                message = "Both username and password fields must be filled.";
             }
 
-        } catch (Exception ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.print("Wrong");
-            request.setAttribute("errorMessage", "Invaild username or password");
-            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-        }
-
+            request.setAttribute("userName", userName);
+            request.setAttribute("message", message);
+            //response.sendRedirect("login");
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
+    
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }

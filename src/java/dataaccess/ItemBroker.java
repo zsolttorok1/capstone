@@ -2,6 +2,7 @@ package dataaccess;
 
 import database.ConnectionPool;
 import domainmodel.Item;
+import domainmodel.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,6 +69,43 @@ public class ItemBroker {
             pool.freeConnection(connection);
         }
         return item;
+    }
+    
+    public List<Item> search(String keyword) {
+        getConnection();
+//        String status = getConnection();
+//        if (status == null || status.equals("connection error")) {
+//            return null;
+//        }
+        
+        List<Item> itemList = new ArrayList<>();
+        Item item = null;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(""
+                    + "SELECT i.item_name, i.quantity, c.category_name, i.description"
+                    + "     FROM item i" 
+                    + "     JOIN `category` c ON c.category_id = i.category_id"
+                    + "     WHERE i.item_name like ?;");
+                  
+            pstmt.setString(1, "%" + keyword +"%");
+            ResultSet rs = pstmt.executeQuery();
+       
+            while (rs.next()) {
+                String itemName = rs.getString("ITEM_NAME");
+                int quantity = rs.getInt("QUANTITY");
+                String category = rs.getString("CATEGORY_NAME");
+                String description = rs.getString("DESCRIPTION");
+
+                item = new Item(itemName, quantity, category, description, null);
+                itemList.add(item);
+            }
+          
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            pool.freeConnection(connection);
+        }
+        return itemList;
     }
 
     //returns "List of items, empty List, null"
