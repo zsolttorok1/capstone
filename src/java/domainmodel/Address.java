@@ -27,6 +27,12 @@ public class Address {
     }
     
     public Address() {
+        this.houseNumber = 0;
+        this.street = "";
+        this.city = "";
+        this.province = "";
+        this.country = "";
+        this.postalCode = "";
     }
 
     public int getHouseNumber() {

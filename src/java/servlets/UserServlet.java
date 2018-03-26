@@ -58,8 +58,8 @@ public class UserServlet extends HttpServlet {
         String userName = request.getParameter("userName");
 
         if (action.equals("delete")) {
-            userService.delete(userName);
-            message = "You deleted the item.";
+            String status = userService.delete(userName);
+            request.setAttribute("message", status);
         } else if (action.equals("add")) {
             String houseNumber = request.getParameter("houseNumber");
             String street = request.getParameter("street");

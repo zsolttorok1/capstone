@@ -1,160 +1,159 @@
 package businesslogic;
 
-import dataaccess.UserBroker;
-import domainmodel.User;
+import dataaccess.CustomerBroker;
+import domainmodel.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerService {
-
-    public String insert(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
-    
-        User user = build(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
         
-        String status = validate(user);
+    public String insert(String customerName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+    
+        Customer customer = build(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
+        
+        String status = validate(customer);
         
         if (status != null && status.equals("ok")) {
-            UserBroker userBroker = UserBroker.getInstance();
-            status = userBroker.insert(user);
+            CustomerBroker customerBroker = CustomerBroker.getInstance();
+            status = customerBroker.insert(customer);
         }
 
         return status; 
     }
 
-    public User getByUserName(String userName) {
+    public Customer getByCustomerName(String customerName) {
         
-        if (userName != null && !userName.isEmpty()) {
-            UserBroker userBroker = UserBroker.getInstance();
-            return userBroker.getByName(userName);
+        if (customerName != null && !customerName.isEmpty()) {
+            CustomerBroker customerBroker = CustomerBroker.getInstance();
+            return customerBroker.getByName(customerName);
         }
         else {
             return null;
         }
     }
 
-    public List<User> searchUser(String keyword) {
-        UserBroker userBroker = UserBroker.getInstance();
+    public List<Customer> searchCustomer(String keyword) {
+        CustomerBroker customerBroker = CustomerBroker.getInstance();
         
         //this always return all items for now
-        List<User> userList = userBroker.getAll();
+        List<Customer> customerList = customerBroker.getAll();
         
-        if (userList == null)
+        if (customerList == null)
             return null;
                 
-        return userList;
+        return customerList;
     }
 
-    public String update(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
-        User user = build(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
+    public String update(String customerName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+        Customer customer = build(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
         
-        return update(user);
+        return update(customer);
     }
     
-    public String update(User userNew) {
+    public String update(Customer customerNew) {
         
-        UserBroker userBroker = UserBroker.getInstance();
-        User user = null;
+        CustomerBroker customerBroker = CustomerBroker.getInstance();
+        Customer customer = null;
         String status = "";
         
-        if (userNew.getUserName() != null) 
-            user = userBroker.getByName(userNew.getUserName());
+        if (customerNew.getCompanyName() != null) 
+            customer = customerBroker.getByName(customerNew.getCompanyName());
         else 
-            return "invalid userName";
+            return "Invalid customerName";
         
-        if (user == null)
-            return "username not found while attempting to update. Check database connection.";
-        
+        if (customer == null)
+            return "Customer not found while attempting to update. Check database connection.";
         
         //prepare changed attributes on the updatable User
-        if (userNew.getHouseNumber() > 0 )
-            user.setHouseNumber(userNew.getHouseNumber());
-        if (userNew.getStreet() != null && !userNew.getStreet().isEmpty() )
-            user.setStreet(userNew.getStreet());
-        if (userNew.getCity() != null && !userNew.getCity().isEmpty() )
-            user.setCity(userNew.getCity());
-        if (userNew.getProvince() != null && !userNew.getProvince().isEmpty() )
-            user.setProvince(userNew.getProvince());
-        if (userNew.getCountry() != null && !userNew.getCountry().isEmpty() )
-            user.setCountry(userNew.getCountry());
-        if (userNew.getPostalCode() != null && !userNew.getPostalCode().isEmpty() )
-            user.setPostalCode(userNew.getPostalCode());
-        if (userNew.getPhoneNumberList() != null && !userNew.getPhoneNumberList().isEmpty() )
-            user.setPhoneNumberList(userNew.getPhoneNumberList());
-        if (userNew.getPassword() != null && !userNew.getPassword().isEmpty() )
-            user.setPassword(userNew.getPassword());
-        if (userNew.getFirstName() != null && !userNew.getFirstName().isEmpty() )
-            user.setFirstName(userNew.getFirstName());
-        if (userNew.getLastName() != null && !userNew.getLastName().isEmpty() )
-            user.setLastName(userNew.getLastName());
-        if (userNew.getRole() != null && !userNew.getRole().isEmpty() )
-            user.setRole(userNew.getRole());
-        if (userNew.getEmail() != null && !userNew.getEmail().isEmpty() )
-            user.setEmail(userNew.getEmail());
-        if (userNew.getHourlyRate() > 0 )
-            user.setHourlyRate(userNew.getHourlyRate());
+        if (customerNew.getHouseNumber() > 0 )
+            customer.setHouseNumber(customerNew.getHouseNumber());
+        if (customerNew.getStreet() != null && !customerNew.getStreet().isEmpty() )
+            customer.setStreet(customerNew.getStreet());
+        if (customerNew.getCity() != null && !customerNew.getCity().isEmpty() )
+            customer.setCity(customerNew.getCity());
+        if (customerNew.getProvince() != null && !customerNew.getProvince().isEmpty() )
+            customer.setProvince(customerNew.getProvince());
+        if (customerNew.getCountry() != null && !customerNew.getCountry().isEmpty() )
+            customer.setCountry(customerNew.getCountry());
+        if (customerNew.getPostalCode() != null && !customerNew.getPostalCode().isEmpty() )
+            customer.setPostalCode(customerNew.getPostalCode());
+        if (customerNew.getPhoneNumberList() != null && !customerNew.getPhoneNumberList().isEmpty() )
+            customer.setPhoneNumberList(customerNew.getPhoneNumberList());
+        if (customerNew.getFirstName() != null && !customerNew.getFirstName().isEmpty() )
+            customer.setFirstName(customerNew.getFirstName());
+        if (customerNew.getLastName() != null && !customerNew.getLastName().isEmpty() )
+            customer.setLastName(customerNew.getLastName());
+        if (customerNew.getCompanyName() != null && !customerNew.getCompanyName().isEmpty() )
+            customer.setCompanyName(customerNew.getCompanyName());
+        if (customerNew.getEmail() != null && !customerNew.getEmail().isEmpty() )
+            customer.setEmail(customerNew.getEmail());
+        if (customerNew.getPosition() != null && !customerNew.getPosition().isEmpty() )
+            customer.setPosition(customerNew.getPosition());
+        if (customerNew.getNotes() != null && !customerNew.getNotes().isEmpty() )
+            customer.setNotes(customerNew.getNotes());
         
         //make sure that the new attribute values are valid, before updating.
-        status = validate(user);
+        status = validate(customer);
         if (status != null && status.equals("ok")) {
-            return userBroker.update(user);
+            return customerBroker.update(customer);
         }
         else {
             return status;
         }
     }
       
-    private String validate(User user) {
+    private String validate(Customer customer) {
         String status = "";
         
-        if (user == null || user.getUserName().isEmpty()) {
-            status += "invalid userName ";
+        if (customer == null || customer.getCompanyName().isEmpty()) {
+            status += "invalid customerName ";
         }
-        if (user.getHouseNumber() <= 0) {
+        if (customer.getHouseNumber() <= 0) {
             status += "invalid houseNumber ";
         }
-        if (user.getStreet() == null || user.getStreet().isEmpty()) {
+        if (customer.getStreet() == null || customer.getStreet().isEmpty()) {
             status += "invalid street ";
         }
-        if (user.getCity() == null || user.getCity().isEmpty()) {
+        if (customer.getCity() == null || customer.getCity().isEmpty()) {
             status += "invalid city ";
         }
-        if (user.getProvince() == null || user.getProvince().isEmpty()) {
+        if (customer.getProvince() == null || customer.getProvince().isEmpty()) {
             status += "invalid province ";
         }
-        if (user.getCountry() == null || user.getCountry().isEmpty()) {
+        if (customer.getCountry() == null || customer.getCountry().isEmpty()) {
             status += "invalid country ";
         }
-        if (user.getPostalCode() == null || user.getPostalCode().isEmpty()) {
+        if (customer.getPostalCode() == null || customer.getPostalCode().isEmpty()) {
             status += "invalid postalCode ";
         }
-        if (user.getPhoneNumberList() == null || user.getPhoneNumberList().isEmpty()) {
+        if (customer.getPhoneNumberList() == null || customer.getPhoneNumberList().isEmpty()) {
             status += "invalid phoneNumberList ";
         }
         else {
-            for (int i=0; i < user.getPhoneNumberList().size(); i++) {
+            for (int i=0; i < customer.getPhoneNumberList().size(); i++) {
                 //regex this check for right number of digits, format, etc
-                if (user.getPhoneNumberList().get(i) <= 0) {
+                if (customer.getPhoneNumberList().get(i) <= 0) {
                     status += "invalid phoneNumberFormat at phone entry#" + (i+1) + " ";
                 }
             }
         }
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            status += "invalid password ";
-        }
-        if (user.getFirstName() == null || user.getFirstName().isEmpty()) {
+        if (customer.getFirstName() == null || customer.getFirstName().isEmpty()) {
             status += "invalid firstName ";
         }
-        if (user.getLastName() == null || user.getLastName().isEmpty()) {
+        if (customer.getLastName() == null || customer.getLastName().isEmpty()) {
             status += "invalid lastName ";
         }
-        if (user.getRole() == null || user.getRole().isEmpty()) {
-            status += "invalid role ";
+        if (customer.getCompanyName() == null || customer.getCompanyName().isEmpty()) {
+            status += "invalid companyName ";
         }
-        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+        if (customer.getEmail() == null || customer.getEmail().isEmpty()) {
             status += "invalid email ";
         }
-        if (user.getHourlyRate() <= 0 ) {
-            status += "invalid hourlyRate ";
+        if (customer.getPosition() == null || customer.getPosition().isEmpty()) {
+            status += "invalid position ";
+        }
+        if (customer.getNotes() == null || customer.getNotes().isEmpty()) {
+            status += "invalid notes ";
         }
         
         if (status.isEmpty()) {
@@ -165,34 +164,34 @@ public class CustomerService {
         }
     }
     
-    private User build(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
-        User user = new User();
+    private Customer build(String customerName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+        Customer customer = new Customer();
         
-        if (userName != null && !userName.isEmpty()) {
-            user.setUserName(userName);
+        if (customerName != null && !customerName.isEmpty()) {
+            customer.setCustomerName(customerName);
         }
         if (houseNumber != null && !houseNumber.isEmpty()) {
             try {
                 int intHouseNumber = Integer.parseInt(houseNumber);
-                user.setHouseNumber(intHouseNumber);
+                customer.setHouseNumber(intHouseNumber);
             } catch (NumberFormatException ex) {
-                user.setHouseNumber(-1);
+                customer.setHouseNumber(-1);
             }
         }
         if (street != null && !street.isEmpty()) {
-            user.setStreet(street);
+            customer.setStreet(street);
         }
         if (city != null && !city.isEmpty()) {
-            user.setCity(city);
+            customer.setCity(city);
         }
         if (province != null && !province.isEmpty()) {
-            user.setProvince(province);
+            customer.setProvince(province);
         }
         if (country != null && !country.isEmpty()) {
-            user.setCountry(country);
+            customer.setCountry(country);
         }
         if (postalCode != null && !postalCode.isEmpty()) {
-            user.setPostalCode(postalCode);
+            customer.setPostalCode(postalCode);
         }
         if (phoneNumberList != null && phoneNumberList.length != 0) {
             ArrayList<Long> intPhoneNumberList = new ArrayList<>();
@@ -205,40 +204,34 @@ public class CustomerService {
                     intPhoneNumberList.add(-1L);
                 }
             }
-            user.setPhoneNumberList(intPhoneNumberList);
-        }
-        if (password != null && !password.isEmpty()) {
-            //we need to hash the password, and store that hash value instead
-            user.setPassword(password);
+            customer.setPhoneNumberList(intPhoneNumberList);
         }
         if (firstName != null && !firstName.isEmpty()) {
-            user.setFirstName(firstName);
+            customer.setFirstName(firstName);
         }
         if (lastName != null && !lastName.isEmpty()) {
-            user.setLastName(lastName);
+            customer.setLastName(lastName);
         }
-        if (role != null && !role.isEmpty()) {
-            user.setRole(role);
+        if (companyName != null && !companyName.isEmpty()) {
+            customer.setCompanyName(companyName);
         }
         if (email != null && !email.isEmpty()) {
-            user.setEmail(email);
+            customer.setEmail(email);
         }
-        if (hourlyRate != null && !hourlyRate.isEmpty()) {
-            try {
-                int intHourlyRate = Integer.parseInt(hourlyRate);
-                user.setHourlyRate(intHourlyRate);
-            } catch (NumberFormatException ex) {
-                user.setHourlyRate(-1);
-            }
+        if (position != null && !position.isEmpty()) {
+            customer.setPosition(position);
         }
-        
-        return user;
+        if (notes != null && !notes.isEmpty()) {
+            customer.setNotes(notes);
+        }
+
+        return customer;
     }
     
-    public String delete(String userName) {
-        UserBroker userBroker = UserBroker.getInstance();
-        User deletedUser = userBroker.getByName(userName);
+    public String delete(String customerName) {
+        CustomerBroker customerBroker = CustomerBroker.getInstance();
+        Customer deletedCustomer = customerBroker.getByName(customerName);
         
-        return userBroker.delete(deletedUser);
+        return customerBroker.delete(deletedCustomer);
     }
 }
