@@ -72,11 +72,15 @@
         <c:forEach var="customer" items="${customerList}">
             <div class="rowWrapper">
                 <div class="row">
-                    <div class="rowitem" name="username">${customer.firstName} ${customer.lastName}</div>
-                    <div class="rowitem" name="email">${customer.companyName}</div>
-                    
-                    <div class="rowitem" name="firstname">${customer.email}</div>
-                    <div class="rowitem" name="lastname">${customer.addressId}</div>
+                    <div class="rowitem" name="name">${customer.firstName} ${customer.lastName}</div>
+                    <div class="rowitem" name="company">${customer.companyName}</div>
+                    <div class="rowitem" name="phone">
+                        <c:forEach var="phone" items="${customer.phoneNumberList}">
+                            ${phone}
+                        </c:forEach>
+                    </div>
+                    <div class="rowitem" name="email">${customer.email}</div>
+                    <div class="rowitem" name="address">${customer.houseNumber} ${customer.street}</div>
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
