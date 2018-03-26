@@ -189,6 +189,12 @@ p.bodytext {
     padding-left: 10px;
 }
 
+.rowitemHeaderEmail {
+    height: 36px;
+    width: 435px;
+    padding-left: 10px;
+}
+
 .addPlus {
     max-height: 50px;
     padding: 10px;
@@ -239,6 +245,14 @@ p.bodytext {
     height: 70px;
     width: 400px;
     max-width: 250px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.rowitemEmail {
+    height: 70px;
+    width: 435px;
     box-sizing: border-box;
     padding-left: 10px;
     padding-right: 10px;

@@ -45,7 +45,7 @@
         
         <div class="rowHeader">
             <div class="rowitemHeader">Username</div>
-            <div class="rowitemHeader">Email</div>
+            <div class="rowitemHeaderEmail">Email</div>
             <div class="rowitemHeader">Phone</div>
             <div class="rowitemHeader">First Name</div>
             <div class="rowitemHeader">Last Name</div>
@@ -135,7 +135,7 @@
             <div class="rowWrapper">
                 <div class="row">
                     <div class="rowitem" name="username">${user.userName}</div>
-                    <div class="rowitem" name="email">${user.email}</div>
+                    <div class="rowitemEmail" name="email">${user.email}</div>
                     <div class="rowitem" name="phone">
                         <c:forEach var="phone" items="${user.phoneNumberList}">
                             ${phone}<br>
