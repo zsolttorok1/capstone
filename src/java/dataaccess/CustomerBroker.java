@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package dataaccess;
 
 import database.ConnectionPool;
@@ -12,198 +17,287 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CustomerBroker {
+    private static CustomerBroker customerBroker;
+    private ConnectionPool pool;
+    private Connection connection;
+    
+    public static CustomerBroker getInstance() {
+        if (customerBroker == null) {
+            customerBroker = new CustomerBroker();
+        }
+        
+        return customerBroker;
+    }
+    
+    private CustomerBroker() {
+    }
+    
+    private String getConnection() {
+        try {
+            pool = ConnectionPool.getInstance();
+            connection = pool.getConnection();
+            
+            if (connection != null) {
+                connection.setAutoCommit(false);
+                return "ok";
+            }
+            else {
+                return "connection error";
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerBroker.class.getName()).log(Level.SEVERE, null, ex);
+            return "connection error";
+        }
+    }
 
+    //returns "Customer, null"
     public Customer getByName(String customerName) {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
+        
         Customer customer = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM customer WHERE customer_name = ?");
+            PreparedStatement pstmt = connection.prepareStatement(""
+                + "SELECT c.customer_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', c.firstname, c.lastname, c.company_name, c.email, po.position_name, c.notes "
+                + "FROM `customer` c "
+                + "JOIN `phone_customer` pc ON pc.customer_name = c.customer_name "
+                + "JOIN `phone` p ON p.phone_id = pc.phone_id "
+                + "JOIN `address` a ON a.address_id = c.address_id "
+                + "JOIN `position` po ON po.position_id = c.position_id "
+                + "WHERE c.customer_name = ?; ");
             pstmt.setString(1, customerName);
-
             ResultSet rs = pstmt.executeQuery();
-
-            ArrayList phoneIdList = new ArrayList();
-
-            String customerName2 = null;
-            String jobName = null;
-            int phoneId = 0;
-            int addressId = 0;
-            String firstName = null;
-            String lastName = null;
-            String companyName = null;
-            String email = null;
-            String position = null;
-            String note = null;
-
-            while (rs.next()) {
-                customerName2 = rs.getString("CUSTOMER_NAME");
-                jobName = rs.getString("JOB_NAME");
-                phoneId = rs.getInt("PHONE_ID");
-                phoneIdList.add(phoneId);
-                addressId = rs.getInt("ADDRESS_ID");
-                firstName = rs.getString("FIRST_NAME");
-                lastName = rs.getString("LAST_NAME");
-                companyName = rs.getString("COMPANY_NAME");
-                email = rs.getString("EMAIL");
-                position = rs.getString("POSITION");
-                note = rs.getString("NOTE");
-
+       
+            if (rs.next() && rs.getInt("HOUSE_NUMBER") > 0) {
+                int houseNumber = rs.getInt("HOUSE_NUMBER");
+                String street = rs.getString("STREET");
+                String city = rs.getString("CITY");
+                String province = rs.getString("PROVINCE");
+                String country = rs.getString("COUNTRY");
+                String postalCode = rs.getString("POSTAL_CODE");
+                
+                List<Long> phoneNumberList = new ArrayList<>();
+                String stringPhoneNumberList = rs.getString("PHONE_NUMBER");
+                String[] parts = stringPhoneNumberList.split(",");
+                for (String part : parts) {
+                    try {
+                        long phoneNumber = Long.parseLong(part);
+                        phoneNumberList.add(phoneNumber);
+                    } catch (NumberFormatException ex) {
+                    }
+                }
+                
+                String firstname = rs.getString("FIRSTNAME");
+                String lastname = rs.getString("LASTNAME");
+                String companyName = rs.getString("COMPANY_NAME");
+                String email = rs.getString("EMAIL");
+                String positionName = rs.getString("POSITION_NAME");
+                String notes = rs.getString("NOTES");
+                
+                customer = new Customer(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstname, lastname, companyName, email, positionName, notes);
             }
-            customer = new Customer(customerName2, jobName, phoneIdList, addressId, firstName, lastName, companyName, email, position, note);
-            pool.freeConnection(connection);
-
+          
         } catch (SQLException ex) {
             Logger.getLogger(CustomerBroker.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             pool.freeConnection(connection);
         }
         return customer;
-
     }
 
+    //returns "List of Customers, empty List, null"
     public List<Customer> getAll() {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
 
         List<Customer> customerList = new ArrayList<>();
         Customer customer = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM customer");
+            PreparedStatement pstmt = connection.prepareStatement(""
+                + "SELECT c.customer_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', c.firstname, c.lastname, c.company_name, c.email, po.position_name, c.notes "
+                + "FROM `customer` c "
+                + "JOIN `phone_customer` pc ON pc.customer_name = c.customer_name "
+                + "JOIN `phone` p ON p.phone_id = pc.phone_id "
+                + "JOIN `address` a ON a.address_id = c.address_id "
+                + "JOIN `position` po ON po.position_id = c.position_id "
+                + "GROUP BY customer_name;");
 
             ResultSet rs = pstmt.executeQuery();
 
-            ArrayList phoneIdList = new ArrayList();
-
-            String customerName2 = null;
-            String jobName = null;
-            int phoneId = 0;
-            int addressId = 0;
-            String firstName = null;
-            String lastName = null;
-            String companyName = null;
-            String email = null;
-            String position = null;
-            String note = null;
-
-            while (rs.next()) {
-                customerName2 = rs.getString("CUSTOMER_NAME");
-                jobName = rs.getString("JOB_NAME");
-                phoneId = rs.getInt("PHONE_ID");
-                phoneIdList.add(phoneId);
-                addressId = rs.getInt("ADDRESS_ID");
-                firstName = rs.getString("FIRST_NAME");
-                lastName = rs.getString("LAST_NAME");
-                companyName = rs.getString("COMPANY_NAME");
-                email = rs.getString("EMAIL");
-                position = rs.getString("POSITION");
-                note = rs.getString("NOTE");
+            while (rs.next() && rs.getInt("HOUSE_NUMBER") > 0) {
+                String customerName = rs.getString("CUSTOMER_NAME");
+                int houseNumber = rs.getInt("HOUSE_NUMBER");
+                String street = rs.getString("STREET");
+                String city = rs.getString("CITY");
+                String province = rs.getString("PROVINCE");
+                String country = rs.getString("COUNTRY");
+                String postalCode = rs.getString("POSTAL_CODE");
+                
+                List<Long> phoneNumberList = new ArrayList<>();
+                String stringPhoneNumberList = rs.getString("PHONE_NUMBER");
+                String[] parts = stringPhoneNumberList.split(",");
+                for (String part : parts) {
+                    try {
+                        long phoneNumber = Long.parseLong(part);
+                        phoneNumberList.add(phoneNumber);
+                    } catch (NumberFormatException ex) {
+                    }
+                }
+                
+                String firstname = rs.getString("FIRSTNAME");
+                String lastname = rs.getString("LASTNAME");
+                String companyName = rs.getString("COMPANY_NAME");
+                String email = rs.getString("EMAIL");
+                String positionName = rs.getString("POSITION_NAME");
+                String notes = rs.getString("NOTES");
+                
+                
+                customer = new Customer(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstname, lastname, companyName, email, positionName, notes);
+                customerList.add(customer);
             }
-            customer = new Customer(customerName2, jobName, phoneIdList, addressId, firstName, lastName, companyName, email, position, note);
-            customerList.add(customer);
+            
         } catch (SQLException ex) {
             Logger.getLogger(CustomerBroker.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             pool.freeConnection(connection);
         }
-
         return customerList;
     }
 
+    //returns "inserted, updated, error, exception"
     public String insert(Customer customer) {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        String result = null;
-
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
+        
         try {
-            ArrayList phoneIdList = new ArrayList();
-            PreparedStatement pstmt = connection.prepareStatement("select insert_customer_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_customer_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, customer.getCustomerName());
-            pstmt.setString(2, customer.getJobName());
-
-            for (int i = 0; i < phoneIdList.size(); i++) {
-                pstmt.setInt(3, customer.getPhoneId().get(i));
-            }
-
-            pstmt.setInt(4, customer.getAddressId());
-            pstmt.setString(5, customer.getFirstName());
-            pstmt.setString(6, customer.getLastName());
-            pstmt.setString(7, customer.getCompanyName());
-            pstmt.setString(8, customer.getEmail());
-            pstmt.setString(9, customer.getPosition());
-            pstmt.setString(10, customer.getNote());
+            pstmt.setInt(2, customer.getHouseNumber());
+            pstmt.setString(3, customer.getStreet());
+            pstmt.setString(4, customer.getCity());
+            pstmt.setString(5, customer.getProvince());
+            pstmt.setString(6, customer.getCountry());
+            pstmt.setString(7, customer.getPostalCode());
+            pstmt.setString(9, customer.getFirstName());
+            pstmt.setString(10, customer.getLastName());
+            pstmt.setString(11, customer.getCompanyName());
+            pstmt.setString(12, customer.getEmail());
+            pstmt.setString(13, customer.getPosition());
+            pstmt.setString(14, customer.getNotes());
 
             ResultSet rs = pstmt.executeQuery();
-
+            //get the status report from current database function
             while (rs.next()) {
-                result = rs.getString(1);
+                status = rs.getString(1);
             }
-            pool.freeConnection(connection);
-
-            connection.commit();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(CustomerBroker.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            pool.freeConnection(connection);
-        }
-
-        return result;
-    }
-
-    public String update(Customer customer) {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-
-        try {
-            ArrayList phoneIdList = new ArrayList();
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE customer SET "
-                    + "JOB_NAME = ?, PHONE_ID = ?, ADDRESS_ID = ?, FIRST_NAME = ?, LAST_NAME =?, "
-                    + "COMPANY_NAME = ?, EMAIL = ?, POSITION = ?, NOTE =? WHERE CUSTOMER_NAME =?");
-
-            pstmt.setString(1, customer.getJobName());
-
-            for (int i = 0; i < phoneIdList.size(); i++) {
-                pstmt.setInt(2, customer.getPhoneId().get(i));
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
             }
 
-            pstmt.setInt(3, customer.getAddressId());
-            pstmt.setString(4, customer.getFirstName());
-            pstmt.setString(5, customer.getLastName());
-            pstmt.setString(6, customer.getCompanyName());
-            pstmt.setString(7, customer.getEmail());
-            pstmt.setString(8, customer.getPosition());
-            pstmt.setString(9, customer.getNote());
-            pstmt.setString(10, customer.getCustomerName());
+            //inserting phone numbers
+            String stringPhoneNumberList = "";
+            for (long phoneNumber : customer.getPhoneNumberList()) {
+                stringPhoneNumberList += phoneNumber + ",";
+            }
+            pstmt = connection.prepareStatement("select insert_phoneList_customer_func(?, ?)");
+            pstmt.setString(1, customer.getCustomerName());
+            pstmt.setString(2, stringPhoneNumberList);
             
-            ResultSet rs = pstmt.executeQuery();
-
+            rs = pstmt.executeQuery();
+            //get the status report from current database function
+            while (rs.next()) {
+                status = rs.getString(1);
+            }
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            
+            //if all good, commit
+            connection.commit();
+            
         } catch (SQLException ex) {
             Logger.getLogger(CustomerBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+                return "exception";
+            } catch (SQLException ex1) {
+                Logger.getLogger(CustomerBroker.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return "exception";
         } finally {
             pool.freeConnection(connection);
         }
 
-        return "updated";
+        return status;
     }
 
-    public String delete(Customer customer) {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+    //returns "updated, error, exception"
+    public String update(Customer customer) {
+        String status = insert(customer);
+        
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
+        
+        if (status.contains("updated") || status.contains("inserted")) {
+            return "updated";
+        }
+        
+        return status; //expection, error
+    }
 
+    //returns "deleted, error, exception"
+    public String delete(Customer customer) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
+   
         try {
-            ArrayList phoneIdList = new ArrayList();
-            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM customer WHERE CUSTOMER_NAME = ?");
+            PreparedStatement pstmt = connection.prepareStatement("select delete_customer_func(?)");
             pstmt.setString(1, customer.getCustomerName());
 
             ResultSet rs = pstmt.executeQuery();
+            
+             //get the status report from current database function
+            while (rs.next()) {
+                status = rs.getString(1);
+            }
+            
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            //if all good, commit
+            else {
+                connection.commit();
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(CustomerBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(CustomerBroker.class.getName()).log(Level.SEVERE, null, ex1);
+                return "exception";
+            }
+            return "exception";
         } finally {
             pool.freeConnection(connection);
         }
 
-        return "deleted";
+        return status;
     }
 }

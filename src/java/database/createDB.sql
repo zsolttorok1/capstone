@@ -7,15 +7,12 @@ USE CapstoneDB;
 
 SET global sql_mode='STRICT_ALL_TABLES';
 
-/*Table structure for table `item` */
-
+/* table structures ***********************************************************************/
 CREATE TABLE `category` (
     `category_id` int NOT NULL AUTO_INCREMENT,
     `category_name` varchar(30) NOT NULL,
     PRIMARY KEY (`category_id`)
 );
-
-DROP TABLE IF EXISTS `item`;
 
 CREATE TABLE `item` (
     `item_name` varchar(100) NOT NULL,
@@ -26,7 +23,6 @@ CREATE TABLE `item` (
     CONSTRAINT `FK_User_Category_id` FOREIGN KEY (`category_id`) references `category`(`category_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-/* Table structure for table `user` */
 CREATE TABLE `report` (
     `report_name` varchar(50) NOT NULL,
     `description` varchar(2000) NOT NULL,
@@ -35,21 +31,12 @@ CREATE TABLE `report` (
     PRIMARY KEY (`report_name`)
 );
 
-/* Table structure for table `phone_number` */
 CREATE TABLE `phone` (
     `phone_id` int NOT NULL AUTO_INCREMENT,
     `phone_number` bigint NOT NULL,
     PRIMARY KEY (`phone_id`)
 );
 
-/* Table structure for table `position` */
-CREATE TABLE `position` (
-    `position_id` int NOT NULL AUTO_INCREMENT,
-    `position_number` bigint NOT NULL,
-    PRIMARY KEY (`position_id`)
-);
-
-/* Table structure for table `address` */
 CREATE TABLE `address` (
     `address_id` int NOT NULL AUTO_INCREMENT,
     `house_number` int NOT NULL,
@@ -60,10 +47,6 @@ CREATE TABLE `address` (
     `postal_code` varchar(20) NOT NULL,
     PRIMARY KEY (`address_id`)
 );
-
-/*Table structure for table `user` */
-
-DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `role` (
     `role_id` int(10) NOT NULL AUTO_INCREMENT,
@@ -85,9 +68,6 @@ CREATE TABLE `user` (
     CONSTRAINT `FK_User_Role_id`  FOREIGN KEY (`role_id`) references `role`(`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- CONSTRAINT `FK_User_Address_id`  FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
---     CONSTRAINT `FK_User_Role_id`  FOREIGN KEY (`role_id`) references `role`(`role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-
 CREATE TABLE `phone_user` (
     `user_name` varchar(50) NOT NULL,
     `phone_id` int NOT NULL,
@@ -96,23 +76,24 @@ CREATE TABLE `phone_user` (
     CONSTRAINT `FK_PU_phone_id` FOREIGN KEY (`phone_id`) references `phone`(`phone_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-/*Table structure for table `customer` */
+CREATE TABLE `position` (
+    `position_id` int NOT NULL AUTO_INCREMENT,
+    `position_name` varchar(50) NOT NULL,
+    PRIMARY KEY (`position_id`)
+);
 
 CREATE TABLE `customer` (
     `customer_name` varchar(50) NOT NULL,
-    `job_name` varchar(50) NOT NULL,
-    `phone_id` int NOT NULL,
     `address_id` int NOT NULL,
     `firstname` varchar(50) NOT NULL,
     `lastname` varchar(50) NOT NULL,
     `company_name` varchar(50) NOT NULL,
     `email` varchar(100) NOT NULL,
-    `position` varchar(50) NULL,
+    `position_id` int NOT NULL,
     `notes` varchar (2000) NULL,
     PRIMARY KEY (`customer_name`),
-    --CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Customer_Phone_id` FOREIGN KEY (`phone_id`) references `phone`(`phone_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `FK_Customer_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`)  ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `FK_Customer_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_Customer_Position_id` FOREIGN KEY (`position_id`) references `position`(`position_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `phone_customer` (
@@ -122,10 +103,6 @@ CREATE TABLE `phone_customer` (
     CONSTRAINT `FK_PC_customer_name`  FOREIGN KEY (`customer_name`) references `customer`(`customer_name`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `FK_PC_phone_id` FOREIGN KEY (`phone_id`) references `phone`(`phone_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-/*Table structure for table `job` */
-
-DROP TABLE IF EXISTS `job`;
 
 CREATE TABLE `job` (
     `job_name` varchar(50) NOT NULL,
@@ -143,23 +120,14 @@ CREATE TABLE `job` (
     CONSTRAINT `FK_Job_Report_name` FOREIGN KEY (`report_name`) references `report`(`report_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
-/*Table structure for table `user` */
-
-DROP TABLE IF EXISTS `job_user`;
-
 CREATE TABLE `job_user` (
     `user_name` varchar(50) NOT NULL,
     `job_name` varchar(50) NOT NULL,
     `hours` int NOT NULL,
     PRIMARY KEY (`user_name`, `job_name`),
-    --PRIMARY KEY (`job_name`),
     CONSTRAINT `FK_Job_User_User_name` FOREIGN KEY (`user_name`) references `user`(`user_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT `FK_Job_User_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-
-/*Table structure for table `user` */
-
-DROP TABLE IF EXISTS `job_item`;
 
 CREATE TABLE `job_item` (
     `job_name` varchar(50) NOT NULL,
@@ -167,49 +135,20 @@ CREATE TABLE `job_item` (
     `note` varchar(2000) NULL,
     `quantity` int(5) NOT NULL,
     PRIMARY KEY (`job_name`, `item_name`),
-    --PRIMARY KEY (`item_name`),
     CONSTRAINT `FK_Job_Item_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT `FK_Job_Item_Item_name` FOREIGN KEY (`item_name`) references `item`(`item_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
-/* Table structure for table `quote` */
 CREATE TABLE `quote` (
-    `name` varchar(100) NOT NULL,
-    `description` varchar(100) NOT NULL,
+    `quote_name` varchar(100) NOT NULL,
     `email` varchar(100) NOT NULL,
-    PRIMARY KEY (`name`)
+    `description` varchar(100) NOT NULL, 
+    PRIMARY KEY (`quote_name`)
 );
 
---Add Contraint for job 
---CONSTRAINT `FK_Customer_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
-
-ALTER TABLE customer
-ADD CONSTRAINT `FK_Customer_Job_name`
-FOREIGN KEY (`job_name`) references `job`(`job_name`);
-
-/*FUNCTION FOR INSERTING ON THE PHONE AND ADDRESS */
+/* function for ITEM ***********************************************************************/
 DELIMITER $$
-CREATE procedure `address_proc` 
-(OUT address_new int)
-BEGIN
-    select max(address_id)
-    into address_new
-    from address;
-END;
-$$
 
-CREATE procedure `phone_proc`
-(OUT phone_new int)
-BEGIN
-    select max(phone_id)
-    into phone_new
-    from phone;
-END;
-$$
-
--- /*duplicate PK found */ DECLARE CONTINUE HANDLER FOR 1062
-
-/* functions for ITEM */
 CREATE FUNCTION `insert_item_func`
     (p_item_name varchar(100),
     p_quantity int(5),
@@ -221,6 +160,7 @@ BEGIN
     DECLARE v_old_description_count int;
     DECLARE v_category_id int;
     DECLARE v_item_name_count int;
+    -- DECLARE CONTINUE HANDLER FOR 1062 /*duplicate PK found */
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
         BEGIN
             return 'error';
@@ -261,6 +201,12 @@ BEGIN
     /* item is not in database, so insert it*/
     INSERT INTO `item` (`item_name`, `quantity`, `category_id`, `description`)
         VALUES (p_item_name, p_quantity, v_category_id, p_description);
+
+    /* deleting unused category entries */
+    DELETE FROM category
+        WHERE category_id NOT IN
+        (SELECT category_id FROM item);
+
     return 'inserted';
 END;
 $$
@@ -279,7 +225,7 @@ BEGIN
             return 'error';
         END;
 
-/* get category_id from category_name */
+    /* get category_id from category_name */
     set v_category_id = get_category_id_by_name(p_category_name);
     if (v_category_id = -1) then
         return 'error';
@@ -288,7 +234,31 @@ BEGIN
     UPDATE item
         SET quantity = p_quantity, category_id = v_category_id, description = p_description
         WHERE p_item_name = item_name;
+
+    /* deleting unused category entries */
+    DELETE FROM category
+        WHERE category_id NOT IN
+        (SELECT category_id FROM item);
+
     return 'updated';
+END;
+$$
+
+CREATE procedure `address_proc` 
+(OUT address_new int)
+BEGIN
+    select max(address_id)
+    into address_new
+    from address;
+END;
+$$
+
+CREATE procedure `phone_proc`
+(OUT phone_new int)
+BEGIN
+    select max(phone_id)
+    into phone_new
+    from phone;
 END;
 $$
 
@@ -338,11 +308,7 @@ BEGIN
     DELETE FROM `item` 
         WHERE item_name = p_item_name;
     return 'deleted';
-END;
-$$
 
-CREATE PROCEDURE `clean_category_proc`()
-BEGIN
     /* deleting unused category entries */
     DELETE FROM category
         WHERE category_id NOT IN
@@ -350,31 +316,7 @@ BEGIN
 END;
 $$
 
-CREATE TRIGGER insert_item_clean_trig
-    AFTER INSERT ON `item` 
-    FOR EACH ROW
-BEGIN
-    CALL clean_category_proc();
-END;
-$$
-
-CREATE TRIGGER update_item_clean_trig
-    AFTER UPDATE ON `item` 
-    FOR EACH ROW
-BEGIN
-    CALL clean_category_proc();
-END;
-$$
-
-CREATE TRIGGER delete_item_clean_trig
-    AFTER DELETE ON `item` 
-    FOR EACH ROW
-BEGIN
-    CALL clean_category_proc();
-END;
-$$
-
-/* function for USER */
+/* function for USER ***********************************************************************/
 CREATE FUNCTION `insert_user_func`
     (p_user_name varchar(50),
     p_house_number int(50),
@@ -431,14 +373,16 @@ BEGIN
             WHERE p_user_name = user_name;
     end if;
 
---     CALL clean_address_proc();
+    /* deleting unused address entries */
+    DELETE FROM address
+        WHERE address_id NOT IN
+        (SELECT address_id FROM `user`);
 
     return 'inserted user';
 END;
 $$
 
-/* function for USER_PHONE */
-CREATE FUNCTION `insert_user_phone_func`
+CREATE FUNCTION `insert_phoneList_user_func`
     (p_user_name varchar(50),
     p_phone_number_list longtext)
     RETURNS varchar(20)
@@ -481,9 +425,43 @@ BEGIN
         set i = i + 1;
     end while;
 
---     CALL clean_phone_proc();
+    /* deleting unused phone entries */
+--     DELETE FROM phone
+--         WHERE phone_id NOT IN
+--         (SELECT phone_id FROM `phone_user`);
 
     return 'inserted user phone';
+END;
+$$
+
+CREATE FUNCTION `insert_phone_user_func`
+    (p_user_name varchar(50),
+    `p_phone_id` int(10))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_phone_user_count int;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+    /* find out if Phone_User is already in the database */
+    SELECT count(user_name)
+        INTO v_phone_user_count
+        FROM `phone_user`
+        WHERE p_user_name = user_name and p_phone_id = phone_id;
+
+    /* Phone_User is already in the database, just do an update */
+    if (v_phone_user_count > 0) then
+        return 'already in database';
+    end if;
+
+    /* Phone_User is not in database, so insert it*/
+    INSERT INTO `phone_user` (`user_name`, `phone_id`)
+        VALUES (`p_user_name`, `p_phone_id`);
+
+    return 'inserted';
 END;
 $$
 
@@ -533,39 +511,6 @@ BEGIN
             p_postal_code = postal_code;
 
     return v_address_id;
-END;
-$$
-
-CREATE FUNCTION `insert_phone_user_func`
-    (p_user_name varchar(50),
-    `p_phone_id` int(10))
-    RETURNS varchar(20)
-NOT DETERMINISTIC
-BEGIN
-    DECLARE v_phone_user_count int;
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-        BEGIN
-            return 'error';
-        END;
-
-    /* find out if Phone_User is already in the database */
-    SELECT count(user_name)
-        INTO v_phone_user_count
-        FROM `phone_user`
-        WHERE p_user_name = user_name and p_phone_id = phone_id;
-
-    /* Phone_User is already in the database, just do an update */
-    if (v_phone_user_count > 0) then
-        return 'already in database';
-    end if;
-
-    /* Phone_User is not in database, so insert it*/
-    INSERT INTO `phone_user` (`user_name`, `phone_id`)
-        VALUES (`p_user_name`, `p_phone_id`);
-
-    CALL clean_phone_proc();
-
-    return 'inserted';
 END;
 $$
 
@@ -649,7 +594,10 @@ BEGIN
         WHERE user_name = p_user_name;
     return 'deleted';
 
-    CALL clean_address_proc();
+    /* deleting unused address entries */
+    DELETE FROM address
+        WHERE address_id NOT IN
+        (SELECT address_id FROM `user`);
 END;
 $$
 
@@ -665,27 +613,13 @@ BEGIN
 
     DELETE FROM `phone_user` 
         WHERE user_name = p_user_name;
-    return 'deleted';
 
-    CALL clean_phone_proc();
-END;
-$$
-
-CREATE PROCEDURE `clean_phone_proc`()
-BEGIN
     /* deleting unused phone entries */
-    DELETE FROM phone
-        WHERE phone_id NOT IN
-        (SELECT phone_id FROM `phone_user`);
-END;
-$$
+--     DELETE FROM phone
+--         WHERE phone_id NOT IN
+--         (SELECT phone_id FROM `phone_user`);
 
-CREATE PROCEDURE `clean_address_proc`()
-BEGIN
-    /* deleting unused address entries */
-    DELETE FROM address
-        WHERE address_id NOT IN
-        (SELECT address_id FROM `user`);
+    return 'deleted';
 END;
 $$
 
@@ -697,148 +631,266 @@ $$
 -- END;
 -- $$
 
-/*
-    `customer_name` varchar(50) NOT NULL,
-    `job_name` varchar(50) NOT NULL,
-    `phone_id` int NOT NULL,
-    `address_id` int NOT NULL,
-    `firstname` varchar(50) NOT NULL,
-    `lastname` varchar(50) NOT NULL,
-    `company_name` varchar(50) NOT NULL,
-    `email` varchar(100) NOT NULL,
-    `position` varchar(50) NULL,
-    `notes` varchar (2000) NULL,
-*/
+/* function for CUSTOMER ***********************************************************************/
 
-/* function for CUSTOMER */
--- CREATE FUNCTION `insert_customer_func`
---     (p_customer_name varchar(50),
---     p_house_number int(50),
---     p_street varchar(50),
---     p_city varchar(50),
---     p_province varchar(20),
---     p_country varchar(20),
---     p_postal_code varchar(20),
---     p_phone_number bigint,
---     p_password varchar(50),
---     p_firstname varchar(50),
---     p_lastname varchar(50),
---     p_role_name varchar(20),
---     p_email varchar(100),
---     p_position_name varchar(50),
---     p_notes varchar (2000))
---     RETURNS varchar(20)
--- NOT DETERMINISTIC
--- BEGIN
---     DECLARE v_position_id int;
---     DECLARE v_phone_id int;
---     DECLARE v_address_id int;
---     DECLARE v_customer_count int;
---     DECLARE v_customer_phone_return varchar(20);
---     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
---         BEGIN
---             return 'error sql exception';
---         END;
--- 
---     /* get address_id */
---     set v_address_id = insert_address_func(p_house_number, p_street, p_city, p_province, p_country, p_postal_code);
---     if (v_address_id = -1) then
---         return 'error address id';
---     end if;
--- 
---     /* get position_id */
---     set v_position_id = get_position_id_by_name(p_position_name);
---     if (v_position_id = -1) then
---         return 'error position id';
---     end if;
--- 
---     /* get phone_id */
---     set v_phone_id = get_phone_id_by_number(p_phone_number);
---     if (v_phone_id = -1) then
---         return 'error phone id';
---     end if;
--- 
---     /* find out if Customer is already in the database */
---     SELECT count(customer_name)
---         INTO v_customer_count
---         FROM `customer`
---         WHERE p_customer_name = customer_name;
--- 
---     if (v_customer_count = 0) then
---         /* Customer is not in database, so insert it */
---         INSERT INTO `user` (`customer_name`, `address_id`, `password`, `firstname`, `lastname`, `position_id`, `email`, `notes`)
---             VALUES (`p_customer_name`, `v_address_id`, `p_password`, `p_firstname`, `p_lastname`, `v_position_id`, `p_email`, `p_notes`);
---     else 
---         /* Customer is already in the database, just do an update */
---         UPDATE `customer`
---             SET customer_id = v_customer_id, password = p_password, firstname = p_firstname,
---                 lastname = p_lastname, position_id = v_position_id, email = p_email, notes = p_notes
---             WHERE p_customer_name = customer_name;
---     end if;
--- 
---     /* Insert to Customer Phone */
---     set v_customer_phone_return = insert_phone_customer_func(p_customer_name, v_customer_id);
---     if (v_customer_phone_return = 'error') then
---         return 'error user phone';
---     end if;
--- 
---     return 'inserted';
--- END;
--- $$
+CREATE FUNCTION `insert_customer_func`
+    (p_customer_name varchar(50),
+    p_house_number int(50),
+    p_street varchar(50),
+    p_city varchar(50),
+    p_province varchar(20),
+    p_country varchar(20),
+    p_postal_code varchar(20),
+    p_firstname varchar(50),
+    p_lastname varchar(50),
+    p_company_name varchar(20),
+    p_email varchar(100),
+    p_position_name varchar(50),
+    p_notes varchar (2000))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_position_id int;
+    DECLARE v_address_id int;
+    DECLARE v_customer_count int;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error sql exception';
+        END;
 
--- CREATE FUNCTION `get_position_id_by_name`
---     (p_position_name varchar(50))
---     RETURNS int
--- NOT DETERMINISTIC
--- BEGIN
---     DECLARE v_position_id int;
--- 
---     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
---         BEGIN
---             return -1;
---         END;
--- 
---     DECLARE CONTINUE HANDLER FOR NOT FOUND
---         BEGIN
---             INSERT INTO `position` (`position_name`)
---                 VALUES (p_position_name);
---             SELECT position_id
---                 INTO v_position_id
---                 FROM `position`
---                 WHERE position_name = p_position_name;
--- 
---             return v_position_id;
---         END;
--- 
---     SELECT position_id
---         INTO v_position_id
---         FROM position
---         WHERE position_name = p_position_name;
--- 
---     return v_position_id;
--- END;
--- $$
+    /* get address_id */
+    set v_address_id = insert_address_func(p_house_number, p_street, p_city, p_province, p_country, p_postal_code);
+    if (v_address_id = -1) then
+        return 'error address id';
+    end if;
 
+    /* get position_id */
+    set v_position_id = get_position_id_by_name(p_position_name);
+    if (v_position_id = -1) then
+        return 'error position id';
+    end if;
+
+    /* find out if Customer is already in the database */
+    SELECT count(customer_name)
+        INTO v_customer_count
+        FROM `customer`
+        WHERE p_customer_name = customer_name;
+    if (v_customer_count = 0) then
+        /* Customer is not in database, so insert it */
+        INSERT INTO `customer` (`customer_name`, `address_id`, `firstname`, `lastname`, `company_name`, `email`, `position_id`, `notes`)
+            VALUES (`p_customer_name`, `v_address_id`, `p_firstname`, `p_lastname`, `p_company_name`, `p_email`, `v_position_id`, `p_notes`);
+    else
+        /* Customer is already in the database, just do an update */
+        UPDATE `customer`
+            SET address_id = v_address_id, firstname = p_firstname,
+                lastname = p_lastname, position_id = v_position_id, email = p_email, notes = p_notes
+            WHERE p_customer_name = customer_name;
+    end if;
+
+    return 'inserted';
+END;
+$$
+
+CREATE FUNCTION `insert_phoneList_customer_func`
+    (p_customer_name varchar(50),
+    p_phone_number_list longtext)
+    RETURNS varchar(30)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_phone_id int;
+    DECLARE v_phone_number bigint;
+    DECLARE v_phone_number_list_size int;
+    DECLARE v_customer_phone_return varchar(20);
+    DECLARE i int;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error sql exception';
+        END;
+
+    /* deleting customer's phone_customer entries */
+    DELETE FROM phone_customer
+        WHERE customer_name = p_customer_name;
+
+    /*break the phone number coma separated string, to integer values*/
+    set i = 1;
+    set v_phone_number_list_size = LENGTH(p_phone_number_list) - LENGTH(REPLACE(p_phone_number_list, ',', ''));
+    while i <= v_phone_number_list_size do
+
+        set v_phone_number =  CAST(SUBSTRING_INDEX(p_phone_number_list, ',', 1) AS integer);
+        set p_phone_number_list = TRIM(LEADING concat(v_phone_number,',') FROM p_phone_number_list );
+
+        /* get phone_id */
+        set v_phone_id = get_phone_id_by_number(v_phone_number);
+        if (v_phone_id = -1) then
+            return 'error phone id';
+        end if;
+
+        /* Insert to Customer Phone */
+        set v_customer_phone_return = insert_phone_customer_func(p_customer_name, v_phone_id);
+        if (v_customer_phone_return = 'error') then
+            return 'error customer phone';
+        end if;
+
+        set i = i + 1;
+    end while;
+
+    /* deleting unused phone entries */
+--     DELETE FROM phone
+--         WHERE phone_id NOT IN
+--         (SELECT phone_id FROM `phone_customer`);
+
+    return 'inserted customer phone';
+END;
+$$
+
+CREATE FUNCTION `insert_phone_customer_func`
+    (p_customer_name varchar(50),
+    `p_phone_id` int(10))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_phone_customer_count int;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+    /* find out if Phone_Customer is already in the database */
+    SELECT count(customer_name)
+        INTO v_phone_customer_count
+        FROM `phone_customer`
+        WHERE p_customer_name = customer_name and p_phone_id = phone_id;
+
+    /* Phone_Customer is already in the database, just do an update */
+    if (v_phone_customer_count > 0) then
+        return 'already in database';
+    end if;
+
+    /* Phone_Customer is not in database, so insert it */
+    INSERT INTO `phone_customer` (`customer_name`, `phone_id`)
+        VALUES (`p_customer_name`, `p_phone_id`);
+
+    return 'inserted';
+END;
+$$
+
+CREATE FUNCTION `delete_phone_customer_func`
+    (p_customer_name varchar(50))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+    DELETE FROM `phone_customer` 
+        WHERE customer_name = p_customer_name;
+    return 'deleted';
+
+    /* deleting unused phone entries */
+--     DELETE FROM phone
+--         WHERE phone_id NOT IN
+--         (SELECT phone_id FROM `phone_customer`);
+END;
+$$
+
+CREATE FUNCTION `get_position_id_by_name`
+    (p_position_name varchar(50))
+    RETURNS int
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_position_id int;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return -1;
+        END;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND
+        BEGIN
+            INSERT INTO `position` (`position_name`)
+                VALUES (p_position_name);
+            SELECT position_id
+                INTO v_position_id
+                FROM `position`
+                WHERE position_name = p_position_name;
+
+            return v_position_id;
+        END;
+
+    SELECT position_id
+        INTO v_position_id
+        FROM `position`
+        WHERE position_name = p_position_name;
+
+    return v_position_id;
+END;
+$$
+
+/* function for QUOTE ***********************************************************************/
+
+CREATE FUNCTION `insert_quote_func`
+    (p_quote_name varchar(100),
+    p_email varchar(30),
+    p_description varchar(2000))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+    /* Phone_User is not in database, so insert it*/
+    INSERT INTO `quote` (`qoute_name`, `email`, `description`)
+        VALUES (`p_quote_name`, `p_email`, `p_description`);
+
+    return 'inserted';
+END;
+$$
+
+CREATE FUNCTION `delete_quote_func`
+    (p_quote_name varchar(50))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+    DELETE FROM `quote` 
+        WHERE quote_name = p_quote_name;
+
+    return 'deleted';
+END;
+$$
+
+/* function for JOB ***********************************************************************/
 
 delimiter ;
 
-/* adding USERS */
+/* adding USERS ***********************************************************************/
 select insert_user_func ('andrew_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', 'Green2012', 'Andrew', 'Grieve', 'owner', 'agrieve2@hotmail.com', 90.32);
-select insert_user_phone_func ('andrew_grieve', '4038077189,4038077111,4038077222,');
+select insert_phoneList_user_func ('andrew_grieve', '4038077189,4038077111,4038077222,');
 --insert into `job_user` (`user_name`, `job_name`, `hours`)
 --    values ('andrew_grieve', 'Brookfield Bathroom on WestTower', 0);
 
 select insert_user_func ('james_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', 'James11', 'James', 'Grieve', 'manager', 'darklink44459@hotmail.com', 23.41);
-select insert_user_phone_func ('james_grieve', '4034879866,');
+select insert_phoneList_user_func  ('james_grieve', '4034879866,');
 --insert into `job_user` (`user_name`, `job_name`, `hours`)
 --   values ('james_grieve', 'Brookfield Bathroom on WestTower', 0);
 
 select insert_user_func ('kayla_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', 'Kayla11', 'Kayla', 'Grieve', 'employee', 'link44459@hotmail.com', 18.32);
-select insert_user_phone_func ('kayla_grieve', '4037778620,');
+select insert_phoneList_user_func  ('kayla_grieve', '4037778620,');
 -- insert into `job_user` (`user_name`, `job_name`, `hours`)
 --     values ('kayla_grieve', 'Brookfield Bathroom on WestTower', 0);
 
-/* adding ITEMS */
+/* adding CUSTOMERS ***********************************************************************/
+select insert_customer_func ('Devil Beater', 222, '40th Ave NW', 'Calgary', 'Alberta', 'Canada', 'T1E5E1', 'Debra', 'Frank', 'Heavy Grip Corp.', 'dbeater@hotmail.com', 'CEO', 'Red hair, blue eyes. Talks very fast.');
+select insert_phoneList_customer_func ('Devil Beater', '4031231234,40399880011,');
+
+/* adding ITEMS ***********************************************************************/
 select insert_item_func ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
 select insert_item_func ('Thick Master 2000', 5, 'Brushes', 'Great for making solid straight strokes.');
 select insert_item_func ('Hairy Harold', 5, 'Brushes', 'We dont use this on walls.');

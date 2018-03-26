@@ -29,17 +29,15 @@ public class ViewUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //instanciating all used services
-        HttpSession session = request.getSession();
         UserService userService = new UserService();
 
-        //logic
         String keyword = "anything";
         List<User> userList = userService.searchUser(keyword);
+        if (userList == null) {
+            request.setAttribute("message", "User not found. This seems like a database connection error.");
+        }
 
-        //saving attributes to session
-        session.setAttribute("userList", userList);
-
+        request.setAttribute("userList", userList);
         request.getRequestDispatcher("/WEB-INF/viewUser.jsp").forward(request, response);
     }
 
@@ -50,22 +48,28 @@ public class ViewUserServlet extends HttpServlet {
         String action = request.getParameter("action");
         String userName = request.getParameter("userName");
         
+        if (userName == null || userName.isEmpty()) {
+            request.setAttribute("message", "invalid userName.");
+            getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+            return;
+        }
+        
         if (action != null && action.equals("view")) {
-            if (userName != null && !userName.equals("")) {
-                
-                UserService userService = new UserService();
-                User user = new User();
-                user = userService.getByUserName(userName);
-                
-                request.setAttribute("user", user);
-                
-                request.getRequestDispatcher("/WEB-INF/viewUser.jsp").forward(request, response);
+  
+            UserService userService = new UserService();
+            User user = new User();
+            user = userService.getByUserName(userName);
+
+            if (user == null) {
+                request.setAttribute("message", "User not found. This seems like a database connection error.");
+                getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
                 return;
             }
-            
-            else {
-                request.setAttribute("errorMessage", "didnt work");
-            }
+
+            request.setAttribute("user", user);
+
+            request.getRequestDispatcher("/WEB-INF/viewUser.jsp").forward(request, response);
+            return;
         }
         else if (action != null && action.equals("save")) {
             String houseNumber = request.getParameter("houseNumber");
@@ -81,16 +85,16 @@ public class ViewUserServlet extends HttpServlet {
             String hourlyRate = request.getParameter("hourlyRate");
             
             String status = "";
-             
+            
             UserService userService = new UserService();
             
             status = userService.update(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, action, firstName, firstName, role, email, hourlyRate);
             
-            request.setAttribute("message", "User Updated.");
+            request.setAttribute("message", status);
             
             User user = userService.getByUserName(userName);
             if (user == null) {
-                request.setAttribute("message", "invalid userName.");
+                request.setAttribute("message", "User not found. This seems like a database connection error.");
                 getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
                 return;
             }
