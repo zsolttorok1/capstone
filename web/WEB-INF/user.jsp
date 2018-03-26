@@ -138,7 +138,7 @@
                     <div class="rowitem" name="email">${user.email}</div>
                     <div class="rowitem" name="phone">
                         <c:forEach var="phone" items="${user.phoneNumberList}">
-                            ${phone}
+                            ${phone}<br>
                         </c:forEach>
                     </div>
                     <div class="rowitem" name="firstname">${user.firstName}</div>

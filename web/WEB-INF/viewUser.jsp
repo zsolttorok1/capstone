@@ -18,7 +18,6 @@
         <div class="fixedmenu">
             <div class="fixedleft">
                 <img class="menuicon" src="res/lion.png" />
-                <span class="breadcrumb">User > View User<span>
             </div>
             <div class="fixedright">
                 <a class="logout" href="main">Logout</a>

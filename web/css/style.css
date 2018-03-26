@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #f2f2f2;
+    background-color: #e6ecf0;
     margin: 0px;
 }
 
@@ -172,23 +172,21 @@ p.bodytext {
 
 .rowHeader {
     font-size: 20px;
-    font-weight: bold;
-    max-width: 1000px;
+    max-width: 1100px;
     height: 36px;
     margin: auto;
     margin-top: 25px;
     display: flex;
     justify-content: center; /*horizontal center*/
     align-items: center; /*vertical center*/
-    background-color: rgba(142, 69, 61, 1); 
+    background-color: #517791;
     color: white;
 }
 
 .rowitemHeader {
-    border-bottom: 1px solid black;
     height: 36px;
     width: 400px;
-    text-align: center;
+    padding-left: 10px;
 }
 
 .addPlus {
@@ -197,7 +195,7 @@ p.bodytext {
 }
 
 .row {
-    max-width: 1000px;
+    max-width: 1100px;
     height: 70px;
     margin: auto;
     display: flex;
@@ -211,7 +209,7 @@ p.bodytext {
 }
 
 .addRow {
-    max-width: 1000px;
+    max-width: 1100px;
     height: 70px;
     margin: auto;
     display: flex;
@@ -224,7 +222,7 @@ p.bodytext {
 }
 
 .rowAdd {
-    max-width: 1000px;
+    max-width: 1100px;
     height: 50px;
     margin: auto;
     display: none;
@@ -257,14 +255,14 @@ p.bodytext {
     width: 100%;
 }
 .rowAddOptions {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
     display: none;
     justify-content: center; /*horizontal center*/
 }
 
 .listOptions {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
     display: none;
     justify-content: center; /*horizontal center*/
@@ -277,7 +275,7 @@ p.bodytext {
 }
 
 .rowWrapper {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
 }
 
