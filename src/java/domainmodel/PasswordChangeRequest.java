@@ -13,33 +13,33 @@ import java.util.Date;
  * @author 725899
  */
 public class PasswordChangeRequest implements Serializable {
-    private String pcr_id;
-    private Date pcr_time;
+    private String pcrUUID;
+    private Date pcrTime;
     private String userName;
 
-    public PasswordChangeRequest(String pcr_id, Date pcr_time, String userName) {
-        this.pcr_id = pcr_id;
-        this.pcr_time = pcr_time;
+    public PasswordChangeRequest(String pcrUUID, Date pcrTime, String userName) {
+        this.pcrUUID = pcrUUID;
+        this.pcrTime = pcrTime;
         this.userName = userName;
     }
     
     public PasswordChangeRequest() {
     }
 
-    public String getPcr_id() {
-        return pcr_id;
+    public String getPcrUUID() {
+        return pcrUUID;
     }
 
-    public void setPcr_id(String pcr_id) {
-        this.pcr_id = pcr_id;
+    public void setPcrUUID(String pcrUUID) {
+        this.pcrUUID = pcrUUID;
     }
 
-    public Date getPcr_time() {
-        return pcr_time;
+    public Date getPcrTime() {
+        return pcrTime;
     }
 
-    public void setPcr_time(Date pcr_time) {
-        this.pcr_time = pcr_time;
+    public void setPcrTime(Date pcrTime) {
+        this.pcrTime = pcrTime;
     }
 
     public String getUserName() {

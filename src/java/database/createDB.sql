@@ -109,16 +109,14 @@ CREATE TABLE `job` (
     `job_name` varchar(50) NOT NULL,
     `address_id` int NOT NULL,
     `customer_name` varchar(50) NOT NULL,
-    `report_name` varchar(50) NOT NULL,
     `description` varchar(2000) NULL, 
     `date_started` date NOT NULL,
     `date_finished` date NULL,
-    `balance` int NOT NULL,
-    `status` varchar(50) NULL,
+    `balance` decimal(20,2) NOT NULL,
+    `status` varchar(50) NOT NULL,
     PRIMARY KEY (`job_name`),
-    CONSTRAINT `FK_Job_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Job_Customer_name` FOREIGN KEY (`customer_name`) references `customer`(`customer_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Job_Report_name` FOREIGN KEY (`report_name`) references `report`(`report_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_Job_Address_id` FOREIGN KEY (`address_id`) references `address`(`address_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_Job_Customer_name` FOREIGN KEY (`customer_name`) references `customer`(`customer_name`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `job_user` (
@@ -148,10 +146,10 @@ CREATE TABLE `quote` (
 );
 
 CREATE TABLE `password_change_request` (
-  `pcr_id` varchar(128) NOT NULL,
+  `pcr_uuid` varchar(128) NOT NULL,
   `pcr_time` datetime NOT NULL,
-  `user_name` varchar(10) NOT NULL,
-  PRIMARY KEY (`pcr_id`),
+  `user_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`pcr_uuid`),
   CONSTRAINT `FK_PCR_User` FOREIGN KEY (`user_name`) REFERENCES `user` (`user_name`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -379,7 +377,7 @@ BEGIN
         /* User is already in the database, just do an update */
         UPDATE `user`
             SET address_id = v_address_id, password = p_password, firstname = p_firstname,
-                lastname = p_lastname, role_id = v_role_id, email = p_email, hourly_rate = p_hourly_rate, salt = p_salt
+                lastname = p_lastname, role_id = v_role_id, email = p_email, hourly_rate = p_hourly_rate
             WHERE p_user_name = user_name;
     end if;
 
@@ -602,12 +600,13 @@ BEGIN
 
     DELETE FROM `user` 
         WHERE user_name = p_user_name;
-    return 'deleted';
-
+ 
     /* deleting unused address entries */
     DELETE FROM address
         WHERE address_id NOT IN
         (SELECT address_id FROM `user`);
+
+    return 'deleted';
 END;
 $$
 
@@ -876,7 +875,123 @@ BEGIN
 END;
 $$
 
+/* function for PASSWORD_CHANGE_REQUEST *******************************************************/
+
+CREATE FUNCTION `insert_pcr_func`
+    (p_pcr_uuid varchar(128),
+    p_pcr_time datetime,
+    p_user_name varchar(50))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_pcr_count int;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error sql exception';
+        END;
+
+    /* find out if PCR is already in the database */
+    SELECT count(pcr_uuid)
+        INTO v_pcr_count
+        FROM `password_change_request`
+        WHERE p_pcr_uuid = pcr_uuid;
+
+    if (v_pcr_count = 0) then
+        /* PCR is not in database, so insert it */
+        INSERT INTO `password_change_request` (`pcr_uuid`, `pcr_time`, `user_name`)
+            VALUES (`p_pcr_uuid`, `p_pcr_time`, `p_user_name`);
+    else
+        /* PCR is already in the database, just do an update */
+        UPDATE `password_change_request`
+            SET pcr_time = p_pcr_time
+            WHERE p_pcr_uuid = pcr_uuid;
+    end if;
+
+    return 'inserted';
+END;
+$$
+
+CREATE FUNCTION `delete_pcr_func`
+    (p_pcr_uuid varchar(128))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+    DELETE FROM `password_change_request` 
+        WHERE pcr_uuid = p_pcr_uuid;
+
+    return 'deleted';
+END;
+$$
+
 /* function for JOB ***********************************************************************/
+-- CREATE FUNCTION `insert_job_func`
+--     (p_job_name varchar(50),
+--     p_house_number int(50),
+--     p_street varchar(50),
+--     p_city varchar(50),
+--     p_province varchar(20),
+--     p_country varchar(20),
+--     p_postal_code varchar(20),
+--     p_customer_name varchar(50),
+--     p_description varchar(2000),
+--     p_date_started date,
+--     p_date_finished date,
+--     p_balance decimal(20,2),
+--     p_status varchar(50))
+--     RETURNS varchar(20)
+-- NOT DETERMINISTIC
+-- BEGIN
+--     DECLARE v_address_id int;
+--     DECLARE v_customer_count int;
+--     DECLARE v_job_count int;
+--     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+--         BEGIN
+--             return 'error sql exception';
+--         END;
+-- 
+--     /* get address_id */
+--     set v_address_id = insert_address_func(p_house_number, p_street, p_city, p_province, p_country, p_postal_code);
+--     if (v_address_id = -1) then
+--         return 'error address id';
+--     end if;
+-- 
+--     /* find out if Customer is already in the database */
+--     SELECT count(customer_name)
+--         INTO v_customer_count
+--         FROM `customer`
+--         WHERE p_customer = user_name;
+-- 
+--     /* find out if Customer is already in the database */
+--     SELECT count(customer_name)
+--         INTO v_customer_count
+--         FROM `customer`
+--         WHERE p_customer = user_name;
+-- 
+--     if (v_user_count = 0) then
+--         /* User is not in database, so insert it */
+--         INSERT INTO `user` (`user_name`, `address_id`, `password`, `firstname`, `lastname`, `role_id`, `email`, `hourly_rate`,`salt`)
+--             VALUES (`p_user_name`, `v_address_id`, `p_password`, `p_firstname`, `p_lastname`, `v_role_id`, `p_email`, `p_hourly_rate`,`p_salt`);
+--     else 
+--         /* User is already in the database, just do an update */
+--         UPDATE `user`
+--             SET address_id = v_address_id, password = p_password, firstname = p_firstname,
+--                 lastname = p_lastname, role_id = v_role_id, email = p_email, hourly_rate = p_hourly_rate
+--             WHERE p_user_name = user_name;
+--     end if;
+-- 
+--     /* deleting unused address entries */
+--     DELETE FROM address
+--         WHERE address_id NOT IN
+--         (SELECT address_id FROM `user`);
+-- 
+--     return 'inserted user';
+-- END;
+-- $$
 
 delimiter ;
 
@@ -898,6 +1013,9 @@ select insert_user_func ('kayla_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta
 select insert_phoneList_user_func  ('kayla_grieve', '4037778620,');
 -- insert into `job_user` (`user_name`, `job_name`, `hours`)
 --     values ('kayla_grieve', 'Brookfield Bathroom on WestTower', 0);
+
+select insert_user_func ('zsto', 236, '28th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T111R4', 'password', 'Satomi', 'Test', 'owner', 'internet@gmail.com', 11.11, '67844c34e0de7113a88fc136d3d949e3');
+select insert_phoneList_user_func ('zsto', '4035555559,');
 
 /* adding CUSTOMERS ***********************************************************************/
 select insert_customer_func ('Devil Beater', 222, '40th Ave NW', 'Calgary', 'Alberta', 'Canada', 'T1E5E1', 'Debra', 'Frank', 'Heavy Grip Corp.', 'dbeater@hotmail.com', 'CEO', 'Red hair, blue eyes. Talks very fast.');

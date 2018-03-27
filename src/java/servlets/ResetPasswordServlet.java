@@ -5,8 +5,9 @@
  */
 package servlets;
 
-import businesslogic.AccountService;
+//import businesslogic.AccountService;
 import businesslogic.ResetPasswordService;
+import businesslogic.UserService;
 import domainmodel.PasswordChangeRequest;
 import java.io.IOException;
 import java.util.Date;
@@ -44,15 +45,15 @@ public class ResetPasswordServlet extends HttpServlet {
         //is UUID parameter sent?
         if (uuid != null) {
             ResetPasswordService rps = new ResetPasswordService();
-            PasswordChangeRequest pcr = rps.get(uuid);
+            PasswordChangeRequest pcr = rps.getByUUID(uuid);
 
             //correct UUID entry found in database?
             if (pcr != null) {
                 Date date = new Date();
-                Long milisec = date.getTime() - pcr.getTime().getTime();
+                Long milisec = date.getTime() - pcr.getPcrTime().getTime();
 
-                //is request within 10 minutes?
-                if (milisec < 1000*60*10) {
+                //is request within a day?
+                if (milisec < 1000*60*60*24) {
                     request.setAttribute("uuid", uuid);
                     request.getRequestDispatcher("/WEB-INF/resetNewPassword.jsp").forward(request, response);
                     return;
@@ -91,12 +92,12 @@ public class ResetPasswordServlet extends HttpServlet {
         if (action != null && action.equals("newPassword")) {
             //get username by UUID
             ResetPasswordService rps = new ResetPasswordService();
-            PasswordChangeRequest pcr = rps.get(uuid);
-            String username = pcr.getOwner().getUsername();
+            PasswordChangeRequest pcr = rps.getByUUID(uuid);
+            String userName = pcr.getUserName();
             
             //change password
-            AccountService as = new AccountService();
-            as.changePassword(username, password);
+            UserService userService = new UserService();
+            userService.changePassword(userName, password);
             
             //delete PasswordChangeRequest record
             rps.delete(uuid);
@@ -110,9 +111,9 @@ public class ResetPasswordServlet extends HttpServlet {
 
             //generate UUID and send and email with it
             String path = getServletContext().getRealPath("/WEB-INF");
-            AccountService as = new AccountService();
+            UserService userService = new UserService();
             
-            status = as.resetPassword(email, path, url);
+            status = userService.resetPassword(email, path, url);
         }
     
         response.sendRedirect("login?status=" + status);

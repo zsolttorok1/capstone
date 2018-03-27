@@ -1,53 +1,34 @@
 package businesslogic;
 
-import dataaccess.PasswordChangeRequestDB;
+import dataaccess.PCRBroker;
 import domainmodel.PasswordChangeRequest;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.Date;
 import utilities.HashingUtil;
 
 
 public class ResetPasswordService {
 
-    private PasswordChangeRequestDB passDB;
-
-    public ResetPasswordService() {
-        passDB = new PasswordChangeRequestDB();
-    }
-  
-    public PasswordChangeRequest get(String ID){
-        return passDB.get(hash(ID));
+    public PasswordChangeRequest getByUUID(String pcrUUID){
+        return PCRBroker.getInstance().getByUUID(hash(pcrUUID));
     }
 
-    public List<PasswordChangeRequest> getAll() {
-        return passDB.getAll();
-    }
-    
     private String hash(String uuid) {
         return HashingUtil.hash(uuid);
     }
       
-    public boolean delete(String ID) {
-        PasswordChangeRequest deletedPCR = passDB.get(hash(ID));
-        return passDB.delete(deletedPCR);
+    public String delete(String pcrUUID) {
+        PasswordChangeRequest pcr = PCRBroker.getInstance().getByUUID(hash(pcrUUID));
+        return PCRBroker.getInstance().delete(pcr);
     }
 
-    public boolean insert(String ID, String username) {
+    public String insert(String pcrUUID, String userName) {
         PasswordChangeRequest pcr = new PasswordChangeRequest();
-        UserService us = new UserService();
         Date date = new Date();
-            
-        try {
-            pcr.setOwner(us.getByUsername(username));
-        } catch (Exception ex) {
-            Logger.getLogger(ResetPasswordService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      
-        pcr.setId(hash(ID));
-        pcr.setTime(date);
+        
+        pcr.setUserName(userName);
+        pcr.setPcrUUID(hash(pcrUUID));
+        pcr.setPcrTime(date);
     
-        return passDB.insert(pcr);
+        return PCRBroker.getInstance().insert(pcr);
     }
 }
