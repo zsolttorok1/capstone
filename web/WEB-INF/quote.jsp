@@ -47,26 +47,25 @@
 
             
         </div>
-        <c:forEach var="user" items="${quoteList}">
+        <c:forEach var="quote" items="${quoteList}">
             <div class="rowWrapper">
                 <div class="row">
-                    ghgthythtjio
-                    <div class="rowitem" name="username">${quote.quote_name}</div>
-                    <div class="rowitem" name="email">${quotw.email}</div>
+                    <div class="rowitem" name="username">${quote.name}</div>
+                    <div class="rowitem" name="email">${quote.email}</div>
                     <div class="rowitem" name="firstname">${quote.description}</div>
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
-                        <form method="post" action="viewUser">
+                        <form method="post" action="quote">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="userName" value="${quote.quote_name}">
+                            <input type="hidden" name="userName" value="${quote.name}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
-                        <form method="post" action="user">
+                        <form method="post" action="quote">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="userName" value="${quote.quote_name}">
+                            <input type="hidden" name="userName" value="${quote.name}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>

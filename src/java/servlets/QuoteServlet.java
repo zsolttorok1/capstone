@@ -34,36 +34,13 @@ public class QuoteServlet extends HttpServlet {
         }
 
         request.setAttribute("quoteList", quoteList);
-        request.getRequestDispatcher("/WEB-INF/viewQuote.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/quote.jsp").forward(request, response);
       
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      //Variables
-        String action = request.getParameter("action");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String description = request.getParameter("description");
-        
-        
-        String errorMessage = "";
-
-        //Adding an Quote
-        if (action != null && action.equals("submit")) {
-              if (name != null && email != null && description !=null) {
-                
-                    errorMessage = "You Submitted a Quote.";
-                
-
-            } else {
-                request.setAttribute("errorMessage", "You need to enter something in all fields.");
-                getServletContext().getRequestDispatcher("/WEB-INF/submitQuote.jsp").forward(request, response);
-                return;
-            }
-        
-        
-        }
+     
     
     
     }

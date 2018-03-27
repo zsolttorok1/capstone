@@ -27,8 +27,8 @@ public class QuoteService {
       
         Quote quote = new Quote(name, description, email);
 
-        QuoteBroker jobBroker = new QuoteBroker();
-        return jobBroker.insert(quote);
+        QuoteBroker quoteBroker = new QuoteBroker();
+        return quoteBroker.insert(quote);
     }
 
     public Quote viewQuote(String name) {
@@ -42,7 +42,7 @@ public class QuoteService {
     public List<Quote> searchQuote(String keyword) {
         QuoteBroker quoteBroker = new QuoteBroker();
 
-        //this always return all items for now
+        //this always returns all quotes for now
         return quoteBroker.getAll();
     }
 
