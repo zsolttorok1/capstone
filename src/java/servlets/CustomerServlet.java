@@ -50,11 +50,11 @@ public class CustomerServlet extends HttpServlet {
         
         String message = "";
         String action = request.getParameter("action");
-        String customerName = request.getParameter("customerName");
+        String customerId = request.getParameter("customerId");
 
         if (action.equals("delete")) {
-            String status = customerService.delete(customerName);
-            request.setAttribute("message", status);
+            String status = customerService.delete(customerId);
+            message = status;
         } else if (action.equals("add")) {
             String houseNumber = request.getParameter("houseNumber");
             String street = request.getParameter("street");
@@ -68,12 +68,11 @@ public class CustomerServlet extends HttpServlet {
             String companyName = request.getParameter("companyName");
             String email = request.getParameter("emailAddress");
             String position = request.getParameter("position");
-            //String notes = request.getParameter("notes");
-            String customerNameAdd = firstName + "_" + lastName + houseNumber;
+            String notes = request.getParameter("notes");
             
-            String status = customerService.insert(customerNameAdd, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstName, lastName, companyName, email, position, " ");
-
-            request.setAttribute("message", status);
+            String status = customerService.insert("0", houseNumber, street, city, province, country, postalCode, phoneNumberList, firstName, lastName, companyName, email, position, notes);
+           
+            message = status;
         }
 
         List<Customer> customerList = customerService.searchCustomer("");

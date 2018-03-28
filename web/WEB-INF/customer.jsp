@@ -41,7 +41,7 @@
         <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
         
         <h1 class="bodyheaderc">CUSTOMERS</h1>
-        <p class="center">${errorMessage}</p>
+        <p class="center">${message}</p>
         
         <div class="rowHeader">
             <div class="rowitemHeader">Name</div>
@@ -59,7 +59,7 @@
                     <div class="divTable">
                         <div class="divTableBody">
                             <div class="divTableRow">
-                                <div class="divTableHead">New User</div>
+                                <div class="divTableHead">New Customer</div>
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell">First Name:</div>
@@ -115,6 +115,10 @@
                                 <div class="divTableCell"><input name="position" type="text" placeholder="Position" /></div>
                             </div>
                             <div class="divTableRow">
+                                <div class="divTableCell">Notes:</div>
+                                <div class="divTableCell"><input name="notes" type="text" placeholder="Some notes." /></div>
+                            </div>
+                            <div class="divTableRow">
                                 <div class="divTableCell"><input name="action" type="hidden" value="add" /> <input type="submit" value="Save" /></div>
                             </div>
                         </div>
@@ -140,14 +144,14 @@
                     <div class="listButton">
                         <form method="post" action="viewCustomer">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="customerName" value="${customer.customerName}">
+                            <input type="hidden" name="customerId" value="${customer.customerId}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
                         <form method="post" action="customer">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="customerName" value="${customer.customerName}">
+                            <input type="hidden" name="customerId" value="${customer.customerId}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>

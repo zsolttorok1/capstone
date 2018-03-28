@@ -25,8 +25,9 @@ public class UserService {
         String status = validate(user);
         
         if (status != null && status.equals("ok")) {
-            user.setSalt(HashingUtil.generateSalt());
-            
+            user.setSalt(HashingUtil.generateSalt());   
+            user.setPassword(HashingUtil.hashByKeccak512(user.getPassword(), user.getSalt()));
+        
             UserBroker userBroker = UserBroker.getInstance();
             status = userBroker.insert(user);
         }
@@ -108,8 +109,8 @@ public class UserService {
             user.setPostalCode(userNew.getPostalCode());
         if (userNew.getPhoneNumberList() != null && !userNew.getPhoneNumberList().isEmpty() )
             user.setPhoneNumberList(userNew.getPhoneNumberList());
-        if (userNew.getPassword() != null && !userNew.getPassword().isEmpty() ) 
-            user.setPassword(userNew.getPassword());
+        if (userNew.getPassword() != null && !userNew.getPassword().isEmpty() )
+            user.setPassword(HashingUtil.hashByKeccak512(userNew.getPassword(), user.getSalt()));
         if (userNew.getFirstName() != null && !userNew.getFirstName().isEmpty() )
             user.setFirstName(userNew.getFirstName());
         if (userNew.getLastName() != null && !userNew.getLastName().isEmpty() )

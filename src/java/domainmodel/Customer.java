@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Customer implements Serializable {
 
-    private String customerName;
+    private int customerId;
     private Address address;
     List<Long> phoneNumberList;
     private String firstName;
@@ -16,8 +16,8 @@ public class Customer implements Serializable {
     private String position;
     private String notes;
 
-    public Customer(String customerName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
-        this.customerName = customerName;
+    public Customer(int customerId, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+        this.customerId = customerId;
         this.address = new Address();
         setHouseNumber(houseNumber);
         setStreet(street);
@@ -35,7 +35,7 @@ public class Customer implements Serializable {
     }
     
     public Customer() {
-        this.customerName = "";
+        this.customerId = 0;
         this.address = new Address();
         this.phoneNumberList = new ArrayList<>();
         this.firstName = "";
@@ -46,12 +46,12 @@ public class Customer implements Serializable {
         this.notes = "";
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public int getHouseNumber() {

@@ -87,7 +87,7 @@
             </div>
         </div>
         
-        <c:forEach var="item" items="${sessionScope.itemList}">
+        <c:forEach var="item" items="${itemList}">
             <div class="rowWrapper">
                 <div class="row">
                     <div class="rowitem" name="name">${item.itemName}</div>
