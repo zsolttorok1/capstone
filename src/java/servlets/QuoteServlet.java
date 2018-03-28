@@ -41,19 +41,31 @@ public class QuoteServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            String quoteName = request.getParameter("quoteName");
+        String action = request.getParameter("action");
+        //String customerId = request.getParameter("customerId");
+        String quoteName = request.getParameter("quoteName");
+        if (quoteName == null || quoteName.isEmpty()) {
+            request.setAttribute("message", "invalid customerId.");
+            getServletContext().getRequestDispatcher("/WEB-INF/quote.jsp").forward(request, response);
+            return;
+        }
+        
+        if (action != null && action.equals("view")) {
+        
+           
             QuoteService quoteService = new QuoteService();
             Quote quote = new Quote();
              quoteService.viewQuote(quoteName);
-
+                    
             if (quote == null) {
                 request.setAttribute("message", "Customer not found. This seems like a database connection error.");
                 getServletContext().getRequestDispatcher("/WEB-INF/customer.jsp").forward(request, response);
                 return;
             }
-
+        
             request.setAttribute("quote", quote);
-    
-    
+            request.getRequestDispatcher("/WEB-INF/viewQuote.jsp").forward(request, response);
+            return;
+        }
     }
 }
