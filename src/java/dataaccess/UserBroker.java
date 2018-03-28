@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utilities.HashingUtil;
 
 public class UserBroker {
     private static UserBroker userBroker;
@@ -61,7 +62,7 @@ public class UserBroker {
         User user = null;
         try {
             PreparedStatement pstmt = connection.prepareStatement(""
-                    + "SELECT u.user_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', u.password, u.firstname, u.lastname, r.role_name, u.email, u.hourly_rate "
+                    + "SELECT u.user_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', u.password, u.firstname, u.lastname, r.role_name, u.email, u.hourly_rate, u.salt "
                     + "     FROM `user` u "
                     + "     JOIN `phone_user` up ON up.user_name = u.user_name "
                     + "     JOIN `phone` p ON p.phone_id = up.phone_id "
@@ -96,8 +97,9 @@ public class UserBroker {
                 String role = rs.getString("ROLE_NAME");
                 String email = rs.getString("EMAIL");
                 int hourlyRate = rs.getInt("HOURLY_RATE");
+                String salt = rs.getString("SALT");
                 
-                user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstname, lastname, role, email, hourlyRate);
+                user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstname, lastname, role, email, hourlyRate, salt);
             }
           
         } catch (SQLException ex) {
@@ -106,6 +108,125 @@ public class UserBroker {
             pool.freeConnection(connection);
         }
         return user;
+    }
+    
+    //returns "User, null"
+    public User getByEmail(String email) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
+        
+        User user = null;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(""
+                    + "SELECT u.user_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', u.password, u.firstname, u.lastname, r.role_name, u.email, u.hourly_rate, u.salt "
+                    + "     FROM `user` u "
+                    + "     JOIN `phone_user` up ON up.user_name = u.user_name "
+                    + "     JOIN `phone` p ON p.phone_id = up.phone_id "
+                    + "     JOIN `address` a ON u.address_id = a.address_id "
+                    + "     JOIN `role` r ON r.role_id = u.role_id "
+                    + "     WHERE u.email = ?;");
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+       
+            if (rs.next()) {
+                String userName = rs.getString("USER_NAME");
+                int houseNumber = rs.getInt("HOUSE_NUMBER");
+                String street = rs.getString("STREET");
+                String city = rs.getString("CITY");
+                String province = rs.getString("PROVINCE");
+                String country = rs.getString("COUNTRY");
+                String postalCode = rs.getString("POSTAL_CODE");
+                
+                List<Long> phoneNumberList = new ArrayList<>();
+                String stringPhoneNumberList = rs.getString("PHONE_NUMBER");
+                String[] parts = stringPhoneNumberList.split(",");
+                for (String part : parts) {
+                    try {
+                        long phoneNumber = Long.parseLong(part);
+                        phoneNumberList.add(phoneNumber);
+                    } catch (NumberFormatException ex) {
+                    }
+                }
+                
+                String password = rs.getString("PASSWORD");
+                String firstname = rs.getString("FIRSTNAME");
+                String lastname = rs.getString("LASTNAME");
+                String role = rs.getString("ROLE_NAME");
+                int hourlyRate = rs.getInt("HOURLY_RATE");
+                String salt = rs.getString("SALT");
+                
+                user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstname, lastname, role, email, hourlyRate, salt);
+            }
+          
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            pool.freeConnection(connection);
+        }
+        return user;
+    }
+    
+    public List<User> search(String keyword) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
+        
+        List<User> userList = new ArrayList<>();
+        User user = null;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(""
+                    + "SELECT u.user_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', u.password, u.firstname, u.lastname, r.role_name, u.email, u.hourly_rate, u.salt "
+                    + "     FROM `user` u "
+                    + "     JOIN `phone_user` up ON up.user_name = u.user_name "
+                    + "     JOIN `phone` p ON p.phone_id = up.phone_id "
+                    + "     JOIN `address` a ON u.address_id = a.address_id "
+                    + "     JOIN `role` r ON r.role_id = u.role_id "
+                    + "     WHERE u.user_name like ? "
+                    + "GROUP BY user_name;");
+            pstmt.setString(1, "%" + keyword +"%");
+            ResultSet rs = pstmt.executeQuery();
+       
+            while (rs.next()) {
+                String userName = rs.getString("USER_NAME");
+                int houseNumber = rs.getInt("HOUSE_NUMBER");
+                String street = rs.getString("STREET");
+                String city = rs.getString("CITY");
+                String province = rs.getString("PROVINCE");
+                String country = rs.getString("COUNTRY");
+                String postalCode = rs.getString("POSTAL_CODE");
+                
+                List<Long> phoneNumberList = new ArrayList<>();
+                String stringPhoneNumberList = rs.getString("PHONE_NUMBER");
+                String[] parts = stringPhoneNumberList.split(",");
+                for (String part : parts) {
+                    try {
+                        long phoneNumber = Long.parseLong(part);
+                        phoneNumberList.add(phoneNumber);
+                    } catch (NumberFormatException ex) {
+                    }
+                }
+                
+                String password = rs.getString("PASSWORD");
+                String firstname = rs.getString("FIRSTNAME");
+                String lastname = rs.getString("LASTNAME");
+                String role = rs.getString("ROLE_NAME");
+                String email = rs.getString("EMAIL");
+                int hourlyRate = rs.getInt("HOURLY_RATE");
+                String salt = rs.getString("SALT");
+                
+                user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstname, lastname, role, email, hourlyRate, salt);
+                userList.add(user);
+            }
+          
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            pool.freeConnection(connection);
+        }
+        return userList;
     }
 
     //returns "List of Users, empty List, null"
@@ -119,7 +240,7 @@ public class UserBroker {
         User user = null;
         try {
             PreparedStatement pstmt = connection.prepareStatement(""
-                    + "SELECT u.user_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', u.password, u.firstname, u.lastname, r.role_name, u.email, u.hourly_rate "
+                    + "SELECT u.user_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', u.password, u.firstname, u.lastname, r.role_name, u.email, u.hourly_rate, u.salt "
                     + "    FROM `user` u "
                     + "    JOIN `phone_user` up ON up.user_name = u.user_name "
                     + "    JOIN `phone` p ON p.phone_id = up.phone_id "
@@ -155,9 +276,10 @@ public class UserBroker {
                 String role = rs.getString("ROLE_NAME");
                 String email = rs.getString("EMAIL");
                 int hourlyRate = rs.getInt("HOURLY_RATE");
+                String salt = rs.getString("SALT");
                 //hourly = rs.getInt("HOURLY");
                 
-                user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
+                user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate, salt);
                 userList.add(user);
             }
             
@@ -177,7 +299,7 @@ public class UserBroker {
         }
         
         try {
-            PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_user_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, user.getUserName());
             pstmt.setInt(2, user.getHouseNumber());
             pstmt.setString(3, user.getStreet());
@@ -191,6 +313,7 @@ public class UserBroker {
             pstmt.setString(11, user.getRole());
             pstmt.setString(12, user.getEmail());
             pstmt.setInt(13, user.getHourlyRate());
+            pstmt.setString(14, user.getSalt());            
             //pstmt.setInt(10, user.getHours());
 
             ResultSet rs = pstmt.executeQuery();
@@ -245,6 +368,9 @@ public class UserBroker {
 
     //returns "updated, error, exception"
     public String update(User user) {
+        //hashing passwords before updating
+        user.setPassword(HashingUtil.hashByKeccak512(user.getPassword(), user.getSalt()));
+        
         String status = insert(user);
         
         if (status == null || status.equals("connection error")) {
@@ -300,5 +426,40 @@ public class UserBroker {
         }
 
         return status;
+    }
+    
+    //returns "vaild, invalid, null"
+    public String login(String username, String password) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
+        
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(""
+                    + "SELECT u.user_name, u.password, r.role_name, u.salt "
+                    + "FROM `user` u "
+                    + "JOIN `role` r ON r.role_id = u.role_id " 
+                    + "WHERE u.user_name = ?;");
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+   
+            if (rs.next()) {
+                String databasePassword = rs.getString("PASSWORD");
+                String role = rs.getString("ROLE_NAME");
+                String salt = rs.getString("SALT");
+            
+                password = HashingUtil.hashByKeccak512(password,salt);
+                
+                if (databasePassword.equals(password)) {
+                    return role;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            pool.freeConnection(connection);
+        }
+        return "invalid";
     }
 }

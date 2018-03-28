@@ -50,22 +50,22 @@
         <c:forEach var="quote" items="${quoteList}">
             <div class="rowWrapper">
                 <div class="row">
-                    <div class="rowitem" name="username">${quote.name}</div>
+                    <div class="rowitem" name="quoteName">${quote.name}</div>
                     <div class="rowitem" name="email">${quote.email}</div>
-                    <div class="rowitem" name="firstname">${quote.description}</div>
+                    <div class="rowitem" name="description">${quote.description}</div>
                 </div>
                 <div class="listOptions">
                     <div class="listButton">
                         <form method="post" action="quote">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="userName" value="${quote.name}">
+                            <input type="hidden" name="quoteName" value="${quote.name}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
                         <form method="post" action="quote">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="userName" value="${quote.name}">
+                            <input type="hidden" name="quoteName" value="${quote.name}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>

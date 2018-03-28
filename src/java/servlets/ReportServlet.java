@@ -7,16 +7,12 @@
  */
 package servlets;
 
-import businesslogic.JobService;
 import businesslogic.ReportService;
 import businesslogic.UserService;
 import domainmodel.Job;
 import domainmodel.Report;
 import domainmodel.User;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

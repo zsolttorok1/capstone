@@ -7,6 +7,7 @@ package servlets;
 
 import businesslogic.QuoteService;
 import domainmodel.Quote;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -40,7 +41,18 @@ public class QuoteServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     
+            String quoteName = request.getParameter("quoteName");
+            QuoteService quoteService = new QuoteService();
+            Quote quote = new Quote();
+             quoteService.viewQuote(quoteName);
+
+            if (quote == null) {
+                request.setAttribute("message", "Customer not found. This seems like a database connection error.");
+                getServletContext().getRequestDispatcher("/WEB-INF/customer.jsp").forward(request, response);
+                return;
+            }
+
+            request.setAttribute("quote", quote);
     
     
     }

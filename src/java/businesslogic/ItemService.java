@@ -2,6 +2,7 @@ package businesslogic;
 
 import dataaccess.ItemBroker;
 import domainmodel.Item;
+import domainmodel.User;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,8 +44,19 @@ public class ItemService {
     public List<Item> searchItem(String keyword) {
         ItemBroker itemBroker = ItemBroker.getInstance();
 
-        //this always return all items for now
-        return itemBroker.getAll();
+        List<Item> itemList = null;
+        
+        if (!keyword.isEmpty()) {
+            itemList = itemBroker.search(keyword);
+        }
+        else {
+            itemList = itemBroker.getAll();
+        }
+        
+        if (itemList == null)
+            return null;
+                
+        return itemList;
     }
     //edit 
     public String edit(String itemName, String quantity, String category, String description, String note) {

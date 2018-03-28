@@ -57,7 +57,7 @@ public class CustomerService {
         String status = "";
         
         if (customerNew.getCompanyName() != null) 
-            customer = customerBroker.getByName(customerNew.getCompanyName());
+            customer = customerBroker.getByName(customerNew.getCustomerName());
         else 
             return "Invalid customerName";
         

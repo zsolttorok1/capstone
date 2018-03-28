@@ -177,7 +177,7 @@ public class CustomerBroker {
         }
         
         try {
-            PreparedStatement pstmt = connection.prepareStatement("select insert_customer_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_customer_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, customer.getCustomerName());
             pstmt.setInt(2, customer.getHouseNumber());
             pstmt.setString(3, customer.getStreet());
@@ -185,12 +185,12 @@ public class CustomerBroker {
             pstmt.setString(5, customer.getProvince());
             pstmt.setString(6, customer.getCountry());
             pstmt.setString(7, customer.getPostalCode());
-            pstmt.setString(9, customer.getFirstName());
-            pstmt.setString(10, customer.getLastName());
-            pstmt.setString(11, customer.getCompanyName());
-            pstmt.setString(12, customer.getEmail());
-            pstmt.setString(13, customer.getPosition());
-            pstmt.setString(14, customer.getNotes());
+            pstmt.setString(8, customer.getFirstName());
+            pstmt.setString(9, customer.getLastName());
+            pstmt.setString(10, customer.getCompanyName());
+            pstmt.setString(11, customer.getEmail());
+            pstmt.setString(12, customer.getPosition());
+            pstmt.setString(13, customer.getNotes());
 
             ResultSet rs = pstmt.executeQuery();
             //get the status report from current database function

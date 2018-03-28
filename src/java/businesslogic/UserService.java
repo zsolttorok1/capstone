@@ -2,8 +2,19 @@ package businesslogic;
 
 import dataaccess.UserBroker;
 import domainmodel.User;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import javax.naming.NamingException;
+import utilities.HashingUtil;
 
 public class UserService {
 
@@ -14,6 +25,8 @@ public class UserService {
         String status = validate(user);
         
         if (status != null && status.equals("ok")) {
+            user.setSalt(HashingUtil.generateSalt());
+            
             UserBroker userBroker = UserBroker.getInstance();
             status = userBroker.insert(user);
         }
@@ -31,12 +44,28 @@ public class UserService {
             return null;
         }
     }
+    
+    public User getByEmail(String email) {
+        
+        if (email != null && !email.isEmpty()) {
+            UserBroker userBroker = UserBroker.getInstance();
+            return userBroker.getByEmail(email);
+        }
+        else {
+            return null;
+        }
+    }
 
     public List<User> searchUser(String keyword) {
         UserBroker userBroker = UserBroker.getInstance();
+        List<User> userList = null;
         
-        //this always return all items for now
-        List<User> userList = userBroker.getAll();
+        if (!keyword.isEmpty()) {
+            userList = userBroker.search(keyword);
+        }
+        else {
+            userList = userBroker.getAll();
+        }
         
         if (userList == null)
             return null;
@@ -51,7 +80,6 @@ public class UserService {
     }
     
     public String update(User userNew) {
-        
         UserBroker userBroker = UserBroker.getInstance();
         User user = null;
         String status = "";
@@ -80,7 +108,7 @@ public class UserService {
             user.setPostalCode(userNew.getPostalCode());
         if (userNew.getPhoneNumberList() != null && !userNew.getPhoneNumberList().isEmpty() )
             user.setPhoneNumberList(userNew.getPhoneNumberList());
-        if (userNew.getPassword() != null && !userNew.getPassword().isEmpty() )
+        if (userNew.getPassword() != null && !userNew.getPassword().isEmpty() ) 
             user.setPassword(userNew.getPassword());
         if (userNew.getFirstName() != null && !userNew.getFirstName().isEmpty() )
             user.setFirstName(userNew.getFirstName());
@@ -208,7 +236,6 @@ public class UserService {
             user.setPhoneNumberList(intPhoneNumberList);
         }
         if (password != null && !password.isEmpty()) {
-            //we need to hash the password, and store that hash value instead
             user.setPassword(password);
         }
         if (firstName != null && !firstName.isEmpty()) {
@@ -240,5 +267,81 @@ public class UserService {
         User deletedUser = userBroker.getByName(userName);
         
         return userBroker.delete(deletedUser);
+    }
+    
+    //returns "(role), invalid, null" 
+    public String login(String username, String password) {
+        String status = "";
+        
+        if (username != null && password != null && !username.equals("") && !password.equals("")) {
+            UserBroker userBroker = UserBroker.getInstance();
+            status = userBroker.login(username, password);
+                       
+            if (status == null)
+                return "error while attempting to login. Check database connection.";
+        }
+        return status;
+    }
+    
+    //returns "ok, invalid, null" 
+    public String changePassword(String userName, String password) {
+        String status = "";
+        
+        if (userName != null && password != null && !userName.equals("") && !password.equals("")) {
+            UserBroker userBroker = UserBroker.getInstance();
+            
+            User user = userBroker.getByName(userName);
+            
+            user.setPassword(HashingUtil.hashByKeccak512(password, user.getSalt()));
+            
+            status = validate(user);
+            if (status.equals("ok")) {
+                status = userBroker.update(user);
+            }
+        }
+        return status;
+    }
+    
+    public int resetPassword(String email, String path, String url) {
+        //generate new UUID
+        String uuid = UUID.randomUUID().toString();
+        String link = url + "?uuid=" + uuid;
+        
+        //find User by email
+        UserService us = new UserService();
+        User user = us.getByEmail(email);
+        
+        if (user != null) {
+            
+            //insert password change request
+            ResetPasswordService rps = new ResetPasswordService();
+            rps.insert(uuid, user.getUserName());
+
+            try {
+                HashMap<String, String> contents = new HashMap<>();
+                contents.put("firstname", user.getFirstName());
+                contents.put("lastname", user.getLastName());
+                contents.put("username", user.getUserName()); 
+                contents.put("link", link); 
+
+                try {
+                    WebMailService.sendMail(email, "Password Reset Request", path + "/emailtemplates/resetpassword.html", contents);
+                } catch (IOException ex) {
+                    Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } catch (MessagingException ex) {
+                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NamingException ex) {
+                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            //OK, email sent
+            return 1;
+        }
+        else {
+            //email not found in Database
+            return 2;
+        }
     }
 }

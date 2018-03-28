@@ -24,6 +24,7 @@
                     <input type="text" placeholder="Search..." />
                 </form>
                 <a class="logout" href="main">Logout</a>
+                <a class="logout" href="login?action=logout">RealLogout</a>
             </div>
         </div>
         
@@ -32,8 +33,8 @@
             <a href="user">Employees</a>
             <a href="customer">Customers</a>
             <a href="jobs">Jobs</a>
-            <a href="reports">Reports</a>
-            <a href="quotes">Quotes</a>
+            <a href="report">Reports</a>
+            <a href="quote">Quotes</a>
             <a href="">----</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
         </div>
@@ -45,7 +46,7 @@
         
         <div class="rowHeader">
             <div class="rowitemHeader">Username</div>
-            <div class="rowitemHeader">Email</div>
+            <div class="rowitemHeaderEmail">Email</div>
             <div class="rowitemHeader">Phone</div>
             <div class="rowitemHeader">First Name</div>
             <div class="rowitemHeader">Last Name</div>
@@ -64,7 +65,11 @@
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell">Username:</div>
-                                <div class="divTableCell"><input name="username" type="text" placeholder="Username" /></div>
+                                <div class="divTableCell"><input name="userNameAdd" type="text" placeholder="Username" /></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">Password:</div>
+                                <div class="divTableCell"><input name="password" type="password" placeholder="Password" /></div>
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell">First Name:</div>
@@ -117,7 +122,7 @@
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell">Pay Rate:</div>
-                                <div class="divTableCell"><input name="hourly_rate" type="text" placeholder="Pay Rate" /></div>
+                                <div class="divTableCell"><input name="hourlyRate" type="text" placeholder="Pay Rate" /></div>
                             </div>
                             <div class="divTableRow">
                                 <div class="divTableCell"><input name="action" type="hidden" value="add" /> <input type="submit" value="Save" /></div>
@@ -131,10 +136,10 @@
             <div class="rowWrapper">
                 <div class="row">
                     <div class="rowitem" name="username">${user.userName}</div>
-                    <div class="rowitem" name="email">${user.email}</div>
+                    <div class="rowitemEmail" name="email">${user.email}</div>
                     <div class="rowitem" name="phone">
                         <c:forEach var="phone" items="${user.phoneNumberList}">
-                            ${phone}
+                            ${phone}<br>
                         </c:forEach>
                     </div>
                     <div class="rowitem" name="firstname">${user.firstName}</div>

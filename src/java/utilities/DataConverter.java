@@ -5,22 +5,18 @@
  */
 package utilities;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-
 /**
  *
  * @author 742227
  */
 public class DataConverter {
 
-    public static java.sql.Date javaDate(java.util.Date javaDate) {
+    public static java.sql.Date javaDateToSQL(java.util.Date javaDate) {
         java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
         return sqlDate;
     }
 
-    public static java.util.Date sqlDate(java.sql.Date sqlDate) {
+    public static java.util.Date sqlDateToJava(java.sql.Date sqlDate) {
             java.util.Date javaDate = new java.util.Date(sqlDate.getTime());
         return javaDate;
     }

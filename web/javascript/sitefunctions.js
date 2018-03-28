@@ -67,7 +67,7 @@ function displayOptions(e) {
     }
     //display current item
     newtarget.getElementsByClassName("listOptions")[0].style.display = "flex";
-    newtarget.getElementsByClassName("row")[0].style.backgroundColor = "lightgray";
+    newtarget.getElementsByClassName("row")[0].style.backgroundColor = "#e3e8ed";
 }
 
 // NavBar
