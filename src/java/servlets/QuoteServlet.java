@@ -59,7 +59,7 @@ public class QuoteServlet extends HttpServlet {
                     
             if (quote == null) {
                 request.setAttribute("message", "Customer not found. This seems like a database connection error.");
-                getServletContext().getRequestDispatcher("/WEB-INF/customer.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/WEB-INF/quote.jsp").forward(request, response);
                 return;
             }
         
