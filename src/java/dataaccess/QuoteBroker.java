@@ -136,7 +136,7 @@ public class QuoteBroker {
         
         Quote quote = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT quote_name FROM quote WHERE quote_name = ?;");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM quote WHERE quote_name = ?;");
             
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();

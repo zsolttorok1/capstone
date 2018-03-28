@@ -45,7 +45,7 @@ public class QuoteServlet extends HttpServlet {
         //String customerId = request.getParameter("customerId");
         String quoteName = request.getParameter("quoteName");
         if (quoteName == null || quoteName.isEmpty()) {
-            request.setAttribute("message", "invalid customerId.");
+            request.setAttribute("message", "invalid quoteId.");
             getServletContext().getRequestDispatcher("/WEB-INF/quote.jsp").forward(request, response);
             return;
         }
@@ -55,7 +55,7 @@ public class QuoteServlet extends HttpServlet {
            
             QuoteService quoteService = new QuoteService();
             Quote quote = new Quote();
-             quoteService.viewQuote(quoteName);
+            quote = quoteService.viewQuote(quoteName);
                     
             if (quote == null) {
                 request.setAttribute("message", "Customer not found. This seems like a database connection error.");
