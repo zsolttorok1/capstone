@@ -7,9 +7,9 @@ import java.util.List;
 
 public class CustomerService {
         
-    public String insert(String customerName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+    public String insert(String customerId, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
     
-        Customer customer = build(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
+        Customer customer = build(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
         
         String status = validate(customer);
         
@@ -21,13 +21,13 @@ public class CustomerService {
         return status; 
     }
 
-    public Customer getByCustomerName(String customerName) {
-        
-        if (customerName != null && !customerName.isEmpty()) {
+    public Customer getByCustomerId(String customerId) {
+        try {
+            int intCustomerId = Integer.parseInt(customerId);
             CustomerBroker customerBroker = CustomerBroker.getInstance();
-            return customerBroker.getByName(customerName);
-        }
-        else {
+            
+            return customerBroker.getById(intCustomerId);
+        } catch (NumberFormatException ex) {
             return null;
         }
     }
@@ -44,8 +44,8 @@ public class CustomerService {
         return customerList;
     }
 
-    public String update(String customerName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
-        Customer customer = build(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
+    public String update(String customerId, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+        Customer customer = build(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
         
         return update(customer);
     }
@@ -57,9 +57,9 @@ public class CustomerService {
         String status = "";
         
         if (customerNew.getCompanyName() != null) 
-            customer = customerBroker.getByName(customerNew.getCustomerName());
+            customer = customerBroker.getById(customerNew.getCustomerId());
         else 
-            return "Invalid customerName";
+            return "Invalid customerId";
         
         if (customer == null)
             return "Customer not found while attempting to update. Check database connection.";
@@ -105,8 +105,8 @@ public class CustomerService {
     private String validate(Customer customer) {
         String status = "";
         
-        if (customer == null || customer.getCompanyName().isEmpty()) {
-            status += "invalid customerName ";
+        if (customer == null || customer.getCustomerId() < 0) {
+            status += "invalid customerId ";
         }
         if (customer.getHouseNumber() <= 0) {
             status += "invalid houseNumber ";
@@ -164,11 +164,16 @@ public class CustomerService {
         }
     }
     
-    private Customer build(String customerName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
+    private Customer build(String customerId, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
         Customer customer = new Customer();
         
-        if (customerName != null && !customerName.isEmpty()) {
-            customer.setCustomerName(customerName);
+        if (customerId != null && !customerId.isEmpty()) {
+            try {
+                int intCustomerId = Integer.parseInt(customerId);
+                customer.setCustomerId(intCustomerId);
+            } catch (NumberFormatException ex) {
+                customer.setCustomerId(-1);
+            }
         }
         if (houseNumber != null && !houseNumber.isEmpty()) {
             try {
@@ -198,7 +203,7 @@ public class CustomerService {
             
             for (int i=0; i < phoneNumberList.length; i++) {
                 try {
-                    long phoneNumber = Long.parseLong(phoneNumberList[i]); 
+                    long phoneNumber = Long.parseLong(phoneNumberList[i]);
                     intPhoneNumberList.add(phoneNumber);
                 } catch (NumberFormatException ex) {
                     intPhoneNumberList.add(-1L);
@@ -228,10 +233,18 @@ public class CustomerService {
         return customer;
     }
     
-    public String delete(String customerName) {
-        CustomerBroker customerBroker = CustomerBroker.getInstance();
-        Customer deletedCustomer = customerBroker.getByName(customerName);
+    public String delete(String customerId) {
+        String status = "";
         
-        return customerBroker.delete(deletedCustomer);
+        try {
+            int intCustomerId = Integer.parseInt(customerId);
+            
+            CustomerBroker customerBroker = CustomerBroker.getInstance();
+            Customer deletedCustomer = customerBroker.getById(intCustomerId);
+        
+            return customerBroker.delete(deletedCustomer);
+        } catch (NumberFormatException ex) {
+            return "invalid Customer ID";
+        }
     }
 }

@@ -20,8 +20,11 @@ import keccak.FIPS202;
 public class HashingUtil {
     
     public static void main (String[] args) {
-        System.out.println(HashingUtil.generateSalt());
-        System.out.println(HashingUtil.hashByKeccak512("a", "4d5eac44fd0a56b786b0f2fe40ff3561"));
+        
+        System.out.println("4F7CAE26D8C6340784AF911B39E84E92A44F6E0145A4AA34B017EA30CBA4FF0CA844E3534B56F3E2614A25278D54232FEB310C2DABE102D0D1A5F4814414C2D9");
+        System.out.println("b0ef2e0564cff7ec65dd14d35ecff09e");
+        
+        System.out.println(HashingUtil.hashByKeccak512("q", ""));
     }
     
     public static String hash(String uuid) {

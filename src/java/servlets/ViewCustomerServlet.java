@@ -45,10 +45,10 @@ public class ViewCustomerServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String action = request.getParameter("action");
-        String customerName = request.getParameter("customerName");
+        String customerId = request.getParameter("customerId");
         
-        if (customerName == null || customerName.isEmpty()) {
-            request.setAttribute("message", "invalid customerName.");
+        if (customerId == null || customerId.isEmpty()) {
+            request.setAttribute("message", "invalid customerId.");
             getServletContext().getRequestDispatcher("/WEB-INF/customer.jsp").forward(request, response);
             return;
         }
@@ -57,7 +57,7 @@ public class ViewCustomerServlet extends HttpServlet {
   
             CustomerService customerService = new CustomerService();
             Customer customer = new Customer();
-            customer = customerService.getByCustomerName(customerName);
+            customer = customerService.getByCustomerId(customerId);
 
             if (customer == null) {
                 request.setAttribute("message", "Customer not found. This seems like a database connection error.");
@@ -89,11 +89,11 @@ public class ViewCustomerServlet extends HttpServlet {
             
             CustomerService customerService = new CustomerService();
             
-            status = customerService.update(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstName, lastName, company, email, position, " ");
+            status = customerService.update(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstName, lastName, company, email, position, " ");
             
             request.setAttribute("message", status);
             
-            Customer customer = customerService.getByCustomerName(customerName);
+            Customer customer = customerService.getByCustomerId(customerId);
             if (customer == null) {
                 request.setAttribute("message", "Customer not found. This seems like a database connection error.");
                 getServletContext().getRequestDispatcher("/WEB-INF/customer.jsp").forward(request, response);

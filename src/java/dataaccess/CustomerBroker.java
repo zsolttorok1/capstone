@@ -52,7 +52,7 @@ public class CustomerBroker {
     }
 
     //returns "Customer, null"
-    public Customer getByName(String customerName) {
+    public Customer getById(int customerId) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
             return null;
@@ -61,14 +61,14 @@ public class CustomerBroker {
         Customer customer = null;
         try {
             PreparedStatement pstmt = connection.prepareStatement(""
-                + "SELECT c.customer_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', c.firstname, c.lastname, c.company_name, c.email, po.position_name, c.notes "
+                + "SELECT c.customer_id, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', c.firstname, c.lastname, c.company_name, c.email, po.position_name, c.notes "
                 + "FROM `customer` c "
-                + "JOIN `phone_customer` pc ON pc.customer_name = c.customer_name "
+                + "JOIN `phone_customer` pc ON pc.customer_id = c.customer_id "
                 + "JOIN `phone` p ON p.phone_id = pc.phone_id "
                 + "JOIN `address` a ON a.address_id = c.address_id "
                 + "JOIN `position` po ON po.position_id = c.position_id "
-                + "WHERE c.customer_name = ?; ");
-            pstmt.setString(1, customerName);
+                + "WHERE c.customer_id = ?; ");
+            pstmt.setInt(1, customerId);
             ResultSet rs = pstmt.executeQuery();
        
             if (rs.next() && rs.getInt("HOUSE_NUMBER") > 0) {
@@ -97,7 +97,7 @@ public class CustomerBroker {
                 String positionName = rs.getString("POSITION_NAME");
                 String notes = rs.getString("NOTES");
                 
-                customer = new Customer(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstname, lastname, companyName, email, positionName, notes);
+                customer = new Customer(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstname, lastname, companyName, email, positionName, notes);
             }
           
         } catch (SQLException ex) {
@@ -119,18 +119,18 @@ public class CustomerBroker {
         Customer customer = null;
         try {
             PreparedStatement pstmt = connection.prepareStatement(""
-                + "SELECT c.customer_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', c.firstname, c.lastname, c.company_name, c.email, po.position_name, c.notes "
+                + "SELECT c.customer_id, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', c.firstname, c.lastname, c.company_name, c.email, po.position_name, c.notes "
                 + "FROM `customer` c "
-                + "JOIN `phone_customer` pc ON pc.customer_name = c.customer_name "
+                + "JOIN `phone_customer` pc ON pc.customer_id = c.customer_id "
                 + "JOIN `phone` p ON p.phone_id = pc.phone_id "
                 + "JOIN `address` a ON a.address_id = c.address_id "
                 + "JOIN `position` po ON po.position_id = c.position_id "
-                + "GROUP BY customer_name;");
+                + "GROUP BY customer_id;");
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next() && rs.getInt("HOUSE_NUMBER") > 0) {
-                String customerName = rs.getString("CUSTOMER_NAME");
+                int customerId = rs.getInt("CUSTOMER_ID");
                 int houseNumber = rs.getInt("HOUSE_NUMBER");
                 String street = rs.getString("STREET");
                 String city = rs.getString("CITY");
@@ -157,7 +157,7 @@ public class CustomerBroker {
                 String notes = rs.getString("NOTES");
                 
                 
-                customer = new Customer(customerName, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstname, lastname, companyName, email, positionName, notes);
+                customer = new Customer(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstname, lastname, companyName, email, positionName, notes);
                 customerList.add(customer);
             }
             
@@ -178,7 +178,7 @@ public class CustomerBroker {
         
         try {
             PreparedStatement pstmt = connection.prepareStatement("select insert_customer_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            pstmt.setString(1, customer.getCustomerName());
+            pstmt.setInt(1, customer.getCustomerId());
             pstmt.setInt(2, customer.getHouseNumber());
             pstmt.setString(3, customer.getStreet());
             pstmt.setString(4, customer.getCity());
@@ -202,14 +202,25 @@ public class CustomerBroker {
                 connection.rollback();
                 return "error";
             }
-
+            
+            //database is sending back the newly generated ID together with "inserted" string.
+            String customerId =  status.replace("inserted", "");
+            if (customerId != null && !customerId.isEmpty()) {
+                try {
+                    int intCustomerId = Integer.parseInt(customerId);
+                    customer.setCustomerId(intCustomerId);
+                } catch (NumberFormatException ex) {
+                    customer.setCustomerId(-1);
+                }
+            }
+          
             //inserting phone numbers
             String stringPhoneNumberList = "";
             for (long phoneNumber : customer.getPhoneNumberList()) {
                 stringPhoneNumberList += phoneNumber + ",";
             }
             pstmt = connection.prepareStatement("select insert_phoneList_customer_func(?, ?)");
-            pstmt.setString(1, customer.getCustomerName());
+            pstmt.setInt(1, customer.getCustomerId());
             pstmt.setString(2, stringPhoneNumberList);
             
             rs = pstmt.executeQuery();
@@ -238,8 +249,13 @@ public class CustomerBroker {
         } finally {
             pool.freeConnection(connection);
         }
-
-        return status;
+        
+        if (status != null && status.contains("inserted")) {
+            return "Customer successfully inserted";
+        }
+        else {
+            return status;
+        }
     }
 
     //returns "updated, error, exception"
@@ -266,7 +282,7 @@ public class CustomerBroker {
    
         try {
             PreparedStatement pstmt = connection.prepareStatement("select delete_customer_func(?)");
-            pstmt.setString(1, customer.getCustomerName());
+            pstmt.setInt(1, customer.getCustomerId());
 
             ResultSet rs = pstmt.executeQuery();
             

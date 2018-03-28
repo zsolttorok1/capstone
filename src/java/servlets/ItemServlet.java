@@ -22,7 +22,7 @@ public class ItemServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet req```1uest
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
@@ -30,18 +30,11 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //instanciating all used services
-        HttpSession session = request.getSession();
         ItemService itemService = new ItemService();
 
-        //logic
-        String keyword = "anything";
-        List<Item> itemList = itemService.searchItem(keyword);
+        List<Item> itemList = itemService.searchItem("");
 
-        //saving attributes to session
-        session.setAttribute("itemList", itemList);
-
+        request.setAttribute("itemList", itemList);
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
@@ -103,14 +96,10 @@ public class ItemServlet extends HttpServlet {
             */
         }
 
-        HttpSession session = request.getSession();
         ItemService itemService = new ItemService();
+        List<Item> itemList = itemService.searchItem("");
 
-        //logic
-        String keyword = "anything";
-        List<Item> itemList = itemService.searchItem(keyword);
-
-        session.setAttribute("itemList", itemList);
+        request.setAttribute("itemList", itemList);
         request.setAttribute("errorMessage", errorMessage);
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }

@@ -367,10 +367,7 @@ public class UserBroker {
     }
 
     //returns "updated, error, exception"
-    public String update(User user) {
-        //hashing passwords before updating
-        user.setPassword(HashingUtil.hashByKeccak512(user.getPassword(), user.getSalt()));
-        
+    public String update(User user) {        
         String status = insert(user);
         
         if (status == null || status.equals("connection error")) {

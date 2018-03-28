@@ -1,7 +1,7 @@
 package domainmodel;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -46,8 +46,8 @@ public class Job implements Serializable{
         this.address = new Address();
         this.customer = new Customer();
         this.description = "";
-        this.dateStarted = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        this.dateFinished = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        this.dateStarted = new java.util.Date(Calendar.getInstance().getTime().getTime());
+        this.dateFinished = new java.util.Date(Calendar.getInstance().getTime().getTime());
         this.balance = 0;
         this.status = "";
         this.reportList = new ArrayList<>();
@@ -182,8 +182,4 @@ public class Job implements Serializable{
     public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
     }
-    
-    
-    
-    
 }

@@ -77,7 +77,7 @@
                     
                 </div>
                 <input type="hidden" name="action" value="save">
-                <input type="hidden" name="customerName" value="${customer.customerName}">
+                <input type="hidden" name="customerId" value="${customer.customerId}">
                 <input type="submit" value="Save Changes">
             </form>
         </div>

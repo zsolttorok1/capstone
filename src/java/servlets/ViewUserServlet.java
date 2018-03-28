@@ -79,7 +79,9 @@ public class ViewUserServlet extends HttpServlet {
             String country = request.getParameter("country");
             String postalCode = request.getParameter("postalCode");
             String[] phoneNumberList = request.getParameterValues("phoneNumberList[]");
+            String password = request.getParameter("password");
             String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
             String role = request.getParameter("role");
             String email = request.getParameter("email");
             String hourlyRate = request.getParameter("hourlyRate");
@@ -88,7 +90,7 @@ public class ViewUserServlet extends HttpServlet {
             
             UserService userService = new UserService();
             
-            status = userService.update(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, action, firstName, firstName, role, email, hourlyRate);
+            status = userService.update(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
             
             request.setAttribute("message", status);
             
