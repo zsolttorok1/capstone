@@ -20,9 +20,12 @@ var editInputs = document.getElementsByClassName("contentBodyInput");
 
 //Add Modal Form
 // When the user clicks the button, open the modal 
-btn.onclick = function() {
+if (btn !== null) {
+    btn.onclick = function() {
     modal.style.display = "block";
 };
+}
+
 
 //Add Phone Number Text Fields when clicked
 function addNumberInput() {
