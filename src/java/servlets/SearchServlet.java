@@ -48,9 +48,11 @@ public class SearchServlet extends HttpServlet {
         
         List<User> userList = searchService.searchUser(keyword);
         List<Item> itemList = searchService.searchItem(keyword);
+        List<Customer> customerList = searchService.searchCustomer(keyword);
         
         request.setAttribute("userList", userList);
         request.setAttribute("itemList", itemList);
+        request.setAttribute("customerList", customerList);
         request.setAttribute("keyword", keyword);
         
         request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);

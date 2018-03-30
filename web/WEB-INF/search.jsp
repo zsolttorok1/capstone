@@ -57,6 +57,10 @@
         <c:forEach var="user" items="${userList}">
            User entry found: ${user.userName}<br/>
         </c:forEach>
+           
+        <c:forEach var="customer" items="${customerList}">
+           Customer entry found: ${customer.firstName}<br/>
+        </c:forEach>
 
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>
     </body>

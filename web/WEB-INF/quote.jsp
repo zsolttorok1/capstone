@@ -29,9 +29,12 @@
         </div>
         
         <div id="mySidenav" class="sidenav">
-            <a href="name">Name</a>
-            <a href="email">Email</a>
-            <a href="description">Description</a>
+            <a href="item">Item Inventory</a>
+            <a href="user">Employees</a>
+            <a href="customer">Customers</a>
+            <a href="jobs">Jobs</a>
+            <a href="report">Reports</a>
+            <a href="quote">Quotes</a>
             <a href="">----</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
         </div>
