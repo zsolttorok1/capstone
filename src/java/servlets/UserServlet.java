@@ -56,12 +56,11 @@ public class UserServlet extends HttpServlet {
         String message = "";
         String action = request.getParameter("action");
         String userName = request.getParameter("userName");
-
+     
         if (action.equals("delete")) {
             String status = userService.delete(userName);
             message = status;
         } else if (action.equals("add")) {
-            String userNameAdd = request.getParameter("userNameAdd");
             String houseNumber = request.getParameter("houseNumber");
             String street = request.getParameter("street");
             String city = request.getParameter("city");
@@ -76,7 +75,7 @@ public class UserServlet extends HttpServlet {
             String email = request.getParameter("emailAddress");
             String hourlyRate = request.getParameter("hourlyRate");
 
-            String status = userService.insert(userNameAdd, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
+            String status = userService.insert(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
             
             message = status;
         }

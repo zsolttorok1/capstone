@@ -68,7 +68,7 @@ public class JobBroker {
         Job job = null;
         try {
             PreparedStatement pstmt = connection.prepareStatement(""
-                    + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
+                    + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
                     + "     FROM `job` j "
                     + "     JOIN `address` a ON u.address_id = a.address_id "
                     + "     WHERE u.job_name = ?;");
@@ -105,66 +105,53 @@ public class JobBroker {
         return job;
     }
      
-//    public List<User> search(String keyword) {
-//        String status = getConnection();
-//        if (status == null || status.equals("connection error")) {
-//            return null;
-//        }
-//        
-//        List<User> userList = new ArrayList<>();
-//        User user = null;
-//        try {
-//            PreparedStatement pstmt = connection.prepareStatement(""
-//                    + "SELECT u.user_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, GROUP_CONCAT(p.phone_number) as 'PHONE_NUMBER', u.password, u.firstname, u.lastname, r.role_name, u.email, u.hourly_rate, u.salt "
-//                    + "     FROM `user` u "
-//                    + "     JOIN `phone_user` up ON up.user_name = u.user_name "
-//                    + "     JOIN `phone` p ON p.phone_id = up.phone_id "
-//                    + "     JOIN `address` a ON u.address_id = a.address_id "
-//                    + "     JOIN `role` r ON r.role_id = u.role_id "
-//                    + "     WHERE u.user_name like ? "
-//                    + "GROUP BY user_name;");
-//            pstmt.setString(1, "%" + keyword +"%");
-//            ResultSet rs = pstmt.executeQuery();
-//       
-//            while (rs.next()) {
-//                String userName = rs.getString("USER_NAME");
-//                int houseNumber = rs.getInt("HOUSE_NUMBER");
-//                String street = rs.getString("STREET");
-//                String city = rs.getString("CITY");
-//                String province = rs.getString("PROVINCE");
-//                String country = rs.getString("COUNTRY");
-//                String postalCode = rs.getString("POSTAL_CODE");
-//                
-//                List<Long> phoneNumberList = new ArrayList<>();
-//                String stringPhoneNumberList = rs.getString("PHONE_NUMBER");
-//                String[] parts = stringPhoneNumberList.split(",");
-//                for (String part : parts) {
-//                    try {
-//                        long phoneNumber = Long.parseLong(part);
-//                        phoneNumberList.add(phoneNumber);
-//                    } catch (NumberFormatException ex) {
-//                    }
-//                }
-//                
-//                String password = rs.getString("PASSWORD");
-//                String firstname = rs.getString("FIRSTNAME");
-//                String lastname = rs.getString("LASTNAME");
-//                String role = rs.getString("ROLE_NAME");
-//                String email = rs.getString("EMAIL");
-//                int hourlyRate = rs.getInt("HOURLY_RATE");
-//                String salt = rs.getString("SALT");
-//                
-//                user = new User(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstname, lastname, role, email, hourlyRate, salt);
-//                userList.add(user);
-//            }
-//          
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            pool.freeConnection(connection);
-//        }
-//        return userList;
-//    }
+    public List<Job> search(String keyword) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
+        
+        List<Job> jobList = new ArrayList<>();
+        Job job = null;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(""
+                    + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
+                    + "     FROM `job` j "
+                    + "     JOIN `address` a ON u.address_id = a.address_id "
+                    + "     WHERE u.job_name = ?;");
+            pstmt.setString(1, "%" + keyword +"%");
+            ResultSet rs = pstmt.executeQuery();
+       
+            while (rs.next()) {
+                String jobName = rs.getString("JOB_NAME");
+                int houseNumber = rs.getInt("HOUSE_NUMBER");
+                String street = rs.getString("STREET");
+                String city = rs.getString("CITY");
+                String province = rs.getString("PROVINCE");
+                String country = rs.getString("COUNTRY");
+                String postalCode = rs.getString("POSTAL_CODE");
+                int customerId = rs.getInt("CUSTOMER_ID");
+                String description = rs.getString("DESCRIPTION");
+                Date dateStarted = rs.getDate("DATE_STARTED");
+                Date dateFinished = rs.getDate("DATE_FINISHED");
+                int balance = rs.getInt("BALANCE");
+                String jobStatus = rs.getString("STATUS");
+                
+                Customer customer = CustomerBroker.getInstance().getById(customerId);
+                List<Report> reportList = new ArrayList<>();
+                List<User> userList = new ArrayList<>();
+                List<Item> itemList = new ArrayList<>();
+                
+                job = new Job(jobName, houseNumber, street, city, province, country, postalCode, customer, description, dateStarted, dateFinished, balance, jobStatus, reportList, userList, itemList);
+                jobList.add(job);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            pool.freeConnection(connection);
+        }
+        return jobList;
+    }
 
     //returns "List of Users, empty List, null"
     public List<Job> getAll() {
@@ -177,7 +164,7 @@ public class JobBroker {
         Job job = null;
         try {
             PreparedStatement pstmt = connection.prepareStatement(""
-                    + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
+                    + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
                     + "     FROM `job` j "
                     + "     JOIN `address` a ON u.address_id = a.address_id ");
 
