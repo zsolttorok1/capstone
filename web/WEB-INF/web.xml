@@ -6,7 +6,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>customer</welcome-file>
+        <welcome-file>job</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>MainServlet</servlet-name>
@@ -40,6 +40,23 @@
         <servlet-name>CustomerServlet</servlet-name>
         <url-pattern>/customer</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>JobServlet</servlet-name>
+        <servlet-class>servlets.JobServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JobServlet</servlet-name>
+        <url-pattern>/job</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewJobServlet</servlet-name>
+        <servlet-class>servlets.ViewJobServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewJobServlet</servlet-name>
+        <url-pattern>/viewJob</url-pattern>
+    </servlet-mapping>
+    
     <servlet>
         <servlet-name>ViewItemServlet</servlet-name>
         <servlet-class>servlets.ViewItemServlet</servlet-class>

@@ -3,17 +3,14 @@ package businesslogic;
 import dataaccess.CustomerBroker;
 import dataaccess.JobBroker;
 import domainmodel.Job;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import utilities.DataConverter;
 
 public class JobService {
     
-    public String insert(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String dateStarted, String dateFinished, String balance, String status) {
+    public String insert(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
     
-        Job job = build(jobName, houseNumber, street, city, province, country, postalCode, customerId, dateStarted, dateFinished, balance, status);
+        Job job = build(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, status);
         
         String statusOutput = validate(job);
         
@@ -53,8 +50,8 @@ public class JobService {
         return jobList;
     }
 
-    public String update(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String dateStarted, String dateFinished, String balance, String status) {
-        Job job = build(jobName, houseNumber, street, city, province, country, postalCode, customerId, dateStarted, dateFinished, balance, status);
+    public String update(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
+        Job job = build(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, status);
         
         return update(job);
     }
@@ -87,6 +84,8 @@ public class JobService {
             job.setPostalCode(jobNew.getPostalCode());
         if (jobNew.getCustomer()!= null && jobNew.getCustomer().getCustomerId() > 0)
             job.setCustomer(jobNew.getCustomer());
+        if (jobNew.getDescription()!= null && !jobNew.getDescription().isEmpty() )
+            job.setDescription(jobNew.getDescription());
         if (jobNew.getDateStarted()!= null && jobNew.getDateStarted().getTime() < 0 )
             job.setDateStarted(jobNew.getDateStarted());
         if (jobNew.getDateFinished()!= null && jobNew.getDateFinished().getTime() < 0 )
@@ -133,6 +132,9 @@ public class JobService {
         if (job.getCustomer() == null || job.getCustomer().getCustomerId() <= 0) {
             status += "invalid Customer ";
         }
+        if (job.getDescription() == null || job.getDescription().isEmpty()) {
+            status += "invalid Description ";
+        }
         if (job.getDateStarted() == null || DataConverter.javaDateToString(job.getDateStarted()).equals("01/01/1975")) {
             status += "invalid Starting Date ";
         }
@@ -154,7 +156,7 @@ public class JobService {
         }
     }
     
-    private Job build(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String dateStarted, String dateFinished, String balance, String status) {
+    private Job build(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
         Job job = new Job();
        
         if (jobName != null && !jobName.isEmpty()) {
@@ -190,6 +192,9 @@ public class JobService {
             } catch (Exception ex) {
                 job.setHouseNumber(-1);
             }
+        }
+        if (description != null && !description.isEmpty()) {
+            job.setDescription(description);
         }
         if (dateStarted != null && !dateStarted.isEmpty()) {
             job.setDateStarted(DataConverter.stringDateToJava(dateStarted));

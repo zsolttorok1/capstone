@@ -29,14 +29,13 @@ public class ViewCustomerServlet extends HttpServlet {
         
         CustomerService customerService = new CustomerService();
 
-        String keyword = "anything";
-        List<Customer> customerList = customerService.searchCustomer(keyword);
+        List<Customer> customerList = customerService.searchCustomer("");
         if (customerList == null) {
             request.setAttribute("message", "Customer not found. This seems like a database connection error.");
         }
 
         request.setAttribute("customerList", customerList);
-        request.getRequestDispatcher("/WEB-INF/viewCustomer.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/customer.jsp").forward(request, response);
         
     }
 

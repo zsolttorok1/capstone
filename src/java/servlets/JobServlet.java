@@ -81,18 +81,18 @@ public class JobServlet extends HttpServlet {
             String[] userList = request.getParameterValues("userList[]");
            
 
-            String status = jobService.insert(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus, reportList, itemList ,userList);
+            String status = jobService.insert(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus);
             
             message = status;
         }
 
-        List<User> userList = userService.searchUser("");
-        if (userList == null) {
-            message = "User not found. This seems like a database connection error.";
+        List<Job> jobList = jobService.searchJob("");
+        if (jobList == null) {
+            message = "Job not found. This seems like a database connection error.";
         }
 
         request.setAttribute("message", message);
-        request.setAttribute("userList", userList);
-        request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+        request.setAttribute("jobList", jobList);
+        request.getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
     }
 }

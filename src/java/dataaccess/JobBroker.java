@@ -70,7 +70,7 @@ public class JobBroker {
             PreparedStatement pstmt = connection.prepareStatement(""
                     + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
                     + "     FROM `job` j "
-                    + "     JOIN `address` a ON u.address_id = a.address_id "
+                    + "     JOIN `address` a ON j.address_id = a.address_id "
                     + "     WHERE u.job_name = ?;");
             pstmt.setString(1, jobName);
             ResultSet rs = pstmt.executeQuery();
@@ -117,7 +117,7 @@ public class JobBroker {
             PreparedStatement pstmt = connection.prepareStatement(""
                     + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
                     + "     FROM `job` j "
-                    + "     JOIN `address` a ON u.address_id = a.address_id "
+                    + "     JOIN `address` a ON j.address_id = a.address_id "
                     + "     WHERE u.job_name = ?;");
             pstmt.setString(1, "%" + keyword +"%");
             ResultSet rs = pstmt.executeQuery();
@@ -166,7 +166,7 @@ public class JobBroker {
             PreparedStatement pstmt = connection.prepareStatement(""
                     + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
                     + "     FROM `job` j "
-                    + "     JOIN `address` a ON u.address_id = a.address_id ");
+                    + "     JOIN `address` a ON j.address_id = a.address_id ");
 
             ResultSet rs = pstmt.executeQuery();
 
