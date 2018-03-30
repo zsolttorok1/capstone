@@ -195,9 +195,16 @@ p.bodytext {
     padding-left: 10px;
 }
 
+
+.resultContainer {
+    display: inline;
+    float: left;
+    max-width: 33%;
+    min-width: 33%;
+    padding: 1px;
+}
 .rowHeaderSearchBanner {
     font-size: 20px;
-    max-width: 33%;
     height: 36px;
     display: flex;
     justify-content: center;
@@ -208,7 +215,6 @@ p.bodytext {
 
 .rowHeaderSearch {
     font-size: 20px;
-    max-width: 33%;
     height: 36px;
     display: flex;
     align-items: center; /*vertical center*/
@@ -223,7 +229,6 @@ p.bodytext {
 }
 
 .rowSearch {
-    max-width: 33%;
     height: 70px;
     display: flex;
     align-items: center; /*vertical center*/
@@ -236,8 +241,8 @@ p.bodytext {
 
 .rowitemSearch {
     height: 70px;
-    width: 400px;
-    max-width: 250px;
+    min-width: 50%;
+    max-width: 50%;
     box-sizing: border-box;
     padding-left: 10px;
     padding-right: 10px;
@@ -330,7 +335,6 @@ p.bodytext {
 }
 
 .listOptionsSearch {
-    max-width: 33%;
     display: none;
     justify-content: center; /*horizontal center*/
 }
