@@ -29,14 +29,12 @@ public class ViewItemServlet extends HttpServlet {
         HttpSession session = request.getSession();
         ItemService itemService = new ItemService();
 
-        //logic
-        String keyword = "anything";
-        List<Item> itemList = itemService.searchItem(keyword);
+        List<Item> itemList = itemService.searchItem("");
 
         //saving attributes to session
         session.setAttribute("itemList", itemList);
 
-        request.getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
     @Override

@@ -31,14 +31,13 @@ public class ViewUserServlet extends HttpServlet {
             throws ServletException, IOException {
         UserService userService = new UserService();
 
-        String keyword = "anything";
-        List<User> userList = userService.searchUser(keyword);
+        List<User> userList = userService.searchUser("");
         if (userList == null) {
             request.setAttribute("message", "User not found. This seems like a database connection error.");
         }
 
         request.setAttribute("userList", userList);
-        request.getRequestDispatcher("/WEB-INF/viewUser.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
     }
 
     @Override

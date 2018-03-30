@@ -5,116 +5,94 @@
  */
 package servlets;
 
+import businesslogic.ItemService;
 import businesslogic.JobService;
+import businesslogic.UserService;
+import domainmodel.Job;
+import domainmodel.User;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import utilities.DataConverter;
 
 /**
  *
  * @author 742227
  */
-@WebServlet(name = "JobServlet", urlPatterns = {"/JobServlet"})
 public class JobServlet extends HttpServlet {
 
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        String user = (String) session.getAttribute("user");
-//        //doesnt allow users with out an account to get to this page
-//        if (session.getAttribute("user") == null) {
-//            response.sendRedirect("login");
-//
-//            return;
-//        }
-//    }
-//
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//
-//        //Variables
-//        String action = request.getParameter("action");
-//        String selectedJobName = request.getParameter("selectedJobName");
-//
-//        String errorMessage = "";
-//
-//        //Adding an Job
-//        if (action != null && action.equals("add")) {
-//            String jobName = request.getParameter("jobName");
-//            String addressId = request.getParameter("addressId");
-//            String customerName = request.getParameter("customerName");
-//            String reportName = request.getParameter("reportName");
-//            String description = request.getParameter("description");
-//            //data?
-//            String dateStarted = request.getParameter("dateStarted");
-//            String dateFinished = request.getParameter("dateFinished");
-//            String balance = request.getParameter("balance");
-//            String status = request.getParameter("status");
-//
-//        }
-//        if (action != null && action.equals("delete")) {
-//            if (selectedJobName != null) {
-//                JobService jobService = new JobService();
-//                jobService.delete(selectedJobName);
-//                errorMessage = "You deleted a Job.";
-//                //request.setAttribute("errorMessage", "You deleted an item.");
-//
-//            } else {
-//                request.setAttribute("errorMessage", "You do not have the authority to DELETE me.");
-//                getServletContext().getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
-//                return;
-//            }
-//        } else if (action.equals("edit")) {
-//            String jobName = request.getParameter("jobName");
-//            String addressId = request.getParameter("addressId");
-//            String customerName = request.getParameter("customerName");
-//            String reportName = request.getParameter("reportName");
-//            String description = request.getParameter("description");
-//            java.util.Date dateStart;
-//            java.util.Date dateFinish;
-//            java.sql.Date sqlStart= null;
-//            java.sql.Date sqlFinish= null;
-//            
-//            //parse date
-//            String dateStarted = request.getParameter("dateStarted");
-//            String dateFinished = request.getParameter("dateFinished");
-//            try {
-//                
-//                dateStart = new SimpleDateFormat("MM/dd/yyyyHH:mm:ss", Locale.ENGLISH).parse(dateStarted);
-//                sqlStart = DataConverter.javaDate(dateStart);
-//                dateFinish = new SimpleDateFormat("MM/dd/yyyyHH:mm:ss", Locale.ENGLISH).parse(dateFinished);
-//                sqlFinish = DataConverter.javaDate(dateFinish);
-//            } catch (ParseException ex) {
-//                Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            String balance = request.getParameter("balance");
-//            String status = request.getParameter("status");
-//
-//            if (jobName != null && !jobName.isEmpty() && addressId != null && !addressId.isEmpty() && customerName != null
-//                    && !customerName.isEmpty() && reportName != null && !reportName.isEmpty() && description != null && !description.isEmpty()
-//                    && balance != null && !balance.isEmpty() && dateStarted != null && dateFinished != null && status != null) {
-//                JobService jobService = new JobService();
-//                jobService.edit(jobName, addressId, customerName, reportName, description,
-//                        sqlStart, sqlFinish, balance, status);
-//                request.setAttribute("errorMessage", "You edited your Job");
-//            } else {
-//                request.setAttribute("errorMessage", "You can not edit");
-//                getServletContext().getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
-//                return;
-//
-//            }
-//        }
-//
-//    }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        JobService jobService = new JobService();
+        List<Job> jobList = jobService.searchJob("");
+        if (jobList == null) {
+            request.setAttribute("message", "No jobs found. This seems like a database connection error.");
+        }
+        
+        request.setAttribute("jobList", jobList);
+
+        request.getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        JobService jobService = new JobService();
+        
+        String message = "";
+        String action = request.getParameter("action");
+        String jobName = request.getParameter("jobName");
+
+        if (action.equals("delete")) {
+            String status = jobService.delete(jobName);
+            message = status;
+        } else if (action.equals("add")) {
+            String houseNumber = request.getParameter("houseNumber");
+            String street = request.getParameter("street");
+            String city = request.getParameter("city");
+            String province = request.getParameter("province");
+            String country = request.getParameter("country");
+            String postalCode = request.getParameter("postalCode");
+            String customerId = request.getParameter("customerId");
+            String description = request.getParameter("description");
+            String dateStarted = request.getParameter("dateStarted");
+            String dateFinished = request.getParameter("dateFinished");
+            String balance = request.getParameter("balance");
+            String jobStatus = request.getParameter("jobStatus");
+            
+            String[] reportList = request.getParameterValues("reportList[]");
+            String[] itemList = request.getParameterValues("itemList[]");
+            String[] userList = request.getParameterValues("userList[]");
+           
+
+            String status = jobService.insert(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus);
+            
+            message = status;
+        }
+
+        List<Job> jobList = jobService.searchJob("");
+        if (jobList == null) {
+            message = "Job not found. This seems like a database connection error.";
+        }
+
+        request.setAttribute("message", message);
+        request.setAttribute("jobList", jobList);
+        request.getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
+    }
 }

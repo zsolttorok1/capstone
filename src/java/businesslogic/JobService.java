@@ -1,194 +1,151 @@
 package businesslogic;
 
-*** WORK IN PROGRESS ***
-
-import dataaccess.UserBroker;
-import domainmodel.User;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
+import dataaccess.CustomerBroker;
+import dataaccess.JobBroker;
+import domainmodel.Job;
 import java.util.List;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.mail.MessagingException;
-import javax.naming.NamingException;
-import utilities.HashingUtil;
+import utilities.DataConverter;
 
 public class JobService {
-
-// ELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "   
     
+    public String insert(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
     
-    public String insert(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, , String customerId, String dateStarted, String dateFinished, String balance, String status) {
-    
-        Job job = build(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
+        Job job = build(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, status);
         
-        String status = validate(user);
+        String statusOutput = validate(job);
         
-        if (status != null && status.equals("ok")) {
-            user.setSalt(HashingUtil.generateSalt());   
-            user.setPassword(HashingUtil.hashByKeccak512(user.getPassword(), user.getSalt()));
-        
-            UserBroker userBroker = UserBroker.getInstance();
-            status = userBroker.insert(user);
+        if (statusOutput != null && statusOutput.equals("ok")) {
+            JobBroker jobBroker = JobBroker.getInstance();
+            statusOutput = jobBroker.insert(job);
         }
 
-        return status; 
+        return statusOutput; 
     }
 
-    public User getByUserName(String userName) {
+    public Job getByJobName(String jobName) {
         
-        if (userName != null && !userName.isEmpty()) {
-            UserBroker userBroker = UserBroker.getInstance();
-            return userBroker.getByName(userName);
+        if (jobName != null && !jobName.isEmpty()) {
+            JobBroker jobBroker = JobBroker.getInstance();
+            return jobBroker.getByName(jobName);
         }
         else {
             return null;
         }
     }
     
-    public User getByEmail(String email) {
-        
-        if (email != null && !email.isEmpty()) {
-            UserBroker userBroker = UserBroker.getInstance();
-            return userBroker.getByEmail(email);
-        }
-        else {
-            return null;
-        }
-    }
-
-    public List<User> searchUser(String keyword) {
-        UserBroker userBroker = UserBroker.getInstance();
-        List<User> userList = null;
+    public List<Job> searchJob(String keyword) {
+        JobBroker jobBroker = JobBroker.getInstance();
+        List<Job> jobList = null;
         
         if (!keyword.isEmpty()) {
-            userList = userBroker.search(keyword);
+            jobList = jobBroker.search(keyword);
         }
         else {
-            userList = userBroker.getAll();
+            jobList = jobBroker.getAll();
         }
         
-        if (userList == null)
+        if (jobList == null)
             return null;
                 
-        return userList;
+        return jobList;
     }
 
-    public String update(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
-        User user = build(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
+    public String update(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
+        Job job = build(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, status);
         
-        return update(user);
+        return update(job);
     }
     
-    public String update(User userNew) {
-        UserBroker userBroker = UserBroker.getInstance();
-        User user = null;
+    public String update(Job jobNew) {
+        JobBroker jobBroker = JobBroker.getInstance();
+        Job job = null;
         String status = "";
         
-        if (userNew.getUserName() != null) 
-            user = userBroker.getByName(userNew.getUserName());
+        if (jobNew.getJobName() != null) 
+            job = jobBroker.getByName(jobNew.getJobName());
         else 
-            return "invalid userName";
+            return "invalid jobName";
         
-        if (user == null)
-            return "username not found while attempting to update. Check database connection.";
-        
+        if (job == null)
+            return "jobname not found while attempting to update. Check database connection.";
         
         //prepare changed attributes on the updatable User
-        if (userNew.getHouseNumber() > 0 )
-            user.setHouseNumber(userNew.getHouseNumber());
-        if (userNew.getStreet() != null && !userNew.getStreet().isEmpty() )
-            user.setStreet(userNew.getStreet());
-        if (userNew.getCity() != null && !userNew.getCity().isEmpty() )
-            user.setCity(userNew.getCity());
-        if (userNew.getProvince() != null && !userNew.getProvince().isEmpty() )
-            user.setProvince(userNew.getProvince());
-        if (userNew.getCountry() != null && !userNew.getCountry().isEmpty() )
-            user.setCountry(userNew.getCountry());
-        if (userNew.getPostalCode() != null && !userNew.getPostalCode().isEmpty() )
-            user.setPostalCode(userNew.getPostalCode());
-        if (userNew.getPhoneNumberList() != null && !userNew.getPhoneNumberList().isEmpty() )
-            user.setPhoneNumberList(userNew.getPhoneNumberList());
-        if (userNew.getPassword() != null && !userNew.getPassword().isEmpty() )
-            user.setPassword(HashingUtil.hashByKeccak512(userNew.getPassword(), user.getSalt()));
-        if (userNew.getFirstName() != null && !userNew.getFirstName().isEmpty() )
-            user.setFirstName(userNew.getFirstName());
-        if (userNew.getLastName() != null && !userNew.getLastName().isEmpty() )
-            user.setLastName(userNew.getLastName());
-        if (userNew.getRole() != null && !userNew.getRole().isEmpty() )
-            user.setRole(userNew.getRole());
-        if (userNew.getEmail() != null && !userNew.getEmail().isEmpty() )
-            user.setEmail(userNew.getEmail());
-        if (userNew.getHourlyRate() > 0 )
-            user.setHourlyRate(userNew.getHourlyRate());
-        
+        if (jobNew.getHouseNumber() > 0 )
+            job.setHouseNumber(jobNew.getHouseNumber());
+        if (jobNew.getStreet() != null && !jobNew.getStreet().isEmpty() )
+            job.setStreet(jobNew.getStreet());
+        if (jobNew.getCity() != null && !jobNew.getCity().isEmpty() )
+            job.setCity(jobNew.getCity());
+        if (jobNew.getProvince() != null && !jobNew.getProvince().isEmpty() )
+            job.setProvince(jobNew.getProvince());
+        if (jobNew.getCountry() != null && !jobNew.getCountry().isEmpty() )
+            job.setCountry(jobNew.getCountry());
+        if (jobNew.getPostalCode() != null && !jobNew.getPostalCode().isEmpty() )
+            job.setPostalCode(jobNew.getPostalCode());
+        if (jobNew.getCustomer()!= null && jobNew.getCustomer().getCustomerId() > 0)
+            job.setCustomer(jobNew.getCustomer());
+        if (jobNew.getDescription()!= null && !jobNew.getDescription().isEmpty() )
+            job.setDescription(jobNew.getDescription());
+        if (jobNew.getDateStarted()!= null && jobNew.getDateStarted().getTime() < 0 )
+            job.setDateStarted(jobNew.getDateStarted());
+        if (jobNew.getDateFinished()!= null && jobNew.getDateFinished().getTime() < 0 )
+            job.setDateFinished(jobNew.getDateFinished());
+        if (jobNew.getBalance() >= 0 )
+            job.setBalance(jobNew.getBalance());
+        if (jobNew.getStatus() != null && !jobNew.getStatus().isEmpty() )
+            job.setStatus(jobNew.getStatus());
+       
         //make sure that the new attribute values are valid, before updating.
-        status = validate(user);
+        status = validate(job);
         if (status != null && status.equals("ok")) {
-            return userBroker.update(user);
+            return jobBroker.update(job);
         }
         else {
             return status;
         }
     }
       
-    private String validate(User user) {
+    private String validate(Job job) {
         String status = "";
         
-        if (user == null || user.getUserName().isEmpty()) {
-            status += "invalid userName ";
+        if (job == null || job.getJobName().isEmpty()) {
+            status += "invalid jobName ";
         }
-        if (user.getHouseNumber() <= 0) {
+        if (job.getHouseNumber() <= 0) {
             status += "invalid houseNumber ";
         }
-        if (user.getStreet() == null || user.getStreet().isEmpty()) {
+        if (job.getStreet() == null || job.getStreet().isEmpty()) {
             status += "invalid street ";
         }
-        if (user.getCity() == null || user.getCity().isEmpty()) {
+        if (job.getCity() == null || job.getCity().isEmpty()) {
             status += "invalid city ";
         }
-        if (user.getProvince() == null || user.getProvince().isEmpty()) {
+        if (job.getProvince() == null || job.getProvince().isEmpty()) {
             status += "invalid province ";
         }
-        if (user.getCountry() == null || user.getCountry().isEmpty()) {
+        if (job.getCountry() == null || job.getCountry().isEmpty()) {
             status += "invalid country ";
         }
-        if (user.getPostalCode() == null || user.getPostalCode().isEmpty()) {
+        if (job.getPostalCode() == null || job.getPostalCode().isEmpty()) {
             status += "invalid postalCode ";
         }
-        if (user.getPhoneNumberList() == null || user.getPhoneNumberList().isEmpty()) {
-            status += "invalid phoneNumberList ";
+        if (job.getCustomer() == null || job.getCustomer().getCustomerId() <= 0) {
+            status += "invalid Customer ";
         }
-        else {
-            for (int i=0; i < user.getPhoneNumberList().size(); i++) {
-                //regex this check for right number of digits, format, etc
-                if (user.getPhoneNumberList().get(i) <= 0) {
-                    status += "invalid phoneNumberFormat at phone entry#" + (i+1) + " ";
-                }
-            }
+        if (job.getDescription() == null || job.getDescription().isEmpty()) {
+            status += "invalid Description ";
         }
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            status += "invalid password ";
+        if (job.getDateStarted() == null || DataConverter.javaDateToString(job.getDateStarted()).equals("01/01/1975")) {
+            status += "invalid Starting Date ";
         }
-        if (user.getFirstName() == null || user.getFirstName().isEmpty()) {
-            status += "invalid firstName ";
+        if (job.getDateFinished() == null || DataConverter.javaDateToString(job.getDateFinished()).equals("01/01/1975")) {
+            status += "invalid Finishing Date ";
         }
-        if (user.getLastName() == null || user.getLastName().isEmpty()) {
-            status += "invalid lastName ";
+        if (job.getBalance() < 0) {
+            status += "invalid Balance ";
         }
-        if (user.getRole() == null || user.getRole().isEmpty()) {
-            status += "invalid role ";
-        }
-        if (user.getEmail() == null || user.getEmail().isEmpty()) {
-            status += "invalid email ";
-        }
-        if (user.getHourlyRate() <= 0 ) {
-            status += "invalid hourlyRate ";
+        if (job.getStatus() == null || job.getPostalCode().isEmpty()) {
+            status += "invalid Status ";
         }
         
         if (status.isEmpty()) {
@@ -199,155 +156,71 @@ public class JobService {
         }
     }
     
-    private User build(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
-        User user = new User();
-        
-        if (userName != null && !userName.isEmpty()) {
-            user.setUserName(userName);
+    private Job build(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
+        Job job = new Job();
+       
+        if (jobName != null && !jobName.isEmpty()) {
+            job.setJobName(jobName);
         }
         if (houseNumber != null && !houseNumber.isEmpty()) {
             try {
                 int intHouseNumber = Integer.parseInt(houseNumber);
-                user.setHouseNumber(intHouseNumber);
+                job.setHouseNumber(intHouseNumber);
             } catch (NumberFormatException ex) {
-                user.setHouseNumber(-1);
+                job.setHouseNumber(-1);
             }
         }
         if (street != null && !street.isEmpty()) {
-            user.setStreet(street);
+            job.setStreet(street);
         }
         if (city != null && !city.isEmpty()) {
-            user.setCity(city);
+            job.setCity(city);
         }
         if (province != null && !province.isEmpty()) {
-            user.setProvince(province);
+            job.setProvince(province);
         }
         if (country != null && !country.isEmpty()) {
-            user.setCountry(country);
+            job.setCountry(country);
         }
         if (postalCode != null && !postalCode.isEmpty()) {
-            user.setPostalCode(postalCode);
+            job.setPostalCode(postalCode);
         }
-        if (phoneNumberList != null && phoneNumberList.length != 0) {
-            ArrayList<Long> intPhoneNumberList = new ArrayList<>();
-            
-            for (int i=0; i < phoneNumberList.length; i++) {
-                try {
-                    long phoneNumber = Long.parseLong(phoneNumberList[i]); 
-                    intPhoneNumberList.add(phoneNumber);
-                } catch (NumberFormatException ex) {
-                    intPhoneNumberList.add(-1L);
-                }
-            }
-            user.setPhoneNumberList(intPhoneNumberList);
-        }
-        if (password != null && !password.isEmpty()) {
-            user.setPassword(password);
-        }
-        if (firstName != null && !firstName.isEmpty()) {
-            user.setFirstName(firstName);
-        }
-        if (lastName != null && !lastName.isEmpty()) {
-            user.setLastName(lastName);
-        }
-        if (role != null && !role.isEmpty()) {
-            user.setRole(role);
-        }
-        if (email != null && !email.isEmpty()) {
-            user.setEmail(email);
-        }
-        if (hourlyRate != null && !hourlyRate.isEmpty()) {
+        if (customerId != null && !customerId.isEmpty()) {
             try {
-                int intHourlyRate = Integer.parseInt(hourlyRate);
-                user.setHourlyRate(intHourlyRate);
+                int intCustomerId = Integer.parseInt(customerId);
+                job.setCustomer(CustomerBroker.getInstance().getById(intCustomerId));
+            } catch (Exception ex) {
+                job.setHouseNumber(-1);
+            }
+        }
+        if (description != null && !description.isEmpty()) {
+            job.setDescription(description);
+        }
+        if (dateStarted != null && !dateStarted.isEmpty()) {
+            job.setDateStarted(DataConverter.stringDateToJava(dateStarted));
+        }
+        if (dateFinished != null && !dateFinished.isEmpty()) {
+            job.setDateFinished(DataConverter.stringDateToJava(dateFinished));
+        }
+        if (balance != null && !balance.isEmpty()) {
+            try {
+                int intBalance = Integer.parseInt(balance);
+                job.setBalance(intBalance);
             } catch (NumberFormatException ex) {
-                user.setHourlyRate(-1);
+                job.setBalance(-1);
             }
         }
-        
-        return user;
+        if (status != null && !status.isEmpty()) {
+            job.setStatus(status);
+        }
+            
+        return job;
     }
     
-    public String delete(String userName) {
-        UserBroker userBroker = UserBroker.getInstance();
-        User deletedUser = userBroker.getByName(userName);
+    public String delete(String jobName) {
+        JobBroker jobBroker = JobBroker.getInstance();
+        Job deletedJob = jobBroker.getByName(jobName);
         
-        return userBroker.delete(deletedUser);
-    }
-    
-    //returns "(role), invalid, null" 
-    public String login(String username, String password) {
-        String status = "";
-        
-        if (username != null && password != null && !username.equals("") && !password.equals("")) {
-            UserBroker userBroker = UserBroker.getInstance();
-            status = userBroker.login(username, password);
-                       
-            if (status == null)
-                return "error while attempting to login. Check database connection.";
-        }
-        return status;
-    }
-    
-    //returns "ok, invalid, null" 
-    public String changePassword(String userName, String password) {
-        String status = "";
-        
-        if (userName != null && password != null && !userName.equals("") && !password.equals("")) {
-            UserBroker userBroker = UserBroker.getInstance();
-            
-            User user = userBroker.getByName(userName);
-            
-            user.setPassword(HashingUtil.hashByKeccak512(password, user.getSalt()));
-            
-            status = validate(user);
-            if (status.equals("ok")) {
-                status = userBroker.update(user);
-            }
-        }
-        return status;
-    }
-    
-    public int resetPassword(String email, String path, String url) {
-        //generate new UUID
-        String uuid = UUID.randomUUID().toString();
-        String link = url + "?uuid=" + uuid;
-        
-        //find User by email
-        UserService us = new UserService();
-        User user = us.getByEmail(email);
-        
-        if (user != null) {
-            
-            //insert password change request
-            ResetPasswordService rps = new ResetPasswordService();
-            rps.insert(uuid, user.getUserName());
-
-            try {
-                HashMap<String, String> contents = new HashMap<>();
-                contents.put("firstname", user.getFirstName());
-                contents.put("lastname", user.getLastName());
-                contents.put("username", user.getUserName()); 
-                contents.put("link", link); 
-
-                try {
-                    WebMailService.sendMail(email, "Password Reset Request", path + "/emailtemplates/resetpassword.html", contents);
-                } catch (IOException ex) {
-                    Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            } catch (MessagingException ex) {
-                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NamingException ex) {
-                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            //OK, email sent
-            return 1;
-        }
-        else {
-            //email not found in Database
-            return 2;
-        }
+        return jobBroker.delete(deletedJob);
     }
 }

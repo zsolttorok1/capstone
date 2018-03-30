@@ -34,9 +34,15 @@ public class CustomerService {
 
     public List<Customer> searchCustomer(String keyword) {
         CustomerBroker customerBroker = CustomerBroker.getInstance();
+
+        List<Customer> customerList = null;
         
-        //this always return all items for now
-        List<Customer> customerList = customerBroker.getAll();
+        if (!keyword.isEmpty()) {
+            customerList = customerBroker.search(keyword);
+        }
+        else {
+            customerList = customerBroker.getAll();
+        }
         
         if (customerList == null)
             return null;

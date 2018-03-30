@@ -20,17 +20,23 @@
                 <img class="menuicon" src="res/lion.png" />
             </div>
             <div class="fixedright">
-                <form method="get" action="item">
-                    <input type="text" placeholder="Search..." />
-                </form>
                 <a class="logout" href="main">Logout</a>
+            </div>
+            <div class="fixedright">
+                <form method="post" action="search">
+                    <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
+                    <input type="submit" value="Search">
+                </form>
             </div>
         </div>
         
         <div id="mySidenav" class="sidenav">
-            <a href="name">Name</a>
-            <a href="email">Email</a>
-            <a href="description">Description</a>
+            <a href="item">Item Inventory</a>
+            <a href="user">Employees</a>
+            <a href="customer">Customers</a>
+            <a href="jobs">Jobs</a>
+            <a href="report">Reports</a>
+            <a href="quote">Quotes</a>
             <a href="">----</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
         </div>

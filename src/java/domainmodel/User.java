@@ -8,7 +8,7 @@ public class User implements Serializable {
     
     private String userName;
     private Address address;
-    List<Long> phoneNumberList;
+    private List<Long> phoneNumberList;
     private String password;
     private String firstName;
     private String lastName;
@@ -16,8 +16,8 @@ public class User implements Serializable {
     private String email;
     private int hourlyRate;
     private String salt;
-    //private int hours;
-
+    private int hours;
+    
     public User(String userName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String password, String firstName, String lastName, String role, String email, int hourlyRate, String salt) {
         this.userName = userName;
         this.address = new Address();
@@ -35,6 +35,7 @@ public class User implements Serializable {
         this.email = email;
         this.hourlyRate = hourlyRate;
         this.salt = salt;
+        this.hours = -1;
     }
     
     public User() {
@@ -48,6 +49,7 @@ public class User implements Serializable {
         this.email = "";
         this.hourlyRate = 0;
         this.salt = "";
+        this.hours = -1;
     }
 
     public String getUserName() {
@@ -169,6 +171,12 @@ public class User implements Serializable {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-    
-    
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
 }

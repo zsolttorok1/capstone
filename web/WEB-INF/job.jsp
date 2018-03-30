@@ -1,6 +1,6 @@
-<%-- 
-    Document   : viewItem
-    Created on : Feb 22, 2018, 10:46:40 AM
+<%--
+    Document   : InventoryServlet
+    Created on : Feb 6, 2018, 1:10:21 PM
     Author     : 685442
 --%>
 
@@ -12,7 +12,7 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Items</title>
+        <title>Jobs</title>
     </head>
     <body>
         <div class="fixedmenu">
@@ -21,6 +21,7 @@
             </div>
             <div class="fixedright">
                 <a class="logout" href="main">Logout</a>
+                <a class="logout" href="login?action=logout">RealLogout</a>
             </div>
             <div class="fixedright">
                 <form method="post" action="search">
@@ -43,31 +44,15 @@
         
         <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
         
-        <h1 class="bodyheaderc">ITEM VIEW</h1>
-        <p class="center">${errorMessage}</p>
-        <div class="viewcontent">
-            <div>
-                <img class="editIcon" src="res/editIcon.png" title="Edit" id="editIcon" />
-            </div>
-            <form method="post" action="viewItem">
-                <div class="contentInfo">
-                    <p class="contentHeader">Name and Category</p>
-                    <p>${itemName} (${category})</p>
-                    <input type="hidden" name="name" value="${itemName}" />
-                    <input type="text" class="contentBodyInput" placeholder="Category" name="categoryEdit" value="${category}" />
-                    <p class="contentHeader">Description</p>
-                    <p class="contentBody">${description}</p>
-                    <textarea cols="100" rows="5" class="contentBodyInput" placeholder="Description" name="descriptionEdit" >${description}</textarea>
-                    <p class="contentHeader">Quantity</p>
-                    <p class="contentBody">${quantity}</p>
-                    <input type="number" class="contentBodyInput" placeholder="Quantity" name="quantityEdit" value="${quantity}" />
-                    <p class="contentHeader">Additional Notes</p>
-                    <p class="contentBody">${notes}</p>
-                </div>
-                <input type="hidden" name="action" value="save">
-                <input type="submit" value="Save Changes">
-            </form>
-        </div>
+        <h1 class="bodyheaderc">Jobs</h1>
+        <p class="center">${message}</p>
+
+        <c:forEach var="job" items="${jobList}">
+            jobname: ${job.jobName}<br>
+            description ${job.description}<br>
+            -----------------------------<br>
+        </c:forEach>
+                 
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>
     </body>
 </html>

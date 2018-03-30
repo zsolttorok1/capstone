@@ -1043,4 +1043,24 @@ BEGIN
 END;
 $$
 
+CREATE FUNCTION `delete_job_func`
+    (p_job_name varchar(50))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
+
+    DELETE FROM `job` 
+        WHERE job_name = p_job_name;
+ 
+    /* deleting unused address entries */
+--     call clean_address_proc(); 
+
+    return 'deleted';
+END;
+$$
+
 delimiter ;
