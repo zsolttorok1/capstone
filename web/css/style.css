@@ -195,6 +195,53 @@ p.bodytext {
     padding-left: 10px;
 }
 
+.rowHeaderSearchBanner {
+    font-size: 20px;
+    max-width: 33%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /*vertical center*/
+    background-color: #52627c;
+    color: white;
+}
+
+.rowHeaderSearch {
+    font-size: 20px;
+    max-width: 33%;
+    height: 36px;
+    display: flex;
+    align-items: center; /*vertical center*/
+    background-color: #517791;
+    color: white;
+}
+
+.rowitemHeaderSearch {
+    height: 36px;
+    width: 50%;
+    padding-left: 10px;
+}
+
+.rowSearch {
+    max-width: 33%;
+    height: 70px;
+    display: flex;
+    align-items: center; /*vertical center*/
+    border-bottom: 0.5px solid darkgray;
+    background-color: white;
+    pointer-events: none;
+    overflow: hidden;
+    
+}
+
+.rowitemSearch {
+    height: 70px;
+    width: 400px;
+    max-width: 250px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 .addPlus {
     max-height: 50px;
     padding: 10px;
@@ -282,6 +329,12 @@ p.bodytext {
     justify-content: center; /*horizontal center*/
 }
 
+.listOptionsSearch {
+    max-width: 33%;
+    display: none;
+    justify-content: center; /*horizontal center*/
+}
+
 .rowAddButton {
     height: 30px;
     width: 50%;
@@ -289,8 +342,6 @@ p.bodytext {
 }
 
 .rowWrapper {
-    max-width: 1100px;
-    margin: auto;
 }
 
 .listButton {

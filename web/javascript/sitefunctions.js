@@ -62,7 +62,22 @@ function displayOptions(e) {
     console.log(e.target);
     var newtarget = e.target;
     var allRows = document.getElementsByClassName("listOptions");
+    if (allRows.length === 0) {
+        allRows = document.getElementsByClassName("listOptionsSearch");
+    }
     var allRows2 = document.getElementsByClassName("row");
+    if (allRows2.length === 0) {
+        allRows2 = document.getElementsByClassName("rowSearch");
+        
+        for(var i = 0; i < allRows.length; i++){
+        allRows2[i].style.backgroundColor = "white";
+        allRows[i].style.display = "none";
+        }
+        //display current item
+        newtarget.getElementsByClassName("listOptionsSearch")[0].style.display = "flex";
+        newtarget.getElementsByClassName("rowSearch")[0].style.backgroundColor = "#e3e8ed";
+        return;
+    }
     //close all items
     for(var i = 0; i < allRows.length; i++){
         allRows2[i].style.backgroundColor = "white";

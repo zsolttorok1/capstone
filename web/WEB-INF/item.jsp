@@ -20,11 +20,13 @@
                 <img class="menuicon" src="res/lion.png" />
             </div>
             <div class="fixedright">
+                <a class="logout" href="main">Logout</a>
+            </div>
+            <div class="fixedright">
                 <form method="post" action="search">
                     <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
                     <input type="submit" value="Search">
                 </form>
-                <a class="logout" href="main">Logout</a>
             </div>
         </div>
         

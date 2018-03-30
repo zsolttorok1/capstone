@@ -21,11 +21,13 @@
                 <img class="menuicon" src="res/lion.png" />
             </div>
             <div class="fixedright">
+                <a class="logout" href="main">Logout</a>
+            </div>
+            <div class="fixedright">
                 <form method="post" action="search">
                     <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
                     <input type="submit" value="Search">
                 </form>
-                <a class="logout" href="main">Logout</a>
             </div>
         </div>
         
@@ -50,8 +52,42 @@
             <input type="submit" value="Search">
         </form>
         
+        
+        <div class="rowHeaderSearchBanner">
+            <div class="rowitemHeaderSearch">Item Inventory Results</div>
+        </div>
+        <div class="rowHeaderSearch">
+            <div class="rowitemHeaderSearch">Item Name</div>
+            <div class="rowitemHeaderSearch">Category</div>
+        </div>
         <c:forEach var="item" items="${itemList}">
-           Item entry found: ${item.itemName}<br/>
+            <div class="rowWrapper">
+                <div class="rowSearch">
+                    <div class="rowitemSearch">
+                        ${item.itemName}<br/>
+                    </div>
+                </div>
+                <div class="listOptionsSearch">
+                    <div class="listButton">
+                        <form method="post" action="viewItem">
+                            <input type="hidden" name="action" value="view">
+                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="submit" value="View">
+                        </form>
+                    </div>
+                    <div class="listButton">
+                        <form method="post" action="item">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </div>
+                    <div class="listButton">
+                        <input type="hidden" name="action" value="cancel">
+                        <input type="button" value="Cancel" id="cancelbox">
+                    </div>
+                </div>
+            </div>
         </c:forEach>
            
         <c:forEach var="user" items="${userList}">
