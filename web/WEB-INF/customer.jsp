@@ -37,7 +37,7 @@
             <a href="jobs">Jobs</a>
             <a href="report">Reports</a>
             <a href="quote">Quotes</a>
-            <a href="">----</a>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">----</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
         </div>
         
