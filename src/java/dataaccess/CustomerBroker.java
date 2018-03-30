@@ -5,6 +5,7 @@
  */
 package dataaccess;
 
+import businesslogic.CustomerService;
 import database.ConnectionPool;
 import domainmodel.Customer;
 import java.sql.Connection;
@@ -315,5 +316,40 @@ public class CustomerBroker {
         }
 
         return status;
+    }
+    
+    public List<Customer> search(String keyword) {
+        getConnection();
+//        String status = getConnection();
+//        if (status == null || status.equals("connection error")) {
+//            return null;
+//        }
+        
+        List<Customer> customerList = new ArrayList<>();
+        Customer customer = null;
+        CustomerService cs = new CustomerService();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(""
+                    + "SELECT i.customer_id"
+                    + "     FROM customer i" 
+                    + "     WHERE i.firstname like ? OR i.lastname like ?;");
+                  
+            pstmt.setString(1, "%" + keyword +"%");
+            pstmt.setString(2, "%" + keyword +"%");
+            ResultSet rs = pstmt.executeQuery();
+       
+            while (rs.next()) {
+                String customerId = rs.getString("CUSTOMER_ID");
+
+                customer = cs.getByCustomerId(customerId);
+                customerList.add(customer);
+            }
+          
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            pool.freeConnection(connection);
+        }
+        return customerList;
     }
 }
