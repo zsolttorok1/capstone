@@ -20,13 +20,10 @@
                 <img class="menuicon" src="res/lion.png" />
             </div>
             <div class="fixedright">
-                <a class="logout" href="main">Logout</a>
-            </div>
-            <div class="fixedright">
-                <form method="post" action="search">
-                    <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
-                    <input type="submit" value="Search">
+                <form method="get" action="item">
+                    <input type="text" placeholder="Search..." />
                 </form>
+                <a class="logout" href="main">Logout</a>
             </div>
         </div>
         
@@ -43,12 +40,12 @@
         
         <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
         
-        <h1 class="bodyheaderc">REPORT</h1>
+        <h1 class="bodyheaderc">BACKUP</h1>
         <p class="center">${errorMessage}</p>
         
-        <form method="post" action="report">
+        <form method="post" action="backup">
             <input type="hidden" name="action" value="generate">
-            <input type="submit" value="Generate test report">
+            <input type="submit" value="Backup">
         </form>
          
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>

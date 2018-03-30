@@ -141,7 +141,7 @@ CREATE TABLE `job_item` (
 CREATE TABLE `quote` (
     `quote_name` varchar(100) NOT NULL,
     `email` varchar(100) NOT NULL,
-    `description` varchar(100) NOT NULL, 
+    `description` varchar(2000) NOT NULL, 
     PRIMARY KEY (`quote_name`)
 );
 
@@ -902,13 +902,13 @@ CREATE FUNCTION `insert_quote_func`
     RETURNS varchar(20)
 NOT DETERMINISTIC
 BEGIN
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-        BEGIN
-            return 'error';
-        END;
+     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+         BEGIN
+             return 'error';
+         END;
 
     /* Phone_User is not in database, so insert it*/
-    INSERT INTO `quote` (`qoute_name`, `email`, `description`)
+    INSERT INTO `quote` (`quote_name`, `email`, `description`)
         VALUES (`p_quote_name`, `p_email`, `p_description`);
 
     return 'inserted';

@@ -73,13 +73,21 @@
         <servlet-name>ReportServlet</servlet-name>
         <url-pattern>/report</url-pattern>
     </servlet-mapping>
-        <servlet>
+    <servlet>
         <servlet-name>QuoteServlet</servlet-name>
         <servlet-class>servlets.QuoteServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>QuoteServlet</servlet-name>
         <url-pattern>/quote</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SubmitQuoteServlet</servlet-name>
+        <servlet-class>servlets.SubmitQuoteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitQuoteServlet</servlet-name>
+        <url-pattern>/submitQuote</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -107,7 +115,14 @@
         <servlet-name>ResetPasswordServlet</servlet-name>
         <servlet-class>servlets.ResetPasswordServlet</servlet-class>
     </servlet>
-    
+    <servlet-mapping>
+        <servlet-name>BackupServlet</servlet-name>
+        <url-pattern>/backup</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>BackupServlet</servlet-name>
+        <servlet-class>servlets.BackupServlet</servlet-class>
+    </servlet>
     <env-entry>
         <env-entry-name>webmail-username</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>

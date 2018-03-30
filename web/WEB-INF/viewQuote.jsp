@@ -1,7 +1,7 @@
-<%--
-    Document   : ReportServlet
-    Created on : Feb 6, 2018, 1:10:21 PM
-    Author     : 725899
+<%-- 
+    Document   : viewUser
+    Created on : Mar 7, 2018, 4:22:00 PM
+    Author     : 685442 and 742227
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,12 +12,13 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Report</title>
+        <title>Quote</title>
     </head>
     <body>
         <div class="fixedmenu">
             <div class="fixedleft">
                 <img class="menuicon" src="res/lion.png" />
+                <a class="breadcrumb" href="user">Quote</a>
             </div>
             <div class="fixedright">
                 <a class="logout" href="main">Logout</a>
@@ -29,28 +30,26 @@
                 </form>
             </div>
         </div>
-        
-        <div id="mySidenav" class="sidenav">
-            <a href="item">Item Inventory</a>
-            <a href="user">Employees</a>
-            <a href="customer">Customers</a>
-            <a href="jobs">Jobs</a>
-            <a href="report">Reports</a>
-            <a href="quote">Quotes</a>
-            <a href="">----</a>
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
+        <h1 class="bodyheaderc">QUOTE VIEW FOR: ${quote.name}</h1>
+        <p class="center">${message}</p>
+        <div class="viewcontent">
+            <form method="post" action="quote">
+                <div class="contentInfo">
+                    
+                    <p class="contentHeader">Name</p>
+                    <p class="contentBody">${quote.name} </p>
+                    
+                    <p class="contentHeader">Email Address</p>
+                    <p class="contentBody">${quote.email}</p>
+                    
+                    <p class="contentHeader">Description</p>
+                    <p class="contentBody">${quote.description}</p>
+                     
+
+                    
+                </div>
+            </form>
         </div>
-        
-        <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
-        
-        <h1 class="bodyheaderc">REPORT</h1>
-        <p class="center">${errorMessage}</p>
-        
-        <form method="post" action="report">
-            <input type="hidden" name="action" value="generate">
-            <input type="submit" value="Generate test report">
-        </form>
-         
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>
     </body>
 </html>

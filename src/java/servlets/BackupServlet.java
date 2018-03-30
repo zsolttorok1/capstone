@@ -9,6 +9,8 @@ import businesslogic.UserService;
 import domainmodel.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +27,7 @@ public class BackupServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        /*
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("user");
         User user1 = new User();
@@ -37,10 +40,47 @@ public class BackupServlet extends HttpServlet {
 
             return;
         }
+*/
+        request.getRequestDispatcher("/WEB-INF/backup.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //my dumping created first createsx the datafiles that the restore is saving
+        //loader save---restore user selects backup file from database in folder and date
+        String dbName = "CapstoneDB";
+        String dbUser = "root";
+        String dbPass = "password";
+        String[] executeCmd;
 
+        executeCmd = new String[]{"C:\\xampp\\mysql\\bin\\mariabackup", "--prepare", "--target-dir", "C:/temp/backup" , "--user", dbName ,"--password" , dbPass};
+        //"mariabackup", "--prepare", "--target-dir", "C:/temp/backup" + "--user"+ dbName "--password" + dbPass
+        
+        
+        
+        //Run the executeCmd on the commanline
+        Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+        Process runtimeProcess1 = Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mysqladmin -u root -ppassword shutdown");
+        Process runtimeProcess2 =Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mariabackup --copy-back --target-dir C:/temp/backup --user root --password password");
+        Process runtimeProcess3 =Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mysqld");
+        
+        int processComplete=0;
+        try {
+            processComplete = runtimeProcess.waitFor();
+            processComplete = runtimeProcess1.waitFor();
+            processComplete = runtimeProcess2.waitFor();
+            processComplete = runtimeProcess3.waitFor();
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BackupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (processComplete == 0) {
+            request.setAttribute("errorMessage", "worked");
+
+        } else {
+            request.setAttribute("errorMessage", "didnt work");
+            //
+        }
+    request.getRequestDispatcher("/WEB-INF/backup.jsp").forward(request, response);
     }
 }

@@ -22,4 +22,11 @@ public class SearchService {
        
         return itemList; 
     }
+    
+    public List<Customer> searchCustomer(String keyword) {
+        CustomerService customerService = new CustomerService();
+        List<Customer> customerList = customerService.searchCustomer(keyword);
+       
+        return customerList; 
+    }
 }

@@ -1,7 +1,7 @@
 <%--
-    Document   : Search
+    Document   : InventoryServlet
     Created on : Feb 6, 2018, 1:10:21 PM
-    Author     : 725899
+    Author     : 685442
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,10 +12,9 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Search</title>
+        <title>Quote</title>
     </head>
     <body>
-        
         <div class="fixedmenu">
             <div class="fixedleft">
                 <img class="menuicon" src="res/lion.png" />
@@ -44,41 +43,35 @@
         
         <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
         
-        <h1 class="bodyheaderc">Search Results for: ${keyword}</h1>
+        <h1 class="bodyheaderc">QUOTE</h1>
         <p class="center">${message}</p>
         
-        <form method="post" action="search">
-            Search for: <input type="text" name="keyword" placeholder="Search..." value="${keyword}" /><br/>
-            <input type="submit" value="Search">
-        </form>
-        
-        
-        <div class="rowHeaderSearchBanner">
-            <div class="rowitemHeaderSearch">Item Inventory Results</div>
+        <div class="rowHeader">
+            <div class="rowitemHeader">Name</div>
+            <div class="rowitemHeader">Email</div>
+            <div class="rowitemHeader">Description</div>
+
+            
         </div>
-        <div class="rowHeaderSearch">
-            <div class="rowitemHeaderSearch">Item Name</div>
-            <div class="rowitemHeaderSearch">Category</div>
-        </div>
-        <c:forEach var="item" items="${itemList}">
+        <c:forEach var="quote" items="${quoteList}">
             <div class="rowWrapper">
-                <div class="rowSearch">
-                    <div class="rowitemSearch">
-                        ${item.itemName}<br/>
-                    </div>
+                <div class="row">
+                    <div class="rowitem" name="quoteName">${quote.name}</div>
+                    <div class="rowitem" name="email">${quote.email}</div>
+                    <div class="rowitem" name="description">${quote.description}</div>
                 </div>
-                <div class="listOptionsSearch">
+                <div class="listOptions">
                     <div class="listButton">
-                        <form method="post" action="viewItem">
+                        <form method="post" action="quote">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="hidden" name="quoteName" value="${quote.name}">
                             <input type="submit" value="View">
                         </form>
                     </div>
                     <div class="listButton">
-                        <form method="post" action="item">
+                        <form method="post" action="quote">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                            <input type="hidden" name="quoteName" value="${quote.name}">
                             <input type="submit" value="Delete">
                         </form>
                     </div>
@@ -89,15 +82,8 @@
                 </div>
             </div>
         </c:forEach>
-           
-        <c:forEach var="user" items="${userList}">
-           User entry found: ${user.userName}<br/>
-        </c:forEach>
-           
-        <c:forEach var="customer" items="${customerList}">
-           Customer entry found: ${customer.firstName}<br/>
-        </c:forEach>
-
+        
+        
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>
     </body>
 </html>

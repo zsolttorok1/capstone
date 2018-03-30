@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Submit a Quote</h1>
-        <form  action="quote" name= "quoteSubmit" method="post">
+        <form  action="submitQuote" name= "submitQuote" method="post">
             <p>Name:  <input type ="text" name="name" value=""></p>
             <p>Email:  <input type ="text" name="email" value=""></p>
             <p>Description:  <input type ="text" name="description" value=""></p>

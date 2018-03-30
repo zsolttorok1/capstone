@@ -15,7 +15,13 @@ public class Quote {
     private String email;
     private String description;
 
-    public Quote(String name, String description, String email) {
+    public Quote(String name, String email, String description) {
+        this.name = name;
+        this.email = email;
+        this.description = description;
+    }
+
+    public Quote() {
         this.name = name;
         this.email = email;
         this.description = description;

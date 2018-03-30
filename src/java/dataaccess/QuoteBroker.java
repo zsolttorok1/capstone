@@ -136,7 +136,7 @@ public class QuoteBroker {
         
         Quote quote = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT quote_name FROM quote WHERE quote_name = ?;");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM quote WHERE quote_name = ?;");
             
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();
@@ -174,12 +174,12 @@ public class QuoteBroker {
             List<Quote> quoteList = new ArrayList<>();
             Quote quote = null;
             
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM QUOTE WHERE name= ?");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM QUOTE");
             ResultSet rs = pstmt.executeQuery();
             
             while (rs.next()) {
-                String name = rs.getString("name");
-                String email = rs.getString("EMAIL");
+                String name = rs.getString("quote_name");
+                String email = rs.getString("email");
                 String description = rs.getString("description");
                 
                 
