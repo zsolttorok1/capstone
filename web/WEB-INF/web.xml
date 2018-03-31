@@ -6,7 +6,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>job</welcome-file>
+        <welcome-file>viewJob</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>MainServlet</servlet-name>

@@ -26,16 +26,21 @@ public class ViewJobServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        JobService customerService = new JobService();
+        JobService jobService = new JobService();
 
-        List<Job> jobList = customerService.searchJob("");
+        List<Job> jobList = jobService.searchJob("");
         if (jobList == null) {
             request.setAttribute("message", "Job not found. This seems like a database connection error.");
         }
-
-        request.setAttribute("jobList", jobList);
-        request.getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
         
+//        request.setAttribute("jobList", jobList);
+//        request.getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
+
+        //testing purposes:
+        String jobName = "Brookfield Bathroom on WestTower";
+        Job job = jobService.getByJobName(jobName);
+        request.setAttribute("job", job);
+        request.getRequestDispatcher("/WEB-INF/viewJob.jsp").forward(request, response);
     }
 
     @Override

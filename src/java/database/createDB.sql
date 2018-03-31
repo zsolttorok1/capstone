@@ -120,12 +120,12 @@ CREATE TABLE `job` (
 );
 
 CREATE TABLE `job_user` (
-    `user_name` varchar(50) NOT NULL,
     `job_name` varchar(50) NOT NULL,
+    `user_name` varchar(50) NOT NULL,
     `hours` int NOT NULL,
-    PRIMARY KEY (`user_name`, `job_name`),
-    CONSTRAINT `FK_Job_User_User_name` FOREIGN KEY (`user_name`) references `user`(`user_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Job_User_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    PRIMARY KEY (`job_name`, `user_name`),
+    CONSTRAINT `FK_JU_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_JU_User_name` FOREIGN KEY (`user_name`) references `user`(`user_name`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `job_item` (
@@ -134,8 +134,16 @@ CREATE TABLE `job_item` (
     `note` varchar(2000) NULL,
     `quantity` int(5) NOT NULL,
     PRIMARY KEY (`job_name`, `item_name`),
-    CONSTRAINT `FK_Job_Item_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_Job_Item_Item_name` FOREIGN KEY (`item_name`) references `item`(`item_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_JI_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `FK_JI_Item_name` FOREIGN KEY (`item_name`) references `item`(`item_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+CREATE TABLE `job_report` (
+    `job_name` varchar(50) NOT NULL,
+    `report_name` varchar(50) NOT NULL,
+    PRIMARY KEY (`job_name`, `report_name`),
+    CONSTRAINT `FK_JR_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `FK_JR_Report_name` FOREIGN KEY (`report_name`) references `report`(`report_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 CREATE TABLE `quote` (
@@ -165,7 +173,10 @@ BEGIN
                 FROM `user`
             UNION
             SELECT address_id 
-                FROM `customer`);
+                FROM `customer`
+            UNION
+            SELECT address_id 
+                FROM `job`);
 -- (SELECT u.address_id 
 --     FROM `user` u
 --     LEFT OUTER JOIN `customer` c ON c.address_id = u.address_id
@@ -1035,9 +1046,7 @@ BEGIN
     end if;
 
     /* deleting unused address entries */
---     DELETE FROM address
---         WHERE address_id NOT IN
---         (SELECT address_id FROM `user`);
+    call clean_address_proc();
 
     return 'inserted Job';
 END;
@@ -1048,18 +1057,107 @@ CREATE FUNCTION `delete_job_func`
     RETURNS varchar(20)
 NOT DETERMINISTIC
 BEGIN
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-        BEGIN
-            return 'error';
-        END;
+--     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+--         BEGIN
+--             return 'error';
+--         END;
 
     DELETE FROM `job` 
         WHERE job_name = p_job_name;
  
     /* deleting unused address entries */
---     call clean_address_proc(); 
+    call clean_address_proc();
 
     return 'deleted';
+END;
+$$
+
+CREATE FUNCTION `allocate_user_func`
+    (p_job_name varchar(50),
+    p_user_name varchar(50),
+    p_hours int)
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_job_user_count int;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error sql exception';
+        END;
+
+    /* find out if JOB_USER is already in the database */
+    SELECT count(job_name)
+        INTO v_job_user_count
+        FROM `job_user`
+        WHERE job_name = p_job_name
+            AND user_name = p_user_name;
+
+    if (v_job_user_count = 0) then
+        /* JOB_USER is not in database, so insert it */
+        INSERT INTO `job_user` (`job_name`, `user_name`, `hours`)
+            VALUES (`p_job_name`, `p_user_name`, `p_hours`);
+    else 
+        /* JOB_USER is already in the database, just do an update */
+        UPDATE `job_user`
+            SET hours = p_hours
+            WHERE job_name = p_job_name
+                AND user_name = p_user_name;
+    end if;
+
+    return 'allocated user hours';
+END;
+$$
+
+CREATE FUNCTION `allocate_item_func`
+    (p_job_name varchar(50),
+    p_item_name varchar(50),
+    p_note varchar(2000),
+    p_quantity int(5))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_job_item_count int;
+    DECLARE v_quantity int;
+--     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+--         BEGIN
+--             return 'error sql exception';
+--         END;
+
+    /* find out if enough quantiry in ITEM */
+    SELECT quantity
+        INTO v_quantity
+        FROM `item`
+            WHERE item_name = p_item_name;
+
+    if (v_quantity >= p_quantity) then
+        /* subtracting quantity from ITEM */
+        UPDATE `item`
+            SET quantity = quantity - p_quantity
+            WHERE item_name = p_item_name;
+    else 
+        return 'insufficient quantity at the inventory!';
+    end if;
+        
+    /* find out if JOB_ITEM is already in the database */
+    SELECT count(job_name)
+        INTO v_job_item_count
+        FROM `job_item`
+        WHERE job_name = p_job_name
+            AND item_name = p_item_name;
+
+    if (v_job_item_count = 0) then
+        /* JOB_ITEM is not in database, so insert it */
+        INSERT INTO `job_item` (`job_name`, `item_name`, `note`, `quantity`)
+            VALUES (`p_job_name`, `p_item_name`, `p_note`, `p_quantity`);
+    else 
+        /* JOB_ITEM is already in the database, just do an update */
+        UPDATE `job_item`
+            SET note = p_note, quantity = p_quantity
+            WHERE job_name = p_job_name
+                AND item_name = p_item_name;
+    end if;
+
+    return 'allocated item';
 END;
 $$
 
