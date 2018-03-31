@@ -35,7 +35,7 @@
             <a href="item">Item Inventory</a>
             <a href="user">Employees</a>
             <a href="customer">Customers</a>
-            <a href="jobs">Jobs</a>
+            <a href="job">Jobs</a>
             <a href="report">Reports</a>
             <a href="quote">Quotes</a>
             <a href="">----</a>
