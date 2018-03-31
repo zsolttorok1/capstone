@@ -1,4 +1,4 @@
-/*
+/*Reference: https://stackoverflow.com/questions/1955268/importing-a-mysql-database-dump-programmatically-through-java
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -55,21 +55,18 @@ public class BackupServlet extends HttpServlet {
 
         executeCmd = new String[]{"C:\\xampp\\mysql\\bin\\mariabackup", "--prepare", "--target-dir", "C:/temp/backup" , "--user", dbName ,"--password" , dbPass};
         //"mariabackup", "--prepare", "--target-dir", "C:/temp/backup" + "--user"+ dbName "--password" + dbPass
-        
-        
-        
+
         //Run the executeCmd on the commanline
         Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
-        Process runtimeProcess1 = Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mysqladmin -u root -ppassword shutdown");
-        Process runtimeProcess2 =Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mariabackup --copy-back --target-dir C:/temp/backup --user root --password password");
-        Process runtimeProcess3 =Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mysqld");
+       
         
+        //for process
         int processComplete=0;
         try {
             processComplete = runtimeProcess.waitFor();
-            processComplete = runtimeProcess1.waitFor();
-            processComplete = runtimeProcess2.waitFor();
-            processComplete = runtimeProcess3.waitFor();
+            //processComplete = runtimeProcess1.waitFor();
+            //processComplete = runtimeProcess2.waitFor();
+            //processComplete = runtimeProcess3.waitFor();
             
         } catch (InterruptedException ex) {
             Logger.getLogger(BackupServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,9 +75,64 @@ public class BackupServlet extends HttpServlet {
             request.setAttribute("errorMessage", "worked");
 
         } else {
+            request.setAttribute("errorMessage", "didnt work0");
+            //
+        }
+        //for process1
+        Process runtimeProcess1 = Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mysqladmin -u root -ppassword shutdown");
+        int processComplete1=0;
+        try {
+           
+            processComplete1 = runtimeProcess1.waitFor();
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BackupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (processComplete1 == 0) {
+            request.setAttribute("errorMessage", "worked");
+
+        } else {
+            request.setAttribute("errorMessage", "didnt work1");
+            //
+        }
+        
+        //for process2
+        Process runtimeProcess2 =Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mariabackup --copy-back --target-dir C:/temp/backup/ --user root --password password");
+        int processComplete2=0;
+        try {
+           
+            processComplete2 = runtimeProcess2.waitFor();
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BackupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (processComplete2 == 0) {
+            request.setAttribute("errorMessage", "worked");
+
+        } else {
+            request.setAttribute("errorMessage", "didnt work2");
+            //
+        }
+        
+        Process runtimeProcess3 =Runtime.getRuntime().exec("C:\\xampp\\mysql\\bin\\mysqld");
+        /*
+        //for process3
+        int processComplete3=0;
+        try {
+           
+            processComplete3 = runtimeProcess3.waitFor();
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BackupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (processComplete3 == 0) {
+            request.setAttribute("errorMessage", "worked");
+
+        } else {
             request.setAttribute("errorMessage", "didnt work");
             //
         }
+        */
     request.getRequestDispatcher("/WEB-INF/backup.jsp").forward(request, response);
     }
 }
