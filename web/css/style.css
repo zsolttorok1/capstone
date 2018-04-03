@@ -436,6 +436,20 @@ p.bodytext {
     padding-left: 2px;
 
 }
+.viewcontentJob {
+    width: 50%; 
+    margin: 0px auto;
+    background-color: white;
+    border-bottom: 3px solid gray;
+    border-right: 0.5px solid black;
+    box-sizing: border-box;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    display: inline;
+    float: left;
+    min-height: 900px;
+
+}
 
 .editIcon {
     text-align: right;
@@ -452,6 +466,24 @@ p.bodytext {
     padding-right: 5px;
     padding-top: 5px;
     float: right;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.editIconJob {
+    max-height: 20px;
+    font-weight: bold;
+    width: auto;
+    vertical-align: text-top;
+    display: inline-block;
+}
+
+.editIconJob:hover {
+    max-height: 20px;
+    font-weight: bold;
+    width: auto;
+    vertical-align: text-top;
+    display: inline-block;
     background-color: lightgray;
     cursor: pointer;
 }
