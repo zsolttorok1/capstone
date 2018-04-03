@@ -71,7 +71,7 @@ public class JobBroker {
                     + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
                     + "     FROM `job` j "
                     + "     JOIN `address` a ON j.address_id = a.address_id "
-                    + "     WHERE u.job_name = ?;");
+                    + "     WHERE j.job_name = ?;");
             pstmt.setString(1, jobName);
             ResultSet rs = pstmt.executeQuery();
        
@@ -96,9 +96,47 @@ public class JobBroker {
                 
                 job = new Job(jobName, houseNumber, street, city, province, country, postalCode, customer, description, dateStarted, dateFinished, balance, jobStatus, reportList, userList, itemList);
             }
+            
+            //attach userList
+            List<User> userList = new ArrayList<>();
+            pstmt = connection.prepareStatement(""
+                    + "SELECT user_name, hours "
+                    + "     FROM `job_user`"
+                    + "     WHERE job_name = ?;");
+            pstmt.setString(1, jobName);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String userName = rs.getString("USER_NAME");
+                int hours = rs.getInt("HOURS");
+                
+                User user = UserBroker.getInstance().getByName(userName);
+                user.setHours(hours);
+                userList.add(user);
+            }
+            job.setUserList(userList);
+            
+            //attach itemList
+            List<Item> itemList = new ArrayList<>();
+            pstmt = connection.prepareStatement(""
+                    + "SELECT item_name, quantity, note "
+                    + "     FROM `job_item` "
+                    + "     WHERE job_name = ?;");
+            pstmt.setString(1, jobName);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String itemName = rs.getString("ITEM_NAME");
+                int quantity = rs.getInt("QUANTITY");
+                String note = rs.getString("NOTE");
+                
+                Item item = ItemBroker.getInstance().getByName(itemName);
+                item.setQuantity(quantity);
+                item.setNote(note);
+                itemList.add(item);
+            }
+            job.setItemList(itemList);
           
         } catch (SQLException ex) {
-            Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JobBroker.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             pool.freeConnection(connection);
         }
@@ -118,7 +156,7 @@ public class JobBroker {
                     + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
                     + "     FROM `job` j "
                     + "     JOIN `address` a ON j.address_id = a.address_id "
-                    + "     WHERE u.job_name = ?;");
+                    + "     WHERE j.job_name = ?;");
             pstmt.setString(1, "%" + keyword +"%");
             ResultSet rs = pstmt.executeQuery();
        
