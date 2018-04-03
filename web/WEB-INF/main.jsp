@@ -21,7 +21,7 @@
             <div class="menuitem"><a href="item">HOME</a></div>
             <div class="menuitem"><a href="item">ABOUT US</a></div>
             <div class="menuitem"><a href="item">GALLERY</a></div>
-            <div class="menuitem"><a href="item">QUOTE</a></div>
+            <div class="menuitem"><a href="submitQuote">QUOTE</a></div>
             <div class="menuitem"><a href="item">CONTACT US</a></div>
             <div class="menuitem"><a href="item">EMPLOYEE LOGIN</a></div>
         </div>
