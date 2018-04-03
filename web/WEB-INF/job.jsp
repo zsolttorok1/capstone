@@ -46,11 +46,42 @@
         
         <h1 class="bodyheaderc">Jobs</h1>
         <p class="center">${message}</p>
-
+           
+        <div class="rowHeader">
+            <div class="rowitemHeader">Job Name</div>
+            <div class="rowitemHeader">Customer</div>
+            <div class="rowitemHeader">Description</div>
+            <div class="rowitemHeader">Status</div>
+        </div>
         <c:forEach var="job" items="${jobList}">
-            jobname: ${job.jobName}<br>
-            description ${job.description}<br>
-            -----------------------------<br>
+            <div class="rowWrapper">
+                <div class="row">
+                    <div class="rowitem" name="name">${job.jobName}</div>
+                    <div class="rowitem" name="customer">${job.customer.firstName} ${job.customer.lastName}</div>
+                    <div class="rowitem" name="description">${job.description}</div>
+                    <div class="rowitem" name="status">${job.status}</div>
+                </div>
+                <div class="listOptions">
+                    <div class="listButton">
+                        <form method="post" action="viewJob">
+                            <input type="hidden" name="action" value="view">
+                            <input type="hidden" name="selectedJobName" value="${job.jobName}">
+                            <input type="submit" value="View">
+                        </form>
+                    </div>
+                    <div class="listButton">
+                        <form method="post" action="job">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="selectedJobName" value="${job.jobName}">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </div>
+                    <div class="listButton">
+                        <input type="hidden" name="action" value="cancel">
+                        <input type="button" value="Cancel" id="cancelbox">
+                    </div>
+                </div>
+            </div>
         </c:forEach>
                  
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>

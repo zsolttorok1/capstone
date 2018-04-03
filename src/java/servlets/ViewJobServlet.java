@@ -48,7 +48,7 @@ public class ViewJobServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String action = request.getParameter("action");
-        String jobName = request.getParameter("jobName");
+        String jobName = request.getParameter("selectedJobName");
         
         if (jobName == null || jobName.isEmpty()) {
             request.setAttribute("message", "invalid jobName.");
