@@ -1,12 +1,12 @@
 
-    <h2>Satomi - Login</h2>
-    <div class="listWrapper">
+    
+<div class="listWrapper">
+    <h2>SATOMI SOFTWARE - Login</h2>
+    
     <div class="box">
         <div class="add_attributes">
             <form action='login' method='POST'>
-            <p>
-                    SATOMI SOFTWARE
-            </p>
+
             <div>
                 <div class="inline">Username</div><input type='text' name='userName' value='${userName}'>
             </div>
@@ -33,7 +33,9 @@
         </div>
     </div>
     <div><a href="login?action=resetPassword">Forgot Password</a></div>
-    </div>
+</div>
         
-</body>
+        <script src="javascript/sitefunctions.js" type="text/javascript"></script>
+    </body>
 </html>
+

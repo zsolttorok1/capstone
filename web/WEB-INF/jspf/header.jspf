@@ -38,6 +38,7 @@
             <a href="customer">Customers</a>
             <a href="job">Jobs</a>
             <a href="report">Reports</a>
+            <a href="submitQuote">submit Quote</a>
             <a href="quote">Quotes</a>
             <a href="backup">Backup</a>
             ----------------------------------

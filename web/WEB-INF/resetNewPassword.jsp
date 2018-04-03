@@ -1,3 +1,6 @@
+
+
+<div class="listWrapper">  
     <h2>New Password</h2>
     
     <div class="box">
@@ -22,5 +25,8 @@
             </form>
         </div>
     </div>
-</body>
+</div>
+    
+        <script src="javascript/sitefunctions.js" type="text/javascript"></script>
+    </body>
 </html>

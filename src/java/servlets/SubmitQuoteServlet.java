@@ -58,11 +58,11 @@ public class SubmitQuoteServlet extends HttpServlet {
             if (name != null && email != null && description != null) {
                 String status = quoteService.addQuote(name, email, description);
 
-                request.setAttribute("errorMessage", status);
+                request.setAttribute("message", status);
                 //errorMessage = "You Submitted a Quote.";
 
             } else {
-                request.setAttribute("errorMessage", "You need to enter something in all fields.");
+                request.setAttribute("message", "You need to enter something in all fields.");
                 getServletContext().getRequestDispatcher("/WEB-INF/submitQuote.jsp").forward(request, response);
                 return;
             }

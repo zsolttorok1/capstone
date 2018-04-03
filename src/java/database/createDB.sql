@@ -918,7 +918,6 @@ BEGIN
              return 'error';
          END;
 
-    /* Phone_User is not in database, so insert it*/
     INSERT INTO `quote` (`quote_name`, `email`, `description`)
         VALUES (`p_quote_name`, `p_email`, `p_description`);
 

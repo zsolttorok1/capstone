@@ -40,6 +40,41 @@
         </div>
     </c:forEach>
 </div>
+
+ <div id="myModal" class="modal">
+    <div class="modal-content">
+        <form method="post" action="item">
+            <div class="divTable">
+                <div class="divTableBody">
+                    <div class="divTableRow">
+                        <div class="divTableHead">
+                            New Item
+                        </div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell">Item Name:</div>
+                        <div class="divTableCell"><input name="name" type="text" placeholder="Item Name" /></div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell">Description:</div>
+                        <div class="divTableCell"><input name="description" type="text" placeholder="Description" /></div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell">Category:</div>
+                        <div class="divTableCell"><input name="category" type="text" placeholder="Category" /></div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell">Quantity:</div>
+                        <div class="divTableCell"><input name="quantity" type="number" placeholder="Quantity" /></div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell"><input name="action" type="hidden" value="add" /> <input type="submit" value="Save" /></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
           
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>
     </body>

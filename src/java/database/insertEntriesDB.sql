@@ -68,3 +68,7 @@ select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-30 01:
 select generate_report_func ('Second Huge Job', '2015-10-30 01:02:10', null);
 
 
+/* allocating JOB_REPORT ***********************************************************************/
+select insert_quote_func('yo Kayla!', 'sweatydude@yahoo.ca','I need my wall to be painted!');
+select insert_quote_func('help', 'insecurechick@gmail.com','can you paint my cat green?');
+select insert_quote_func('spam', 'bot1985@russia.ru','Want sum penis enlargement pills?');
