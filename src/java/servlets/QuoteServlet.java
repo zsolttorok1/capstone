@@ -28,8 +28,7 @@ public class QuoteServlet extends HttpServlet {
             throws ServletException, IOException {
                 QuoteService quoteService = new QuoteService();
 
-        String keyword = "anything";
-        List<Quote> quoteList = quoteService.searchQuote(keyword);
+        List<Quote> quoteList = quoteService.searchQuote("");
         if (quoteList == null) {
             request.setAttribute("message", "Quote not found. This seems like a database connection error.");
         }
@@ -42,20 +41,15 @@ public class QuoteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        //String customerId = request.getParameter("customerId");
         String quoteName = request.getParameter("quoteName");
+        String message = "";
+        
         if (quoteName == null || quoteName.isEmpty()) {
-            request.setAttribute("message", "invalid quoteId.");
-            getServletContext().getRequestDispatcher("/WEB-INF/quote.jsp").forward(request, response);
-            return;
+            message = "invalid quoteId.";
         }
-        
-        if (action != null && action.equals("view")) {
-        
-           
+        else if (action != null && action.equals("view")) {
             QuoteService quoteService = new QuoteService();
-            Quote quote = new Quote();
-            quote = quoteService.viewQuote(quoteName);
+            Quote quote = quoteService.viewQuote(quoteName);
                     
             if (quote == null) {
                 request.setAttribute("message", "Customer not found. This seems like a database connection error.");
@@ -66,6 +60,23 @@ public class QuoteServlet extends HttpServlet {
             request.setAttribute("quote", quote);
             request.getRequestDispatcher("/WEB-INF/viewQuote.jsp").forward(request, response);
             return;
+        }        
+        else if (action != null && action.equals("delete")) {
+            QuoteService quoteService = new QuoteService();
+            String status = quoteService.delete(quoteName);
+         
+            message = status;
         }
+        
+        QuoteService quoteService = new QuoteService();
+
+        List<Quote> quoteList = quoteService.searchQuote("");
+        if (quoteList == null) {
+            message =  "Quote not found. This seems like a database connection error.";
+        }
+
+        request.setAttribute("message", message);
+        request.setAttribute("quoteList", quoteList);
+        request.getRequestDispatcher("/WEB-INF/quote.jsp").forward(request, response);
     }
 }
