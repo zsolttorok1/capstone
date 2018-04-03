@@ -96,3 +96,16 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.display = "none";
 }
+
+function closeMessage() {
+    window.setTimeout(function() {
+        document.getElementById("message").style.visibility = "hidden"; 
+    }, 500);
+   
+    document.body.classList.remove("trigger_message");
+}
+
+function closeForm(e) {
+    var tableElement = e.parentNode.parentNode;
+    tableElement.classList.add("slide");
+}

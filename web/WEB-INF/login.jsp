@@ -1,20 +1,6 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="ct" tagdir="/WEB-INF/tags" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Satomi - Login</title>
-    </head>
-<body
-    <c:if test="${!empty message}">
-        class="trigger_message"
-    </c:if>
->
+
     <h2>Satomi - Login</h2>
-    
+    <div class="listWrapper">
     <div class="box">
         <div class="add_attributes">
             <form action='login' method='POST'>
@@ -47,10 +33,7 @@
         </div>
     </div>
     <div><a href="login?action=resetPassword">Forgot Password</a></div>
-        
-    <div class="message" id="message">
-        ${message}
-        <div class="message_close" onclick='closeMessage()'></div>
     </div>
+        
 </body>
 </html>

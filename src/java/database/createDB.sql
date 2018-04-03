@@ -24,11 +24,11 @@ CREATE TABLE `item` (
 );
 
 CREATE TABLE `report` (
-    `report_name` varchar(50) NOT NULL,
-    `description` varchar(2000) NOT NULL,
-    `date_created` date NOT NULL,
-    `pdf_filepath` varchar(50) NOT NULL,
-    PRIMARY KEY (`report_name`)
+    `report_id` int NOT NULL AUTO_INCREMENT,
+    `description` varchar(2000),
+    `date_created` datetime NOT NULL,
+    `pdf_filepath` varchar(50),
+    PRIMARY KEY (`report_id`)
 );
 
 CREATE TABLE `phone` (
@@ -134,16 +134,16 @@ CREATE TABLE `job_item` (
     `note` varchar(2000) NULL,
     `quantity` int(5) NOT NULL,
     PRIMARY KEY (`job_name`, `item_name`),
-    CONSTRAINT `FK_JI_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_JI_Item_name` FOREIGN KEY (`item_name`) references `item`(`item_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `FK_JI_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_JI_Item_name` FOREIGN KEY (`item_name`) references `item`(`item_name`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `job_report` (
     `job_name` varchar(50) NOT NULL,
-    `report_name` varchar(50) NOT NULL,
-    PRIMARY KEY (`job_name`, `report_name`),
-    CONSTRAINT `FK_JR_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `FK_JR_Report_name` FOREIGN KEY (`report_name`) references `report`(`report_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    `report_id` int NOT NULL,
+    PRIMARY KEY (`job_name`, `report_id`),
+    CONSTRAINT `FK_JR_Job_name` FOREIGN KEY (`job_name`) references `job`(`job_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `FK_JR_Report_id` FOREIGN KEY (`report_id`) references `report`(`report_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `quote` (
@@ -1057,10 +1057,10 @@ CREATE FUNCTION `delete_job_func`
     RETURNS varchar(20)
 NOT DETERMINISTIC
 BEGIN
---     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
---         BEGIN
---             return 'error';
---         END;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error';
+        END;
 
     DELETE FROM `job` 
         WHERE job_name = p_job_name;
@@ -1109,19 +1109,19 @@ END;
 $$
 
 CREATE FUNCTION `allocate_item_func`
-    (p_job_name varchar(50),
-    p_item_name varchar(50),
+    (p_job_name varchar(100),
+    p_item_name varchar(100),
     p_note varchar(2000),
     p_quantity int(5))
-    RETURNS varchar(20)
+    RETURNS varchar(100)
 NOT DETERMINISTIC
 BEGIN
     DECLARE v_job_item_count int;
     DECLARE v_quantity int;
---     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
---         BEGIN
---             return 'error sql exception';
---         END;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error sql exception';
+        END;
 
     /* find out if enough quantiry in ITEM */
     SELECT quantity
@@ -1158,6 +1158,38 @@ BEGIN
     end if;
 
     return 'allocated item';
+END;
+$$
+
+CREATE FUNCTION `generate_report_func`
+    (p_job_name varchar(50),
+    p_date_created datetime,
+    p_description varchar(2000))
+    RETURNS varchar(20)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_job_report_count int;
+    DECLARE v_report_id int;
+    DECLARE v_pdf_filepath varchar(100);
+    DECLARE v_date_created varchar(50);
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error sql exception';
+        END;
+    
+    INSERT INTO `report` (`description`, `date_created`)
+        VALUES (p_description, p_date_created);
+    set v_report_id = LAST_INSERT_ID();
+    set v_date_created = DATE_FORMAT(p_date_created, '%Y-%m-%d-%H-%i-%S');
+    set v_pdf_filepath = concat(v_report_id, '-', v_date_created);
+    UPDATE `report`
+            SET pdf_filepath = v_pdf_filepath
+            WHERE report_id = v_report_id;
+    
+    INSERT INTO `job_report` (`job_name`, `report_id`)
+        VALUES (`p_job_name`, `v_report_id`);
+
+    return 'report generated';
 END;
 $$
 

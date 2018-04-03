@@ -44,8 +44,8 @@ select insert_item_func ('Hairy Harold', 5, 'Brushes', 'We dont use this on wall
 select insert_item_func ('Hairy Harold', 2, 'Brushes', 'We dont use this on walls, way too hairy.');
 select insert_item_func ('Devil Beater', 5, 'Brushes', 'Bob Ross favorite.');
 
-INSERT INTO `category` (`category_id`, `category_name`) VALUES ('3', 'Spoiled Milk');
-INSERT INTO `category` (`category_id`, `category_name`) VALUES ('10', 'Doesnt exist anymore');
+-- INSERT INTO `category` (`category_id`, `category_name`) VALUES ('3', 'Spoiled Milk');
+-- INSERT INTO `category` (`category_id`, `category_name`) VALUES ('10', 'Doesnt exist anymore');
 
 /* adding JOBS ***********************************************************************/
 /*Date: YY-MM-DD */
@@ -61,5 +61,10 @@ select allocate_user_func ('Brookfield Bathroom on WestTower', 'kayla_grieve', 2
 
 /* allocating JOB_ITEM ***********************************************************************/
 select allocate_item_func ('Brookfield Bathroom on WestTower', 'SuperFine Paint Brush', 'Wash them before returning plz.',4);
-
 select allocate_item_func ('Brookfield Bathroom on WestTower', 'SuperFine Paint Brush', 'staph.', 22);
+
+/* allocating JOB_REPORT ***********************************************************************/
+select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-30 01:02:03', 'say hi to Bob');
+select generate_report_func ('Second Huge Job', '2015-10-30 01:02:10', null);
+
+

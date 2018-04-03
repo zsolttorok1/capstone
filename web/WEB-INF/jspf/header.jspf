@@ -1,0 +1,61 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="ct" tagdir="/WEB-INF/tags" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Satomi Software</title>
+    </head>
+    <body 
+        <c:if test="${!empty message}">
+            class="trigger_message"
+        </c:if>
+    >
+        <div class="fixedmenu">
+            <div class="fixedleft">
+                <img class="menuicon" src="res/lion.png" />
+            </div>
+            <div class="fixedright">
+                
+            </div>
+            <div class="search">
+                <form method="post" action="search">
+                    <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
+                    <input type="submit" value="Search">
+                </form>
+            </div>
+        </div>
+        
+        <div id="mySidenav" class="sidenav">
+            <a href="item">Item Inventory</a>
+            <a href="user">Employees</a>
+            <a href="customer">Customers</a>
+            <a href="job">Jobs</a>
+            <a href="report">Reports</a>
+            <a href="quote">Quotes</a>
+            <a href="backup">Backup</a>
+            ----------------------------------
+            <a class="logout" href="login?action=logout">Logout</a>
+            ----------------------------------
+<!--            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>-->
+        </div>
+        
+        <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
+        
+        <div class="background">
+            <div class="background1"></div>
+        </div>
+        
+        <div class="message" id="message">
+            ${message}${errorMessage}
+            <div class="message_close" onclick='closeMessage()'></div>
+        </div>
+
+       
+      

@@ -354,4 +354,93 @@ public class JobBroker {
 
         return status;
     }
+    
+    //returns "allocated, error, exception"
+    public String allocate_user(Job job, User user) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
+        
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("select allocate_user_func(?, ?, ?)");
+            
+            pstmt.setString(1, job.getJobName());
+            pstmt.setString(2, user.getUserName());
+            pstmt.setInt(3, user.getHours());
+            
+            ResultSet rs = pstmt.executeQuery();
+            //get the status report from current database function
+            if (rs.next()) {
+                status = rs.getString(1);
+            }
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            
+            //if all good, commit
+            connection.commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+                return "exception";
+            } catch (SQLException ex1) {
+                Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return "exception";
+        } finally {
+            pool.freeConnection(connection);
+        }
+
+        return status;
+    }
+    
+    //returns "allocated, error, exception"
+    public String allocate_item(Job job, Item item) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
+        
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("select allocate_item_func(?, ?, ?, ?)");
+            
+            pstmt.setString(1, job.getJobName());
+            pstmt.setString(2, item.getItemName());
+            pstmt.setString(3, item.getNote());
+            pstmt.setInt(4, item.getQuantity());
+            
+            ResultSet rs = pstmt.executeQuery();
+            //get the status report from current database function
+            if (rs.next()) {
+                status = rs.getString(1);
+            }
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            
+            //if all good, commit
+            connection.commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+                return "exception";
+            } catch (SQLException ex1) {
+                Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return "exception";
+        } finally {
+            pool.freeConnection(connection);
+        }
+
+        return status;
+    }
 }

@@ -1,15 +1,3 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Satomi - New Password</title>
-    </head>
-<body 
-    <c:if test="${!empty message}">
-        class="trigger_message"
-    </c:if>
->  
     <h2>New Password</h2>
     
     <div class="box">

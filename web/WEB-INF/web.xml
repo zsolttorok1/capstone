@@ -6,7 +6,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>viewJob</welcome-file>
+        <welcome-file>backup</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>MainServlet</servlet-name>
@@ -150,4 +150,16 @@
         <env-entry-type>java.lang.String</env-entry-type>
         <env-entry-value>PrepSaitSatomiWebmail</env-entry-value>
     </env-entry>
+    
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.jspf</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <scripting-invalid>false</scripting-invalid>
+            <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
+            <trim-directive-whitespaces>true</trim-directive-whitespaces>
+            <default-content-type>text/html</default-content-type>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

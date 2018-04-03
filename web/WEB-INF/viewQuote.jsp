@@ -1,35 +1,4 @@
-<%-- 
-    Document   : viewUser
-    Created on : Mar 7, 2018, 4:22:00 PM
-    Author     : 685442 and 742227
---%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet" type="text/css">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Quote</title>
-    </head>
-    <body>
-        <div class="fixedmenu">
-            <div class="fixedleft">
-                <img class="menuicon" src="res/lion.png" />
-                <a class="breadcrumb" href="user">Quote</a>
-            </div>
-            <div class="fixedright">
-                <a class="logout" href="main">Logout</a>
-            </div>
-            <div class="fixedright">
-                <form method="post" action="search">
-                    <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
-                    <input type="submit" value="Search">
-                </form>
-            </div>
-        </div>
         <h1 class="bodyheaderc">QUOTE VIEW FOR: ${quote.name}</h1>
         <p class="center">${message}</p>
         <div class="viewcontent">
