@@ -57,7 +57,7 @@
                     </div>
                     <div class="divTableRow">
                         <div class="divTableCell">Username:</div>
-                        <div class="divTableCell"><input name="userNameAdd" type="text" placeholder="Username" /></div>
+                        <div class="divTableCell"><input name="userName" type="text" placeholder="Username" /></div>
                     </div>
                     <div class="divTableRow">
                         <div class="divTableCell">Password:</div>
