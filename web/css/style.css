@@ -563,17 +563,16 @@ p.bodytext {
 
 
 .viewcontentJob {
-    width: 50%; 
+    width: 40%; 
+    border-radius: 10px;
     margin: 0px auto;
     background-color: white;
-    border-bottom: 3px solid gray;
-    border-right: 0.5px solid black;
+    border: 0.5px solid lightgray;
     box-sizing: border-box;
-    padding-bottom: 2px;
-    padding-left: 2px;
+    padding: 10px;
     display: inline;
-    float: left;
-    min-height: 900px;
+    float: right;
+    min-height: 1000px;
 
 }
 
