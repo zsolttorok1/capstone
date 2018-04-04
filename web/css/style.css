@@ -307,6 +307,7 @@ p.bodytext {
     box-sizing: border-box;
     background-color: white;
     width: calc(100% - 70px);
+    cursor: pointer;
 }
 
 .rowAdd {

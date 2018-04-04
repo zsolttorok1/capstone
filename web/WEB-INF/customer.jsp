@@ -20,7 +20,7 @@
     <c:forEach var="customer" items="${customerList}">
         <div class="rowWrapper">
             <div class="row">
-                <div class="rowitem" name="name">${customer.firstName} ${customer.lastName}</div>
+                <div class="rowitem" name="name">${customer.firstName}&nbsp${customer.lastName}</div>
                 <div class="rowitem" name="company">${customer.companyName}</div>
                 <div class="rowitem" name="phone">
                     <c:forEach var="phone" items="${customer.phoneNumberList}">
