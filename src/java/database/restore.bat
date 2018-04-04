@@ -1,0 +1,1 @@
+c:\xampp\mysql\bin\mysql -u root -ppassword --database capstonedb < c:\cap\backups\backup-%1.sql
