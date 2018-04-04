@@ -173,7 +173,7 @@ p.bodytext {
 
 .rowHeader {
     font-size: 20px;
-    margin-top: 25px;
+    /*margin-top: 25px;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -210,6 +210,8 @@ p.bodytext {
     align-items: center; /*vertical center*/
     background-color: #52627c;
     color: white;
+    margin-top: 25px;
+    width:calc(100% - 70px);
 }
 
 .rowHeaderSearch {
