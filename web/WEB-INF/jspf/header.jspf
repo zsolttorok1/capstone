@@ -17,41 +17,56 @@
             class="trigger_message"
         </c:if>
     >
-        <div class="fixedmenu">
-            <div class="fixedleft">
-                <img class="menuicon" src="res/lion.png" />
+        <c:if test="${!empty sessionScope.userName}">              
+            <div class="fixedmenu">
+                <div class="fixedleft">
+                    <img class="menuicon" src="res/lion.png" />
+                </div>
+                <div class="fixedright">
+
+                </div>
+                <div class="search">
+                    <form method="post" action="search">
+                        <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
+                        <input type="submit" value="Search">
+                    </form>
+                </div>
             </div>
-            <div class="fixedright">
-                
+
+            <div id="mySidenav" class="sidenav">
+                <a href="item">Item Inventory</a>
+                <a href="user">Employees</a>
+                <a href="customer">Customers</a>
+                <a href="job">Jobs</a>
+                <a href="report">Reports</a>
+                <a href="quote">Quotes</a>
+                <a href="backup">Backup</a>
+                ----------------------------------
+                <a class="logout" href="login?action=logout">Logout</a>
+                ----------------------------------
+    <!--            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>-->
             </div>
-            <div class="search">
-                <form method="post" action="search">
-                    <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
-                    <input type="submit" value="Search">
-                </form>
+
+            <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
+
+            <div class="background">
+                <div class="background1"></div>
             </div>
-        </div>
-        
-        <div id="mySidenav" class="sidenav">
-            <a href="item">Item Inventory</a>
-            <a href="user">Employees</a>
-            <a href="customer">Customers</a>
-            <a href="job">Jobs</a>
-            <a href="report">Reports</a>
-            <a href="submitQuote">submit Quote</a>
-            <a href="quote">Quotes</a>
-            <a href="backup">Backup</a>
-            ----------------------------------
-            <a class="logout" href="login?action=logout">Logout</a>
-            ----------------------------------
-<!--            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>-->
-        </div>
-        
-        <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
-        
-        <div class="background">
-            <div class="background1"></div>
-        </div>
+        </c:if>
+            
+        <c:if test="${empty sessionScope.userName}">
+            <div class="banner">
+                <img src="res/bannerP.png" />
+            </div>
+            <div class="menu">
+                <div class="menuitem"><a href="main">HOME</a></div>
+                <div class="menuitem"><a href="main">ABOUT US</a></div>
+                <div class="menuitem"><a href="main">GALLERY</a></div>
+                <div class="menuitem"><a href="submitQuote">QUOTE</a></div>
+                <div class="menuitem"><a href="main">CONTACT US</a></div>
+                <div class="menuitem"><a href="login">EMPLOYEE LOGIN</a></div>
+            </div>
+        </c:if>
         
         <div class="message" id="message">
             ${message}${errorMessage}

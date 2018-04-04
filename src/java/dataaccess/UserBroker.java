@@ -130,7 +130,8 @@ public class UserBroker {
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
        
-            if (rs.next()) {
+            // have the "&& house number > 0" check here to make sure you dont go in the empty user 
+            if (rs.next() && rs.getInt("HOUSE_NUMBER") > 0) {
                 String userName = rs.getString("USER_NAME");
                 int houseNumber = rs.getInt("HOUSE_NUMBER");
                 String street = rs.getString("STREET");

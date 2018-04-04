@@ -1,31 +1,3 @@
-<%-- 
-    Document   : main
-    Created on : Feb 6, 2018, 11:52:44 AM
-    Author     : 685442
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet" type="text/css">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
-    </head>
-    <body>
-        <div class="banner">
-            <img src="res/bannerP.png" />
-        </div>
-        <div class="menu">
-            <div class="menuitem"><a href="item">HOME</a></div>
-            <div class="menuitem"><a href="item">ABOUT US</a></div>
-            <div class="menuitem"><a href="item">GALLERY</a></div>
-            <div class="menuitem"><a href="submitQuote">QUOTE</a></div>
-            <div class="menuitem"><a href="item">CONTACT US</a></div>
-            <div class="menuitem"><a href="item">EMPLOYEE LOGIN</a></div>
-        </div>
-        
         <div class="content">
             <img src="res/lion.png" />
             <h1 class="bodyheader">WELCOME TO OUR HOME PAGE</h1>
@@ -43,5 +15,6 @@
             </p>
         </div>
         
+        <script src="javascript/sitefunctions.js" type="text/javascript"></script>
     </body>
 </html>
