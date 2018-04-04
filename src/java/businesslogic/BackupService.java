@@ -127,7 +127,7 @@ public class BackupService {
             return message;
     }
 	
-    public String startBackupper() {
+    private String startBackupper() {
         ses = Executors.newSingleThreadScheduledExecutor();
         
         ses.scheduleWithFixedDelay(new Runnable() {
@@ -140,7 +140,7 @@ public class BackupService {
         return "backupper service started!";
     }
 	
-    public String stopBackupper() {
+    private String stopBackupper() {
         ses.shutdown();
         isRunning = false;
         return "backupper service stopped!";
@@ -149,4 +149,13 @@ public class BackupService {
     public boolean isBackupperServiceRunning() {
         return isRunning;    
     }
+    
+    public String toggleBackupper() {
+        if (!isRunning) {
+            return startBackupper();
+        }
+        else {
+            return stopBackupper();
+        }
+    } 
 }

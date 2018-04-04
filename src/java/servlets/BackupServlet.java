@@ -28,6 +28,12 @@ public class BackupServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String backupServiceState = "off";
+        if (!BackupService.getInstance().isBackupperServiceRunning()) {
+            backupServiceState = "on";
+        }
+
+        request.setAttribute("backupServiceState", backupServiceState);
         request.setAttribute("backupFileList",  BackupService.getInstance().getBackupFileList());
         request.setAttribute("message", "is Backupper Service running? " + BackupService.getInstance().isBackupperServiceRunning());
         request.getRequestDispatcher("/WEB-INF/backup.jsp").forward(request, response);
@@ -42,13 +48,16 @@ public class BackupServlet extends HttpServlet {
         if (action != null && action.equals("restore")) {
             message = BackupService.getInstance().restoreBackup(backupFileName);
         }
-        else if (action != null && action.equals("start")) {
-            message = BackupService.getInstance().startBackupper();
+        else if (action != null && action.equals("toggle")) {
+            message = BackupService.getInstance().toggleBackupper();
         }
-        else if (action != null && action.equals("stop")) {
-            message = BackupService.getInstance().stopBackupper();
+        
+        String backupServiceState = "off";
+        if (!BackupService.getInstance().isBackupperServiceRunning()) {
+            backupServiceState = "on";
         }
 
+        request.setAttribute("backupServiceState", backupServiceState);
         request.setAttribute("message", message);
         request.setAttribute("backupFileList",  BackupService.getInstance().getBackupFileList());
         request.getRequestDispatcher("/WEB-INF/backup.jsp").forward(request, response);
