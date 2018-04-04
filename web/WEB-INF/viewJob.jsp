@@ -22,6 +22,7 @@
                         <div class="editIconJob"><img class="editIconJob" src="res/editIcon.png" title="Edit" id="editIconItem" />  Assign New Items  </div>
                         <br>
                 </div>
+                <input type="hidden" name="selectedJobName" value="${job.jobName}">
                 <input type="hidden" name="action" value="save">
                 <input type="submit" value="Save Changes">
             </form>
@@ -64,6 +65,7 @@
                     <input type="text" class="contentBodyInputNormal" name="status" value="${job.status}" />
                     <br><br>
                 </div>
+                <input type="hidden" name="selectedJobName" value="${job.jobName}">
                 <input type="hidden" name="action" value="save">
                 <input type="submit" value="Save Changes">
             </form>

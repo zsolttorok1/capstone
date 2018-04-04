@@ -248,7 +248,7 @@ public class JobBroker {
         }
         
         try {
-            PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
              
             pstmt.setString(1, job.getJobName());
             pstmt.setInt(2, job.getHouseNumber());
@@ -261,8 +261,8 @@ public class JobBroker {
             pstmt.setString(9, job.getDescription());
             pstmt.setDate(10, DataConverter.javaDateToSQL(job.getDateStarted()));
             pstmt.setDate(11, DataConverter.javaDateToSQL(job.getDateFinished()));
-            pstmt.setInt(13, job.getBalance());
-            pstmt.setString(14, job.getStatus());            
+            pstmt.setInt(12, job.getBalance());
+            pstmt.setString(13, job.getStatus());            
 
             ResultSet rs = pstmt.executeQuery();
             //get the status report from current database function
