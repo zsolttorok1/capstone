@@ -511,33 +511,70 @@ p.bodytext {
 }
 
 .contentBodyInput {
-    /* display: none; */
+    width: 90%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.contentBodyInputNormal {
+    width: 45%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.contentBodyInputBig {
+    width: 75%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.contentBodyInputSmall {
+    width: 15%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .viewcontent {
-    width: 750px; 
+    width: 50%; 
+    border-radius: 10px;
+    border: 0.5px solid lightgray;
     margin: 0px auto;
     background-color: white;
-    border-bottom: 3px solid gray;
-    border-right: 3px solid gray;
-    border-left: 3px solid gray;
     box-sizing: border-box;
     padding-bottom: 2px;
-    padding-left: 2px;
+    padding: 10px;
 
 }
+
+
+
 .viewcontentJob {
-    width: 50%; 
+    width: 40%; 
+    border-radius: 10px;
     margin: 0px auto;
     background-color: white;
-    border-bottom: 3px solid gray;
-    border-right: 0.5px solid black;
+    border: 0.5px solid lightgray;
     box-sizing: border-box;
-    padding-bottom: 2px;
-    padding-left: 2px;
+    padding: 10px;
     display: inline;
-    float: left;
-    min-height: 900px;
+    float: right;
+    min-height: 1000px;
 
 }
 

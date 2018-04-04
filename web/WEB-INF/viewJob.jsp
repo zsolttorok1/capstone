@@ -1,87 +1,5 @@
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet" type="text/css">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>View Job</title>
-    </head>
-    <body>
-        <div class="fixedmenu">
-            <div class="fixedleft">
-                <img class="menuicon" src="res/lion.png" />
-            </div>
-            <div class="fixedright">
-                <a class="logout" href="main">Logout</a>
-                <a class="logout" href="login?action=logout">RealLogout</a>
-            </div>
-            <div class="fixedright">
-                <form method="post" action="search">
-                    <input type="text" name="keyword" placeholder="Search..." value="${keyword}" />
-                    <input type="submit" value="Search">
-                </form>
-            </div>
-        </div>
-        
-        <div id="mySidenav" class="sidenav">
-            <a href="item">Item Inventory</a>
-            <a href="user">Employees</a>
-            <a href="customer">Customers</a>
-            <a href="job">Jobs</a>
-            <a href="report">Reports</a>
-            <a href="quote">Quotes</a>
-            <a href="">----</a>
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
-        </div>
-        
-        <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
-        
-        <h1 class="bodyheaderc">${job.jobName}</h1>
+        <h1 class="bodyheaderc">${job.jobName} for ${job.customer.companyName}</h1>
         <p class="center">${message}</p>
-            
-            <div class="viewcontentJob">
-            <div>
-                <img class="editIcon" src="res/editIcon.png" title="Edit" id="editIcon" />
-            </div>
-            <form method="post" action="viewJob">
-                <div class="contentInfo">
-                    <h1 class="bodyheaderc">Job Information</h1>
-                    <p class="contentHeader">Job Name</p>
-                    <p class="contentBody">${job.jobName}
-                    </p>
-                    
-                    <p class="contentHeader">Location</p>
-                    <p class="contentBody">Street: <input type="text" name="houseNumber" value="${job.customer.houseNumber}">
-                        <input type="text" name="street" value="${job.customer.street}">,<br>
-                        City & Province: <input type="text" name="city" value="${job.customer.city}">
-                        <input type="text" name="province" value="${job.customer.province}"><br>
-                        Postal Code: <input type="text" name="postalCode" value="${job.customer.postalCode}"><br>
-                        Country: <input type="text" name="country" value="${job.customer.country}">
-                    </p>
-                    
-                    <p class="contentHeader">Contact Info</p>
-                    <p class="contentBody">
-                        ${job.customer.firstName} ${job.customer.lastName}:<br> Phone Number(s): <c:forEach var="phoneNumber" items="${job.customer.phoneNumberList}">
-                            <input type="text" name="phoneNumberList[]" value=${phoneNumber}>
-                        </c:forEach>
-                        <p class="contentBody">Email Address: <input type="text" name="email" value="${job.customer.email}"></p>
-                    
-                    <p class="contentHeader">Start and End Date:</p>
-                    <p class="contentBody">Start: <input type="text" name="dateStarted" value="${job.dateStarted}"></p>
-                    <p class="contentBody">End:  <input type="text" name="dateFinished" value="${job.dateFinished}"></p>
-                    
-                    <p class="contentHeader">Status and Balance</p>
-                    <p class="contentBody">Status: <input type="text" name="status" value="${job.status}"></p>
-                    <p class="contentBody">Balance: $<input type="number" name="balance" value="${job.balance}">
-                    </p>
-                </div>
-                <input type="hidden" name="action" value="save">
-                <input type="submit" value="Save Changes">
-            </form>
-        </div>
                     
         <div class="viewcontentJob">
             <form method="post" action="viewJob">
@@ -103,6 +21,48 @@
                     </c:forEach>
                         <div class="editIconJob"><img class="editIconJob" src="res/editIcon.png" title="Edit" id="editIconItem" />  Assign New Items  </div>
                         <br>
+                </div>
+                <input type="hidden" name="action" value="save">
+                <input type="submit" value="Save Changes">
+            </form>
+        </div>
+        
+        <div class="viewcontentJob">
+            <form method="post" action="viewJob">
+                <div class="contentInfo">
+                    <h1 class="bodyheaderc">Job Information</h1>
+                    
+                    <p class="contentHeader">Description</p>
+                    <input type="text" id="desc" class="contentBodyInput" name="description" value="${job.description}" />
+                    <p class="contentHeader">Location</p>
+                    <label for="street">Street:</label><br>
+                    <input type="text" id="street" class="contentBodyInputSmall" name="houseNumber" value="${job.customer.houseNumber}" />  <input type="text" class="contentBodyInputBig" name="street" value="${job.customer.street}" /><br>
+                    <label for="city">City & Province:</label><br>
+                    <input type="text" id="city" class="contentBodyInputNormal" name="city" value="${job.customer.city}" />  <input type="text" class="contentBodyInputNormal" name="province" value="${job.customer.province}" /><br>
+                    <label for="post">Postal Code & Country:</label><br>
+                    <input type="text" id="post" class="contentBodyInputNormal" name="postalCode" value="${job.customer.postalCode}" />  <input type="text" class="contentBodyInputNormal" name="country" value="${job.customer.country}" /><br>
+                    <br>
+                    <p class="contentHeader">Contact Info for ${job.customer.firstName}&nbsp${job.customer.lastName}&nbsp(${job.customer.position})</p>
+                    <label for="phone">Phone Number(s):</label><br>
+                    <c:forEach var="phoneNumber" items="${job.customer.phoneNumberList}">
+                        <input type="text" id="phone" class="contentBodyInputNormal" name="phoneNumberList[]" value="${phoneNumber}" />
+                    </c:forEach>
+                    <br>
+                    <label for="email">Email:</label><br>
+                    <input type="text" id="email" class="contentBodyInput" name="email" value="${job.customer.email}" />
+                    <br><br>
+                    
+                    <p class="contentHeader">Additional Information</p>
+                    <label for="start">Start Date:</label><br>
+                    <input type="text" id="start" class="contentBodyInputNormal" name="dateStarted" value="${job.dateStarted}" />
+                    <br>
+                    <label for="end">End Date:</label><br>
+                    <input type="text" id="end" class="contentBodyInputNormal" name="dateFinished" value="${job.dateFinished}" />
+                    <br>
+                    <label for="balance">Balance & Status:</label><br>
+                    <input type="text" id="balance" class="contentBodyInputNormal" name="balance" value="${job.balance}" />
+                    <input type="text" class="contentBodyInputNormal" name="status" value="${job.status}" />
+                    <br><br>
                 </div>
                 <input type="hidden" name="action" value="save">
                 <input type="submit" value="Save Changes">
