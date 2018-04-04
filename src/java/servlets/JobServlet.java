@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import businesslogic.CustomerService;
 import businesslogic.ItemService;
 import businesslogic.JobService;
 import businesslogic.UserService;
@@ -32,13 +33,16 @@ public class JobServlet extends HttpServlet {
             throws ServletException, IOException {
         
         JobService jobService = new JobService();
+        
         List<Job> jobList = jobService.searchJob("");
         if (jobList == null) {
             request.setAttribute("message", "No jobs found. This seems like a database connection error.");
         }
         
+        CustomerService customerList = new CustomerService();
+        
         request.setAttribute("jobList", jobList);
-
+        request.setAttribute("customerList", customerList.searchCustomer(""));
         request.getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
     }
 
@@ -90,9 +94,12 @@ public class JobServlet extends HttpServlet {
         if (jobList == null) {
             message = "Job not found. This seems like a database connection error.";
         }
+        
+        CustomerService customerList = new CustomerService();
 
         request.setAttribute("message", message);
         request.setAttribute("jobList", jobList);
+        request.setAttribute("customerList", customerList.searchCustomer(""));
         request.getRequestDispatcher("/WEB-INF/job.jsp").forward(request, response);
     }
 }

@@ -177,7 +177,8 @@ p.bodytext {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #517791;
+/*    background-color: #517791;*/
+    background-color: #3e4f5b;
     color: white;
     width: calc(100% - 70px);
 }

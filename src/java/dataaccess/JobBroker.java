@@ -75,7 +75,7 @@ public class JobBroker {
             pstmt.setString(1, jobName);
             ResultSet rs = pstmt.executeQuery();
        
-            if (rs.next()) {
+            if (rs.next() && rs.getInt("HOUSE_NUMBER") > 0) {
                 int houseNumber = rs.getInt("HOUSE_NUMBER");
                 String street = rs.getString("STREET");
                 String city = rs.getString("CITY");
@@ -97,43 +97,45 @@ public class JobBroker {
                 job = new Job(jobName, houseNumber, street, city, province, country, postalCode, customer, description, dateStarted, dateFinished, balance, jobStatus, reportList, userList, itemList);
             }
             
-            //attach userList
-            List<User> userList = new ArrayList<>();
-            pstmt = connection.prepareStatement(""
-                    + "SELECT user_name, hours "
-                    + "     FROM `job_user`"
-                    + "     WHERE job_name = ?;");
-            pstmt.setString(1, jobName);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                String userName = rs.getString("USER_NAME");
-                int hours = rs.getInt("HOURS");
-                
-                User user = UserBroker.getInstance().getByName(userName);
-                user.setHours(hours);
-                userList.add(user);
+            if (job != null) {
+                //attach userList
+                List<User> userList = new ArrayList<>();
+                pstmt = connection.prepareStatement(""
+                        + "SELECT user_name, hours "
+                        + "     FROM `job_user`"
+                        + "     WHERE job_name = ?;");
+                pstmt.setString(1, jobName);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    String userName = rs.getString("USER_NAME");
+                    int hours = rs.getInt("HOURS");
+
+                    User user = UserBroker.getInstance().getByName(userName);
+                    user.setHours(hours);
+                    userList.add(user);
+                }
+                job.setUserList(userList);
+
+                //attach itemList
+                List<Item> itemList = new ArrayList<>();
+                pstmt = connection.prepareStatement(""
+                        + "SELECT item_name, quantity, note "
+                        + "     FROM `job_item` "
+                        + "     WHERE job_name = ?;");
+                pstmt.setString(1, jobName);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    String itemName = rs.getString("ITEM_NAME");
+                    int quantity = rs.getInt("QUANTITY");
+                    String note = rs.getString("NOTE");
+
+                    Item item = ItemBroker.getInstance().getByName(itemName);
+                    item.setQuantity(quantity);
+                    item.setNote(note);
+                    itemList.add(item);
+                }
+                job.setItemList(itemList);
             }
-            job.setUserList(userList);
-            
-            //attach itemList
-            List<Item> itemList = new ArrayList<>();
-            pstmt = connection.prepareStatement(""
-                    + "SELECT item_name, quantity, note "
-                    + "     FROM `job_item` "
-                    + "     WHERE job_name = ?;");
-            pstmt.setString(1, jobName);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                String itemName = rs.getString("ITEM_NAME");
-                int quantity = rs.getInt("QUANTITY");
-                String note = rs.getString("NOTE");
-                
-                Item item = ItemBroker.getInstance().getByName(itemName);
-                item.setQuantity(quantity);
-                item.setNote(note);
-                itemList.add(item);
-            }
-            job.setItemList(itemList);
           
         } catch (SQLException ex) {
             Logger.getLogger(JobBroker.class.getName()).log(Level.SEVERE, null, ex);
@@ -248,7 +250,7 @@ public class JobBroker {
         }
         
         try {
-            PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
              
             pstmt.setString(1, job.getJobName());
             pstmt.setInt(2, job.getHouseNumber());
@@ -261,8 +263,8 @@ public class JobBroker {
             pstmt.setString(9, job.getDescription());
             pstmt.setDate(10, DataConverter.javaDateToSQL(job.getDateStarted()));
             pstmt.setDate(11, DataConverter.javaDateToSQL(job.getDateFinished()));
-            pstmt.setInt(13, job.getBalance());
-            pstmt.setString(14, job.getStatus());            
+            pstmt.setInt(12, job.getBalance());
+            pstmt.setString(13, job.getStatus());            
 
             ResultSet rs = pstmt.executeQuery();
             //get the status report from current database function

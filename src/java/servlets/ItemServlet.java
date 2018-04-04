@@ -68,7 +68,7 @@ public class ItemServlet extends HttpServlet {
                 itemService.addItem(itemName, quantity, category, description, note);
                 errorMessage = "Item Successfully added";
             } else {
-                request.setAttribute("errorMessage", "The following fields need to be entered: Item Name, quantity, category and description");
+                request.setAttribute("message", "The following fields need to be entered: Item Name, quantity, category and description");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
                 return;
             }
@@ -80,7 +80,7 @@ public class ItemServlet extends HttpServlet {
                 //request.setAttribute("errorMessage", "You deleted an item.");
 
             } else {
-                request.setAttribute("errorMessage", "You do not have the authority to DELETE me.");
+                request.setAttribute("message", "You do not have the authority to DELETE me.");
                 getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
                 return;
             }
@@ -100,7 +100,7 @@ public class ItemServlet extends HttpServlet {
         List<Item> itemList = itemService.searchItem("");
 
         request.setAttribute("itemList", itemList);
-        request.setAttribute("errorMessage", errorMessage);
+        request.setAttribute("message", errorMessage);
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
