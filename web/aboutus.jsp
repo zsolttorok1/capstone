@@ -1,8 +1,6 @@
-        <div class="content">
-            <img class="contentImg" src="res/lion.png" />
-            <h1 class="bodyheader">A. DAMOR PAINTING & DECORATING</h1>
-            <p class="bodytext">
-                Lorem ipsum dolor sit amet, eum ne falli liber contentiones, timeam pericula et vim. Ad has habeo delectus patrioque, ius ut purto omnes civibus. Sit alia utinam efficiantur eu. Dolore libris timeam duo ne. An dicit ubique scripta pri, sea tritani ocurreret elaboraret ei, usu commune voluptua ut. Ea saepe persius percipitur vim. Ut quod reque tincidunt vis, putant molestie platonem cu sit, tota reformidans eam at.
+            <div class="content">
+                <h1 class="center">ABOUT US</h1>
+                <p><img class="aboutImg" src="res/Gallery/10.jpg" alt="">Lorem ipsum dolor sit amet, eum ne falli liber contentiones, timeam pericula et vim. Ad has habeo delectus patrioque, ius ut purto omnes civibus. Sit alia utinam efficiantur eu. Dolore libris timeam duo ne. An dicit ubique scripta pri, sea tritani ocurreret elaboraret ei, usu commune voluptua ut. Ea saepe persius percipitur vim. Ut quod reque tincidunt vis, putant molestie platonem cu sit, tota reformidans eam at.
                 <br><br>
                 An duo dico fuisset, inermis voluptaria ne eum. Est dicunt iisque perfecto ne, et ius graeco latine vivendum. Vel quando noluisse te, nibh platonem ut nec, an usu natum expetenda. Ei mea fugit reformidans, eros nostrum accumsan nec in, id ferri tritani ius.
                 <br><br>
@@ -12,9 +10,8 @@
                 <br><br>
                 No usu persius evertitur neglegentur. Brute mentitum reformidans per at. Nam cu everti commune, in has simul epicurei comprehensam. Dicant quaerendum et vix, id ius partem aperiam adolescens, inani consequuntur no est. Sea quod diam cu, duo mazim eirmod efficiendi at, vim fabulas vivendum in. Suscipit dissentiunt ad per, ea impedit mandamus est.
                 <br><br>
-            </p>
-        </div>
-        
-        <script src="javascript/sitefunctions.js" type="text/javascript"></script>
+                </p>
+            
+            
     </body>
 </html>

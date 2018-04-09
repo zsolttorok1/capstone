@@ -20,11 +20,19 @@ body {
     width: 100%;
     display: table;
 }
-.content img {
+.contentImg {
     margin-top: 50px;
     margin-left: 50px;
     width: 20%;
     height: auto;
+}
+
+.aboutImg {
+    float: left;
+    padding-left: 20px;
+    padding-right: 20px;
+    max-height: 500px;
+    
 }
 .menu {
     max-width: 1920px;
@@ -36,12 +44,18 @@ body {
 }
 
 .content {
-    width: 1000px; 
+    width: 70%; 
+    min-height: 750px;
     /* border-left: 2px solid black;
     border-right: 2px solid black;  */
     /** border-top: 2px solid black; */
     margin: 0px auto;
+    border-radius: 5px;
     background-color: white;
+}
+
+.content p {
+    padding-right: 20px;
 }
 h1.bodyheader {
     /* margin-left: 50px; */
@@ -695,4 +709,42 @@ body.trigger_message .message{
     position:absolute;
     top:10px;
     right:10px;
+}
+
+
+
+.rowImg {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  justify-content: center;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 32%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  max-width: 100%;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
 }
