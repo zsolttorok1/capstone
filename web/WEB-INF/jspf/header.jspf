@@ -63,7 +63,7 @@
                 <div class="menuitem"><a href="aboutus.jsp">ABOUT US</a></div>
                 <div class="menuitem"><a href="gallery.jsp">GALLERY</a></div>
                 <div class="menuitem"><a href="submitQuote">QUOTE</a></div>
-                <div class="menuitem"><a href="main">CONTACT US</a></div>
+                <div class="menuitem"><a href="contactus.jsp">CONTACT US</a></div>
                 <div class="menuitem"><a href="login">EMPLOYEE LOGIN</a></div>
             </div>
         </c:if>
