@@ -1,4 +1,4 @@
-<h1 class="bodyheaderc">USER</h1>
+<h1 class="bodyheaderc">EMPLOYEE LIST</h1>
 
 <div class="listWrapper">
     <div class="rowWrapper">
@@ -43,81 +43,85 @@
                 <button type="submit" class="deleteButton" name="action" value="" onclick="closeForm(this);">
             </form>
                 
-        </div>    
+        </div>
     </c:forEach>
 </div>
 
-<div id="myModal" class="modal">
+<div id="myModal" class="modal newUser">
     <div class="modal-content">
-        <form method="post" action="user">
+        <form method="post" action="user" onsubmit="javascript:modalFormSubmitted();">
             <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead">New User</div>
+                <div class="divTableRow">
+                    <div class="divTableHead">New User</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Username:</div>
+                    <div class="divTableCellField"><input name="userName" type="text" placeholder="Username" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Password:</div>
+                    <div class="divTableCellField"><input name="password" type="password" placeholder="Password" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">First Name:</div>
+                    <div class="divTableCellField"><input name="firstName" type="text" placeholder="First Name" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Last Name:</div>
+                    <div class="divTableCellField"><input name="lastName" type="text" placeholder="Last Name" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Email:</div>
+                    <div class="divTableCellField"><input name="emailAddress" type="text" placeholder="Email" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Phone:</div>
+                    <div class="divTableCellField">
+                        <input name="phoneNumberList[]" id="phoneField" type="text" placeholder="Phone" />
+                        <div class="phonePlus" onClick="javasctipt:addNumberInput(this)"></div><br/>
                     </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Username:</div>
-                        <div class="divTableCell"><input name="userName" type="text" placeholder="Username" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">House Number:</div>
+                    <div class="divTableCellField"><input name="houseNumber" type="text" placeholder="House Number" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Street Name:</div>
+                    <div class="divTableCellField"><input name="street" type="text" placeholder="Street Name" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">City:</div>
+                    <div class="divTableCellField"><input name="city" type="text" placeholder="City" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Province:</div>
+                    <div class="divTableCellField"><input name="province" type="text" placeholder="Province" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Postal Code:</div>
+                    <div class="divTableCellField"><input name="postalCode" type="text" placeholder="Postal Code" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Country:</div>
+                    <div class="divTableCellField"><input name="country" type="text" placeholder="Country" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Role:</div>
+                    <div class="divTableCellField">
+                        <select name="role">
+                            <option value="owner">employee</option>
+                            <option value="owner">manager</option>
+                            <option value="owner">owner</option>
+                        </select>
                     </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Password:</div>
-                        <div class="divTableCell"><input name="password" type="password" placeholder="Password" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">First Name:</div>
-                        <div class="divTableCell"><input name="firstName" type="text" placeholder="First Name" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Last Name:</div>
-                        <div class="divTableCell"><input name="lastName" type="text" placeholder="Last Name" /></div>
-                    </div>
-                        <div class="divTableRow">
-                        <div class="divTableCell">Email:</div>
-                        <div class="divTableCell"><input name="emailAddress" type="text" placeholder="Email" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Phone:</div>
-                        <div class="divTableCell"><input name="phoneNumberList[]" id="phoneField" type="text" placeholder="Phone" /></div>
-                        <div class="divTableCell" onClick="addNumberInput()"><img class="phonePlus" src="res/plus.png" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell"></div>
-                        <div class="divTableCell" id="btnPhone"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">House Number:</div>
-                        <div class="divTableCell"><input name="houseNumber" type="text" placeholder="House Number" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Street Name:</div>
-                        <div class="divTableCell"><input name="street" type="text" placeholder="Street Name" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">City:</div>
-                        <div class="divTableCell"><input name="city" type="text" placeholder="City" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Province:</div>
-                        <div class="divTableCell"><input name="province" type="text" placeholder="Province" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Postal Code:</div>
-                        <div class="divTableCell"><input name="postalCode" type="text" placeholder="Postal Code" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Country:</div>
-                        <div class="divTableCell"><input name="country" type="text" placeholder="Country" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Role:</div>
-                        <div class="divTableCell"><input name="role" type="text" placeholder="Role" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">Pay Rate:</div>
-                        <div class="divTableCell"><input name="hourlyRate" type="text" placeholder="Pay Rate" /></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell"><input name="action" type="hidden" value="add" /> <input type="submit" value="Save" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Pay Rate:</div>
+                    <div class="divTableCellField"><input name="hourlyRate" type="text" placeholder="$" /></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellSubmit">
+                        <input name="action" type="hidden" value="add" /> <input type="submit" class="saveButton" value="Save" />
                     </div>
                 </div>
             </div>

@@ -28,40 +28,52 @@ public class ItemBroker {
     private ItemBroker() {
     }
     
-    private void getConnection() {
-        pool = ConnectionPool.getInstance();
-        connection = pool.getConnection();
+    private String getConnection() {
         try {
-            connection.setAutoCommit(false);
-        } catch (SQLException ex) {
+            pool = ConnectionPool.getInstance();
+            connection = pool.getConnection();
+            
+            if (connection != null) {
+                connection.setAutoCommit(false);
+                return "ok";
+            }
+            else {
+                return "connection error";
+            }
+            
+        } catch (Exception ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            return "connection error";
         }
     }
     
     //returns "Item, null"
     public Item getByName(String itemName) {
-        getConnection();
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
         
         Item item = null;
         try {
-            connection.setAutoCommit(false);
-            
             PreparedStatement pstmt = connection.prepareStatement(""
-                    + "SELECT i.item_name, i.quantity, c.category_name, i.description"
-                    + "     FROM item i" 
-                    + "     JOIN `category` c ON c.category_id = i.category_id"
-                    + "     WHERE i.item_name = ?;");
+              + "SELECT i.quantity, c.category_name, i.description, COALESCE(ji.quantity, 0) as `allocated`"
+              + "     FROM item i" 
+              + "     JOIN `category` c ON c.category_id = i.category_id"
+              + "     LEFT JOIN `job_item` ji ON ji.item_name = i.item_name"
+              + "     WHERE i.item_name = ?;");
             pstmt.setString(1, itemName);
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String itemName2 = rs.getString("ITEM_NAME");
                 int quantity = rs.getInt("QUANTITY");
                 String category = rs.getString("CATEGORY_NAME");
                 String description = rs.getString("DESCRIPTION");
+                int allocatedQuantity = rs.getInt("ALLOCATED");
 
-                item = new Item(itemName2, quantity, category, description, null);
+                item = new Item(itemName, quantity, category, description, null);
+                item.setInventoryQuantity(allocatedQuantity);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,20 +84,20 @@ public class ItemBroker {
     }
     
     public List<Item> search(String keyword) {
-        getConnection();
-//        String status = getConnection();
-//        if (status == null || status.equals("connection error")) {
-//            return null;
-//        }
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
         
         List<Item> itemList = new ArrayList<>();
         Item item = null;
         try {
             PreparedStatement pstmt = connection.prepareStatement(""
-                    + "SELECT i.item_name, i.quantity, c.category_name, i.description"
-                    + "     FROM item i" 
-                    + "     JOIN `category` c ON c.category_id = i.category_id"
-                    + "     WHERE i.item_name like ?;");
+              + "SELECT i.item_name, i.quantity, c.category_name, i.description, COALESCE(ji.quantity, 0) as `allocated` "
+              + "     FROM item i" 
+              + "     JOIN `category` c ON c.category_id = i.category_id"
+              + "     LEFT JOIN `job_item` ji ON ji.item_name = i.item_name"
+              + "     WHERE i.item_name like ?;");
                   
             pstmt.setString(1, "%" + keyword +"%");
             ResultSet rs = pstmt.executeQuery();
@@ -95,8 +107,10 @@ public class ItemBroker {
                 int quantity = rs.getInt("QUANTITY");
                 String category = rs.getString("CATEGORY_NAME");
                 String description = rs.getString("DESCRIPTION");
+                int allocatedQuantity = rs.getInt("ALLOCATED");
 
                 item = new Item(itemName, quantity, category, description, null);
+                item.setInventoryQuantity(allocatedQuantity);
                 itemList.add(item);
             }
           
@@ -110,15 +124,19 @@ public class ItemBroker {
 
     //returns "List of items, empty List, null"
     public List<Item> getAll() {
-        getConnection();
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
 
         List<Item> itemList = new ArrayList<>();
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(""
-                    + "SELECT i.item_name, i.quantity, c.category_name, i.description" 
-                    + "   FROM item i" 
-                    + "   JOIN `category` c ON c.category_id = i.category_id;");
+              + "SELECT i.item_name, i.quantity, c.category_name, i.description, COALESCE(ji.quantity, 0) as `allocated` "
+              + "    FROM item i "
+              + "    JOIN `category` c ON c.category_id = i.category_id "
+              + "    LEFT JOIN `job_item` ji ON ji.item_name = i.item_name;");
 
             ResultSet rs = pstmt.executeQuery();
 
@@ -127,8 +145,10 @@ public class ItemBroker {
                 int quantity = rs.getInt("QUANTITY");
                 String category = rs.getString("CATEGORY_NAME");
                 String description = rs.getString("DESCRIPTION");
+                int allocatedQuantity = rs.getInt("ALLOCATED");
 
                 Item item = new Item(itemName, quantity, category, description, null);
+                item.setInventoryQuantity(allocatedQuantity);
                 itemList.add(item);
             }
         } catch (SQLException ex) {
@@ -142,10 +162,11 @@ public class ItemBroker {
 
     //returns "inserted, updated, error, exception"
     public String insert(Item item) {
-        getConnection();
-        
-        String status = null;
-
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
+       
         try {
             PreparedStatement pstmt = connection.prepareStatement("select insert_item_func(?, ?, ?, ?)");
             pstmt.setString(1, item.getItemName());
@@ -188,10 +209,11 @@ public class ItemBroker {
 
     //returns "updated, error, exception"
     public String update(Item item) {
-        getConnection();
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
         
-        String status = null;
-
         try {
             PreparedStatement pstmt = connection.prepareStatement("select update_item_func(?, ?, ?, ?)");
 
@@ -235,9 +257,10 @@ public class ItemBroker {
 
     //returns "deleted, error, exception"
     public String delete(Item item) {
-        getConnection();
-        
-        String status = null;
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("select delete_item_func(?)");

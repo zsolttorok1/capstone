@@ -1,32 +1,31 @@
 package domainmodel;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class Report implements Serializable {
 
-    private String reportName;
+    private int reportId;
     private String description;
     private Date dateCreated;
     private String pdfFilePath;
 
-    public Report(String reportName, String description, Date dateCreated, String pdfFilePath) {
-        this.reportName = reportName;
+    public Report(int reportId, String description, Date dateCreated, String pdfFilePath) {
+        this.reportId = reportId;
         this.description = description;
         this.dateCreated = dateCreated;
         this.pdfFilePath = pdfFilePath;
     }
 
     public Report() {
-
     }
 
-    public String getReportName() {
-        return reportName;
+    public int getReportId() {
+        return reportId;
     }
 
-    public void setReportName(String reportName) {
-        this.reportName = reportName;
+    public void setReportId(int reportId) {
+        this.reportId = reportId;
     }
 
     public String getDescription() {

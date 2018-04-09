@@ -6,6 +6,7 @@ public class Item implements Serializable {
 
     private String itemName;
     private int quantity;
+    private int inventoryQuantity;
     private String category;
     private String description;
     private String note;
@@ -60,4 +61,14 @@ public class Item implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public int getInventoryQuantity() {
+        return inventoryQuantity;
+    }
+
+    public void setInventoryQuantity(int inventoryQuantity) {
+        this.inventoryQuantity = inventoryQuantity;
+    }
+    
+    
 }

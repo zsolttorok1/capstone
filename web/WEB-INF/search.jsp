@@ -31,7 +31,11 @@
                     <div class="rowitem" name="name">${item.itemName}</div>
                     <div class="rowitem" name="description">${item.description}</div>
                     <div class="rowitem" name="category">${item.category}</div>
-                    <div class="rowitem" name="quantity">${item.quantity}</div>
+                    <div class="rowitem" name="quantity">${item.quantity}
+                        <c:if test="${item.inventoryQuantity > 0}">
+                            (allocated: ${item.inventoryQuantity})
+                        </c:if> 
+                    </div>
 
                     <form method="post" action="viewItem">
                         <input type="hidden" name="action" value="view">

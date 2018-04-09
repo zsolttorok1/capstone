@@ -2,7 +2,10 @@ package businesslogic;
 
 import dataaccess.CustomerBroker;
 import dataaccess.JobBroker;
+import domainmodel.Item;
 import domainmodel.Job;
+import domainmodel.User;
+import java.util.ArrayList;
 import java.util.List;
 import utilities.DataConverter;
 
@@ -19,7 +22,68 @@ public class JobService {
             statusOutput = jobBroker.insert(job);
         }
 
-        return statusOutput; 
+        return statusOutput;
+    }
+    
+    public String assignUser(String jobName, String userName, String hours) {   
+        int intHours;
+        String status = "";
+        
+        try {
+            intHours = Integer.parseInt(hours);
+        } catch (NumberFormatException ex) {
+            intHours = 0;
+        }
+        
+        if (intHours < 0) 
+            intHours = 0;
+        
+        JobBroker jobBroker = JobBroker.getInstance();
+        status = jobBroker.assignUser(jobName, userName, intHours);
+        
+        return status;
+    }
+    
+    public String allocateItem(String jobName, String itemName, String quantity, String note) {   
+        int intQuantity;
+        String status = "";
+        
+        try {
+            intQuantity = Integer.parseInt(quantity);
+        } catch (NumberFormatException ex) {
+            intQuantity = 0;
+        }
+               
+        if (intQuantity <= 0) {
+            return "error: quantity needs to be larger than 0 to allocate/update an item.";
+        }
+        
+        if (note == null || note.isEmpty()) {
+            note = "";
+        }
+        
+        JobBroker jobBroker = JobBroker.getInstance();
+        status = jobBroker.allocateItem(jobName, itemName, intQuantity, note);
+        
+        return status;
+    }
+    
+    public String unallocateItem(String jobName, String itemName) {   
+        String status = "";
+        
+        JobBroker jobBroker = JobBroker.getInstance();
+        status = jobBroker.unallocateItem(jobName, itemName);
+        
+        return status;
+    }
+    
+    public String unassignUser(String jobName, String userName) {   
+        String status = "";
+        
+        JobBroker jobBroker = JobBroker.getInstance();
+        status = jobBroker.unassignUser(jobName, userName);
+        
+        return status;
     }
 
     public Job getByJobName(String jobName) {
@@ -31,6 +95,51 @@ public class JobService {
         else {
             return null;
         }
+    }
+    
+    public List<Job> getAll() {
+        JobBroker jobBroker = JobBroker.getInstance();
+        return jobBroker.getAll();
+    }
+    
+    public List<User> getUnasignedUserListFromJob(Job job) {
+        List<User> unasignedUserList = new ArrayList<>();
+        
+        UserService userService = new UserService();
+        List<User> allUsers = userService.getAll();
+         
+        for (User user : allUsers) {
+            int found = 0;
+            
+            for (User assignedUser : job.getUserList())
+                if (user.getUserName().equals(assignedUser.getUserName()))
+                    found = 1;
+            
+            if (found == 0)
+                unasignedUserList.add(user);
+        }
+        
+        return unasignedUserList;
+    }
+    
+    public List<Item> getUnasignedItemListFromJob(Job job) {
+        List<Item> unasignedItemList = new ArrayList<>();
+        
+        ItemService itemService = new ItemService();
+        List<Item> allItems = itemService.getAll();
+         
+        for (Item item : allItems) {
+            int found = 0;
+            
+            for (Item assignedItem : job.getItemList())
+                if (item.getItemName().equals(assignedItem.getItemName()))
+                    found = 1;
+            
+            if (found == 0 && item.getQuantity() > 0)
+                unasignedItemList.add(item);
+        }
+        
+        return unasignedItemList;
     }
     
     public List<Job> searchJob(String keyword) {
@@ -86,9 +195,9 @@ public class JobService {
             job.setCustomer(jobNew.getCustomer());
         if (jobNew.getDescription()!= null && !jobNew.getDescription().isEmpty() )
             job.setDescription(jobNew.getDescription());
-        if (jobNew.getDateStarted()!= null && jobNew.getDateStarted().getTime() < 0 )
+        if (jobNew.getDateStarted()!= null && jobNew.getDateStarted().getTime() > 0 )
             job.setDateStarted(jobNew.getDateStarted());
-        if (jobNew.getDateFinished()!= null && jobNew.getDateFinished().getTime() < 0 )
+        if (jobNew.getDateFinished()!= null && jobNew.getDateFinished().getTime() > 0 )
             job.setDateFinished(jobNew.getDateFinished());
         if (jobNew.getBalance() >= 0 )
             job.setBalance(jobNew.getBalance());

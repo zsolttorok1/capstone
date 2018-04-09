@@ -4,7 +4,7 @@
 <div class="listWrapper">
     <form method="post" action="backup">
             <input type="hidden" name="action" value="toggle">
-            <input type="submit" value="Turn ${backupServiceState} Backupping Service">
+            <input type="submit" class="saveChangesButton" value="Turn ${backupServiceState} Backupping Service">
     </form>
 </div>
    

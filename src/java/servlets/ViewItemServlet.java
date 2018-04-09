@@ -6,10 +6,14 @@
 package servlets;
 
 import businesslogic.ItemService;
+import businesslogic.UserService;
 import domainmodel.Item;
+import domainmodel.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,15 +29,14 @@ public class ViewItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //instanciating all used services
-        HttpSession session = request.getSession();
         ItemService itemService = new ItemService();
 
         List<Item> itemList = itemService.searchItem("");
+        if (itemList == null) {
+            request.setAttribute("message", "Item not found. This seems like a database connection error.");
+        }
 
-        //saving attributes to session
-        session.setAttribute("itemList", itemList);
-
+        request.setAttribute("itemList", itemList);
         request.getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
     }
 
@@ -42,105 +45,53 @@ public class ViewItemServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String action = request.getParameter("action");
-        String selectedItemName = request.getParameter("selectedItemName");
+        String itemName = request.getParameter("itemName");
         
-        String errorMessage = "";
+        if (itemName == null || itemName.isEmpty()) {
+            request.setAttribute("message", "invalid itemName.");
+            getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
+            return;
+        }
         
         if (action != null && action.equals("view")) {
-            if (selectedItemName != null && !selectedItemName.equals("")) {
-                
-                ItemService is = new ItemService();
-                Item item = new Item();
-                item = is.viewItem(selectedItemName);
-                
-                request.setAttribute("itemName", item.getItemName());
-                request.setAttribute("description", item.getDescription());
-                request.setAttribute("category", item.getCategory());
-                request.setAttribute("quantity", item.getQuantity());
-                if (item.getNote() != null && !item.getNote().equals("")){
-                    request.setAttribute("notes", item.getNote());
-                }
-                else {
-                    request.setAttribute("notes", "No Additional Notes Available.");
-                }
-                
-                request.getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+  
+            ItemService itemService = new ItemService();
+            Item item = new Item();
+            item = itemService.getByItemName(itemName);
+
+            if (item == null) {
+                request.setAttribute("message", "Item not found. This seems like a database connection error.");
+                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
                 return;
             }
-            
-            else {
-                request.setAttribute("errorMessage", "didnt work");
-            }
+
+            request.setAttribute("item", item);
+
+            request.getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+            return;
         }
         else if (action != null && action.equals("save")) {
-                
+            String quantity = request.getParameter("quantity");
+            String category = request.getParameter("category");
+            String description = request.getParameter("description");
+                        
+            String status = "";
             
-            String itemName = request.getParameter("name");
-            String quantity = request.getParameter("quantityEdit");
-            String category = request.getParameter("categoryEdit");
-            String description = request.getParameter("descriptionEdit");
-            String note = null;
+            ItemService itemService = new ItemService();
             
-            if (itemName != null && !itemName.isEmpty() && quantity != null && !quantity.isEmpty() && category != null && !category.isEmpty() && description != null && !description.isEmpty() && quantity.matches("\\d+")) {
-                ItemService itemService = new ItemService();
-                itemService.edit(itemName, quantity, category, description, note);
-                errorMessage = "Item Successfully Changed";
-                
-                Item item = new Item();
-                item = itemService.viewItem(itemName);
-                
-                request.setAttribute("itemName", item.getItemName());
-                request.setAttribute("description", item.getDescription());
-                request.setAttribute("category", item.getCategory());
-                request.setAttribute("quantity", item.getQuantity());
-                if (item.getNote() != null && !item.getNote().equals("")){
-                    request.setAttribute("notes", item.getNote());
-                }
-                else {
-                    request.setAttribute("notes", "No Additional Notes Available.");
-                }
-                
-                getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
-                return;
-            } else {
-                request.setAttribute("errorMessage", "The following fields need to be entered: Item Name, quantity, category and description");
-                
-                ItemService itemService = new ItemService();
-                itemService.edit(itemName, quantity, category, description, note);
-                errorMessage = "Item Successfully Changed";
-                
-                Item item = new Item();
-                item = itemService.viewItem(selectedItemName);
-                
-                request.setAttribute("itemName", item.getItemName());
-                request.setAttribute("description", item.getDescription());
-                request.setAttribute("category", item.getCategory());
-                request.setAttribute("quantity", item.getQuantity());
-                if (item.getNote() != null && !item.getNote().equals("")){
-                    request.setAttribute("notes", item.getNote());
-                }
-                else {
-                    request.setAttribute("notes", "No Additional Notes Available.");
-                }
-                
-                getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+            status = itemService.update(itemName, quantity, category, description);
+            
+            request.setAttribute("message", status);
+            
+            Item item = itemService.getByItemName(itemName);
+            if (item == null) {
+                request.setAttribute("message", "Item not found. This seems like a database connection error.");
+                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
                 return;
             }
-        }
-        else {
-            request.setAttribute("errorMessage", "outside didnt work");
-        }
-        
-        HttpSession session = request.getSession();
-        ItemService itemService = new ItemService();
 
-        //logic
-        String keyword = "anything";
-        List<Item> itemList = itemService.searchItem(keyword);
-
-        session.setAttribute("itemList", itemList);
-        request.setAttribute("errorMessage", errorMessage);
-        request.getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+            request.setAttribute("item", item);
+            getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+        }
     }
-
 }

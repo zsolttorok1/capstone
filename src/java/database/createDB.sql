@@ -25,7 +25,6 @@ CREATE TABLE `item` (
 
 CREATE TABLE `report` (
     `report_id` int NOT NULL AUTO_INCREMENT,
-    `description` varchar(2000),
     `date_created` datetime NOT NULL,
     `pdf_filepath` varchar(50),
     PRIMARY KEY (`report_id`)
@@ -177,13 +176,6 @@ BEGIN
             UNION
             SELECT address_id 
                 FROM `job`);
--- (SELECT u.address_id 
---     FROM `user` u
---     LEFT OUTER JOIN `customer` c ON c.address_id = u.address_id
--- UNION
--- SELECT u.address_id 
---     FROM `user` u
---     RIGHT JOIN `customer` c ON c.address_id = u.address_id);  
 END;
 $$
 
@@ -1071,14 +1063,15 @@ BEGIN
 END;
 $$
 
-CREATE FUNCTION `allocate_user_func`
+CREATE FUNCTION `assign_user_func`
     (p_job_name varchar(50),
     p_user_name varchar(50),
     p_hours int)
-    RETURNS varchar(20)
+    RETURNS varchar(50)
 NOT DETERMINISTIC
 BEGIN
     DECLARE v_job_user_count int;
+    DECLARE v_return_message varchar(50);
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
         BEGIN
             return 'error sql exception';
@@ -1095,15 +1088,17 @@ BEGIN
         /* JOB_USER is not in database, so insert it */
         INSERT INTO `job_user` (`job_name`, `user_name`, `hours`)
             VALUES (`p_job_name`, `p_user_name`, `p_hours`);
+        set v_return_message = 'employee assigned';
     else 
         /* JOB_USER is already in the database, just do an update */
         UPDATE `job_user`
             SET hours = p_hours
             WHERE job_name = p_job_name
                 AND user_name = p_user_name;
+        set v_return_message = 'employee hours updated';
     end if;
 
-    return 'allocated user hours';
+    return v_return_message;
 END;
 $$
 
@@ -1116,27 +1111,18 @@ CREATE FUNCTION `allocate_item_func`
 NOT DETERMINISTIC
 BEGIN
     DECLARE v_job_item_count int;
-    DECLARE v_quantity int;
+    DECLARE v_return_message varchar(50);
+    DECLARE v_item_quantity int;
+    DECLARE v_allocated_quantity int;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
         BEGIN
             return 'error sql exception';
         END;
 
-    /* find out if enough quantiry in ITEM */
-    SELECT quantity
-        INTO v_quantity
-        FROM `item`
-            WHERE item_name = p_item_name;
-
-    if (v_quantity >= p_quantity) then
-        /* subtracting quantity from ITEM */
-        UPDATE `item`
-            SET quantity = quantity - p_quantity
-            WHERE item_name = p_item_name;
-    else 
-        return 'insufficient quantity at the inventory!';
+    if (p_quantity <= 0) then
+        return 'error: allocated quantity has to be larger than 0';
     end if;
-        
+
     /* find out if JOB_ITEM is already in the database */
     SELECT count(job_name)
         INTO v_job_item_count
@@ -1144,27 +1130,126 @@ BEGIN
         WHERE job_name = p_job_name
             AND item_name = p_item_name;
 
+    SELECT quantity
+        INTO v_item_quantity
+        FROM `item`
+            WHERE item_name = p_item_name;
+
+    /* JOB_ITEM is not in database, so insert it */
     if (v_job_item_count = 0) then
-        /* JOB_ITEM is not in database, so insert it */
+        /* find out if enough quantity in ITEM */
+        if (v_item_quantity >= p_quantity) then
+            /* subtracting quantity from ITEM */
+            UPDATE `item`
+                SET quantity = quantity - p_quantity
+                WHERE item_name = p_item_name;
+        else 
+            set v_return_message = 'error: insufficient quantity at the inventory!';
+        end if;
+
         INSERT INTO `job_item` (`job_name`, `item_name`, `note`, `quantity`)
             VALUES (`p_job_name`, `p_item_name`, `p_note`, `p_quantity`);
-    else 
-        /* JOB_ITEM is already in the database, just do an update */
-        UPDATE `job_item`
-            SET note = p_note, quantity = p_quantity
-            WHERE job_name = p_job_name
-                AND item_name = p_item_name;
+        set v_return_message = 'item allocated';
+    /* JOB_ITEM is already in the database, just do an update */
+    else
+        SELECT quantity
+        INTO v_allocated_quantity
+        FROM `job_item`
+        WHERE job_name = p_job_name
+            AND item_name = p_item_name;
+
+        /* reducing allocated quantity */
+        if (p_quantity - v_allocated_quantity < 0) then
+            UPDATE `job_item`
+                SET note = p_note, quantity = p_quantity
+                WHERE job_name = p_job_name
+                    AND item_name = p_item_name;
+
+            /* returning the item to inventory */
+            UPDATE `item`
+                SET quantity = quantity + (v_allocated_quantity - p_quantity)
+                WHERE item_name = p_item_name;
+        /* increasing allocated quantity */
+        elseif (p_quantity - v_allocated_quantity > 0) then
+            /* check available inventory quantity */
+            if (v_item_quantity - (p_quantity - v_allocated_quantity) >= 0) then
+                UPDATE `item`
+                    SET quantity = quantity - (p_quantity - v_allocated_quantity)
+                    WHERE item_name = p_item_name;
+
+                UPDATE `job_item`
+                    SET note = p_note, quantity = p_quantity
+                    WHERE job_name = p_job_name
+                        AND item_name = p_item_name;
+            else 
+                return 'error: insufficient quantity at the inventory!';
+            end if;
+        end if;
+
+        set v_return_message = 'allocated item quantity updated';
     end if;
 
-    return 'allocated item';
+    return v_return_message;
+END;
+$$
+
+CREATE FUNCTION `unallocate_item_func`
+    (p_job_name varchar(100),
+    p_item_name varchar(100))
+    RETURNS varchar(100)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE v_quantity int;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error sql exception';
+        END;
+
+    /* get quantity from JOB_ITEM */
+    SELECT quantity
+        INTO v_quantity
+        FROM `job_item`
+            WHERE job_name = p_job_name
+                AND item_name = p_item_name;
+
+    /* adding back quantity to ITEM */
+    UPDATE `item`
+        SET quantity = quantity + v_quantity
+        WHERE item_name = p_item_name;
+   
+    /* deleting unallocated item from JOB_ITEM */
+    DELETE FROM `job_item`
+        WHERE job_name = p_job_name
+            AND item_name = p_item_name;
+
+    return 'unallocated the item';
+END;
+$$
+
+CREATE FUNCTION `unassign_user_func`
+    (p_job_name varchar(100),
+    p_user_name varchar(100))
+    RETURNS varchar(100)
+NOT DETERMINISTIC
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            return 'error sql exception';
+        END;
+  
+    /* deleting entries from JOB_USER */
+    DELETE FROM `job_user`
+        WHERE job_name = p_job_name
+            AND user_name = p_user_name;
+
+    return 'unassigned the employee';
 END;
 $$
 
 CREATE FUNCTION `generate_report_func`
     (p_job_name varchar(50),
-    p_date_created datetime,
-    p_description varchar(2000))
-    RETURNS varchar(20)
+    p_date_created datetime)
+    RETURNS varchar(100)
 NOT DETERMINISTIC
 BEGIN
     DECLARE v_job_report_count int;
@@ -1176,19 +1261,19 @@ BEGIN
             return 'error sql exception';
         END;
     
-    INSERT INTO `report` (`description`, `date_created`)
-        VALUES (p_description, p_date_created);
+    INSERT INTO `report` (`date_created`)
+        VALUES (p_date_created);
     set v_report_id = LAST_INSERT_ID();
     set v_date_created = DATE_FORMAT(p_date_created, '%Y-%m-%d-%H-%i-%S');
-    set v_pdf_filepath = concat(v_report_id, '-', v_date_created);
+    set v_pdf_filepath = concat('report-', v_report_id, '-', v_date_created);
     UPDATE `report`
-            SET pdf_filepath = v_pdf_filepath
-            WHERE report_id = v_report_id;
+        SET pdf_filepath = v_pdf_filepath
+        WHERE report_id = v_report_id;
     
     INSERT INTO `job_report` (`job_name`, `report_id`)
         VALUES (`p_job_name`, `v_report_id`);
 
-    return 'report generated';
+    return v_pdf_filepath;
 END;
 $$
 

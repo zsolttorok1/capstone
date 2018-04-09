@@ -19,14 +19,20 @@ public class DataConverter {
         java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
         return sqlDate;
     }
-
+    
+    public static String javaDateToSQLDateTime(java.util.Date javaDate) {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        
+        return sdf.format(javaDate);
+    }
+    
     public static java.util.Date sqlDateToJava(java.sql.Date sqlDate) {
-            java.util.Date javaDate = new java.util.Date(sqlDate.getTime());
-        return javaDate;
+        java.util.Date javaDate = new java.util.Date(sqlDate.getTime());
+    return javaDate;
     }
     
     public static java.util.Date stringDateToJava(String stringDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date parsedDate = null;
         
         try {
@@ -43,7 +49,7 @@ public class DataConverter {
     }
     
     public static String javaDateToString(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date parsedDate = null;
         
         try {
@@ -52,6 +58,4 @@ public class DataConverter {
             return ("01/01/1975");
         }
     }
-
-
 }

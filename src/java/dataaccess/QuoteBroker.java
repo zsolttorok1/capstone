@@ -5,10 +5,8 @@
  */
 package dataaccess;
 
-import static database.CapstoneDB.getConnection;
 import database.ConnectionPool;
 import domainmodel.Quote;
-import domainmodel.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

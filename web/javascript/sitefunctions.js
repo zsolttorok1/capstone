@@ -6,87 +6,58 @@ var btn = document.getElementById("myBtn");
 //Form Add Phone
 var btnPhone = document.getElementById("btnPhone");
 
-//Object Buttons
-var listbuttons = document.getElementById('listbuttons');
-var cancel = document.getElementById('cancel');
-var itembtn = document.getElementById("listbutton");
-
-//TO DO Edit Button in View Pages
-var editbtn = document.getElementById("editIcon");
-var editInputs = document.getElementsByClassName("contentBodyInput");
-
-
 //dont remove these comments please <------- PLEASE
 
 //Add Modal Form
 // When the user clicks the button, open the modal 
 if (btn !== null) {
     btn.onclick = function() {
-    modal.style.display = "block";
-};
+    document.body.classList.add("modal_on");
+    };
 }
-
-
-//Add Phone Number Text Fields when clicked
-function addNumberInput() {
-    var parent = document.getElementById("phoneField");
-    console.log(parent);
-    
-        var input = document.createElement("input");
-                    input.type = "text";
-                    input.name = "phoneNumberList[]";
-                    //parent.appendChild(input, parent.lastChild);
-                    document.getElementById("btnPhone").appendChild(input); 
-};
 
 //close on anywhere click
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    if (event.target.classList.contains("modal")) {
+        modalFormSubmitted();
     }
 };
 
-//Object highlight
-if (cancel !== null) {
-    cancel.onclick = function() {
-        itembtn.style.display = "none";
-        btn.style.display = "flex";
-    };
-}
-var rowWrapper = document.getElementsByClassName("rowWrapper");
-for(var i = 0; i < rowWrapper.length; i++){
-    rowWrapper[i].addEventListener("click", displayOptions, false);
+function modalFormSubmitted() {
+    document.body.classList.remove("modal_on");
 }
 
-function displayOptions(e) {
-    console.log(e.target);
-    var newtarget = e.target;
-    var allRows = document.getElementsByClassName("listOptions");
-    if (allRows.length === 0) {
-        allRows = document.getElementsByClassName("listOptionsSearch");
-    }
-    var allRows2 = document.getElementsByClassName("row");
-    if (allRows2.length === 0) {
-        allRows2 = document.getElementsByClassName("rowSearch");
-        
-        for(var i = 0; i < allRows.length; i++){
-        allRows2[i].style.backgroundColor = "white";
-        allRows[i].style.display = "none";
-        }
-        //display current item
-        newtarget.getElementsByClassName("listOptionsSearch")[0].style.display = "flex";
-        newtarget.getElementsByClassName("rowSearch")[0].style.backgroundColor = "#e3e8ed";
-        return;
-    }
-    //close all items
-    for(var i = 0; i < allRows.length; i++){
-        allRows2[i].style.backgroundColor = "white";
-        allRows[i].style.display = "none";
-    }
-    //display current item
-    newtarget.getElementsByClassName("listOptions")[0].style.display = "flex";
-    newtarget.getElementsByClassName("row")[0].style.backgroundColor = "#e3e8ed";
-}
+//Add Phone Number Text Fields when clicked
+function addNumberInput(e) {
+    var targetedElement = e.parentNode;
+    
+    var inputTag = document.createElement("input");
+    inputTag.setAttribute("type", "text" );
+    inputTag.setAttribute("name", "phoneNumberList[]");
+    targetedElement.appendChild(inputTag);
+    
+    var inputTag = document.createElement("div");
+    inputTag.setAttribute("class", "phoneMinus" );
+    inputTag.setAttribute("onClick", "javasctipt:deleteNumberInput(this)");
+    targetedElement.appendChild(inputTag);
+    
+    var brTag = document.createElement("br");
+    targetedElement.appendChild(brTag);
+};
+
+//Delete Phone Number Text Fields when clicked
+function deleteNumberInput(e) {
+    var targetedElement = e;
+    
+    console.log(targetedElement);
+    
+    var textField = targetedElement.previousElementSibling;
+    var brTag = targetedElement.nextElementSibling;
+    textField.remove();
+    brTag.remove();
+    targetedElement.remove();
+    
+};
 
 // NavBar
 function openNav() {

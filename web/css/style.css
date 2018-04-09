@@ -92,27 +92,44 @@ p.bodytext {
 }
 
 .modal {
-    display: none; /* Hidden by default */
+    display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 15px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: white; /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    overflow: hidden; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.0);
+    transition: background-color 1s ease-in-out;
+    visibility: hidden;
+}
+
+body.modal_on .modal {
+   background-color: rgba(0,0,0,0.45); /* Black w/ opacity */
+   visibility: visible;
 }
 
 .modal-content {
-    background-color: #fefefe;
     margin: auto;
-    padding: 20px;
     padding-bottom: 100px;
-    border: 1px solid #888;
-    width: 30%;
-    text-align: center;
+    width: 500px;
+    overflow: auto;
+    height: 78vh;
+    min-width: 350px;
+    background-color: rgba(249, 249, 249,0.96);
+    position: relative;
+    top: -100vh;
+    opacity: 0;
+    /*visibility: hidden;*/
+    transition: all 1s ease-in-out;
+}
+
+body.modal_on .modal-content {
+    visibility: visible;
+    top: 0px;
+    opacity: 1;
 }
 
 .sidenav {
@@ -238,7 +255,6 @@ p.bodytext {
     background-color: white;
     pointer-events: none;
     overflow: hidden;
-    
 }
 
 .rowitemSearch {
@@ -400,7 +416,7 @@ p.bodytext {
 .search {
     float: right;
     line-height: 27px;
-    margin-right: 35px;
+    margin-right: 6px;
 }
 
 .deleteButton {
@@ -417,6 +433,47 @@ p.bodytext {
     border: none;
 }
 
+.addButtonSmall {
+    background-image: url("../res/plus.png");
+    background-position: center;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    left: 12px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    text-indent: -9999px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.deleteButtonSmall,
+.deleteButtonSmall2 {    
+    background-image: url("../res/delete.png");
+    background-position: center;
+    background-size: 130% 130%;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    left: 12px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    text-indent: -9999px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.deleteButtonSmall2 {
+    left: 17px;
+}
+
 .rowButton {
     position:absolute;
     top:0px;
@@ -426,6 +483,20 @@ p.bodytext {
     cursor: pointer;
     background-color: transparent;
     border: none;
+    transition: all 0.1s ease-in-out;
+    border-color: rgba(0,0,0,0.2);
+}
+
+.rowButton:hover {
+    border-left:0px solid black;
+    border-right:0px solid black;
+    border-top: 20px solid black;
+    border-bottom: 20px solid black;
+    border-color: rgba(0,0,0,0.04);
+}
+
+.row:hover {
+    /*font-weight: bold;*/
 }
 
 .listButton {
@@ -451,10 +522,11 @@ p.bodytext {
     align-items: center; /*vertical center*/
     background-color: rgba(211, 211, 211, 1);
     margin:0 auto;
-    position: relative;
+    position: fixed;
     background-color: #36454f;
     width: calc(100% - 175px);
     margin-left: 175px;
+    z-index: 1;
 }
 
 .fixedleft {
@@ -509,6 +581,10 @@ p.bodytext {
     padding-top: 5px;
 }
 
+.contentSubHeader {
+    margin: 0px;
+}
+
 .contentBody {
 }
 
@@ -532,6 +608,87 @@ p.bodytext {
     box-sizing: border-box;
 }
 
+.contentBodyInputNormal.fixed {
+    width: 220px;
+}
+
+.contentBodyInputNormal.fixed2 {
+    width: 230px;
+}
+
+.contentBodyInputNormal.fixed.uneditable,
+.contentBodyInputNormal.fixed2.uneditable {
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    font-size: 13px;
+}
+
+.contentBodyInputNormalTextArea {
+    width: 268px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    margin-left: 0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-left: 30px;
+}
+
+.contentBodyInputNormalTextArea2 {
+    width: 312px;
+    height: 100px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    margin-left: 0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.generateReport {
+    display: flex;
+    align-items: center;
+}
+
+.generateReport .addButtonSmall {
+    left: 16px;
+}
+
+.contentBodyLeftInStock {
+    position: relative;
+    top: 0px;
+    left: 144px;
+    font-size: 13px;
+    width: 116px;
+    padding: 4px 6px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.contentBodyLeftInStock span:nth-of-type(1){
+    text-align: left;
+    width: 55px;
+    display: inline-block;
+}
+
+.contentBodyLeftInStock span:nth-of-type(2){
+    text-align: right;
+    width: 45px;
+    display: inline-block;
+}
+
+.contentBlockWrapper {
+    background-color: rgba(0,0,0,0.06);
+    padding: 14px;
+    margin-bottom: 10px;
+    width: 340px;
+}
+
 .contentBodyInputBig {
     width: 75%;
     padding: 12px 20px;
@@ -552,6 +709,42 @@ p.bodytext {
     box-sizing: border-box;
 }
 
+.contentBodyInputSmall.fixed{
+    width: 75px;
+}
+
+.reportList {
+    width: 368px;
+    padding: 12px 20px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+}
+
+.reportList:nth-child(odd) {
+    background-color: rgba(219, 236, 252,0.95);
+}
+
+.reportList:nth-child(even) {
+    background-color: rgba(255,255,255,0.95);
+}
+
+.reportList input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    text-indent: -9999px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
 .viewcontent {
     width: 50%; 
     border-radius: 10px;
@@ -561,10 +754,8 @@ p.bodytext {
     box-sizing: border-box;
     padding-bottom: 2px;
     padding: 10px;
-
+    background-color: rgba(255, 255, 255,.85);
 }
-
-
 
 .viewcontentJob {
     width: 40%; 
@@ -577,7 +768,8 @@ p.bodytext {
     display: inline;
     float: right;
     min-height: 1000px;
-
+    background-color: rgba(255, 255, 255,.85);
+    margin-right: 30px;
 }
 
 .editIcon {
@@ -617,42 +809,127 @@ p.bodytext {
     cursor: pointer;
 }
 
+.phoneNumberList input,
+.phoneNumberList .uneditable {
+    width: 45%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
-/* DivTable.com */
-.divTable{
-	display: table;
-	width: 100%;
-        text-align: left;
+.phoneNumberList .uneditable,
+.contentBodyInput.uneditable {
+    padding: 8px 20px;
+    border: none;
+    background-color: rgba(0,0,0,0.1);
 }
+
+/* Modal Div Table */
+
+.divTable {
+}
+
+.divTableHead {
+    font-size: 20px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3e4f5b;
+    color: white;
+    width: 100%;
+    height: 40px;
+}
+
 .divTableRow {
-	display: table-row;
+    display: flex;
+    justify-content: center;
 }
-.divTableHeading {
-	background-color: #EEE;
-	display: table-header-group;
+
+.divTableCellLabel {
+    display: flex;
+    width:200px;
+    justify-content: flex-end;
+    padding-right: 15px;
+    padding-top: 15px;
 }
-.divTableCell, .divTableHead {
-	display: table-cell;
-	padding: 3px;
+
+.divTableCellField {
+    width:220px;
 }
-.divTableHeading {
-	background-color: #EEE;
-	display: table-header-group;
-	font-weight: bold;
+
+.divTableCellSubmit {
+    width:450px;
+    text-align: right;
 }
-.divTableFoot {
-	background-color: #EEE;
-	display: table-footer-group;
-	font-weight: bold;
-}
-.divTableBody {
-	display: table-row-group;
+
+.divTable input,
+.divTable select{
+    padding: 12px 20px;
+    margin: 6px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 178px;
 }
 
 .phonePlus {
-    max-height: 20px;
-    top: 5px;
+    background-image: url("../res/plus.png");
+    background-position: center;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
     position: relative;
+    top: 4px;
+    left: 12px;
+}
+
+.phoneMinus {
+    background-image: url("../res/delete.png");
+    background-position: center;
+    background-size: 130% 130%;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    left: 16px;
+}
+
+.saveButton,
+.saveChangesButton {
+    padding: 12px 20px !important;
+    margin: 6px 0 !important;
+    border: 1px solid rgba(0,0,0,0.2) !important;
+    border-radius: 4px !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    background-color: rgba(51,144,72,1) !important;
+    color: white !important;
+}
+
+.saveChangesButton {
+    display: inline-block;
+    position: fixed;
+    top: 46px;
+    right: 20px;
+}
+
+input[type=number] { 
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0; 
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
 }
 
 /* MESSAGES *******************************************************************/

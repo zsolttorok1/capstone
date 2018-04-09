@@ -2,48 +2,42 @@ package businesslogic;
 
 import dataaccess.ItemBroker;
 import domainmodel.Item;
-import domainmodel.User;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ItemService {
-
-    public String addItem(String itemName, String quantity, String category, String description, String note) {
-        //check for nulls
-        if (itemName == null || quantity == null || category == null || description == null
-                || itemName.isEmpty() || quantity.isEmpty() || category.isEmpty() || description.isEmpty()) {
-            return "error";
+    
+    public String insert(String itemName, String quantity, String category, String description) {
+        
+        Item item = build(itemName, quantity, category, description);
+        
+        String statusOutput = validate(item);
+        
+        if (statusOutput != null && statusOutput.equals("ok")) {
+            ItemBroker itemBroker = ItemBroker.getInstance();
+            statusOutput = itemBroker.insert(item);
         }
 
-        //check for values being valid
-        int intQuantity = 0;
-        //try catch this
-        try {
-            intQuantity = Integer.parseInt(quantity);
+        return statusOutput; 
+    }
 
-        } catch (NumberFormatException ex) {
-            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
-            return "error";
+    public Item getByItemName(String itemName) {
+        
+        if (itemName != null && !itemName.isEmpty()) {
+            ItemBroker itemBroker = ItemBroker.getInstance();
+            return itemBroker.getByName(itemName);
         }
-        Item item = new Item(itemName, intQuantity, category, description, note);
-
-        ItemBroker itemBroker = ItemBroker.getInstance();
-        return itemBroker.insert(item);
-
+        else {
+            return null;
+        }
     }
-
-    public Item viewItem(String itemName) {
+    
+    public List<Item> getAll() {
         ItemBroker itemBroker = ItemBroker.getInstance();
-
-        Item item = itemBroker.getByName(itemName);
-
-        return item;
+        return itemBroker.getAll();
     }
-
+    
     public List<Item> searchItem(String keyword) {
         ItemBroker itemBroker = ItemBroker.getInstance();
-
         List<Item> itemList = null;
         
         if (!keyword.isEmpty()) {
@@ -58,34 +52,96 @@ public class ItemService {
                 
         return itemList;
     }
-    //edit 
-    public String edit(String itemName, String quantity, String category, String description, String note) {
-        ItemBroker itemBroker = ItemBroker.getInstance();
-        Item item = itemBroker.getByName(itemName);
 
-        int intQuantity = 0;
-        //try catch this
-        try {
-            intQuantity = Integer.parseInt(quantity);
-
-        } catch (NumberFormatException ex) {
-            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
-            return "error";
-        }
-        item.setQuantity(intQuantity);
-        item.setCategory(category);
-        item.setDescription(description);
-
-        return itemBroker.update(item);
+    public String update(String itemName, String quantity, String category, String description) {
+        Item item = build(itemName, quantity, category, description);
+        
+        return update(item);
     }
+    
+    public String update(Item itemNew) {
+        ItemBroker itemBroker = ItemBroker.getInstance();
+        Item item = null;
+        String status = "";
+        
+        if (itemNew.getItemName() != null) 
+            item = itemBroker.getByName(itemNew.getItemName());
+        else 
+            return "invalid itemName";
+        
+        if (item == null)
+            return "item name not found while attempting to update. Check database connection.";
+        
+        //prepare changed attributes on the updatable Item
+        if (itemNew.getQuantity() > 0 )
+            item.setQuantity(itemNew.getQuantity());
+        if (itemNew.getCategory() != null && !itemNew.getCategory().isEmpty() )
+            item.setCategory(itemNew.getCategory());
+        if (itemNew.getDescription() != null && !itemNew.getDescription().isEmpty() )
+            item.setDescription(itemNew.getDescription());
+       
+        //make sure that the new attribute values are valid, before updating.
+        status = validate(item);
+        if (status != null && status.equals("ok")) {
+            return itemBroker.update(item);
+        }
+        else {
+            return status;
+        }
+    }
+      
+    private String validate(Item item) {
+        String status = "";
+        
+        if (item == null || item.getItemName() == null || item.getItemName().isEmpty()) {
+            status += "invalid itemName ";
+        }
+        if (item.getQuantity() < 0) {
+            status += "invalid quantityNumber ";
+        }
+        if (item.getCategory() == null || item.getCategory().isEmpty()) {
+            status += "invalid category ";
+        }
+        if (item.getDescription() == null || item.getDescription().isEmpty()) {
+            status += "invalid description ";
+        }
+        
+        if (status.isEmpty()) {
+            return "ok";
+        }
+        else { 
+            return status;
+        }
+    }
+    
+    private Item build(String itemName, String quantity, String category, String description) {
+        Item item = new Item();
+       
+        if (itemName != null && !itemName.isEmpty()) {
+            item.setItemName(itemName);
+        }
+        if (quantity != null && !quantity.isEmpty()) {
+            try {
+                int intQuantity = Integer.parseInt(quantity);
+                item.setQuantity(intQuantity);
+            } catch (NumberFormatException ex) {
+                item.setQuantity(-1);
+            }
+        }
+        if (category != null && !category.isEmpty()) {
+            item.setCategory(category);
+        }
+        if (description != null && !description.isEmpty()) {
+            item.setDescription(description);
+        }
+            
+        return item;
+    }
+    
     public String delete(String itemName) {
         ItemBroker itemBroker = ItemBroker.getInstance();
         Item deletedItem = itemBroker.getByName(itemName);
+        
         return itemBroker.delete(deletedItem);
     }
-
-    private int parseInteger(int quantity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

@@ -84,7 +84,6 @@ public class JobServlet extends HttpServlet {
             String[] itemList = request.getParameterValues("itemList[]");
             String[] userList = request.getParameterValues("userList[]");
            
-
             String status = jobService.insert(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus);
             
             message = status;

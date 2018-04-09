@@ -35,7 +35,7 @@ select insert_customer_func (1, 222, '40th Ave NW', 'Calgary', 'Alberta', 'Canad
 select insert_phoneList_customer_func (1, '4031231234,40399880011,');
 
 select insert_customer_func (2, 232, '10th Ave NW', 'Calgary', 'Alberta', 'Canada', 'T1E521', 'Fukushima', 'John', 'Lollers Corp.', 'lollers@hotmail.com', 'Manager', 'The dude.');
-select insert_phoneList_customer_func (2, '403222333,403982222,');
+select insert_phoneList_customer_func (2, '4032223333,4039822222,5879999429,');
 
 /* adding ITEMS ***********************************************************************/
 select insert_item_func ('SuperFine Paint Brush', 22, 'Brushes', 'We use this to paint fur.');
@@ -54,18 +54,20 @@ select insert_job_func ('First Job on main street', 555, '123th Ave NE', 'Calgar
 select insert_job_func ('Second Huge Job', 555, '999th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T9D8Y1', 1, 'Sent from future ya.', '19-04-10', '19-04-20', 29000, 'payed');
 select insert_job_func ('Brookfield Bathroom on WestTower', 100, '120th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T2D8E1', 1, 'Paintjob', '17-02-25', '17-02-28', 50000, 'payed');
 
-/* allocating JOB_USER HOURS ***********************************************************************/
-select allocate_user_func ('Brookfield Bathroom on WestTower', 'andrew_grieve', 40);
-select allocate_user_func ('Brookfield Bathroom on WestTower', 'james_grieve', 20);
-select allocate_user_func ('Brookfield Bathroom on WestTower', 'kayla_grieve', 25);
+/* assigning JOB_USER HOURS ***********************************************************************/
+select assign_user_func ('Brookfield Bathroom on WestTower', 'andrew_grieve', 40);
+select assign_user_func ('Brookfield Bathroom on WestTower', 'james_grieve', 20);
+select assign_user_func ('Brookfield Bathroom on WestTower', 'kayla_grieve', 25);
 
 /* allocating JOB_ITEM ***********************************************************************/
 select allocate_item_func ('Brookfield Bathroom on WestTower', 'SuperFine Paint Brush', 'Wash them before returning plz.',4);
 select allocate_item_func ('Brookfield Bathroom on WestTower', 'SuperFine Paint Brush', 'staph.', 22);
+select allocate_item_func ('Brookfield Bathroom on WestTower', 'Devil Beater', 'There are no mistakes, only happy accidents. Thats what my father told me.',4);
 
 /* allocating JOB_REPORT ***********************************************************************/
-select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-30 01:02:03', 'say hi to Bob');
-select generate_report_func ('Second Huge Job', '2015-10-30 01:02:10', null);
+select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-30 01:02:03');
+select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-31 01:04:15');
+select generate_report_func ('Second Huge Job', '2015-10-30 01:02:10');
 
 
 /* allocating QUOTES ***********************************************************************/

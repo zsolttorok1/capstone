@@ -56,6 +56,11 @@ public class UserService {
             return null;
         }
     }
+    
+    public List<User> getAll() {
+        UserBroker userBroker = UserBroker.getInstance();
+        return userBroker.getAll();
+    }
 
     public List<User> searchUser(String keyword) {
         UserBroker userBroker = UserBroker.getInstance();

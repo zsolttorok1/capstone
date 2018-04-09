@@ -14,7 +14,7 @@ import java.util.Properties;
  *
  * @author 725899
  */
-public class CapstoneDB {   
+public class CapstoneDB {
         private static final String userName = "root";
         private static final String password = "password";
         

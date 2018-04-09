@@ -1,6 +1,6 @@
 
         <h1 class="bodyheaderc">QUOTE VIEW FOR: ${quote.name}</h1>
-        <p class="center">${message}</p>
+
         <div class="viewcontent">
             <form method="post" action="quote">
                 <div class="contentInfo">

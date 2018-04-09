@@ -130,8 +130,12 @@ public class JobBroker {
                     String note = rs.getString("NOTE");
 
                     Item item = ItemBroker.getInstance().getByName(itemName);
+                    //save original inventory quantity 
+                    int inventoryQuantity = item.getQuantity();
+                    
                     item.setQuantity(quantity);
                     item.setNote(note);
+                    item.setInventoryQuantity(inventoryQuantity);
                     itemList.add(item);
                 }
                 job.setItemList(itemList);
@@ -277,8 +281,6 @@ public class JobBroker {
                 return "error";
             }
             
-            //TODO ADD ARRAYLIST AS WELL as BRIDGING TABLES
-
             //if all good, commit
             connection.commit();
             
@@ -357,19 +359,19 @@ public class JobBroker {
         return status;
     }
     
-    //returns "allocated, error, exception"
-    public String allocate_user(Job job, User user) {
+    //returns "assigned, error, exception"
+    public String assignUser(String jobName, String userName, int hours) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
             return "Database connection error.";
         }
         
         try {
-            PreparedStatement pstmt = connection.prepareStatement("select allocate_user_func(?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("select assign_user_func(?, ?, ?)");
             
-            pstmt.setString(1, job.getJobName());
-            pstmt.setString(2, user.getUserName());
-            pstmt.setInt(3, user.getHours());
+            pstmt.setString(1, jobName);
+            pstmt.setString(2, userName);
+            pstmt.setInt(3, hours);
             
             ResultSet rs = pstmt.executeQuery();
             //get the status report from current database function
@@ -402,7 +404,7 @@ public class JobBroker {
     }
     
     //returns "allocated, error, exception"
-    public String allocate_item(Job job, Item item) {
+    public String allocateItem(String jobName, String itemName, int quantity, String note) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
             return "Database connection error.";
@@ -411,10 +413,101 @@ public class JobBroker {
         try {
             PreparedStatement pstmt = connection.prepareStatement("select allocate_item_func(?, ?, ?, ?)");
             
-            pstmt.setString(1, job.getJobName());
-            pstmt.setString(2, item.getItemName());
-            pstmt.setString(3, item.getNote());
-            pstmt.setInt(4, item.getQuantity());
+            pstmt.setString(1, jobName);
+            pstmt.setString(2, itemName);
+            if (note != null || !note.isEmpty()) {
+                pstmt.setString(3, note);
+            }
+            else {
+                pstmt.setString(3, "");
+            }
+            pstmt.setInt(4, quantity);
+            
+            ResultSet rs = pstmt.executeQuery();
+            //get the status report from current database function
+            if (rs.next()) {
+                status = rs.getString(1);
+            }
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            
+            //if all good, commit
+            connection.commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+                return "exception";
+            } catch (SQLException ex1) {
+                Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return "exception";
+        } finally {
+            pool.freeConnection(connection);
+        }
+
+        return status;
+    }
+    
+    //returns "unallocated, error, exception"
+    public String unallocateItem(String jobName, String itemName) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
+        
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("select unallocate_item_func(?, ?)");
+            
+            pstmt.setString(1, jobName);
+            pstmt.setString(2, itemName);
+            
+            ResultSet rs = pstmt.executeQuery();
+            //get the status report from current database function
+            if (rs.next()) {
+                status = rs.getString(1);
+            }
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            
+            //if all good, commit
+            connection.commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+                return "exception";
+            } catch (SQLException ex1) {
+                Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return "exception";
+        } finally {
+            pool.freeConnection(connection);
+        }
+
+        return status;
+    }
+    
+    //returns "unassigned, error, exception"
+    public String unassignUser(String jobName, String userName) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return "Database connection error.";
+        }
+        
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("select unassign_user_func(?, ?)");
+            
+            pstmt.setString(1, jobName);
+            pstmt.setString(2, userName);
             
             ResultSet rs = pstmt.executeQuery();
             //get the status report from current database function
