@@ -1,27 +1,21 @@
+<div class="contentWrapperSubmit">
+    <div class="contentSubmit">
+        <h1>Forgot Password</h1>
+        <form action="resetPassword" method="post"/>
+            <p>
+                Please enter your email address to reset your password.
+            </p>
 
- 
-<div class="listWrapper"> 
-    <h2>Forgot Password</h2>
-    
-    <div class="box">
-        <div class="add_attributes">
-            <form action="resetPassword" method="post"/>
-                <p>
-                    Please enter your email address to reset your password.
-                </p>
-                
-                <div>
-                    <div class="inline">Email address</div><input type="text" name="email" value=""/>
-                </div>
-                
-                <div>
-                    <button type="submit" name="submit" class="ok" value='Submit' onclick=""> 
-                        <div>Ok</div>
-                    </button>
-                </div>
-                
-            </form>
-        </div>
+            <label for="email">Email address</label><br>
+            <input type="text" id="email" class="contentBodyInputBig" name="email" value=''/><br/>
+
+            <div>
+                <button type="submit" name="submit" class="ok saveButton" value='Submit' onclick="">
+                    <div>Submit</div>
+                </button>
+            </div>
+
+        </form>
     </div>
 </div>
         

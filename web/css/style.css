@@ -676,6 +676,14 @@ body.modal_on .modal-content {
     box-sizing: border-box;
 }
 
+.inlineBlock {
+    display: inline-block;
+}
+
+label a {
+    text-decoration: none;
+}
+
 .generateReport {
     display: flex;
     align-items: center;

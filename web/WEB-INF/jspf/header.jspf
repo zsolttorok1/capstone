@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Satomi Software</title>
+        <title>A.Damor</title>
     </head>
     <body 
         <c:if test="${!empty message}">
