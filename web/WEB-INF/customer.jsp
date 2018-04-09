@@ -40,7 +40,7 @@
             <form method="post" action="customer">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="customerId" value="${customer.customerId}">
-                <button type="submit" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
             </form>
                 
         </div>

@@ -78,5 +78,15 @@ function closeMessage() {
 
 function closeForm(e) {
     var tableElement = e.parentNode.parentNode;
+    var formElement = e.parentNode;
+    
     tableElement.classList.add("slide");
+      
+    var r = confirm("Are you sure do you want to delete this entry?");
+    if (r != true) {
+        tableElement.classList.remove("slide");
+    }
+    else {
+        formElement.submit();
+    }
 }

@@ -38,7 +38,7 @@
             <form method="post" action="item">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="itemName" value="${item.itemName}">
-                <button type="submit" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
             </form>
             
         </div>
