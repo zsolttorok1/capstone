@@ -232,6 +232,9 @@ public class ReportService {
             if (status != null & !status.contains("error")) {
                 doc.save("c:/cap/reports/" + status + ".pdf");
             }
+            else {
+                status = "Report Created";
+            }
 
 //            doc.save("c:/cap/reports/report.pdf"); // saves report filename
             doc.close(); //close file
@@ -241,6 +244,7 @@ public class ReportService {
             }
             
 //            System.out.println("your file created in : " + System.getProperty("user.dir"));
+
         return status;
     }
     

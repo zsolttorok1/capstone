@@ -377,7 +377,7 @@ CREATE FUNCTION `insert_user_func`
     p_email varchar(100),
     p_hourly_rate decimal(10,2),
     p_salt varchar(32))
-    RETURNS varchar(20)
+    RETURNS varchar(100)
 NOT DETERMINISTIC
 BEGIN
     DECLARE v_role_id int;
@@ -422,7 +422,7 @@ BEGIN
     /* deleting unused address entries */
     call clean_address_proc();
 
-    return 'inserted user';
+    return 'Employee Sucessfully Added';
 END;
 $$
 
@@ -902,7 +902,7 @@ CREATE FUNCTION `insert_quote_func`
     (p_quote_name varchar(100),
     p_email varchar(30),
     p_description varchar(2000))
-    RETURNS varchar(20)
+    RETURNS varchar(100)
 NOT DETERMINISTIC
 BEGIN
      DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
@@ -913,7 +913,7 @@ BEGIN
     INSERT INTO `quote` (`quote_name`, `email`, `description`)
         VALUES (`p_quote_name`, `p_email`, `p_description`);
 
-    return 'inserted';
+    return 'Quote Successfully Submitted';
 END;
 $$
 
@@ -1002,7 +1002,7 @@ CREATE FUNCTION `insert_job_func`
     p_date_finished date,
     p_balance decimal(20,2),
     p_status varchar(50))
-    RETURNS varchar(20)
+    RETURNS varchar(100)
 NOT DETERMINISTIC
 BEGIN
     DECLARE v_address_id int;
@@ -1039,7 +1039,7 @@ BEGIN
     /* deleting unused address entries */
     call clean_address_proc();
 
-    return 'inserted Job';
+    return 'Job Successfully Added';
 END;
 $$
 
@@ -1222,7 +1222,7 @@ BEGIN
         WHERE job_name = p_job_name
             AND item_name = p_item_name;
 
-    return 'unallocated the item';
+    return 'Item removed from job';
 END;
 $$
 
@@ -1242,7 +1242,7 @@ BEGIN
         WHERE job_name = p_job_name
             AND user_name = p_user_name;
 
-    return 'unassigned the employee';
+    return 'Employee removed from job';
 END;
 $$
 

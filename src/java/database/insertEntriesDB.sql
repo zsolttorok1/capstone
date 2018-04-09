@@ -49,10 +49,10 @@ select insert_item_func ('Devil Beater', 5, 'Brushes', 'Bob Ross favorite.');
 
 /* adding JOBS ***********************************************************************/
 /*Date: YY-MM-DD */
-select insert_job_func ('First Job on main street', 555, '123th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T5K2R8', 2, 'This is a nice and detailed job description.', '18/03/28', '18/03/30', 0, 'unpayed');
-select insert_job_func ('First Job on main street', 555, '123th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T5K2R8', 2, 'This is a nice and detailed job description, updated.', '18-03-28', '18-03-30', 0, 'unpayed');
-select insert_job_func ('Second Huge Job', 555, '999th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T9D8Y1', 1, 'Sent from future ya.', '19-04-10', '19-04-20', 29000, 'payed');
-select insert_job_func ('Brookfield Bathroom on WestTower', 100, '120th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T2D8E1', 1, 'Paintjob', '17-02-25', '17-02-28', 50000, 'payed');
+select insert_job_func ('First Job on main street', 555, '123th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T5K2R8', 2, 'This is a nice and detailed job description.', '18/03/28', '18/03/30', 0, 'unpaid');
+select insert_job_func ('First Job on main street', 555, '123th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T5K2R8', 2, 'This is a nice and detailed job description, updated.', '18-03-28', '18-03-30', 0, 'unpaid');
+select insert_job_func ('Second Huge Job', 555, '999th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T9D8Y1', 1, 'Sent from future ya.', '19-04-10', '19-04-20', 29000, 'paid');
+select insert_job_func ('Brookfield Bathroom on WestTower', 100, '120th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T2D8E1', 1, 'Paintjob', '17-02-25', '17-02-28', 50000, 'paid');
 
 /* assigning JOB_USER HOURS ***********************************************************************/
 select assign_user_func ('Brookfield Bathroom on WestTower', 'andrew_grieve', 40);
