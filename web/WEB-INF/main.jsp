@@ -1,6 +1,6 @@
         <div class="content">
-            <img src="res/lion.png" />
-            <h1 class="bodyheader">WELCOME TO OUR HOME PAGE</h1>
+            <img class="contentImg" src="res/lion.png" />
+            <h1 class="bodyheader">A. DAMOR PAINTING & DECORATING</h1>
             <p class="bodytext">
                 Lorem ipsum dolor sit amet, eum ne falli liber contentiones, timeam pericula et vim. Ad has habeo delectus patrioque, ius ut purto omnes civibus. Sit alia utinam efficiantur eu. Dolore libris timeam duo ne. An dicit ubique scripta pri, sea tritani ocurreret elaboraret ei, usu commune voluptua ut. Ea saepe persius percipitur vim. Ut quod reque tincidunt vis, putant molestie platonem cu sit, tota reformidans eam at.
                 <br><br>
@@ -12,6 +12,7 @@
                 <br><br>
                 No usu persius evertitur neglegentur. Brute mentitum reformidans per at. Nam cu everti commune, in has simul epicurei comprehensam. Dicant quaerendum et vix, id ius partem aperiam adolescens, inani consequuntur no est. Sea quod diam cu, duo mazim eirmod efficiendi at, vim fabulas vivendum in. Suscipit dissentiunt ad per, ea impedit mandamus est.
                 <br><br>
+                
             </p>
         </div>
         
