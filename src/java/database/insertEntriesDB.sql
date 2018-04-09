@@ -65,9 +65,9 @@ select allocate_item_func ('Brookfield Bathroom on WestTower', 'SuperFine Paint 
 select allocate_item_func ('Brookfield Bathroom on WestTower', 'Devil Beater', 'There are no mistakes, only happy accidents. Thats what my father told me.',4);
 
 /* allocating JOB_REPORT ***********************************************************************/
-select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-30 01:02:03');
-select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-31 01:04:15');
-select generate_report_func ('Second Huge Job', '2015-10-30 01:02:10');
+-- select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-30 01:02:03');
+-- select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-31 01:04:15');
+-- select generate_report_func ('Second Huge Job', '2015-10-30 01:02:10');
 
 
 /* allocating QUOTES ***********************************************************************/

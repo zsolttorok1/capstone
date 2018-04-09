@@ -151,7 +151,6 @@ public class ReportBroker {
         if (status == null || status.equals("connection error")) {
             return null;
         }
-        String result = null;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("select generate_report_func(?, ?)");
@@ -160,18 +159,32 @@ public class ReportBroker {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                result = rs.getString(1);
+                status = rs.getString(1);
             }
-            pool.freeConnection(connection);
 
-            connection.commit();
+            //if something unexpected happened, rollback any changes.
+            if (status == null || status.equals("error")) {
+                connection.rollback();
+                return "error";
+            }
+            //if all good, commit
+            else {
+                connection.commit();
+            }
 
         } catch (SQLException ex) {
-            Logger.getLogger(ReportBroker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex1);
+                return "exception";
+            }
+            return "exception";
         } finally {
             pool.freeConnection(connection);
         }
 
-        return result;
+        return status;
     }
 }
