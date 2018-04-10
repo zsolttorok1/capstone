@@ -31,9 +31,14 @@ public class JobServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
         
         JobService jobService = new JobService();
-        
         List<Job> jobList = jobService.searchJob("");
         if (jobList == null) {
             request.setAttribute("message", "No jobs found. This seems like a database connection error.");
@@ -57,6 +62,13 @@ public class JobServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         JobService jobService = new JobService();
         
         String message = "";
@@ -64,29 +76,39 @@ public class JobServlet extends HttpServlet {
         String jobName = request.getParameter("jobName");
 
         if (action.equals("delete")) {
-            String status = jobService.delete(jobName);
-            message = status;
+            if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
+                String status = jobService.delete(jobName);
+                message = status;
+            }
+            else {
+                message = "You don't have privileges to delete a Job.";
+            }
         } else if (action.equals("add")) {
-            String houseNumber = request.getParameter("houseNumber");
-            String street = request.getParameter("street");
-            String city = request.getParameter("city");
-            String province = request.getParameter("province");
-            String country = request.getParameter("country");
-            String postalCode = request.getParameter("postalCode");
-            String customerId = request.getParameter("customerId");
-            String description = request.getParameter("description");
-            String dateStarted = request.getParameter("dateStarted");
-            String dateFinished = request.getParameter("dateFinished");
-            String balance = request.getParameter("balance");
-            String jobStatus = request.getParameter("jobStatus");
-            
-            String[] reportList = request.getParameterValues("reportList[]");
-            String[] itemList = request.getParameterValues("itemList[]");
-            String[] userList = request.getParameterValues("userList[]");
-           
-            String status = jobService.insert(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus);
-            
-            message = status;
+            if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
+                String houseNumber = request.getParameter("houseNumber");
+                String street = request.getParameter("street");
+                String city = request.getParameter("city");
+                String province = request.getParameter("province");
+                String country = request.getParameter("country");
+                String postalCode = request.getParameter("postalCode");
+                String customerId = request.getParameter("customerId");
+                String description = request.getParameter("description");
+                String dateStarted = request.getParameter("dateStarted");
+                String dateFinished = request.getParameter("dateFinished");
+                String balance = request.getParameter("balance");
+                String jobStatus = request.getParameter("jobStatus");
+
+                String[] reportList = request.getParameterValues("reportList[]");
+                String[] itemList = request.getParameterValues("itemList[]");
+                String[] userList = request.getParameterValues("userList[]");
+
+                String status = jobService.insert(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus);
+
+                message = status;
+            }
+            else {
+                message = "You don't have privileges to add a Job.";
+            }
         }
 
         List<Job> jobList = jobService.searchJob("");

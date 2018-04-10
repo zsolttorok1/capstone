@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -26,6 +27,12 @@ public class ViewCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null || !session.getAttribute("role").equals("owner")) {
+            response.sendRedirect("login");
+            return;
+        }
         
         CustomerService customerService = new CustomerService();
 
@@ -42,6 +49,12 @@ public class ViewCustomerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null || !session.getAttribute("role").equals("owner")) {
+            response.sendRedirect("login");
+            return;
+        }
         
         String action = request.getParameter("action");
         String customerId = request.getParameter("customerId");
@@ -53,7 +66,6 @@ public class ViewCustomerServlet extends HttpServlet {
         }
         
         if (action != null && action.equals("view")) {
-  
             CustomerService customerService = new CustomerService();
             Customer customer = new Customer();
             customer = customerService.getByCustomerId(customerId);

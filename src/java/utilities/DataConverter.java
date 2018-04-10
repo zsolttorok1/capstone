@@ -48,6 +48,23 @@ public class DataConverter {
         return parsedDate;
     }
     
+    public static java.util.Date stringDateTimeToJava(String stringDateTime) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date parsedDate = null;
+        
+        try {
+            parsedDate = dateFormat.parse(stringDateTime);  
+            return parsedDate;
+        } catch (Exception ex) {
+            try {
+                return (dateFormat.parse("01/01/1975 01:01:01"));
+            } catch (ParseException ex1) {
+            }
+        }
+        
+        return parsedDate;
+    }
+    
     public static String javaDateToString(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date parsedDate = null;

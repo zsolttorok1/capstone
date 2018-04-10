@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
             
             String message = null;
             HttpSession session = request.getSession();
-
+            
             //cookie check: if found prefill form values
             String userName = CookieUtil.getCookieValue(request.getCookies(), "userName");
             if (userName != null && !userName.equals("")) {
@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
             
             //session checks out, but not a logout attempt: if true then user is already logged in, redirect to homepage
             if (session.getAttribute("userName") != null && action == null) {
-                response.sendRedirect("user");
+                response.sendRedirect("job");
                 return;
             }
            
@@ -111,7 +111,7 @@ public class LoginServlet extends HttpServlet {
                     UserService userService = new UserService();
                     String status = userService.login(userName, password);
                     
-                    if (status == null && status.contains("error")) {
+                    if (status == null || status.contains("error")) {
                         message = "error while attempting to login. Check database connection.";
                     }
                     else if (status.equals("invalid")) {
@@ -144,7 +144,7 @@ public class LoginServlet extends HttpServlet {
                         }
                         
                         //routing the user to the privileged page                    
-                        response.sendRedirect("user");
+                        response.sendRedirect("job");
                         return;
                    }
             }

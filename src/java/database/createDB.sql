@@ -199,12 +199,13 @@ CREATE FUNCTION `insert_item_func`
     p_quantity int(5),
     p_categoty_name varchar(30),
     p_description varchar(2000))
-    RETURNS varchar(20)
+    RETURNS varchar(100)
 NOT DETERMINISTIC
 BEGIN
     DECLARE v_old_description_count int;
     DECLARE v_category_id int;
     DECLARE v_item_name_count int;
+    DECLARE v_return_message varchar(100);
     -- DECLARE CONTINUE HANDLER FOR 1062 /*duplicate PK found */
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
         BEGIN
@@ -384,6 +385,7 @@ BEGIN
     DECLARE v_address_id int;
     DECLARE v_user_count int;
     DECLARE v_user_phone_return varchar(20);
+    DECLARE v_return_message varchar(100);
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
         BEGIN
             return 'error sql exception';
@@ -411,18 +413,20 @@ BEGIN
         /* User is not in database, so insert it */
         INSERT INTO `user` (`user_name`, `address_id`, `password`, `firstname`, `lastname`, `role_id`, `email`, `hourly_rate`,`salt`)
             VALUES (`p_user_name`, `v_address_id`, `p_password`, `p_firstname`, `p_lastname`, `v_role_id`, `p_email`, `p_hourly_rate`,`p_salt`);
+        set v_return_message = 'inserted';
     else 
         /* User is already in the database, just do an update */
         UPDATE `user`
             SET address_id = v_address_id, password = p_password, firstname = p_firstname,
                 lastname = p_lastname, role_id = v_role_id, email = p_email, hourly_rate = p_hourly_rate
             WHERE p_user_name = user_name;
+        set v_return_message = 'updated';
     end if;
 
     /* deleting unused address entries */
     call clean_address_proc();
 
-    return 'Employee Sucessfully Added';
+    return v_return_message;
 END;
 $$
 
@@ -689,13 +693,14 @@ CREATE FUNCTION `insert_customer_func`
     p_email varchar(100),
     p_position_name varchar(50),
     p_notes varchar (2000))
-    RETURNS varchar(20)
+    RETURNS varchar(100)
 NOT DETERMINISTIC
 BEGIN
     DECLARE v_position_id int;
     DECLARE v_customer_id int default -1;
     DECLARE v_address_id int;
     DECLARE v_customer_count int;
+    DECLARE v_return_value varchar(100);
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
         BEGIN
             return 'error sql exception';
@@ -723,6 +728,7 @@ BEGIN
         INSERT INTO `customer` (`customer_id`, `address_id`, `firstname`, `lastname`, `company_name`, `email`, `position_id`, `notes`)
             VALUES (`p_customer_id`, `v_address_id`, `p_firstname`, `p_lastname`, `p_company_name`, `p_email`, `v_position_id`, `p_notes`);
         set v_customer_id = LAST_INSERT_ID();
+        set v_return_value = 'inserted';
     else
         /* Customer is already in the database, just do an update */
         UPDATE `customer`
@@ -730,15 +736,15 @@ BEGIN
                 company_name = p_company_name, position_id = v_position_id, email = p_email, notes = p_notes
             WHERE p_customer_id = customer_id;
         set v_customer_id = p_customer_id;
+        set v_return_value = 'updated';
     end if;
 
     /* deleting unused address entries */
     call clean_address_proc();
 
-    return concat('inserted', v_customer_id);
+    return concat(v_return_value, v_customer_id);
 END;
 $$
-
 
 CREATE FUNCTION `delete_customer_func`
     (p_customer_id int)
@@ -1007,6 +1013,7 @@ NOT DETERMINISTIC
 BEGIN
     DECLARE v_address_id int;
     DECLARE v_job_count int;
+    DECLARE v_return_value varchar(100);
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
         BEGIN
             return 'error sql exception';
@@ -1028,18 +1035,20 @@ BEGIN
         /* JOB is not in database, so insert it */
         INSERT INTO `job` (`job_name`, `address_id`, `customer_id`, `description`, `date_started`, `date_finished`, `balance`, `status`)
             VALUES (`p_job_name`, `v_address_id`, `p_customer_id`, `p_description`, `p_date_started`, `p_date_finished`, `p_balance`, `p_status`);
+        set v_return_value = 'inserted';
     else 
         /* JOB is already in the database, just do an update */
         UPDATE `job`
             SET address_id = v_address_id, customer_id = p_customer_id, description = p_description,
                 date_started = p_date_started, date_finished = p_date_finished, balance = p_balance, status = p_status
             WHERE p_job_name = job_name;
+        set v_return_value = 'updated';
     end if;
 
     /* deleting unused address entries */
     call clean_address_proc();
 
-    return 'Job Successfully Added';
+    return v_return_value;
 END;
 $$
 
@@ -1161,7 +1170,7 @@ BEGIN
         /* reducing allocated quantity */
         if (p_quantity - v_allocated_quantity < 0) then
             UPDATE `job_item`
-                SET note = p_note, quantity = p_quantity
+                SET quantity = p_quantity
                 WHERE job_name = p_job_name
                     AND item_name = p_item_name;
 
@@ -1178,13 +1187,18 @@ BEGIN
                     WHERE item_name = p_item_name;
 
                 UPDATE `job_item`
-                    SET note = p_note, quantity = p_quantity
+                    SET quantity = p_quantity
                     WHERE job_name = p_job_name
                         AND item_name = p_item_name;
             else 
                 return 'error: insufficient quantity at the inventory!';
             end if;
         end if;
+
+        UPDATE `job_item`
+            SET note = p_note
+            WHERE job_name = p_job_name
+                AND item_name = p_item_name;
 
         set v_return_message = 'allocated item quantity updated';
     end if;

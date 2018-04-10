@@ -36,12 +36,25 @@ public class SearchServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
         
         request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         String keyword = request.getParameter("keyword");
         
         SearchService searchService = new SearchService();
@@ -49,10 +62,12 @@ public class SearchServlet extends HttpServlet {
         List<User> userList = searchService.searchUser(keyword);
         List<Item> itemList = searchService.searchItem(keyword);
         List<Customer> customerList = searchService.searchCustomer(keyword);
+        List<Job> jobList = searchService.searchJob(keyword);
         
         request.setAttribute("userList", userList);
         request.setAttribute("itemList", itemList);
         request.setAttribute("customerList", customerList);
+        request.setAttribute("jobList", jobList);
         request.setAttribute("keyword", keyword);
         
         request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);

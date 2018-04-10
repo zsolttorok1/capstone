@@ -3,9 +3,6 @@ package businesslogic;
 import dataaccess.UserBroker;
 import domainmodel.User;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,11 +22,19 @@ public class UserService {
         String status = validate(user);
         
         if (status != null && status.equals("ok")) {
-            user.setSalt(HashingUtil.generateSalt());   
+            user.setSalt(HashingUtil.generateSalt());
             user.setPassword(HashingUtil.hashByKeccak512(user.getPassword(), user.getSalt()));
         
             UserBroker userBroker = UserBroker.getInstance();
             status = userBroker.insert(user);
+          
+        }
+        
+        if (status != null && status.contains("inserted")) {
+            status = "Employee Successfully Added";
+        }
+        else if (status != null && status.contains("updated")) {
+            status = "Employee Successfully Updated";
         }
 
         return status; 
@@ -129,12 +134,19 @@ public class UserService {
         
         //make sure that the new attribute values are valid, before updating.
         status = validate(user);
+        
         if (status != null && status.equals("ok")) {
-            return userBroker.update(user);
+            status = userBroker.update(user);
+                    
+            if (status != null && status.contains("inserted")) {
+                status = "Employee Successfully Added";
+            }
+            else if (status != null && status.contains("updated")) {
+                status = "Employee Successfully Updated";
+            }
         }
-        else {
-            return status;
-        }
+        
+        return status;
     }
       
     private String validate(User user) {

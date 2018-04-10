@@ -6,15 +6,7 @@
 package servlets;
 
 import businesslogic.BackupService;
-import businesslogic.UserService;
-import domainmodel.User;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +19,13 @@ public class BackupServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null || !session.getAttribute("role").equals("owner")) {
+            response.sendRedirect("login");
+            return;
+        }
         
         String backupServiceState = "off";
         if (!BackupService.getInstance().isBackupperServiceRunning()) {
@@ -41,6 +40,13 @@ public class BackupServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null || !session.getAttribute("role").equals("owner")) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         String backupFileName = request.getParameter("backupFileName");
         String action = request.getParameter("action");
         String message = "";

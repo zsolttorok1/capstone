@@ -39,15 +39,15 @@
 
                     <form method="post" action="viewItem">
                         <input type="hidden" name="action" value="view">
-                        <input type="hidden" name="selectedItemName" value="${item.itemName}">
+                        <input type="hidden" name="itemName" value="${item.itemName}">
                         <input type="submit" class="rowButton" value="">
                     </form>
                 </div>
 
                 <form method="post" action="item">
                     <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="selectedItemName" value="${item.itemName}">
-                    <button type="submit" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                    <input type="hidden" name="itemName" value="${item.itemName}">
+                    <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
                 </form>
 
             </div>
@@ -97,7 +97,7 @@
                 <form method="post" action="user">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="userName" value="${user.userName}">
-                    <button type="submit" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                    <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
                 </form>
 
             </div>    
@@ -147,7 +147,51 @@
                 <form method="post" action="customer">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="customerId" value="${customer.customerId}">
-                    <button type="submit" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                    <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                </form>
+
+            </div>
+        </c:forEach>
+    </div>
+</c:if>
+
+<c:if test="${!empty jobList}">    
+    <div class="listWrapper">
+        
+        <div class="rowWrapper">   
+            <div class="rowHeaderSearchBanner">
+                <div>Job Results</div>
+            </div>
+        </div>
+        
+        <div class="rowWrapper">
+            <div class="rowHeader">
+                <div class="rowitemHeader">Job Name</div>
+                <div class="rowitemHeader">Customer</div>
+                <div class="rowitemHeader">Date Started</div>
+                <div class="rowitemHeader">Status</div>
+            </div>
+        </div>
+
+        <c:forEach var="job" items="${jobList}">
+            <div class="rowWrapper">
+                <div class="row">
+                    <div class="rowitem" name="name">${job.jobName}</div>
+                    <div class="rowitem" name="customer">${job.customer.firstName} ${job.customer.lastName}</div>
+                    <div class="rowitem" name="description">${job.dateStarted}</div>
+                    <div class="rowitem" name="status">${job.status}</div>
+
+                    <form method="post" action="viewJob">
+                        <input type="hidden" name="action" value="view">
+                        <input type="hidden" name="jobName" value="${job.jobName}">
+                        <input type="submit" class="rowButton" value="">
+                    </form>
+                </div>
+
+                <form method="post" action="job">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="jobName" value="${job.jobName}">
+                    <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
                 </form>
 
             </div>

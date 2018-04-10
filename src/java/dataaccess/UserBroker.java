@@ -330,6 +330,7 @@ public class UserBroker {
 
             //inserting phone numbers
             String stringPhoneNumberList = "";
+            String status2 = "";
             for (long phoneNumber : user.getPhoneNumberList()) {
                 stringPhoneNumberList += phoneNumber + ",";
             }
@@ -340,12 +341,12 @@ public class UserBroker {
             rs = pstmt.executeQuery();
             //get the status report from current database function
             while (rs.next()) {
-                status = rs.getString(1);
+                status2 = rs.getString(1);
             }
             //if something unexpected happened, rollback any changes.
-            if (status == null || status.equals("error")) {
+            if (status2 == null || status2.contains("error")) {
                 connection.rollback();
-                return "error";
+                return status2;
             }
             
             //if all good, commit
@@ -374,11 +375,7 @@ public class UserBroker {
         if (status == null || status.equals("connection error")) {
             return "Database connection error.";
         }
-        
-        if (status.contains("updated") || status.contains("inserted")) {
-            return "updated";
-        }
-        
+                
         return status; //expection, error
     }
 

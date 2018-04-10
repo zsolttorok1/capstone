@@ -7,7 +7,6 @@ package servlets;
 
 import businesslogic.QuoteService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -59,12 +58,8 @@ public class SubmitQuoteServlet extends HttpServlet {
                 String status = quoteService.addQuote(name, email, description);
 
                 request.setAttribute("message", status);
-                //errorMessage = "You Submitted a Quote.";
-
             } else {
                 request.setAttribute("message", "You need to enter something in all fields.");
-                getServletContext().getRequestDispatcher("/WEB-INF/submitQuote.jsp").forward(request, response);
-                return;
             }
 
         }

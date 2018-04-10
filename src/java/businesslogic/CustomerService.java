@@ -17,6 +17,13 @@ public class CustomerService {
             CustomerBroker customerBroker = CustomerBroker.getInstance();
             status = customerBroker.insert(customer);
         }
+        
+        if (status != null && status.contains("inserted")) {
+            status = "Customer Successfully Added";
+        }
+        else if (status != null && status.contains("updated")) {
+            status = "Customer Successfully Updated";
+        }
 
         return status; 
     }
@@ -100,12 +107,19 @@ public class CustomerService {
         
         //make sure that the new attribute values are valid, before updating.
         status = validate(customer);
+        
         if (status != null && status.equals("ok")) {
-            return customerBroker.update(customer);
+            status = customerBroker.update(customer);
+                    
+            if (status != null && status.contains("inserted")) {
+                status = "Customer Successfully Added";
+            }
+            else if (status != null && status.contains("updated")) {
+                status = "Customer Successfully Updated";
+            }
         }
-        else {
-            return status;
-        }
+        
+        return status;
     }
       
     private String validate(Customer customer) {

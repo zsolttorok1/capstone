@@ -109,8 +109,8 @@
                     <div class="divTableCellLabel">Role:</div>
                     <div class="divTableCellField">
                         <select name="role">
-                            <option value="owner">employee</option>
-                            <option value="owner">manager</option>
+                            <option value="employee">employee</option>
+                            <option value="manager">manager</option>
                             <option value="owner">owner</option>
                         </select>
                     </div>

@@ -5,15 +5,10 @@
  */
 package servlets;
 
-import businesslogic.ItemService;
 import businesslogic.UserService;
-import domainmodel.Item;
 import domainmodel.User;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +24,18 @@ public class ViewUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         UserService userService = new UserService();
 
         List<User> userList = userService.searchUser("");
         if (userList == null) {
-            request.setAttribute("message", "User not found. This seems like a database connection error.");
+            request.setAttribute("message", "Employee not found. This seems like a database connection error.");
         }
 
         request.setAttribute("userList", userList);
@@ -43,6 +45,12 @@ public class ViewUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
         
         String action = request.getParameter("action");
         String userName = request.getParameter("userName");
@@ -54,13 +62,12 @@ public class ViewUserServlet extends HttpServlet {
         }
         
         if (action != null && action.equals("view")) {
-  
             UserService userService = new UserService();
             User user = new User();
             user = userService.getByUserName(userName);
 
             if (user == null) {
-                request.setAttribute("message", "User not found. This seems like a database connection error.");
+                request.setAttribute("message", "Employee not found. This seems like a database connection error.");
                 getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
                 return;
             }
@@ -71,38 +78,44 @@ public class ViewUserServlet extends HttpServlet {
             return;
         }
         else if (action != null && action.equals("save")) {
-            String houseNumber = request.getParameter("houseNumber");
-            String street = request.getParameter("street");
-            String city = request.getParameter("city");
-            String province = request.getParameter("province");
-            String country = request.getParameter("country");
-            String postalCode = request.getParameter("postalCode");
-            String[] phoneNumberList = request.getParameterValues("phoneNumberList[]");
-            String password = request.getParameter("password");
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String role = request.getParameter("role");
-            String email = request.getParameter("email");
-            String hourlyRate = request.getParameter("hourlyRate");
-            
-            String status = "";
-            
-            UserService userService = new UserService();
-            
-            status = userService.update(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
-            
-            request.setAttribute("message", status);
-            
-            User user = userService.getByUserName(userName);
-            if (user == null) {
-                request.setAttribute("message", "User not found. This seems like a database connection error.");
-                getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+            if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
+                String houseNumber = request.getParameter("houseNumber");
+                String street = request.getParameter("street");
+                String city = request.getParameter("city");
+                String province = request.getParameter("province");
+                String country = request.getParameter("country");
+                String postalCode = request.getParameter("postalCode");
+                String[] phoneNumberList = request.getParameterValues("phoneNumberList[]");
+                String password = request.getParameter("password");
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String role = request.getParameter("role");
+                String email = request.getParameter("email");
+                String hourlyRate = request.getParameter("hourlyRate");
+
+                String status = "";
+
+                UserService userService = new UserService();
+
+                status = userService.update(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
+
+                request.setAttribute("message", status);
+
+                User user = userService.getByUserName(userName);
+                if (user == null) {
+                    request.setAttribute("message", "Employee not found. This seems like a database connection error.");
+                    getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+                    return;
+                }
+
+                request.setAttribute("user", user);
+                getServletContext().getRequestDispatcher("/WEB-INF/viewUser.jsp").forward(request, response);
                 return;
             }
-
-            request.setAttribute("user", user);
-            getServletContext().getRequestDispatcher("/WEB-INF/viewUser.jsp").forward(request, response);
-            return;
+            else {
+                request.setAttribute("message", "You don't have privileges to update an Employee.");
+                getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+            }
         }
     }
 }

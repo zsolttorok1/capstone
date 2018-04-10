@@ -2,7 +2,6 @@ package dataaccess;
 
 import database.ConnectionPool;
 import domainmodel.Item;
-import domainmodel.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

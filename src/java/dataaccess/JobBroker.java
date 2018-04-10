@@ -162,7 +162,7 @@ public class JobBroker {
                     + "SELECT j.job_name, a.house_number, a.street, a.city, a.province, a.country, a.postal_code, j.customer_id, j.description, j.date_started, j.date_finished, j.balance, j.status "
                     + "     FROM `job` j "
                     + "     JOIN `address` a ON j.address_id = a.address_id "
-                    + "     WHERE j.job_name = ?;");
+                    + "     WHERE j.job_name like ?;");
             pstmt.setString(1, "%" + keyword +"%");
             ResultSet rs = pstmt.executeQuery();
        
@@ -255,7 +255,7 @@ public class JobBroker {
         
         try {
             PreparedStatement pstmt = connection.prepareStatement("select insert_job_func(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-             
+            
             pstmt.setString(1, job.getJobName());
             pstmt.setInt(2, job.getHouseNumber());
             pstmt.setString(3, job.getStreet());
@@ -268,7 +268,7 @@ public class JobBroker {
             pstmt.setDate(10, DataConverter.javaDateToSQL(job.getDateStarted()));
             pstmt.setDate(11, DataConverter.javaDateToSQL(job.getDateFinished()));
             pstmt.setInt(12, job.getBalance());
-            pstmt.setString(13, job.getStatus());            
+            pstmt.setString(13, job.getStatus());   
 
             ResultSet rs = pstmt.executeQuery();
             //get the status report from current database function
@@ -415,7 +415,7 @@ public class JobBroker {
             
             pstmt.setString(1, jobName);
             pstmt.setString(2, itemName);
-            if (note != null || !note.isEmpty()) {
+            if (note != null && !note.isEmpty()) {
                 pstmt.setString(3, note);
             }
             else {

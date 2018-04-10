@@ -9,7 +9,6 @@ import businesslogic.QuoteService;
 import domainmodel.Quote;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +25,14 @@ import javax.servlet.http.HttpSession;
 public class QuoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                QuoteService quoteService = new QuoteService();
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null || !session.getAttribute("role").equals("owner")) {
+            response.sendRedirect("login");
+            return;
+        }
+        
+        QuoteService quoteService = new QuoteService();
 
         List<Quote> quoteList = quoteService.searchQuote("");
         if (quoteList == null) {
@@ -40,6 +46,13 @@ public class QuoteServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null || !session.getAttribute("role").equals("owner")) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         String action = request.getParameter("action");
         String quoteName = request.getParameter("quoteName");
         String message = "";

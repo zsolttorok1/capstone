@@ -5,15 +5,11 @@
  */
 package servlets;
 
-import businesslogic.ItemService;
 import businesslogic.UserService;
 import domainmodel.User;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +24,11 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
         
         UserService userService = new UserService();
         List<User> userList = userService.searchUser("");
@@ -51,6 +52,12 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         UserService userService = new UserService();
         
         String message = "";
@@ -58,26 +65,36 @@ public class UserServlet extends HttpServlet {
         String userName = request.getParameter("userName");
      
         if (action.equals("delete")) {
-            String status = userService.delete(userName);
-            message = status;
+            if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
+                String status = userService.delete(userName);
+                message = status;
+            }
+            else {
+                message = "You don't have privileges to delete an Employee.";
+            }
         } else if (action.equals("add")) {
-            String houseNumber = request.getParameter("houseNumber");
-            String street = request.getParameter("street");
-            String city = request.getParameter("city");
-            String province = request.getParameter("province");
-            String country = request.getParameter("country");
-            String postalCode = request.getParameter("postalCode");
-            String[] phoneNumberList = request.getParameterValues("phoneNumberList[]");
-            String password = request.getParameter("password");
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String role = request.getParameter("role");
-            String email = request.getParameter("emailAddress");
-            String hourlyRate = request.getParameter("hourlyRate");
+            if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
+                String houseNumber = request.getParameter("houseNumber");
+                String street = request.getParameter("street");
+                String city = request.getParameter("city");
+                String province = request.getParameter("province");
+                String country = request.getParameter("country");
+                String postalCode = request.getParameter("postalCode");
+                String[] phoneNumberList = request.getParameterValues("phoneNumberList[]");
+                String password = request.getParameter("password");
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String role = request.getParameter("role");
+                String email = request.getParameter("emailAddress");
+                String hourlyRate = request.getParameter("hourlyRate");
 
-            String status = userService.insert(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
-            
-            message = status;
+                String status = userService.insert(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
+
+                message = status;
+            }
+            else {
+                message = "You don't have privileges to add an Employee.";
+            }
         }
 
         List<User> userList = userService.searchUser("");

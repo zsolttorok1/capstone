@@ -1,13 +1,12 @@
 package dataaccess;
 
 import database.ConnectionPool;
-import domainmodel.Job;
 import domainmodel.Report;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -131,7 +130,8 @@ public class ReportBroker {
 
             while (rs.next()) {
                 int reportId = rs.getInt("REPORT_ID");
-                Date dateCreated = rs.getTime("DATE_CREATED");
+                String stringDateCreated = rs.getString("DATE_CREATED");
+                Date dateCreated = DataConverter.stringDateTimeToJava(stringDateCreated);
                 String pdfFilePath = rs.getString("PDF_FILEPATH");
 
                 Report report = new Report(reportId, null, dateCreated, pdfFilePath);

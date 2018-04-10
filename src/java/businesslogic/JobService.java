@@ -21,7 +21,14 @@ public class JobService {
             JobBroker jobBroker = JobBroker.getInstance();
             statusOutput = jobBroker.insert(job);
         }
-
+        
+        if (status != null && status.contains("inserted")) {
+            statusOutput = "Job Successfully Added";
+        }
+        else if (status != null && status.contains("updated")) {
+            statusOutput = "Job Successfully Updated";
+        }
+        
         return statusOutput;
     }
     
@@ -206,12 +213,19 @@ public class JobService {
        
         //make sure that the new attribute values are valid, before updating.
         status = validate(job);
+        
         if (status != null && status.equals("ok")) {
-            return jobBroker.update(job);
+            status = jobBroker.update(job);
+                    
+            if (status != null && status.contains("inserted")) {
+                status = "Job Successfully Added";
+            }
+            else if (status != null && status.contains("updated")) {
+                status = "Job Successfully Updated";
+            }
         }
-        else {
-            return status;
-        }
+        
+        return status;
     }
       
     private String validate(Job job) {

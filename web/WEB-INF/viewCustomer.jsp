@@ -23,7 +23,7 @@
                         <div class="phonePlus" onClick="javasctipt:addNumberInput(this)"></div><br/>
                         <c:forEach var="phoneNumber" items="${customer.phoneNumberList}" varStatus="loop">
                             <c:if test="${loop.index > 0}"> 
-                                <input type="text" id="phone" name="phoneNumberList[]" value="${phoneNumber}" /><div class="phoneMinus" onClick="javasctipt:deleteNumberInput(this)"></div><br/>
+                                <input type="text" name="phoneNumberList[]" value="${phoneNumber}" /><div class="phoneMinus" onClick="javasctipt:deleteNumberInput(this)"></div><br/>
                             </c:if>
                         </c:forEach>
                     </div>

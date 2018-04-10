@@ -33,7 +33,12 @@
                     <input type="text" id="email" class="contentBodyInput" name="email" value="${user.email}" />
                     <br><br>
                     <label for="role">Role & Pay Rate:</label><br>
-                    <input type="text" id="role" class="contentBodyInputBig" name="role" value="${user.role}" />  <input type="text" class="contentBodyInputSmall" name="hourlyRate" value="${user.hourlyRate}" />$/hr<br>
+                    <select name="role" class="contentBodyInputBig">
+                        <option value="employee" <c:if test="${user.role eq 'employee'}">selected</c:if> >employee</option>
+                        <option value="manager" <c:if test="${user.role eq 'manager'}">selected</c:if> >manager</option>
+                        <option value="owner" <c:if test="${user.role eq 'owner'}">selected</c:if> >owner</option>
+                    </select>
+                    <input type="text" class="contentBodyInputSmall" name="hourlyRate" value="${user.hourlyRate}" />$/hr<br>
                     <br>
                     
                 </div>

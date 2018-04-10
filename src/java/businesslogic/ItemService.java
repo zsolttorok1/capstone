@@ -16,6 +16,13 @@ public class ItemService {
             ItemBroker itemBroker = ItemBroker.getInstance();
             statusOutput = itemBroker.insert(item);
         }
+        
+        if (statusOutput != null && statusOutput.contains("inserted")) {
+            statusOutput = "Item Successfully Added";
+        }
+        else if (statusOutput != null && statusOutput.contains("updated")) {
+            statusOutput = "Item Successfully Updated";
+        }
 
         return statusOutput; 
     }
@@ -82,12 +89,19 @@ public class ItemService {
        
         //make sure that the new attribute values are valid, before updating.
         status = validate(item);
+        
         if (status != null && status.equals("ok")) {
-            return itemBroker.update(item);
+            status = itemBroker.update(item);
+                    
+            if (status != null && status.contains("inserted")) {
+                status = "Item Successfully Added";
+            }
+            else if (status != null && status.contains("updated")) {
+                status = "Item Successfully Updated";
+            }
         }
-        else {
-            return status;
-        }
+        
+        return status;
     }
       
     private String validate(Item item) {

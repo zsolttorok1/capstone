@@ -1,10 +1,9 @@
 package businesslogic;
 
-import dataaccess.CustomerBroker;
 import domainmodel.Customer;
 import domainmodel.Item;
+import domainmodel.Job;
 import domainmodel.User;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchService {
@@ -28,5 +27,12 @@ public class SearchService {
         List<Customer> customerList = customerService.searchCustomer(keyword);
        
         return customerList; 
+    }
+    
+    public List<Job> searchJob(String keyword) {
+        JobService jobService = new JobService();
+        List<Job> jobList = jobService.searchJob(keyword);
+       
+        return jobList;
     }
 }

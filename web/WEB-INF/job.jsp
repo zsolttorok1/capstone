@@ -104,7 +104,7 @@
                 </div>
 				<div class="divTableRow">
                     <div class="divTableCellLabel">Status:</div>
-                    <div class="divTableCellField"><input name="jobStatus" type="text" placeholder="unpayed" /></div>
+                    <div class="divTableCellField"><input name="jobStatus" type="text" placeholder="unpaid" /></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellSubmit">

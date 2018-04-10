@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -23,11 +24,17 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
         
         ItemService itemService = new ItemService();
         List<Item> itemList = itemService.searchItem("");
         if (itemList == null) {
-            request.setAttribute("message", "No users found. This seems like a database connection error.");
+            request.setAttribute("message", "No items found. This seems like a database connection error.");
         }
         
         request.setAttribute("itemList", itemList);
@@ -46,6 +53,13 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         ItemService itemService = new ItemService();
         
         String message = "";
@@ -53,15 +67,25 @@ public class ItemServlet extends HttpServlet {
         String itemName = request.getParameter("itemName");
      
         if (action.equals("delete")) {
-            String status = itemService.delete(itemName);
-            message = status;
+            if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
+                String status = itemService.delete(itemName);
+                message = status;
+            }
+            else {
+                message = "You don't have privileges to delete an Item.";
+            }
         } else if (action.equals("add")) {
-            String quantity = request.getParameter("quantity");
-            String category = request.getParameter("category");
-            String description = request.getParameter("description");
-            String status = itemService.insert(itemName, quantity, category, description);
-            
-            message = status;
+            if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
+                String quantity = request.getParameter("quantity");
+                String category = request.getParameter("category");
+                String description = request.getParameter("description");
+                String status = itemService.insert(itemName, quantity, category, description);
+
+                message = status;
+            }
+            else {
+                message = "You don't have privileges to add an Item.";
+            }
         }
 
         List<Item> itemList = itemService.searchItem("");

@@ -6,14 +6,9 @@
 package servlets;
 
 import businesslogic.ItemService;
-import businesslogic.UserService;
 import domainmodel.Item;
-import domainmodel.User;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +24,13 @@ public class ViewItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
         ItemService itemService = new ItemService();
 
         List<Item> itemList = itemService.searchItem("");
@@ -43,6 +45,12 @@ public class ViewItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //access privilege check
+        HttpSession session = request.getSession();   
+        if (session.getAttribute("userName") == null) {
+            response.sendRedirect("login");
+            return;
+        }
         
         String action = request.getParameter("action");
         String itemName = request.getParameter("itemName");
@@ -54,7 +62,6 @@ public class ViewItemServlet extends HttpServlet {
         }
         
         if (action != null && action.equals("view")) {
-  
             ItemService itemService = new ItemService();
             Item item = new Item();
             item = itemService.getByItemName(itemName);
@@ -71,27 +78,33 @@ public class ViewItemServlet extends HttpServlet {
             return;
         }
         else if (action != null && action.equals("save")) {
-            String quantity = request.getParameter("quantity");
-            String category = request.getParameter("category");
-            String description = request.getParameter("description");
-                        
-            String status = "";
-            
-            ItemService itemService = new ItemService();
-            
-            status = itemService.update(itemName, quantity, category, description);
-            
-            request.setAttribute("message", status);
-            
-            Item item = itemService.getByItemName(itemName);
-            if (item == null) {
-                request.setAttribute("message", "Item not found. This seems like a database connection error.");
-                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
-                return;
-            }
+            if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
+                String quantity = request.getParameter("quantity");
+                String category = request.getParameter("category");
+                String description = request.getParameter("description");
 
-            request.setAttribute("item", item);
-            getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+                String status = "";
+
+                ItemService itemService = new ItemService();
+
+                status = itemService.update(itemName, quantity, category, description);
+
+                request.setAttribute("message", status);
+
+                Item item = itemService.getByItemName(itemName);
+                if (item == null) {
+                    request.setAttribute("message", "Item not found. This seems like a database connection error.");
+                    getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
+                    return;
+                }
+
+                request.setAttribute("item", item);
+                getServletContext().getRequestDispatcher("/WEB-INF/viewItem.jsp").forward(request, response);
+            }
+            else {
+                request.setAttribute("message", "You don't have privileges to update an Item.");
+                getServletContext().getRequestDispatcher("/WEB-INF/item.jsp").forward(request, response);
+            }
         }
     }
 }
