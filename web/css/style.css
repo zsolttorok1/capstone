@@ -942,6 +942,10 @@ label a {
     width: 178px;
 }
 
+.forgotPasswordA {
+    text-decoration: none;
+}
+
 /* to remove whitespace inline blocks */
 .modal .phoneNumberList {
     font-size: 0;

@@ -5,8 +5,11 @@
             <label for="username">Username</label><br>
             <input type="text" id="username" class="contentBodyInputBig" name="userName" value='${userName}'/><br>
 
-            <label for="password">Password (<a href="login?action=resetPassword">Forgot Password</a>)</label><br>
-            <input type="password" id="password" class="contentBodyInputBig" name="password" value='${password}'/><br>   
+            <label for="password">Password</label><br>
+            <input type="password" id="password" class="contentBodyInputBig" name="password" value='${password}'/><br>
+            (<a class="forgotPasswordA" href="login?action=resetPassword">Forgot Password</a>)
+            <br>
+            <br>
 
             <div>
                 <div class="inlineBlock">Remember Me</div>
