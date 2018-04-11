@@ -6,15 +6,19 @@
             <div class="rowitemHeader">Job Name</div>
             <div class="rowitemHeader">Customer</div>
             <div class="rowitemHeader">Date Started</div>
-            <div class="rowitemHeader">Status</div>
+            <div class="rowitemHeader">
+                <c:if test="${role eq 'owner'}">Status</c:if>
+            </div>
         </div>
     </div>
-       
-    <div class="rowWrapper">   
-        <div class="addRow" id="myBtn">
-            <img class="addPlus" src="res/plus.png" />
+    
+    <c:if test="${role eq 'owner' or role eq 'manager'}">
+        <div class="rowWrapper">   
+            <div class="addRow" id="myBtn">
+                <img class="addPlus" src="res/plus.png" />
+            </div>
         </div>
-    </div>
+    </c:if>
         
     <c:forEach var="job" items="${jobList}">
         <div class="rowWrapper">
@@ -22,7 +26,9 @@
                 <div class="rowitem" name="name">${job.jobName}</div>
                 <div class="rowitem" name="customer">${job.customer.firstName} ${job.customer.lastName}</div>
                 <div class="rowitem" name="description">${job.dateStarted}</div>
-                <div class="rowitem" name="status">${job.status}</div>
+                <div class="rowitem" name="status">
+                    <c:if test="${role eq 'owner'}">${job.status}</c:if>
+                </div>
                 
                 <form method="post" action="viewJob">
                     <input type="hidden" name="action" value="view">
@@ -30,13 +36,15 @@
                     <input type="submit" class="rowButton" value="">
                 </form>
             </div>
-                    
-            <form method="post" action="job">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="jobName" value="${job.jobName}">
-                <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
-            </form>
-                        
+            
+            <c:if test="${role eq 'owner' or role eq 'manager'}">
+                <form method="post" action="job">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="jobName" value="${job.jobName}">
+                    <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                </form>
+            </c:if>    
+       
         </div>
     </c:forEach>
 </div>
@@ -90,22 +98,29 @@
                     <div class="divTableCellLabel">Description::</div>
                     <div class="divTableCellField"><input name="description" type="text" placeholder="description" /></div>
                 </div>
-				<div class="divTableRow">
+                <div class="divTableRow">
                     <div class="divTableCellLabel">Date Started:</div>
                     <div class="divTableCellField"><input name="dateStarted" type="date" placeholder="yyyy-mm-dd" /></div>
                 </div>
-				<div class="divTableRow">
+                <div class="divTableRow">
                     <div class="divTableCellLabel">Date Finished:</div>
                     <div class="divTableCellField"><input name="dateFinished" type="date" placeholder="yyyy-mm-dd" /></div>
                 </div>
-				<div class="divTableRow">
-                    <div class="divTableCellLabel">Balance:</div>
-                    <div class="divTableCellField"><input name="balance" type="number" placeholder="0" /></div>
-                </div>
-				<div class="divTableRow">
-                    <div class="divTableCellLabel">Status:</div>
-                    <div class="divTableCellField"><input name="jobStatus" type="text" placeholder="unpaid" /></div>
-                </div>
+                <c:if test="${role eq 'owner'}">
+                    <div class="divTableRow">
+                        <div class="divTableCellLabel">Balance:</div>
+                        <div class="divTableCellField"><input name="balance" type="number" placeholder="0" value="0"/></div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCellLabel">Status:</div>
+                        <div class="divTableCellField"><input name="jobStatus" type="text" placeholder="unpaid" value="unpaid"/></div>
+                    </div>
+                </c:if>
+                <c:if test="${role eq 'manager'}">
+                    <input name="balance" type="hidden" value="0"/>
+                    <input name="jobStatus" type="hidden" value="unpaid"/>
+                </c:if>
+                
                 <div class="divTableRow">
                     <div class="divTableCellSubmit">
                         <input name="action" type="hidden" value="add" /> <input type="submit" class="saveButton" value="Save" />

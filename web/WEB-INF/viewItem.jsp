@@ -12,8 +12,10 @@
                     <label for="quant">Quantity:</label><br>
                     <input type="number" class="contentBodyInput" placeholder="Quantity" name="quantity" value="${item.quantity}" />
                 </div>
-                <input type="hidden" name="action" value="save">
-                <input type="submit" class="saveChangesButton" name="save" value="Save Changes">
+                <c:if test="${role eq 'owner' or role eq 'manager'}">
+                    <input type="hidden" name="action" value="save">
+                    <input type="submit" class="saveChangesButton" name="save" value="Save Changes">
+                </c:if>
             </form>
         </div>
         <script src="javascript/sitefunctions.js" type="text/javascript"></script>

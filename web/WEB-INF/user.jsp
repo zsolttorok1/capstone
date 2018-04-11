@@ -11,11 +11,13 @@
         </div>
     </div>
 
-    <div class="rowWrapper">
-        <div class="addRow" id="myBtn">
-            <img class="addPlus" src="res/plus.png" />
+    <c:if test="${role eq 'owner' or role eq 'manager'}">
+        <div class="rowWrapper">
+            <div class="addRow" id="myBtn">
+                <img class="addPlus" src="res/plus.png" />
+            </div>
         </div>
-    </div>
+    </c:if>
 
     <c:forEach var="user" items="${userList}">
         <div class="rowWrapper">
@@ -37,11 +39,13 @@
                 </form>
             </div>
  
-            <form method="post" action="user">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="userName" value="${user.userName}">
-                <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
-            </form>
+            <c:if test="${role eq 'owner' or role eq 'manager'}">
+                <form method="post" action="user">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="userName" value="${user.userName}">
+                    <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                </form>
+            </c:if>
                 
         </div>
     </c:forEach>

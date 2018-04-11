@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>A.Damor</title>
+        <title>A. Damore Painting & Decorating</title>
     </head>
     <body 
         <c:if test="${!empty message}">
@@ -36,10 +36,14 @@
             <div id="mySidenav" class="sidenav">
                 <a href="item">Items</a>
                 <a href="user">Employees</a>
-                <a href="customer">Customers</a>
+                <c:if test="${role eq 'owner'}">
+                    <a href="customer">Customers</a>
+                </c:if>
                 <a href="job">Jobs</a>
-                <a href="quote">Quotes</a>
-                <a href="backup">Backup</a>
+                <c:if test="${role eq 'owner'}">
+                    <a href="quote">Quotes</a>
+                    <a href="backup">Backup</a>
+                </c:if>
                 ----------------------------------
                 <a class="logout" href="login?action=logout">Logout</a>
                 ----------------------------------

@@ -1,5 +1,5 @@
 <h1 class="bodyheaderc">ITEM LIST</h1>
-        
+
 <div class="listWrapper">
     <div class="rowWrapper">
         <div class="rowHeader">
@@ -9,13 +9,15 @@
             <div class="rowitemHeader">Quantity in Inventory</div>
         </div>
     </div>
-        
-    <div class="rowWrapper">
-        <div class="addRow" id="myBtn">
-            <img class="addPlus" src="res/plus.png" />
+    
+    <c:if test="${role eq 'owner' or role eq 'manager'}">
+        <div class="rowWrapper">
+            <div class="addRow" id="myBtn">
+                <img class="addPlus" src="res/plus.png" />
+            </div>
         </div>
-    </div>
-        
+    </c:if>
+    
     <c:forEach var="item" items="${itemList}">
         <div class="rowWrapper">
             <div class="row">
@@ -35,11 +37,13 @@
                 </form>
             </div>
                     
-            <form method="post" action="item">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="itemName" value="${item.itemName}">
-                <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
-            </form>
+            <c:if test="${role eq 'owner' or role eq 'manager'}">
+                <form method="post" action="item">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="itemName" value="${item.itemName}">
+                    <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                </form>
+            </c:if>
             
         </div>
     </c:forEach>

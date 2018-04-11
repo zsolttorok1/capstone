@@ -176,6 +176,7 @@ public class ViewJobServlet extends HttpServlet {
             String dateFinished = null;
             String balance = null;
             String jobStatus = null;
+            String status = "";
                 
             if (session.getAttribute("role").equals("owner") || session.getAttribute("role").equals("manager")) {
                 houseNumber = request.getParameter("houseNumber");
@@ -192,41 +193,39 @@ public class ViewJobServlet extends HttpServlet {
                 jobStatus = request.getParameter("status");
             }
 
+            String[] userList = null;
+            String[] hoursList = null;
+            if (session.getAttribute("role").equals("owner")) {
+                userList = request.getParameterValues("userList[]");
+                hoursList = request.getParameterValues("hoursList[]");
+            }
+            
             String[] itemList = request.getParameterValues("itemList[]");
             String[] quantityList = request.getParameterValues("quantityList[]");
             String[] noteList = request.getParameterValues("noteList[]");
-                
-            String[] userList = request.getParameterValues("userList[]");
-            String[] hoursList = request.getParameterValues("hoursList[]");
 
-            String status = "";
+            status = jobService.update(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus);
 
-                status = jobService.update(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus);
-
-                if (status != null && !status.contains("error") && !status.contains("exception")) {
-                    if (itemList != null && itemList.length > 0) {
-                        for (int i = 0; i < itemList.length; i++) {
-                            String status2 = jobService.allocateItem(jobName, itemList[i], quantityList[i], noteList[i]);
-                            if (status2.contains("error")) {
-                                status = status2;
-                            }
-                        }
-                    }
-                    if (userList != null && userList.length > 0) {
-                        for (int i = 0; i < userList.length; i++) {
-                            String status2 = jobService.assignUser(jobName, userList[i], hoursList[i]);
-                            if (status2.contains("error")) {
-                                status = status2;
-                            }
+            if (status != null && !status.contains("error") && !status.contains("exception")) {
+                if (itemList != null && itemList.length > 0) {
+                    for (int i = 0; i < itemList.length; i++) {
+                        String status2 = jobService.allocateItem(jobName, itemList[i], quantityList[i], noteList[i]);
+                        if (status2.contains("error")) {
+                            status = status2;
                         }
                     }
                 }
-
-                message = status;
-//            }
-//            else {
-//                message = "You don't have privileges to update a Job.";
-//            }
+                if (userList != null && userList.length > 0) {
+                    for (int i = 0; i < userList.length; i++) {
+                        String status2 = jobService.assignUser(jobName, userList[i], hoursList[i]);
+                        if (status2.contains("error")) {
+                            status = status2;
+                        }
+                    }
+                }
+            }
+            
+            message = status;
         } 
         
         job = jobService.getByJobName(jobName);

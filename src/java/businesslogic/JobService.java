@@ -43,7 +43,7 @@ public class JobService {
         }
         
         if (intHours < 0) 
-            intHours = 0;
+            intHours = -1;
         
         JobBroker jobBroker = JobBroker.getInstance();
         status = jobBroker.assignUser(jobName, userName, intHours);

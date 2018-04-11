@@ -297,6 +297,7 @@ body.modal_on .modal-content {
 .addPlus {
     max-height: 50px;
     padding: 10px;
+    transition: 0.04s all ease-in-out;
 }
 
 .row {
@@ -342,7 +343,26 @@ body.modal_on .modal-content {
     /*background-color: rgba(255,255,255,0.95);*/
 }
 
+/*.rowButton {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width: calc(100% - 70px);
+    height: 100%;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    transition: all 0.1s ease-in-out;
+    border-color: rgba(0,0,0,0.2);
+}
 
+.rowButton:hover {
+    border-left:0px solid black;
+    border-right:0px solid black;
+    border-top: 20px solid black;
+    border-bottom: 20px solid black;
+    border-color: rgba(0,0,0,0.04);
+}*/
 
 .addRow {
     display: flex;
@@ -353,6 +373,12 @@ body.modal_on .modal-content {
     background-color: white;
     width: calc(100% - 70px);
     cursor: pointer;
+    max-height: 71px;
+}
+
+.addRow:hover .addPlus{
+    max-height: 60px;
+    transition: 0.15s all ease-in-out;
 }
 
 .rowAdd {
@@ -462,6 +488,12 @@ body.modal_on .modal-content {
     border: none;
 }
 
+.deleteButton:hover {
+    background-size: 85% 85%;
+    transition: 0.2s all ease-in-out;
+}
+
+
 .addButtonSmall {
     background-image: url("../res/plus.png");
     background-position: center;
@@ -480,8 +512,7 @@ body.modal_on .modal-content {
     overflow: hidden;
 }
 
-.deleteButtonSmall,
-.deleteButtonSmall2 {    
+.deleteButtonSmall {    
     background-image: url("../res/delete.png");
     background-position: center;
     background-size: 130% 130%;
@@ -497,10 +528,6 @@ body.modal_on .modal-content {
     text-indent: -9999px;
     white-space: nowrap;
     overflow: hidden;
-}
-
-.deleteButtonSmall2 {
-    left: 17px;
 }
 
 .rowButton {
@@ -896,6 +923,8 @@ label a {
 
 .divTableCellField {
     width:220px;
+    /* to remove whitespace inline blocks */
+    font-size: 0px;
 }
 
 .divTableCellSubmit {
@@ -914,6 +943,11 @@ label a {
     width: 178px;
 }
 
+/* to remove whitespace inline blocks */
+.phoneNumberList {
+    font-size: 0;
+}
+
 .phonePlus {
     background-image: url("../res/plus.png");
     background-position: center;
@@ -924,6 +958,7 @@ label a {
     position: relative;
     top: 4px;
     left: 12px;
+    cursor: pointer;
 }
 
 .phoneMinus {
@@ -935,7 +970,8 @@ label a {
     display: inline-block;
     position: relative;
     top: 5px;
-    left: 16px;
+    left: 12px;
+    cursor: pointer;
 }
 
 .saveButton,

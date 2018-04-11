@@ -9,22 +9,34 @@
             <h1 class="bodyheaderc">Company Management</h1>
 
             <p class="contentHeader">Employees Assigned</p>
-            <p class="contentSubHeader">Employee name & work hours:</p>
+            <c:if test="${not empty job.userList}">
+                <p class="contentSubHeader">Employee name & work hours:</p>
+            </c:if>
             <c:forEach var="user" items="${job.userList}">
                 <div class="contentBodyInputNormal fixed2 uneditable">${user.firstName}&nbsp;${user.lastName}</div>
-                <input name="userList[]" type="hidden" value="${user.userName}"/>
-                <input name="hoursList[]" class="contentBodyInputSmall" type="number" placeholder="Hours" value="${user.hours}"/><input class="deleteButtonSmall2" type="submit" name="unassignedUserName" value="${user.userName}"/>
+                
+                <c:if test="${role eq 'owner'}">
+                    <input name="userList[]" type="hidden" value="${user.userName}"/>
+                    <input name="hoursList[]" class="contentBodyInputSmall" type="number" placeholder="Hours" value="${user.hours}"/>
+                </c:if>
+                <c:if test="${role eq 'owner' or role eq 'manager'}">
+                    <input class="deleteButtonSmall" type="submit" name="unassignedUserName" value="${user.userName}"/>
+                </c:if>
                 <br/>
             </c:forEach>
 
-            <p class="contentSubHeader">Assign new employee:</p>
-            <select name="assignedUserName" class="contentBodyInputNormal">
-                <c:forEach var="user" items="${unasignedUserList}">
-                    <option value="${user.userName}">${user.firstName}&nbsp;${user.lastName}</option>
-                </c:forEach>
-            </select>
-            <input name="hours" class="contentBodyInputSmall" type="number" placeholder="Hours" value="0"/>
-            <input name="assignUser" class="addButtonSmall" type="submit"/>
+            <c:if test="${role eq 'owner' or role eq 'manager'}">
+                <p class="contentSubHeader">Assign new employee:</p>
+                <select name="assignedUserName" class="contentBodyInputNormal">
+                    <c:forEach var="user" items="${unasignedUserList}">
+                        <option value="${user.userName}">${user.firstName}&nbsp;${user.lastName}</option>
+                    </c:forEach>
+                </select>
+                <c:if test="${role eq 'owner'}">
+                    <input name="hours" class="contentBodyInputSmall" type="number" placeholder="Hours" value="0"/>
+                </c:if>
+                <input name="assignUser" class="addButtonSmall" type="submit"/>
+            </c:if>
             <br/>
 
             <p class="contentHeader">Items in Use</p>
@@ -51,21 +63,23 @@
             <input name="allocateItem" class="addButtonSmall" type="submit"/>
             <br/>
             
-            <p class="contentHeader">Reports</p>
-            <c:forEach var="report" items="${reportList}">
-                <fmt:formatDate value="${report.dateCreated}" var="dateFormatted" type="date" pattern="MM/dd/yyyy (HH:mm)" />
-                <div class="reportList">
-                    ${dateFormatted}
-                    <input type="submit" name="reportId" value="${report.reportId}"/>
+            <c:if test="${role eq 'owner'}">
+                <p class="contentHeader">Reports</p>
+                <c:forEach var="report" items="${reportList}">
+                    <fmt:formatDate value="${report.dateCreated}" var="dateFormatted" type="date" pattern="MM/dd/yyyy (HH:mm)" />
+                    <div class="reportList">
+                        ${dateFormatted}
+                        <input type="submit" name="reportId" value="${report.reportId}"/>
+                    </div>
+                </c:forEach>
+
+                <p class="contentSubHeader">Generate new report with description:</p>
+
+                <div class="generateReport">
+                    <textarea class="contentBodyInputNormalTextArea2" name="reportDescription"></textarea>
+                    <input name="generate" class="addButtonSmall" type="submit" />
                 </div>
-            </c:forEach>
-            
-            <p class="contentSubHeader">Generate new report with description:</p>
-            
-            <div class="generateReport">
-                <textarea class="contentBodyInputNormalTextArea2" name="reportDescription"></textarea>
-                <input name="generate" class="addButtonSmall" type="submit" />
-            </div>
+            </c:if>
         </div>
     </div>
         
@@ -110,9 +124,11 @@
             <label for="end">End Date:</label><br>
             <input type="date" id="end" class="contentBodyInputNormal" name="dateFinished" value="${job.dateFinished}" />
             <br>
-            <label for="balance">Balance & Status:</label><br>
-            <input type="text" id="balance" class="contentBodyInputNormal" name="balance" value="${job.balance}" />
-            <input type="text" class="contentBodyInputNormal" name="status" value="${job.status}" />
+            <c:if test="${role eq 'owner'}">
+                <label for="balance">Balance & Status:</label><br>
+                <input type="text" id="balance" class="contentBodyInputNormal" name="balance" value="${job.balance}" />
+                <input type="text" class="contentBodyInputNormal" name="status" value="${job.status}" />
+            </c:if>
             <br><br>
         </div>
     </div>
