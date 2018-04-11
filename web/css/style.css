@@ -493,7 +493,6 @@ body.modal_on .modal-content {
     transition: 0.2s all ease-in-out;
 }
 
-
 .addButtonSmall {
     background-image: url("../res/plus.png");
     background-position: center;
@@ -944,7 +943,7 @@ label a {
 }
 
 /* to remove whitespace inline blocks */
-.phoneNumberList {
+.modal .phoneNumberList {
     font-size: 0;
 }
 
