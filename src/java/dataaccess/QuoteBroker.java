@@ -30,20 +30,30 @@ public class QuoteBroker {
         return quoteBroker;
     }
 
-    private void getConnection() {
-        pool = ConnectionPool.getInstance();
-        connection = pool.getConnection();
+    private String getConnection() {
         try {
-            connection.setAutoCommit(false);
-        } catch (SQLException ex) {
+            pool = ConnectionPool.getInstance();
+            connection = pool.getConnection();
+            
+            if (connection != null) {
+                connection.setAutoCommit(false);
+                return "ok";
+            }
+            else {
+                return "connection error";
+            }
+            
+        } catch (Exception ex) {
             Logger.getLogger(ItemBroker.class.getName()).log(Level.SEVERE, null, ex);
+            return "connection error";
         }
     }
 
     public String insert(Quote quote) {
-        getConnection();
-        
-        String status = null;
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("select insert_quote_func(?, ?, ?)");
@@ -82,13 +92,14 @@ public class QuoteBroker {
     }
 
     public String delete(Quote deletedQuote) {
-         getConnection();
-        
-        String status = null;
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
 
         try {
             PreparedStatement pstmt = connection.prepareStatement("select delete_quote_func(?)");
-            pstmt.setString(1, deletedQuote.getName());
+            pstmt.setInt(1, deletedQuote.getQuoteId());
             
             ResultSet rs = pstmt.executeQuery();
             
@@ -119,81 +130,75 @@ public class QuoteBroker {
         } finally {
             pool.freeConnection(connection);
         }
-
+        
         return status;
     }
         
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public Quote getByName(String name) {
-        getConnection();
+    public Quote getById(int quoteId) {
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
         
         Quote quote = null;
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM quote WHERE quote_name = ?;");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM quote WHERE quote_id = ?;");
             
-            pstmt.setString(1, name);
+            pstmt.setInt(1, quoteId);
             ResultSet rs = pstmt.executeQuery();
 
-            String quote_name = null;
+            String quoteName = null;
             String email = null;
             String description = null;
 
             while (rs.next()) {
-                quote_name = rs.getString("QUOTE_NAME");
+                quoteName = rs.getString("QUOTE_NAME");
                 email = rs.getString("EMAIL");
                 description = rs.getString("DESCRIPTION");
-
             }
-            quote = new Quote(quote_name, email, description);
+            quote = new Quote(quoteId, quoteName, email, description);
  
         } catch (SQLException ex) {
             Logger.getLogger(UserBroker.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             pool.freeConnection(connection);
         }
-        return quote;
         
-        
+        return quote;  
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Quote> getAll() {
-        try {
-            getConnection();
-            
-            List<Quote> quoteList = new ArrayList<>();
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return null;
+        }
+        
+        List<Quote> quoteList = new ArrayList<>();
+        
+        try {            
             Quote quote = null;
             
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM QUOTE");
             ResultSet rs = pstmt.executeQuery();
             
-            while (rs.next()) {
+            while (rs.next() && rs.getInt("quote_id") > 0) {
+                int quoteId = rs.getInt("quote_id");
                 String name = rs.getString("quote_name");
                 String email = rs.getString("email");
                 String description = rs.getString("description");
                 
                 
-                quote = new Quote(name, email, description);
+                quote = new Quote(quoteId, name, email, description);
                 quoteList.add(quote);
             }
             
-            
-            
-            return quoteList;// todo
         } catch (SQLException ex) {
             Logger.getLogger(QuoteBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
-        pool.freeConnection(connection);
+            pool.freeConnection(connection);
         }
-        return null;
+        
+        return quoteList;
     }
 }

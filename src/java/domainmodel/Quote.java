@@ -11,10 +11,18 @@ package domainmodel;
  */
 public class Quote {
 
+    private int quoteId;
     private String name;
     private String email;
     private String description;
 
+    public Quote(int quoteId, String name, String email, String description) {
+        this.quoteId = quoteId;
+        this.name = name;
+        this.email = email;
+        this.description = description;
+    }
+    
     public Quote(String name, String email, String description) {
         this.name = name;
         this.email = email;
@@ -22,11 +30,20 @@ public class Quote {
     }
 
     public Quote() {
-        this.name = name;
-        this.email = email;
-        this.description = description;
+        this.quoteId = 0;
+        this.name = null;
+        this.email = null;
+        this.description = null;
     }
 
+    public int getQuoteId() {
+        return quoteId;
+    }
+
+    public void setQuoteId(int quoteId) {
+        this.quoteId = quoteId;
+    }
+    
     public String getName() {
         return name;
     }

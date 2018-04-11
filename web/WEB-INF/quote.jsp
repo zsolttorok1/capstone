@@ -18,15 +18,15 @@
                 
                 <form method="post" action="quote">
                     <input type="hidden" name="action" value="view">
-                    <input type="hidden" name="quoteName" value="${quote.name}">
+                    <input type="hidden" name="quoteId" value="${quote.quoteId}">
                     <input type="submit" class="rowButton" value="">
                 </form>
             </div>
             
             <form method="post" action="quote">
                 <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="quoteName" value="${quote.name}">
-                <button type="submit" class="deleteButton" name="action" value="" onclick="closeForm(this);">
+                <input type="hidden" name="quoteId" value="${quote.quoteId}">
+                <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
             </form>
 
         </div>

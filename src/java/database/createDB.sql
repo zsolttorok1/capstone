@@ -146,10 +146,11 @@ CREATE TABLE `job_report` (
 );
 
 CREATE TABLE `quote` (
+    `quote_id` int NOT NULL AUTO_INCREMENT,
     `quote_name` varchar(100) NOT NULL,
     `email` varchar(100) NOT NULL,
     `description` varchar(2000) NOT NULL, 
-    PRIMARY KEY (`quote_name`)
+    PRIMARY KEY (`quote_id`)
 );
 
 CREATE TABLE `password_change_request` (
@@ -924,7 +925,7 @@ END;
 $$
 
 CREATE FUNCTION `delete_quote_func`
-    (p_quote_name varchar(50))
+    (p_quote_id int)
     RETURNS varchar(20)
 NOT DETERMINISTIC
 BEGIN
@@ -934,7 +935,7 @@ BEGIN
         END;
 
     DELETE FROM `quote` 
-        WHERE quote_name = p_quote_name;
+        WHERE quote_id = p_quote_id;
 
     return 'deleted';
 END;

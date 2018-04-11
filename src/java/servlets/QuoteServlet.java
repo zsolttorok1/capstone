@@ -54,18 +54,18 @@ public class QuoteServlet extends HttpServlet {
         }
         
         String action = request.getParameter("action");
-        String quoteName = request.getParameter("quoteName");
+        String quoteId = request.getParameter("quoteId");
         String message = "";
         
-        if (quoteName == null || quoteName.isEmpty()) {
+        if (quoteId == null || quoteId.isEmpty()) {
             message = "invalid quoteId.";
         }
         else if (action != null && action.equals("view")) {
             QuoteService quoteService = new QuoteService();
-            Quote quote = quoteService.viewQuote(quoteName);
+            Quote quote = quoteService.viewQuote(quoteId);
                     
             if (quote == null) {
-                request.setAttribute("message", "Customer not found. This seems like a database connection error.");
+                request.setAttribute("message", "Quote not found. This seems like a database connection error.");
                 getServletContext().getRequestDispatcher("/WEB-INF/quote.jsp").forward(request, response);
                 return;
             }
@@ -76,7 +76,7 @@ public class QuoteServlet extends HttpServlet {
         }        
         else if (action != null && action.equals("delete")) {
             QuoteService quoteService = new QuoteService();
-            String status = quoteService.delete(quoteName);
+            String status = quoteService.delete(quoteId);
          
             message = status;
         }

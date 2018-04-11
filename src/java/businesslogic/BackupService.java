@@ -17,10 +17,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import servlets.BackupServlet;
 
 public class BackupService {
-    
     private static BackupService backupService;
     private ScheduledExecutorService ses;
     private boolean isRunning; 
