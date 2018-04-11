@@ -948,8 +948,17 @@ label a {
 
 /* to remove whitespace inline blocks */
 .modal .phoneNumberList {
-    font-size: 0;
+    font-size: 0px;
 }
+
+.contentInfo .phoneNumberList {
+    font-size: 0px;
+}
+
+.viewcontentJob .phoneNumberList {
+    font-size: 16px;
+}
+
 
 .phonePlus {
     background-image: url("../res/plus.png");
