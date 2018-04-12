@@ -214,7 +214,7 @@ public class ItemService {
     }
     
     /**
-     * Deletes an existing Item object based on its unique item name.
+     * Deletes an existing Item object from database based on its unique item name.
      *
      * @param itemName unique item name as a String
      * @return

@@ -9,8 +9,31 @@ import java.util.ArrayList;
 import java.util.List;
 import utilities.DataConverter;
 
+/**
+ * Job Service handles all the operations regarding the Job Object, including inserting, deleting, updating, allocating
+ * and building.
+ * 
+ */
 public class JobService {
     
+    /**
+     * Insert calls the JobBroker class in order to insert a Job Object into the database.
+     *
+     * @param jobName unique name of the job as a String
+     * @param houseNumber house number of job location as a String
+     * @param street street name of job location as a String
+     * @param city city of job location as a String
+     * @param province of job location as a String
+     * @param country country of job location as a String
+     * @param postalCode postal code of job location as a String
+     * @param customerId unique customer ID affiliated with job as a String
+     * @param description description of job as a String
+     * @param dateStarted easily parse-able start date of job as a String
+     * @param dateFinished parse-able end date of job as a String
+     * @param balance outstanding monetary balance of job as a String
+     * @param status status of job as a String
+     * @return status of insertion into database
+     */
     public String insert(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
     
         Job job = build(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, status);
@@ -32,6 +55,14 @@ public class JobService {
         return statusOutput;
     }
     
+    /**
+     * Assigns a User(Employee) object to Job object
+     *
+     * @param jobName unique job name as a String
+     * @param userName unique user name of User Object as a String
+     * @param hours amount of hours worked on job as a String
+     * @return status of assignment to job object in database
+     */
     public String assignUser(String jobName, String userName, String hours) {   
         int intHours;
         String status = "";
@@ -51,6 +82,15 @@ public class JobService {
         return status;
     }
     
+    /**
+     * Allocates existing item object to job object
+     *
+     * @param jobName unique job name as a String
+     * @param itemName unique item name of Item Object as a String
+     * @param quantity quantity of item to be assigned to job as a string
+     * @param note note on item based on job incident as a string
+     * @return status of allocation to job object in database
+     */
     public String allocateItem(String jobName, String itemName, String quantity, String note) {   
         int intQuantity;
         String status = "";
@@ -75,6 +115,13 @@ public class JobService {
         return status;
     }
     
+    /**
+     * Deallocates an item from the job object
+     *
+     * @param jobName unique job name as a String
+     * @param itemName unique item name of Item Object as a String
+     * @return status of deallocation of item from job object in database
+     */
     public String unallocateItem(String jobName, String itemName) {   
         String status = "";
         
@@ -84,6 +131,13 @@ public class JobService {
         return status;
     }
     
+    /**
+     * Unassigns a user from the job object
+     *
+     * @param jobName unique job name as a String
+     * @param userName unique user name of User Object as a String
+     * @return status of unassignment from job object in database
+     */
     public String unassignUser(String jobName, String userName) {   
         String status = "";
         
@@ -93,6 +147,12 @@ public class JobService {
         return status;
     }
 
+    /**
+     * Retrieves job Object (if found) by its unique name from the Broker.
+     *
+     * @param jobName name of the job to be retrieved
+     * @return job Object
+     */
     public Job getByJobName(String jobName) {
         
         if (jobName != null && !jobName.isEmpty()) {
@@ -104,11 +164,22 @@ public class JobService {
         }
     }
     
+    /**
+     * Retrieves all the jobs from the database using the jobBroker.
+     *
+     * @return list of all job Objects in database
+     */
     public List<Job> getAll() {
         JobBroker jobBroker = JobBroker.getInstance();
         return jobBroker.getAll();
     }
     
+    /**
+     * Retrieves a list of all unassigned user objects regarding the job.
+     *
+     * @param job job object to retrieve unassigned users from
+     * @return list of user object that aren't assigned to pertaining job
+     */
     public List<User> getUnasignedUserListFromJob(Job job) {
         List<User> unasignedUserList = new ArrayList<>();
         
@@ -129,6 +200,12 @@ public class JobService {
         return unasignedUserList;
     }
     
+    /**
+     * Retrieves a list of all unassigned item objects regarding the job.
+     *
+     * @param job job object to retrieve unassigned items from
+     * @return list of item object that aren't assigned to pertaining job
+     */
     public List<Item> getUnasignedItemListFromJob(Job job) {
         List<Item> unasignedItemList = new ArrayList<>();
         
@@ -149,6 +226,12 @@ public class JobService {
         return unasignedItemList;
     }
     
+    /**
+     * Searches through all existing jobs for matching keyword using jobBroker.
+     *
+     * @param keyword search term entered
+     * @return list of job Objects which match keyword
+     */
     public List<Job> searchJob(String keyword) {
         JobBroker jobBroker = JobBroker.getInstance();
         List<Job> jobList = null;
@@ -166,12 +249,36 @@ public class JobService {
         return jobList;
     }
 
+    /**
+     * Updates existing job Object by setting its attributes to new parameters
+     *
+     * @param jobName unique name of the job as a String
+     * @param houseNumber house number of job location as a String
+     * @param street street name of job location as a String
+     * @param city city of job location as a String
+     * @param province of job location as a String
+     * @param country country of job location as a String
+     * @param postalCode postal code of job location as a String
+     * @param customerId unique customer ID affiliated with job as a String
+     * @param description description of job as a String
+     * @param dateStarted easily parse-able start date of job as a String
+     * @param dateFinished parse-able end date of job as a String
+     * @param balance outstanding monetary balance of job as a String
+     * @param status status of job as a String
+     * @return updated job object
+     */
     public String update(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
         Job job = build(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, status);
         
         return update(job);
     }
     
+    /**
+     * Updates existing job Object to match temporary new job Object
+     *
+     * @param jobNew temporary new job object used to update job object matching its name
+     * @return status of update from database
+     */
     public String update(Job jobNew) {
         JobBroker jobBroker = JobBroker.getInstance();
         Job job = null;
@@ -228,6 +335,12 @@ public class JobService {
         return status;
     }
       
+    /**
+     * Makes sure none of the parameters in Job object are null.
+     *
+     * @param job job object to be examined
+     * @return status of validation check
+     */
     private String validate(Job job) {
         String status = "";
         
@@ -279,6 +392,24 @@ public class JobService {
         }
     }
     
+    /**
+     * Builds Job object using parameters and validates data.
+     * 
+     * @param jobName unique name of the job as a String
+     * @param houseNumber house number of job location as a String
+     * @param street street name of job location as a String
+     * @param city city of job location as a String
+     * @param province of job location as a String
+     * @param country country of job location as a String
+     * @param postalCode postal code of job location as a String
+     * @param customerId unique customer ID affiliated with job as a String
+     * @param description description of job as a String
+     * @param dateStarted easily parse-able start date of job as a String
+     * @param dateFinished parse-able end date of job as a String
+     * @param balance outstanding monetary balance of job as a String
+     * @param status status of job as a String
+     * @return job object
+     */
     private Job build(String jobName, String houseNumber, String street, String city, String province, String country, String postalCode, String customerId, String description, String dateStarted, String dateFinished, String balance, String status) {
         Job job = new Job();
        
@@ -340,6 +471,12 @@ public class JobService {
         return job;
     }
     
+    /**
+     * Deletes an existing Job object from database based on its unique job name.
+     *
+     * @param jobName job name of job to be deleted as a string
+     * @return
+     */
     public String delete(String jobName) {
         JobBroker jobBroker = JobBroker.getInstance();
         Job deletedJob = jobBroker.getByName(jobName);

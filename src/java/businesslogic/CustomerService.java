@@ -9,7 +9,6 @@ import java.util.List;
  * Customer Service handles all the operations regarding the Customer Object, including inserting, deleting, updating
  * and building.
  * 
- * 
  */
 public class CustomerService {
         
@@ -341,7 +340,7 @@ public class CustomerService {
     }
     
     /**
-     * Deletes an existing customer object based on its customer ID.
+     * Deletes an existing customer object from database based on its customer ID.
      *
      * @param customerId the unique customer ID as a String
      * @return
