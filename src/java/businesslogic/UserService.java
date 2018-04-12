@@ -13,8 +13,32 @@ import javax.mail.MessagingException;
 import javax.naming.NamingException;
 import utilities.HashingUtil;
 
+/**
+ * User Service handles all the operations regarding the User Object, including inserting, deleting, updating
+ * and building.
+ * 
+ */
 public class UserService {
 
+    /**
+     * Insert calls the UserBroker class in order to insert a User Object into the database.
+     *
+     * @param userName unique username as a String
+     * @param houseNumber house number of user as a String
+     * @param street street name of user as a String
+     * @param city city of user as a String
+     * @param province province of user as a String
+     * @param country country of user as a String
+     * @param postalCode postal code of user as a String
+     * @param phoneNumberList list of phone number(s) of user as String(s)
+     * @param password password of user  of user as a String
+     * @param firstName first name of user as a String
+     * @param lastName last name of user as a String
+     * @param role role of user as a String
+     * @param email email address of user as a String
+     * @param hourlyRate hourly rate of user as a String
+     * @return status of insertion into database
+     */
     public String insert(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
     
         User user = build(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
@@ -40,6 +64,12 @@ public class UserService {
         return status; 
     }
 
+    /**
+     * Retrieves User Object (if found) by its unique user name from the Broker.
+     *
+     * @param userName unique username to be matched to User Object
+     * @return matching user object
+     */
     public User getByUserName(String userName) {
         
         if (userName != null && !userName.isEmpty()) {
@@ -51,6 +81,12 @@ public class UserService {
         }
     }
     
+    /**
+     * Retrieves User Object (if found) by its unique email address from the Broker.
+     *
+     * @param email email address to be matched to User Object
+     * @return matching user object
+     */
     public User getByEmail(String email) {
         
         if (email != null && !email.isEmpty()) {
@@ -62,11 +98,22 @@ public class UserService {
         }
     }
     
+    /**
+     * Retrieves all User Objects currently in Database using UserBroker.
+     *
+     * @return list of all User Objects
+     */
     public List<User> getAll() {
         UserBroker userBroker = UserBroker.getInstance();
         return userBroker.getAll();
     }
 
+    /**
+     * Searches through all existing users for matching keyword using UserBroker.
+     *
+     * @param keyword search term entered
+     * @return list of user Objects which match keyword
+     */
     public List<User> searchUser(String keyword) {
         UserBroker userBroker = UserBroker.getInstance();
         List<User> userList = null;
@@ -84,12 +131,37 @@ public class UserService {
         return userList;
     }
 
+    /**
+     * Updates existing User Object by setting its attributes to new parameters
+     *
+     * @param userName unique username as a String
+     * @param houseNumber house number of user as a String
+     * @param street street name of user as a String
+     * @param city city of user as a String
+     * @param province province of user as a String
+     * @param country country of user as a String
+     * @param postalCode postal code of user as a String
+     * @param phoneNumberList list of phone number(s) of user as String(s)
+     * @param password password of user  of user as a String
+     * @param firstName first name of user as a String
+     * @param lastName last name of user as a String
+     * @param role role of user as a String
+     * @param email email address of user as a String
+     * @param hourlyRate hourly rate of user as a String
+     * @return updated user object
+     */
     public String update(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
         User user = build(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
         
         return update(user);
     }
     
+    /**
+     * Updates existing User Object to match temporary new User Object
+     *
+     * @param userNew temporary new user object used to update user object matching its name
+     * @return status of update from database
+     */
     public String update(User userNew) {
         UserBroker userBroker = UserBroker.getInstance();
         User user = null;
@@ -149,6 +221,12 @@ public class UserService {
         return status;
     }
       
+    /**
+     * Makes sure none of the parameters in User object are null.
+     *
+     * @param user job object to be examined
+     * @return status of validation check
+     */
     private String validate(User user) {
         String status = "";
         
@@ -211,6 +289,25 @@ public class UserService {
         }
     }
     
+    /**
+     * Builds USer object using parameters and validates data.
+     *
+     * @param userName unique username as a String
+     * @param houseNumber house number of user as a String
+     * @param street street name of user as a String
+     * @param city city of user as a String
+     * @param province province of user as a String
+     * @param country country of user as a String
+     * @param postalCode postal code of user as a String
+     * @param phoneNumberList list of phone number(s) of user as String(s)
+     * @param password password of user  of user as a String
+     * @param firstName first name of user as a String
+     * @param lastName last name of user as a String
+     * @param role role of user as a String
+     * @param email email address of user as a String
+     * @param hourlyRate hourly rate of user as a String
+     * @return built user object
+     */
     private User build(String userName, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String password, String firstName, String lastName, String role, String email, String hourlyRate) {
         User user = new User();
         
@@ -280,6 +377,12 @@ public class UserService {
         return user;
     }
     
+    /**
+     * Deletes an existing User object from database based on its unique user name.
+     *
+     * @param userName user name of user to be deleted as a string
+     * @return 
+     */
     public String delete(String userName) {
         UserBroker userBroker = UserBroker.getInstance();
         User deletedUser = userBroker.getByName(userName);
@@ -288,6 +391,14 @@ public class UserService {
     }
     
     //returns "(role), invalid, null" 
+
+    /**
+     * Log in method to access employee (user) website.
+     *
+     * @param username username of User as a String
+     * @param password password of User as a String
+     * @return status of login progress
+     */
     public String login(String username, String password) {
         String status = "";
         
@@ -302,6 +413,14 @@ public class UserService {
     }
     
     //returns "ok, invalid, null" 
+
+    /**
+     * Changes password of User and saves it securely using hashing + salt
+     *
+     * @param userName username of User as a String
+     * @param password new password to be set for User as a String
+     * @return status of password changing progress
+     */
     public String changePassword(String userName, String password) {
         String status = "";
         
@@ -320,6 +439,14 @@ public class UserService {
         return status;
     }
     
+    /**
+     * Generates unique password reset link for user to receive when resetting their password.
+     *
+     * @param email email address to send link to as a String
+     * @param path path to access email template as a String
+     * @param url url of this application
+     * @return
+     */
     public int resetPassword(String email, String path, String url) {
         //generate new UUID
         String uuid = UUID.randomUUID().toString();

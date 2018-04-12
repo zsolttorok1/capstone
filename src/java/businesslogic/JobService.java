@@ -227,7 +227,7 @@ public class JobService {
     }
     
     /**
-     * Searches through all existing jobs for matching keyword using jobBroker.
+     * Searches through all existing jobs for matching keyword using JobBroker.
      *
      * @param keyword search term entered
      * @return list of job Objects which match keyword
@@ -250,7 +250,7 @@ public class JobService {
     }
 
     /**
-     * Updates existing job Object by setting its attributes to new parameters
+     * Updates existing Job Object by setting its attributes to new parameters
      *
      * @param jobName unique name of the job as a String
      * @param houseNumber house number of job location as a String
@@ -274,7 +274,7 @@ public class JobService {
     }
     
     /**
-     * Updates existing job Object to match temporary new job Object
+     * Updates existing job Object to match temporary new Job Object
      *
      * @param jobNew temporary new job object used to update job object matching its name
      * @return status of update from database
