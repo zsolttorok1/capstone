@@ -18,8 +18,19 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Report Service handles all the operations regarding the Report Object, including generating, searching and retrieving.
+ * 
+ */
 public class ReportService {
 
+    /**
+     * Generates a formatted PDF file of selected job object using pdfbox from all of the job's data.
+     *
+     * @param job job object to generate report of
+     * @param description description of report
+     * @return status of report generation
+     */
     public String generateFromJob(Job job, String description) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy.MM.dd");            
         String status = "";
@@ -266,10 +277,22 @@ public class ReportService {
         return status;
     }
     
+    /**
+     * Retrieves list of reports matching given job name.
+     *
+     * @param jobName unique name of job as a String
+     * @return list of all existing reports of job
+     */
     public List<Report> getByJobName(String jobName) {        
         return  ReportBroker.getInstance().getByJobName(jobName);
     }
     
+    /**
+     * Retrieves Report based on given unique report ID.
+     *
+     * @param reportId unique report ID as a String
+     * @return matching report
+     */
     public Report getById (String reportId) {
         int intReportId;
                 
