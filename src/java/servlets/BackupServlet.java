@@ -1,8 +1,3 @@
-/*Reference: https://stackoverflow.com/questions/1955268/importing-a-mysql-database-dump-programmatically-through-java
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import businesslogic.BackupService;
@@ -16,7 +11,15 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "BackupServlet", urlPatterns = {"/BackupServlet"})
 public class BackupServlet extends HttpServlet {
-
+    
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -37,7 +40,15 @@ public class BackupServlet extends HttpServlet {
         request.setAttribute("message", "is Backupper Service running? " + BackupService.getInstance().isBackupperServiceRunning());
         request.getRequestDispatcher("/WEB-INF/backup.jsp").forward(request, response);
     }
-
+    
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         //access privilege check

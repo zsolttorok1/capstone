@@ -17,6 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import utilities.DataConverter;
 
+/**
+ * Broker class which communicates with JDBC and handles all the Job information management.
+ */
 public class JobBroker {
     /**
      * contains the JobBroker instance
