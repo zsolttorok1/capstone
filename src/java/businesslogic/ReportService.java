@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Report Service handles all the operations regarding the Report Object, including generating, searching and retrieving.
+ * Report Service handles all the operations regarding the Report Object, including generating and retrieving.
  * 
  */
 public class ReportService {
