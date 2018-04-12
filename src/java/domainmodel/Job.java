@@ -29,7 +29,7 @@ public class Job implements Serializable{
      * Constructor
      *
      * @param jobName unique name of job as a String
-     * @param houseNumber house number of job location as a String
+     * @param houseNumber house number of job location as a Int
      * @param street street name of job location as a String
      * @param city city of job location as a String
      * @param province of job location as a String
@@ -37,9 +37,9 @@ public class Job implements Serializable{
      * @param postalCode postal code of job location as a String
      * @param customer Customer Object to tie to job
      * @param description description of job as a String
-     * @param dateStarted easily parse-able start date of job as a String
-     * @param dateFinished parse-able end date of job as a String
-     * @param balance outstanding monetary balance of job as a String
+     * @param dateStarted easily parse-able start date of job as a Date
+     * @param dateFinished parse-able end date of job as a Date
+     * @param balance outstanding monetary balance of job as a Int
      * @param status status of job as a String
      * @param reportList list of report Objects
      * @param userList list of user objects
