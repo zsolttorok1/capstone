@@ -4,20 +4,84 @@ import java.util.ArrayList;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The java bean class that handles the User object attributes and getter/setter methods. 
+ */
 public class User implements Serializable {
     
+    /**
+     * The User's username, used to login and get identified by the system
+     */
     private String userName;
+    
+    /**
+     * The Address reference for the user
+     */
     private Address address;
+    
+    /**
+     * All the phone numbers that belong to the User
+     */
     private List<Long> phoneNumberList;
+    
+    /**
+     * The User's username, used to login and get identified by the system
+     */
     private String password;
+    
+    /**
+     * The First Name of the User
+     */
     private String firstName;
+    
+    /**
+     * The Last Name of the User
+     */
     private String lastName;
+    
+    /**
+     * The role of the user. Can be "owner", "manager" or "employee"
+     */
     private String role;
+    
+    /**
+     * The email address of the User
+     */
     private String email;
+    
+    /**
+     * The hourly rate to pay the user
+     */
     private int hourlyRate;
+    
+    /**
+     * The user's unique salt
+     */
     private String salt;
+    
+    /**
+     * Number of hours the user worked on the given job
+     */
     private int hours;
     
+    /**
+     * Constructor
+     * @param userName The User's username, used to login and get identified by the system
+     * @param houseNumber The User's house number
+     * @param street The User's street number
+     * @param city The User's city
+     * @param province The User's province
+     * @param country The User's country
+     * @param postalCode The User's postalCode
+     * @param phoneNumberList The User's list of phone numbers
+     * @param password The User's password
+     * @param firstName The First Name of the User
+     * @param lastName The Last Name of the User
+     * @param role The role of the user. Can be "owner", "manager" or "employee"
+     * @param email The email address of the User
+     * @param hourlyRate The hourly rate to pay the user
+     * @param salt The user's unique salt
+     */
     public User(String userName, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String password, String firstName, String lastName, String role, String email, int hourlyRate, String salt) {
         this.userName = userName;
         this.address = new Address();

@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domainmodel;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- *
- * @author 725899
- */
 public class PasswordChangeRequest implements Serializable {
     private String pcrUUID;
     private Date pcrTime;
