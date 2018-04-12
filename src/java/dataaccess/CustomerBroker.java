@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dataaccess;
 
 import businesslogic.CustomerService;
@@ -17,11 +12,29 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Broker class which communicates with JDBC and handles all the Customer information management.
+ */
 public class CustomerBroker {
+    /**
+     * contains the CustomerBroker instance
+     */
     private static CustomerBroker customerBroker;
+    
+    /**
+     * Reference to the ConnectionPool
+     */
     private ConnectionPool pool;
+    
+    /**
+     * Reference to the Connection
+     */
     private Connection connection;
     
+    /**
+     * Singleton method which gets the CustomerBroker instance.
+     * @return the CustomerBroker instance
+     */
     public static CustomerBroker getInstance() {
         if (customerBroker == null) {
             customerBroker = new CustomerBroker();
@@ -30,9 +43,16 @@ public class CustomerBroker {
         return customerBroker;
     }
     
+    /**
+     * Default constructor
+     */
     private CustomerBroker() {
     }
     
+    /**
+     * Gets the next free connection from the connection pool.
+     * @return "ok" if everything went fine, "connection error" if there was an issue in the process.
+     */
     private String getConnection() {
         try {
             pool = ConnectionPool.getInstance();
@@ -52,7 +72,11 @@ public class CustomerBroker {
         }
     }
 
-    //returns "Customer, null"
+    /**
+     * Gets the Customer from the customerId
+     * @param customerId the customerId to search for
+     * @return the found Customer, or null if not found
+     */
     public Customer getById(int customerId) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -109,7 +133,10 @@ public class CustomerBroker {
         return customer;
     }
 
-    //returns "List of Customers, empty List, null"
+    /**
+     * Gets all the Customers from the database
+     * @return a List of the received Customer objects, or null if there is an issue
+     */
     public List<Customer> getAll() {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -170,7 +197,11 @@ public class CustomerBroker {
         return customerList;
     }
 
-    //returns "inserted, updated, error, exception"
+    /**
+     * Inserts the Customer object information to the database
+     * @param customer the Customer object
+     * @return "inserted" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String insert(Customer customer) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -261,7 +292,11 @@ public class CustomerBroker {
         }
     }
 
-    //returns "updated, error, exception"
+    /**
+     * Updates the Customer object information at the database
+     * @param customer the Customer object
+     * @return "updated" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String update(Customer customer) {
         String status = insert(customer);
         
@@ -273,10 +308,14 @@ public class CustomerBroker {
             return "updated";
         }
         
-        return status; //expection, error
+        return status;
     }
-
-    //returns "deleted, error, exception"
+    
+    /**
+     * Deletes the Customer object information from the database
+     * @param customer the Customer object
+     * @return "deleted" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String delete(Customer customer) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -320,6 +359,11 @@ public class CustomerBroker {
         return status;
     }
     
+    /**
+     * Searches for any keyword hits over the Customer table at the database.
+     * @param keyword the keyword to search for
+     * @return the List of found Customer object hits
+     */
     public List<Customer> search(String keyword) {
         List<Customer> customerList = new ArrayList<>();
         
