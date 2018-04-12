@@ -390,14 +390,12 @@ public class UserService {
         return userBroker.delete(deletedUser);
     }
     
-    //returns "(role), invalid, null" 
-
     /**
      * Log in method to access employee (user) website.
      *
      * @param username username of User as a String
      * @param password password of User as a String
-     * @return status of login progress
+     * @return status of login progress. "role, invalid, null"
      */
     public String login(String username, String password) {
         String status = "";
@@ -412,14 +410,12 @@ public class UserService {
         return status;
     }
     
-    //returns "ok, invalid, null" 
-
     /**
      * Changes password of User and saves it securely using hashing + salt
      *
      * @param userName username of User as a String
      * @param password new password to be set for User as a String
-     * @return status of password changing progress
+     * @return status of password changing progress. "ok, invalid, null" 
      */
     public String changePassword(String userName, String password) {
         String status = "";
@@ -443,7 +439,7 @@ public class UserService {
      * Generates unique password reset link for user to receive when resetting their password.
      *
      * @param email email address to send link to as a String
-     * @param path path to access email template as a String
+     * @param path the reference to the project's relative path
      * @param url url of this application
      * @return
      */
