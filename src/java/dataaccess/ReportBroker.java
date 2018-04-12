@@ -13,12 +13,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import utilities.DataConverter;
 
+/**
+ * Broker class which communicates with JDBC and handles all the Report information management.
+ */
 public class ReportBroker {
-    
+    /**
+     * contains the ReportBroker instance
+     */
     private static ReportBroker reportBroker;
+    
+    /**
+     * Reference to the ConnectionPool
+     */
     private ConnectionPool pool;
+    
+    /**
+     * Reference to the Connection
+     */
     private Connection connection;
     
+    /**
+     * Singleton method which gets the ReportBroker instance.
+     * @return the ReportBroker instance
+     */
     public static ReportBroker getInstance() {
         if (reportBroker == null) {
             reportBroker = new ReportBroker();
@@ -27,9 +44,16 @@ public class ReportBroker {
         return reportBroker;
     }
     
+    /**
+     * Default constructor
+     */
     private ReportBroker() {
     }
     
+    /**
+     * Gets the next free connection from the connection pool.
+     * @return "ok" if everything went fine, "connection error" if there was an issue in the process.
+     */
     private String getConnection() {
         try {
             pool = ConnectionPool.getInstance();
@@ -49,6 +73,11 @@ public class ReportBroker {
         }
     }
 
+    /**
+     * Gets the Report from the reportId
+     * @param reportId the reportId to search for
+     * @return the found Report, or null if not found
+     */
     public Report getById(int reportId) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -77,6 +106,10 @@ public class ReportBroker {
         return report;
     }
 
+    /**
+     * Gets all the Repors from the database
+     * @return a List of the received Report objects, or null if there is an issue
+     */
     public List<Report> getAll() {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -109,6 +142,11 @@ public class ReportBroker {
         return reportList;
     }
     
+    /**
+     * Gets the Report from the jobName
+     * @param jobName the jobName to search for
+     * @return the found Report, or null if not found
+     */
     public List<Report> getByJobName(String jobName) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -145,6 +183,11 @@ public class ReportBroker {
         return reportList;
     }
 
+    /**
+     * Generates the report from the jobName
+     * @param jobName the jobName to generate the report from
+     * @return a confirmation string if everything went ok, or null if any unexpected issues occurred.
+     */
     public String generateByJobName(String jobName) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {

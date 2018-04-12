@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dataaccess;
 
 import database.ConnectionPool;
@@ -21,13 +16,27 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utilities.DataConverter;
-import utilities.HashingUtil;
 
 public class JobBroker {
+    /**
+     * contains the JobBroker instance
+     */
     private static JobBroker jobBroker;
+    
+    /**
+     * Reference to the ConnectionPool
+     */
     private ConnectionPool pool;
+    
+    /**
+     * Reference to the Connection
+     */
     private Connection connection;
     
+    /**
+     * Singleton method which gets the JobBroker instance.
+     * @return the JobBroker instance
+     */
     public static JobBroker getInstance() {
         if (jobBroker == null) {
             jobBroker = new JobBroker();
@@ -36,9 +45,16 @@ public class JobBroker {
         return jobBroker;
     }
     
+    /**
+     * Default constructor
+     */
     private JobBroker() {
     }
     
+    /**
+     * Gets the next free connection from the connection pool.
+     * @return "ok" if everything went fine, "connection error" if there was an issue in the process.
+     */
     private String getConnection() {
         try {
             pool = ConnectionPool.getInstance();
@@ -58,7 +74,11 @@ public class JobBroker {
         }
     }
 
-    //returns "Job, null"
+    /**
+     * Gets the Job from the jobName
+     * @param jobName the jobName to search for
+     * @return the found Job, or null if not found
+     */
     public Job getByName(String jobName) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -149,6 +169,11 @@ public class JobBroker {
         return job;
     }
      
+    /**
+     * Searches for any keyword hits over the Job table at the database.
+     * @param keyword the keyword to search for
+     * @return the List of found Job object hits
+     */
     public List<Job> search(String keyword) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -197,7 +222,10 @@ public class JobBroker {
         return jobList;
     }
 
-    //returns "List of Users, empty List, null"
+    /**
+     * Gets all the Jobs from the database
+     * @return a List of the received Job objects, "error" if there was an expected issue, "exception" or null if there was an unexpected issue.
+     */
     public List<Job> getAll() {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -246,7 +274,11 @@ public class JobBroker {
         return jobList;
     }
 
-    //returns "inserted, updated, error, exception"
+    /**
+     * Inserts the Job object information to the database
+     * @param job the Job object
+     * @return "inserted" if everything went ok, "updated" if entry already found and just opdated, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String insert(Job job) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -300,7 +332,11 @@ public class JobBroker {
         return status;
     }
 
-    //returns "updated, error, exception"
+    /**
+     * Updates the Job object information at the database
+     * @param job the Job object
+     * @return "updated" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String update(Job job) {        
         String status = insert(job);
         
@@ -315,7 +351,11 @@ public class JobBroker {
         return status; //expection, error
     }
 
-    //returns "deleted, error, exception"
+    /**
+     * Deletes the Job object information from the database
+     * @param job the Job object
+     * @return "deleted" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String delete(Job job) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -359,7 +399,13 @@ public class JobBroker {
         return status;
     }
     
-    //returns "assigned, error, exception"
+    /**
+     * Assigns the user to the Job
+     * @param jobName the jobName to assign the User to
+     * @param userName the userName to assing
+     * @param hours the worked hours at the job, assigning to the user
+     * @return "assigned" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String assignUser(String jobName, String userName, int hours) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -403,7 +449,14 @@ public class JobBroker {
         return status;
     }
     
-    //returns "allocated, error, exception"
+    /**
+     * Allocate the selected Item to the Job
+     * @param jobName the jobName to get allocated to
+     * @param itemName the itemName to get allocated 
+     * @param quantity the quantity that gets allocated
+     * @param note any desired note might want to take
+     * @return "allocated" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String allocateItem(String jobName, String itemName, int quantity, String note) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -453,7 +506,12 @@ public class JobBroker {
         return status;
     }
     
-    //returns "unallocated, error, exception"
+    /**
+     * Unallocate the selected item from the job
+     * @param jobName the targeted job name
+     * @param itemName the targeted item to unallocated
+     * @return "unallocated" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String unallocateItem(String jobName, String itemName) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -497,6 +555,12 @@ public class JobBroker {
     }
     
     //returns "unassigned, error, exception"
+    /**
+     * Unassign the selected user from the job
+     * @param jobName the targeted job name
+     * @param userName the targeted userName to get unassigned from the job
+     * @return 
+     */
     public String unassignUser(String jobName, String userName) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
