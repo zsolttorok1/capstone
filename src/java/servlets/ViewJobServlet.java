@@ -226,7 +226,7 @@ public class ViewJobServlet extends HttpServlet {
             }
             
             message = status;
-        } 
+        }
         
         job = jobService.getByJobName(jobName);
         if (job == null) {

@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>A. Damore Painting & Decorating</title>
+        <title>A. Damor Painting & Decorating</title>
     </head>
     <body 
         <c:if test="${!empty message}">

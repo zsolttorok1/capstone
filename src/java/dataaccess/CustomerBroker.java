@@ -321,13 +321,13 @@ public class CustomerBroker {
     }
     
     public List<Customer> search(String keyword) {
-        getConnection();
-//        String status = getConnection();
-//        if (status == null || status.equals("connection error")) {
-//            return null;
-//        }
-        
         List<Customer> customerList = new ArrayList<>();
+        
+        String status = getConnection();
+        if (status == null || status.equals("connection error")) {
+            return customerList;
+        }
+
         Customer customer = null;
         CustomerService cs = new CustomerService();
         try {
