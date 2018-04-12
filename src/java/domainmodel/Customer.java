@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The java bean class that handles the Customer object attributes and getter/setter methods. 
+ * 
+ */
 public class Customer implements Serializable {
 
     private int customerId;
@@ -16,6 +20,23 @@ public class Customer implements Serializable {
     private String position;
     private String notes;
 
+    /**
+     * Constructor
+     * @param customerId the unique customer ID as a Int
+     * @param houseNumber customer's houseNumber as a Int
+     * @param street customer's streetname as a String
+     * @param city customer's city as a String
+     * @param province customer's province as a String
+     * @param country customer's country as a String
+     * @param postalCode customer's postal code as a String
+     * @param phoneNumberList customer's phone number(s) as long(s)
+     * @param firstName customer's first name as a String
+     * @param lastName customer's last name as a String
+     * @param companyName customer's company name as a String
+     * @param email customer's email address as a String
+     * @param position customer's position within their company as a string
+     * @param notes employee notes on customer as a string 
+     */
     public Customer(int customerId, int houseNumber, String street, String city, String province, String country, String postalCode, List<Long> phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
         this.customerId = customerId;
         this.address = new Address();
@@ -34,6 +55,9 @@ public class Customer implements Serializable {
         this.notes = notes;
     }
     
+    /**
+     * Basic Constructor
+     */
     public Customer() {
         this.customerId = 0;
         this.address = new Address();
