@@ -475,7 +475,7 @@ public class JobService {
      * Deletes an existing Job object from database based on its unique job name.
      *
      * @param jobName job name of job to be deleted as a string
-     * @return
+     * @return status of the deletion
      */
     public String delete(String jobName) {
         JobBroker jobBroker = JobBroker.getInstance();

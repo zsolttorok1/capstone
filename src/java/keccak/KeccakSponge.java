@@ -45,7 +45,7 @@ import java.util.function.UnaryOperator;
  * been made available in the companion class {@link FIPS202}.
  * </p>
  *
- * @author Bobulous <http://www.bobulous.org.uk/>
+ * @author Bobulous http://www.bobulous.org.uk
  * @see FIPS202
  */
 public final class KeccakSponge implements UnaryOperator<byte[]> {

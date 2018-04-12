@@ -110,7 +110,7 @@ public class CustomerService {
      * @param email customer's email address as a String
      * @param position customer's position within their company as a string
      * @param notes employee notes on customer as a string 
-     * @return
+     * @return "updated" if everything went ok, "error" or "exception" if not so much.
      */
     public String update(String customerId, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
         Customer customer = build(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
@@ -343,7 +343,7 @@ public class CustomerService {
      * Deletes an existing customer object from database based on its customer ID.
      *
      * @param customerId the unique customer ID as a String
-     * @return
+     * @return the status of the deletion
      */
     public String delete(String customerId) {
         String status = "";

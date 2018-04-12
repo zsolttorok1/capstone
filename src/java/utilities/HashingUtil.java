@@ -16,7 +16,7 @@ public class HashingUtil {
     
     /**
      * for testing/debugging purposes.
-     * @param args 
+     * @param args default arguments
      */
     public static void main (String[] args) {        
 //        System.out.println(HashingUtil.hashByKeccak512("a", "33434323423423423434"));

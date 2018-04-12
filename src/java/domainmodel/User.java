@@ -190,7 +190,7 @@ public class User implements Serializable {
 
     /**
      * sets the province
-     * @param province 
+     * @param province the province
      */
     public void setProvince(String province) {
         this.address.setProvince(province);

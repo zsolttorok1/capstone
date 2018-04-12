@@ -16,7 +16,7 @@ public class ItemService {
      *
      * @param itemName name of the item as a String
      * @param quantity amount of the item  as a String
-     * @param categorycategory of the item as a String
+     * @param category of the item as a String
      * @param description  description of the item as a String
      * @return status of insertion in database
      */
@@ -96,7 +96,7 @@ public class ItemService {
      *
      * @param itemName name of the item as a String
      * @param quantity amount of the item  as a String
-     * @param categorycategory of the item as a String
+     * @param category of the item as a String
      * @param description  description of the item as a String
      * @return updated item Object
      */
@@ -217,7 +217,7 @@ public class ItemService {
      * Deletes an existing Item object from database based on its unique item name.
      *
      * @param itemName unique item name as a String
-     * @return
+     * @return status of the deletion
      */
     public String delete(String itemName) {
         ItemBroker itemBroker = ItemBroker.getInstance();

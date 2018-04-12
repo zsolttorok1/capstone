@@ -381,7 +381,7 @@ public class UserService {
      * Deletes an existing User object from database based on its unique user name.
      *
      * @param userName user name of user to be deleted as a string
-     * @return 
+     * @return status of the deletion
      */
     public String delete(String userName) {
         UserBroker userBroker = UserBroker.getInstance();
@@ -441,7 +441,7 @@ public class UserService {
      * @param email email address to send link to as a String
      * @param path the reference to the project's relative path
      * @param url url of this application
-     * @return
+     * @return the status number of the unique link generating
      */
     public int resetPassword(String email, String path, String url) {
         //generate new UUID

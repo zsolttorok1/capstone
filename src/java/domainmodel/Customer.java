@@ -96,7 +96,7 @@ public class Customer implements Serializable {
 
     /**
      * sets the houseNumber in integers
-     * @param houseNumber 
+     * @param houseNumber the houseNumber in integers
      */
     public void setHouseNumber(int houseNumber) {
         this.address.setHouseNumber(houseNumber);
@@ -144,7 +144,7 @@ public class Customer implements Serializable {
 
     /**
      * sets the province
-     * @param province 
+     * @param province the province
      */
     public void setProvince(String province) {
         this.address.setProvince(province);

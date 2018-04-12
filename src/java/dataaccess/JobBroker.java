@@ -557,12 +557,11 @@ public class JobBroker {
         return status;
     }
     
-    //returns "unassigned, error, exception"
     /**
      * Unassign the selected user from the job
      * @param jobName the targeted job name
      * @param userName the targeted userName to get unassigned from the job
-     * @return 
+     * @return "unassigned" if everything went ok, "error" or "exception" if not so much.
      */
     public String unassignUser(String jobName, String userName) {
         String status = getConnection();

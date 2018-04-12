@@ -207,7 +207,7 @@ public final class FIPS202 {
 	 * distinguishes these two function types from each other and from other
 	 * applications of the
 	 * <span style="font-variant: small-caps">Keccak</span> sponge function.
-	 * <p>
+	 * 
 	 * Note that {@code ExtendableOutputFunction} objects cannot be directly
 	 * used to calculate a message hash, because the NIST XOF definitions do not
 	 * in themselves specify a hash output length. Instead, an
@@ -220,7 +220,7 @@ public final class FIPS202 {
 	 *             SHAKE256.withOutputLength(4096);
 	 *     byte[] hash = spongeFunction.apply(message);
 	 * }</pre>
-	 * </p>
+	 * 
 	 *
 	 * @see HashFunction
 	 * @see KeccakSponge
