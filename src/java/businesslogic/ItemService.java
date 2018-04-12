@@ -4,8 +4,22 @@ import dataaccess.ItemBroker;
 import domainmodel.Item;
 import java.util.List;
 
+/**
+ * Item Service handles all the operations regarding the Item Object, including inserting, deleting, updating
+ * and building.
+ * 
+ */
 public class ItemService {
     
+    /**
+     * Insert calls the ItemBroker class in order to insert a Item Object into the database.
+     *
+     * @param itemName name of the item as a String
+     * @param quantity amount of the item  as a String
+     * @param categorycategory of the item as a String
+     * @param description  description of the item as a String
+     * @return status of insertion in database
+     */
     public String insert(String itemName, String quantity, String category, String description) {
         
         Item item = build(itemName, quantity, category, description);
@@ -27,6 +41,12 @@ public class ItemService {
         return statusOutput; 
     }
 
+    /**
+     * Retrieves item Object (if found) by its unique name from the Broker.
+     *
+     * @param itemName name of the item to be retrieved
+     * @return item Object
+     */
     public Item getByItemName(String itemName) {
         
         if (itemName != null && !itemName.isEmpty()) {
@@ -38,11 +58,22 @@ public class ItemService {
         }
     }
     
+    /**
+     * Retrieves all the items from the database using the itemBroker.
+     *
+     * @return list of all item Objects in database
+     */
     public List<Item> getAll() {
         ItemBroker itemBroker = ItemBroker.getInstance();
         return itemBroker.getAll();
     }
     
+    /**
+     * Searches through all existing items for matching keyword using itemBroker.
+     *
+     * @param keyword search term entered
+     * @return list of item Objects which match keyword
+     */
     public List<Item> searchItem(String keyword) {
         ItemBroker itemBroker = ItemBroker.getInstance();
         List<Item> itemList = null;
@@ -60,12 +91,27 @@ public class ItemService {
         return itemList;
     }
 
+    /**
+     * Updates existing item Object by setting its attributes to new parameters
+     *
+     * @param itemName name of the item as a String
+     * @param quantity amount of the item  as a String
+     * @param categorycategory of the item as a String
+     * @param description  description of the item as a String
+     * @return updated item Object
+     */
     public String update(String itemName, String quantity, String category, String description) {
         Item item = build(itemName, quantity, category, description);
         
         return update(item);
     }
     
+    /**
+     * Updates existing item Object to match temporary new item Object
+     *
+     * @param itemNew the new item Object
+     * @return status of update from database
+     */
     public String update(Item itemNew) {
         ItemBroker itemBroker = ItemBroker.getInstance();
         Item item = null;
@@ -104,6 +150,12 @@ public class ItemService {
         return status;
     }
       
+    /**
+     * Makes sure none of the parameters in Item object are null.
+     *
+     * @param item item object to be examined
+     * @return status of validation check
+     */
     private String validate(Item item) {
         String status = "";
         
@@ -128,6 +180,15 @@ public class ItemService {
         }
     }
     
+    /**
+     * Builds Item object using parameters and validates data.
+     *
+     * @param itemName name of the item as a String
+     * @param quantity amount of the item  as a String
+     * @param categorycategory of the item as a String
+     * @param description  description of the item as a String
+     * @return built item Object
+     */
     private Item build(String itemName, String quantity, String category, String description) {
         Item item = new Item();
        
@@ -152,6 +213,12 @@ public class ItemService {
         return item;
     }
     
+    /**
+     * Deletes an existing Item object from database based on its unique item name.
+     *
+     * @param itemName unique item name as a String
+     * @return
+     */
     public String delete(String itemName) {
         ItemBroker itemBroker = ItemBroker.getInstance();
         Item deletedItem = itemBroker.getByName(itemName);

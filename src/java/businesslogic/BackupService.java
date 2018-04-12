@@ -18,11 +18,20 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Backup Service handles all the operations regarding the Backup Process.
+ * 
+ */
 public class BackupService {
     private static BackupService backupService;
     private ScheduledExecutorService ses;
     private boolean isRunning; 
     
+    /**
+     * Returns status of backupService.
+     *
+     * @return backupService
+     */
     public static BackupService getInstance() {
         if (backupService == null) {
             backupService = new BackupService();
@@ -34,6 +43,11 @@ public class BackupService {
     private BackupService() {
     }
     
+    /**
+     * Retrieves list of existing backup files in specified directory
+     *
+     * @return list of backup files as Strings
+     */
     public List<String> getBackupFileList() {
         
         File folder = null;
@@ -62,6 +76,11 @@ public class BackupService {
         return backupFileList;
     }
     
+    /**
+     * Creates backup of current state of database
+     *
+     * @return status regarding backup process
+     */
     public String makeBackup() {
         Format formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String now = formatter.format(new Date());
@@ -95,6 +114,12 @@ public class BackupService {
         return message;
     }
     
+    /**
+     * Restores backup from selected file specified in parameter
+     *
+     * @param backupFileName the name of the backup file as a String
+     * @return status regarding restoration process
+     */
     public String restoreBackup(String backupFileName) {
             String line = "";
             
@@ -125,6 +150,11 @@ public class BackupService {
             return message;
     }
 	
+    /**
+     * Starts up the automatic back up service
+     * 
+     * @return message
+     */
     private String startBackupper() {
         ses = Executors.newSingleThreadScheduledExecutor();
         
@@ -138,16 +168,31 @@ public class BackupService {
         return "backupper service started!";
     }
 	
+    /**
+     * Halts automatic backup process indefinitely.
+     * 
+     * @return  message
+     */
     private String stopBackupper() {
         ses.shutdown();
         isRunning = false;
         return "backupper service stopped!";
     }
     
+    /**
+     * Checks if the automatic backupService is currently turned on and running.
+     *
+     * @return boolean of whether it is running
+     */
     public boolean isBackupperServiceRunning() {
         return isRunning;    
     }
     
+    /**
+     * Control method for either starting or stopping the automatic back service.
+     *
+     * @return either message
+     */
     public String toggleBackupper() {
         if (!isRunning) {
             return startBackupper();

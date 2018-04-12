@@ -5,8 +5,32 @@ import domainmodel.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Customer Service handles all the operations regarding the Customer Object, including inserting, deleting, updating
+ * and building.
+ * 
+ */
 public class CustomerService {
         
+    /**
+     * Insert calls the CustomerBroker class in order to insert a Customer Object into the database.
+     *
+     * @param customerId the unique customer ID as a String
+     * @param houseNumber customer's houseNumber as a String
+     * @param street customer's streetname as a String
+     * @param city customer's city as a String
+     * @param province customer's province as a String
+     * @param country customer's country as a String
+     * @param postalCode customer's postal code as a String
+     * @param phoneNumberList customer's phone number(s) as string(s)
+     * @param firstName customer's first name as a String
+     * @param lastName customer's last name as a String
+     * @param companyName customer's company name as a String
+     * @param email customer's email address as a String
+     * @param position customer's position within their company as a string
+     * @param notes employee notes on customer as a string 
+     * @return status of insertion in database
+     */
     public String insert(String customerId, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
     
         Customer customer = build(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
@@ -28,6 +52,12 @@ public class CustomerService {
         return status; 
     }
 
+    /**
+     * Retrieves customer Object (if found) by its unique ID from the Broker.
+     *
+     * @param customerId Customer's unique ID
+     * @return customer Object
+     */
     public Customer getByCustomerId(String customerId) {
         try {
             int intCustomerId = Integer.parseInt(customerId);
@@ -39,6 +69,12 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Searches through all existing customers for matching keyword using customerBroker.
+     *
+     * @param keyword search term entered
+     * @return list of customer(s)
+     */
     public List<Customer> searchCustomer(String keyword) {
         CustomerBroker customerBroker = CustomerBroker.getInstance();
 
@@ -57,12 +93,37 @@ public class CustomerService {
         return customerList;
     }
 
+    /**
+     * Updates existing Customer Object by setting all parameters to updated ones.
+     *
+     * @param customerId the unique customer ID as a String
+     * @param houseNumber customer's houseNumber as a String
+     * @param street customer's streetname as a String
+     * @param city customer's city as a String
+     * @param province customer's province as a String
+     * @param country customer's country as a String
+     * @param postalCode customer's postal code as a String
+     * @param phoneNumberList customer's phone number(s) as string(s)
+     * @param firstName customer's first name as a String
+     * @param lastName customer's last name as a String
+     * @param companyName customer's company name as a String
+     * @param email customer's email address as a String
+     * @param position customer's position within their company as a string
+     * @param notes employee notes on customer as a string 
+     * @return
+     */
     public String update(String customerId, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
         Customer customer = build(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList,  firstName, lastName, companyName, email, position, notes);
         
         return update(customer);
     }
     
+    /**
+     * Updates exisiting Customer object by matching a newly created temporary Customer object to an existing one.
+     *
+     * @param customerNew the newly created temporary customer object
+     * @return status of update in database
+     */
     public String update(Customer customerNew) {
         
         CustomerBroker customerBroker = CustomerBroker.getInstance();
@@ -121,7 +182,13 @@ public class CustomerService {
         
         return status;
     }
-      
+     
+    /**
+     * Makes sure none of the parameters in Customer object are null.
+     *
+     * @param customer customer object to be examined
+     * @return status of validation check
+     */
     private String validate(Customer customer) {
         String status = "";
         
@@ -184,6 +251,25 @@ public class CustomerService {
         }
     }
     
+    /**
+     * Builds Customer object using parameters and validates data.
+     *
+     * @param customerId the unique customer ID as a String
+     * @param houseNumber customer's houseNumber as a String
+     * @param street customer's streetname as a String
+     * @param city customer's city as a String
+     * @param province customer's province as a String
+     * @param country customer's country as a String
+     * @param postalCode customer's postal code as a String
+     * @param phoneNumberList customer's phone number(s) as string(s)
+     * @param firstName customer's first name as a String
+     * @param lastName customer's last name as a String
+     * @param companyName customer's company name as a String
+     * @param email customer's email address as a String
+     * @param position customer's position within their company as a string
+     * @param notes employee notes on customer as a string 
+     * @return customer Object
+     */
     private Customer build(String customerId, String houseNumber, String street, String city, String province, String country, String postalCode, String[] phoneNumberList, String firstName, String lastName, String companyName, String email, String position, String notes) {
         Customer customer = new Customer();
         
@@ -253,6 +339,12 @@ public class CustomerService {
         return customer;
     }
     
+    /**
+     * Deletes an existing customer object from database based on its customer ID.
+     *
+     * @param customerId the unique customer ID as a String
+     * @return
+     */
     public String delete(String customerId) {
         String status = "";
         
