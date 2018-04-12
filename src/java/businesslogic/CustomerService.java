@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Customer Service handles all the operations regarding the Customer Object, including inserting, deleting, updating
  * and building.
- *
- * @author Steven
+ * 
+ * 
  */
 public class CustomerService {
         
@@ -71,7 +71,7 @@ public class CustomerService {
     }
 
     /**
-     * Searches through all existing customer for matching keyword using customerBroker.
+     * Searches through all existing customers for matching keyword using customerBroker.
      *
      * @param keyword search term entered
      * @return list of customer(s)
