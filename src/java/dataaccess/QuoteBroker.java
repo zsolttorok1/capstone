@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dataaccess;
 
 import database.ConnectionPool;
@@ -16,12 +11,30 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Broker class which communicates with JDBC and handles all the Quote information management.
+ */
 public class QuoteBroker {
 
+    /**
+     * contains the QuoteBroker instance
+     */
     private static QuoteBroker quoteBroker;
+    
+    /**
+     * Reference to the ConnectionPool
+     */
     private ConnectionPool pool;
+    
+    /**
+     * Reference to the Connection
+     */
     private Connection connection;
 
+    /**
+     * Singleton method which gets the QuoteBroker instance.
+     * @return the QuoteBroker instance
+     */
     public static QuoteBroker getInstance() {
         if (quoteBroker == null) {
             quoteBroker = new QuoteBroker();
@@ -30,6 +43,10 @@ public class QuoteBroker {
         return quoteBroker;
     }
 
+    /**
+     * Gets the next free connection from the connection pool.
+     * @return "ok" if everything went fine, "connection error" if there was an issue in the process.
+     */
     private String getConnection() {
         try {
             pool = ConnectionPool.getInstance();
@@ -49,6 +66,11 @@ public class QuoteBroker {
         }
     }
 
+    /**
+     * Inserts the Quote object information to the database
+     * @param quote the Quote object
+     * @return "Quote Successfully Submitted" if everything went ok, "error" if there was an expected issue, "exception" or null if there was an unexpected issue.
+     */
     public String insert(Quote quote) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -91,6 +113,11 @@ public class QuoteBroker {
         return status;
     }
 
+    /**
+     * Deletes the Quote object information from the database
+     * @param deletedQuote the Quote object
+     * @return "deleted" if everything went ok, "error" if there was an expected issue, "exception" or null if there was an unexpected issue.
+     */
     public String delete(Quote deletedQuote) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -134,6 +161,11 @@ public class QuoteBroker {
         return status;
     }
         
+    /**
+     * Gets the Quote from the quoteId
+     * @param quoteId the quoteId to search for
+     * @return the found Quote, or null if not found
+     */
     public Quote getById(int quoteId) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -167,6 +199,10 @@ public class QuoteBroker {
         return quote;  
     }
 
+    /**
+     * Gets all the Quotes from the database
+     * @return a List of the received Quote objects, or null if there is an issue
+     */
     public List<Quote> getAll() {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {

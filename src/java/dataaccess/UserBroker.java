@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dataaccess;
 
 import database.ConnectionPool;
@@ -17,11 +12,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import utilities.HashingUtil;
 
+/**
+ * Broker class which communicates with JDBC and handles all the Customer information management.
+ */
 public class UserBroker {
+    /**
+     * contains the CustomerBroker instance
+     */
     private static UserBroker userBroker;
+    
+    /**
+     * Reference to the ConnectionPool
+     */
     private ConnectionPool pool;
+    
+    /**
+     * Reference to the Connection
+     */
     private Connection connection;
     
+    /**
+     * Singleton method which gets the UserBroker instance.
+     * @return the UserBroker instance
+     */
     public static UserBroker getInstance() {
         if (userBroker == null) {
             userBroker = new UserBroker();
@@ -30,9 +43,16 @@ public class UserBroker {
         return userBroker;
     }
     
+    /**
+     * Default constructor
+     */
     private UserBroker() {
     }
     
+    /**
+     * Gets the next free connection from the connection pool.
+     * @return "ok" if everything went fine, "connection error" if there was an issue in the process.
+     */
     private String getConnection() {
         try {
             pool = ConnectionPool.getInstance();
@@ -52,7 +72,11 @@ public class UserBroker {
         }
     }
 
-    //returns "User, null"
+    /**
+     * Gets the User from the userName
+     * @param userName the userName to search for
+     * @return the found User, or null if not found
+     */
     public User getByName(String userName) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -110,7 +134,11 @@ public class UserBroker {
         return user;
     }
     
-    //returns "User, null"
+    /**
+     * Gets the User from the email address
+     * @param email the email address to search for
+     * @return the found User, or null if not found
+     */
     public User getByEmail(String email) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -168,7 +196,12 @@ public class UserBroker {
         }
         return user;
     }
-    
+ 
+    /**
+     * Searches for any keyword hits over the User table at the database.
+     * @param keyword the keyword to search for
+     * @return the List of found User object hits
+     */
     public List<User> search(String keyword) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -230,7 +263,10 @@ public class UserBroker {
         return userList;
     }
 
-    //returns "List of Users, empty List, null"
+    /**
+     * Gets all the Users from the database
+     * @return a List of the received User objects, or null if there is an issue
+     */
     public List<User> getAll() {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -292,7 +328,11 @@ public class UserBroker {
         return userList;
     }
 
-    //returns "inserted, updated, error, exception"
+    /**
+     * Inserts the User object information to the database
+     * @param user the User object
+     * @return "inserted" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String insert(User user) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -368,7 +408,11 @@ public class UserBroker {
         return status;
     }
 
-    //returns "updated, error, exception"
+    /**
+     * Updates the User object information at the database
+     * @param user the User object
+     * @return "updated" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String update(User user) {        
         String status = insert(user);
         
@@ -379,7 +423,11 @@ public class UserBroker {
         return status; //expection, error
     }
 
-    //returns "deleted, error, exception"
+    /**
+     * Deletes the User object information from the database
+     * @param user the User object
+     * @return "deleted" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String delete(User user) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -423,7 +471,12 @@ public class UserBroker {
         return status;
     }
     
-    //returns "vaild, invalid, null"
+    /**
+     * Logs in the user.
+     * @param username the User's username
+     * @param password the User's password
+     * @return "valid" if the credentials are ok, "invalid" if credentials are not ok, "null" if any other unexpected issue occurred.
+     */
     public String login(String username, String password) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {

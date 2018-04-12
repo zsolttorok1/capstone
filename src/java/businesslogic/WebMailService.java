@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businesslogic;
 
 import java.io.BufferedReader;
@@ -23,7 +18,23 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+/**
+ * Webmail service to handle all the generating and sending logic.
+ * 
+ */
 public class WebMailService {
+    
+    /**
+     * Preparing and generating the webmail template from the provided information.
+     * @param to To whom to send the mail.
+     * @param subject the subject of the mail.
+     * @param template the template to generate the mail body from.
+     * @param contents the content variable values in the mail.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws MessagingException
+     * @throws NamingException 
+     */
     public static void sendMail(String to, String subject, String template, HashMap<String, String> contents) throws FileNotFoundException, IOException, MessagingException, NamingException {
         BufferedReader br = new BufferedReader(new FileReader(new File(template)));
         
@@ -43,7 +54,15 @@ public class WebMailService {
         sendMail(to, subject, bodyString, true);
     }
     
-    
+    /**
+     * Sending the generated mail through the defined mail server. 
+     * @param to the receiver of the mail.
+     * @param subject the subject of the mail.
+     * @param body the body of the mail.
+     * @param bodyIsHTML does the body contain HTML elements or not.
+     * @throws MessagingException
+     * @throws NamingException 
+     */
     public static void sendMail(String to, String subject, String body, boolean bodyIsHTML) throws MessagingException, NamingException {
         Context env = (Context)new InitialContext().lookup("java:comp/env");
         String username = (String)env.lookup("webmail-username");

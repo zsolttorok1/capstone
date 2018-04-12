@@ -11,11 +11,29 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Broker class which communicates with JDBC and handles all the Item information management.
+ */
 public class ItemBroker {
+    /**
+     * contains the ItemBroker instance
+     */
     private static ItemBroker itemBroker;
+    
+    /**
+     * Reference to the ConnectionPool
+     */
     private ConnectionPool pool;
+    
+    /**
+     * Reference to the Connection
+     */
     private Connection connection;
     
+     /**
+     * Singleton method which gets the CustomerBroker instance.
+     * @return the ItemBroker instance
+     */
     public static ItemBroker getInstance() {
         if (itemBroker == null) {
             itemBroker = new ItemBroker();
@@ -24,9 +42,16 @@ public class ItemBroker {
         return itemBroker;
     }
     
+    /**
+     * Default constructor
+     */
     private ItemBroker() {
     }
     
+    /**
+     * Gets the next free connection from the connection pool.
+     * @return "ok" if everything went fine, "connection error" if there was an issue in the process.
+     */
     private String getConnection() {
         try {
             pool = ConnectionPool.getInstance();
@@ -46,7 +71,11 @@ public class ItemBroker {
         }
     }
     
-    //returns "Item, null"
+    /**
+     * Gets the Item from the itemName
+     * @param itemName the itemName to search for
+     * @return the found Item, or null if not found
+     */
     public Item getByName(String itemName) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -82,6 +111,11 @@ public class ItemBroker {
         return item;
     }
     
+    /**
+     * Searches for any keyword hits over the Item table at the database.
+     * @param keyword the keyword to search for
+     * @return the List of found Item object hits
+     */
     public List<Item> search(String keyword) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -121,7 +155,10 @@ public class ItemBroker {
         return itemList;
     }
 
-    //returns "List of items, empty List, null"
+    /**
+     * Gets all the Items from the database
+     * @return a List of the received Item objects, or null if there is an issue
+     */
     public List<Item> getAll() {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -159,7 +196,11 @@ public class ItemBroker {
         return itemList;
     }
 
-    //returns "inserted, updated, error, exception"
+    /**
+     * Inserts the Item object information to the database
+     * @param item the Item object
+     * @return "inserted" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String insert(Item item) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -206,7 +247,11 @@ public class ItemBroker {
         return status;
     }
 
-    //returns "updated, error, exception"
+    /**
+     * Updates the Item object information at the database
+     * @param item the Item object
+     * @return "updated" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String update(Item item) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -254,7 +299,11 @@ public class ItemBroker {
         return status;
     }
 
-    //returns "deleted, error, exception"
+    /**
+     * Deletes the Item object information from the database
+     * @param item the Item object
+     * @return "deleted" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String delete(Item item) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {

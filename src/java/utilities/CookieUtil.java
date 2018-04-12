@@ -6,6 +6,12 @@ import javax.servlet.http.*;
  */
 public class CookieUtil {
 
+    /**
+     * Gets the cookie value from the cookie name
+     * @param cookies contains the whole cookie array
+     * @param cookieName the cookie name to get
+     * @return the cookie value String
+     */
     public static String getCookieValue(
             Cookie[] cookies, String cookieName) {
         

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dataaccess;
 
 import database.ConnectionPool;
@@ -16,11 +11,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import utilities.DataConverter;
 
+/**
+ * Broker class which communicates with JDBC and handles all the Password Change Recovery information management.
+ */
 public class PCRBroker {
+    /**
+     * contains the PCRBroker instance
+     */
     private static PCRBroker pcrBroker;
+    
+    /**
+     * Reference to the ConnectionPool
+     */
     private ConnectionPool pool;
+    
+    /**
+     * Reference to the Connection
+     */
     private Connection connection;
     
+    /**
+     * Singleton method which gets the PCRBroker instance.
+     * @return the PCRBroker instance
+     */
     public static PCRBroker getInstance() {
         if (pcrBroker == null) {
             pcrBroker = new PCRBroker();
@@ -29,9 +42,16 @@ public class PCRBroker {
         return pcrBroker;
     }
     
+    /**
+     * Default constructor
+     */
     private PCRBroker() {
     }
     
+    /**
+     * Gets the next free connection from the connection pool.
+     * @return "ok" if everything went fine, "connection error" if there was an issue in the process.
+     */
     private String getConnection() {
         try {
             pool = ConnectionPool.getInstance();
@@ -52,7 +72,11 @@ public class PCRBroker {
         }
     }
 
-    //returns "PasswordChangeRequest, null"
+    /**
+     * Gets the PasswordChangeRequest from the pcrUUID string
+     * @param pcrUUID the uuid string
+     * @return the found PasswordChangeRequest, or null if unexpected issue occurred.
+     */
     public PasswordChangeRequest getByUUID(String pcrUUID) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -85,7 +109,11 @@ public class PCRBroker {
         return passwordChangeRequest;
     }
 
-    //returns "inserted, updated, error, exception"
+    /**
+     * Inserts the PasswordChangeRequest object information to the database
+     * @param pcr the PasswordChangeRequest object
+     * @return "inserted" if everything went ok, "error" if there was an expected issue, "exception" if there was an unexpected issue.
+     */
     public String insert(PasswordChangeRequest pcr) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
@@ -128,7 +156,11 @@ public class PCRBroker {
         return status;
     }
     
-    //returns "deleted, error, exception"
+    /**
+     * Deletes the PasswordChangeRequest object information from the database
+     * @param pcr the PasswordChangeRequest object to delete
+     * @return "deleted" if everything went ok, "error" if there was an expected issue, "exception" or null if there was an unexpected issue.
+     */
     public String delete(PasswordChangeRequest pcr) {
         String status = getConnection();
         if (status == null || status.equals("connection error")) {
