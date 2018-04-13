@@ -1,27 +1,21 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- * Author:  725899
- * Created: Mar 27, 2018
+ * This script adds some initial values to tables to make the database usable and testable.
  */
 
 /* adding USERS ***********************************************************************/
-select insert_user_func ('aa', 236, '44th Ave NW', 'Calgary', 'Alberta', 'Canada', 'T1E0R4', '76C4094ECAB56B29E811F2B39C16C927099E9F547086F324DB3CC7EB7942EDBD9AA16FFA3E4523E6A35373D85A00577010FA94F6479C23300485E5669F845E91', 'Admin', 'Administ', 'owner', 'admin@hotmail.com', 90.32, '4d5eac44fd0a56b786b0f2fe40ff3561');
-select insert_phoneList_user_func ('aa', '4031112211,4032221122,');
+select insert_user_func ('terminator_bro', 236, '44th Ave NW', 'Calgary', 'Alberta', 'Canada', 'T1E0R4', '80A3A371F15D8C03FE6691CFB46F46D479346C3EE63F81CFCBAF32C81CA0D9C6EB8857FE18C1D169753FBE9DBABB74551F1BEC824003D178A5DAD5FB6DEB4F25', 'Hill', 'Billy', 'employee', 'walltermin@hotmail.com', 30.12, '4d5eac44fd0a56b786b0f2fe40ff3561');
+select insert_phoneList_user_func ('terminator_bro', '4031112211,4032221122,');
 
-select insert_user_func ('andrew_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', 'D136462FD4267DCEEB8D375AC963B116F0DD5F2EEFFADF33D9D4F576F1FF79E806C66CF78C5F45DCAAE823622DC34E99FB0F4CB37EFE1216ECE6034E9A1ED916', 'Andrew', 'Grieve', 'owner', 'agrieve2@hotmail.com', 90.32, '67844c34e0de7183a88fc836d3d949e3');
-select insert_phoneList_user_func ('andrew_grieve', '4038077189,4038077111,4038077222,');
+select insert_user_func ('andrew_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', '6708E2B3387887457208DADA0E4D579E7CB69FAC79647AB817974A75668DBD9FF129771932642523B5C83EF70A6DDA02651C06893E9112581D3680C3F42639A6', 'Andrew', 'Grieve', 'owner', 'agrieve2@hotmail.com', 90.32, '67844c34e0de7183a88fc836d3d949e3');
+select insert_phoneList_user_func ('andrew_grieve', '4038177199,4038077111,4038077222,');
 
-select insert_user_func ('james_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', '8FA3CD3858DA8C88566E9FBE1C3ABDD5A3EF8319BF880BC9709D4346910AC1DFF26C2D464C64664E3D086492AB760BE9E31ED2D50CA1C313026774C4040ED1A6', 'James', 'Grieve', 'manager', 'darklink44459@hotmail.com', 23.41, 'bb2642cd9e01fe3a178d73e865771c3d');
-select insert_phoneList_user_func  ('james_grieve', '4034879866,');
+select insert_user_func ('james_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', '5E00FF893727F8E79007B47963585C8CA9347F3E9D018D6FFCA2067A4704C2EA8970C99725944334A67CED062DF7FB246573EC4756D190AABB8745DD60596B5D', 'James', 'Grieve', 'manager', 'darklink44459@hotmail.com', 23.41, 'bb2642cd9e01fe3a178d73e865771c3d');
+select insert_phoneList_user_func  ('james_grieve', '4034871811,');
 
-select insert_user_func ('kayla_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', '2FBD484E587290E7030EECE3B212B4C8C01812AF24EE7D536ED5404C5DE8B0D2F5B656E7593C6D2C027A7CAFC4F16ED798DED0E52867ACAC1B23897AEF946A75', 'Kayla', 'Grieve', 'employee', 'link44459@hotmail.com', 18.32, '2b6b55a74fedd32349f7cfe65b9477a5');
-select insert_phoneList_user_func  ('kayla_grieve', '4037778620,');
+select insert_user_func ('kayla_grieve', 236, '78th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T2K0R4', '9F9D0635E4F9213EF0AC90FEB5C40B2B9F454B3C314AB2BE6E31F2DE6FB6CEBB7BA2B8F75A094B5F27EBD6270E77EADE0E68AC305CC7D534C1F8E6B80CF8AADC', 'Kayla', 'Grieve', 'employee', 'link44459@hotmail.com', 18.32, '2b6b55a74fedd32349f7cfe65b9477a5');
+select insert_phoneList_user_func  ('kayla_grieve', '4031771620,');
 
-select insert_user_func ('zsto', 236, '28th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T111R4', '49C2EA77CC0CB989D178BFAD988A126F9D9B9F36B0DCCB72102F09FD5433CA1B85F84C9F51021591122E934028F3A4A91236842CF311A7E59768568E41A2F7DE', 'Satomi', 'Test', 'owner', 'internet@gmail.com', 11.11, '67844c34e0de7113a88fc136d3d949e3');
+select insert_user_func ('zsto', 236, '28th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T111R4', 'DF40835B6D3527A30EFB611AD090EEA608D35160655F846C91ECBCBA4883DEDC67B63260E58EE1AE88B1D7033BF703AA4BCEC5E7C52ECFD797653EBC9044818B', 'Zsolt', 'Torok', 'owner', 'nointernet@gmail.com', 11.11, '67844c34e0de7113a88fc136d3d949e3');
 select insert_phoneList_user_func ('zsto', '4035555559,');
 
 /* adding CUSTOMERS ***********************************************************************/
@@ -46,7 +40,7 @@ select insert_item_func ('Devil Beater', 5, 'Brushes', 'Bob Ross favorite.');
 select insert_job_func ('First Job on main street', 555, '123th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T5K2R8', 2, 'This is a nice and detailed job description.', '18/03/28', '18/03/30', 0, 'unpaid');
 select insert_job_func ('First Job on main street', 555, '123th Ave NE', 'Calgary', 'Alberta', 'Canada', 'T5K2R8', 2, 'This is a nice and detailed job description, updated.', '18-03-28', '18-03-30', 0, 'unpaid');
 select insert_job_func ('Second Huge Job', 555, '999th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T9D8Y1', 1, 'Sent from future ya.', '19-04-10', '19-04-20', 29000, 'paid');
-select insert_job_func ('Brookfield Bathroom on WestTower', 100, '120th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T2D8E1', 1, 'Paintjob', '17-02-25', '17-02-28', 50000, 'paid');
+select insert_job_func ('Brookfield Bathroom on WestTower', 100, '120th Ave SW', 'Calgary', 'Alberta', 'Canada', 'T2D8E1', 1, 'Debra want us to paint her newly built bathroom. She wants this job to get done in three days, but she will pay us very well. The wall sizes are standard 6x20m^2, there are 3 of them. She wants the famous Dusty Red color combination, so we need those Devil Beaters for the job, also several buckets of pure colored paint to mix them up.', '17-02-25', '17-02-28', 50000, 'paid');
 
 /* assigning JOB_USER HOURS ***********************************************************************/
 select assign_user_func ('Brookfield Bathroom on WestTower', 'andrew_grieve', 40);
@@ -55,7 +49,6 @@ select assign_user_func ('Brookfield Bathroom on WestTower', 'kayla_grieve', 25)
 
 /* allocating JOB_ITEM ***********************************************************************/
 select allocate_item_func ('Brookfield Bathroom on WestTower', 'SuperFine Paint Brush', 'Wash them before returning plz.',4);
-select allocate_item_func ('Brookfield Bathroom on WestTower', 'SuperFine Paint Brush', 'staph.', 22);
 select allocate_item_func ('Brookfield Bathroom on WestTower', 'Devil Beater', 'There are no mistakes, only happy accidents. Thats what my father told me.',4);
 
 /* allocating JOB_REPORT ***********************************************************************/
@@ -63,8 +56,7 @@ select allocate_item_func ('Brookfield Bathroom on WestTower', 'Devil Beater', '
 -- select generate_report_func ('Brookfield Bathroom on WestTower', '2015-10-31 01:04:15');
 -- select generate_report_func ('Second Huge Job', '2015-10-30 01:02:10');
 
-
 /* allocating QUOTES ***********************************************************************/
-select insert_quote_func('yo Kayla!', 'sweatydude@yahoo.ca','I need my wall to be painted!');
-select insert_quote_func('help', 'insecurechick@gmail.com','can you paint my cat green?');
-select insert_quote_func('spam', 'bot1985@russia.ru','Want sum penis enlargement pills?');
+select insert_quote_func('Paul Brutallus', 'sweatydude@yahoo.ca','yo Kayla! I need my wall to be painted!');
+select insert_quote_func('Maria Fromage', 'insecurechick@gmail.com','plz help, can you paint my cat green?');
+select insert_quote_func('Boris Slav', 'bot1985@russia.ru','Can you paint cars as well? I have a Lada.');

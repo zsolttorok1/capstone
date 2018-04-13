@@ -102,12 +102,13 @@ public class ViewCustomerServlet extends HttpServlet {
             String company = request.getParameter("company");
             String email = request.getParameter("email");
             String position = request.getParameter("position");
+            String notes = request.getParameter("notes");
             
             String status = "";
             
             CustomerService customerService = new CustomerService();
             
-            status = customerService.update(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstName, lastName, company, email, position, " ");
+            status = customerService.update(customerId, houseNumber, street, city, province, country, postalCode, phoneNumberList, firstName, lastName, company, email, position, notes);
             
             request.setAttribute("message", status);
             

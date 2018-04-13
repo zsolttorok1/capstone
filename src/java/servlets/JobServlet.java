@@ -2,6 +2,7 @@ package servlets;
 
 import businesslogic.CustomerService;;
 import businesslogic.JobService;
+import domainmodel.Customer;
 import domainmodel.Job;
 import java.io.IOException;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utilities.DataConverter;
 
 
 public class JobServlet extends HttpServlet {
@@ -97,6 +99,38 @@ public class JobServlet extends HttpServlet {
                 String[] userList = request.getParameterValues("userList[]");
 
                 String status = jobService.insert(jobName, houseNumber, street, city, province, country, postalCode, customerId, description, dateStarted, dateFinished, balance, jobStatus);
+                
+                //if adding wasnt successful, please retain filled out fields for easier correction
+                if (!status.equalsIgnoreCase("added")) {
+                    Job newJob = new Job();
+
+                    if (jobName != null)
+                        newJob.setJobName(jobName);
+                    if (houseNumber != null)
+                        request.setAttribute("houseNumber", houseNumber);
+                    if (street != null)
+                        newJob.setStreet(street);
+                    if (city != null)
+                        newJob.setCity(city);
+                    if (province != null)
+                        newJob.setProvince(province);
+                    if (country != null)
+                        newJob.setCountry(country);
+                    if (postalCode != null)
+                        newJob.setPostalCode(postalCode);
+                    if (description != null)
+                        newJob.setDescription(description);
+                    if (dateStarted != null)
+                        newJob.setDateStarted(DataConverter.stringDateTimeToJava(dateStarted));
+                    if (dateFinished != null)
+                        newJob.setDateFinished(DataConverter.stringDateTimeToJava(dateFinished));
+                    if (balance != null)
+                        request.setAttribute("balance", balance);
+                    if (jobStatus != null)
+                        newJob.setStatus(jobStatus);
+                   
+                    request.setAttribute("newJob", newJob);
+                }
 
                 message = status;
             }

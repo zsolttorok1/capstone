@@ -2,6 +2,7 @@ package servlets;
 
 import businesslogic.CustomerService;
 import domainmodel.Customer;
+import domainmodel.User;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -84,6 +85,38 @@ public class CustomerServlet extends HttpServlet {
             String notes = request.getParameter("notes");
             
             String status = customerService.insert("0", houseNumber, street, city, province, country, postalCode, phoneNumberList, firstName, lastName, companyName, email, position, notes);
+            
+            //if adding wasnt successful, please retain filled out fields for easier correction
+            if (!status.equalsIgnoreCase("added")) {
+                Customer newCustomer = new Customer();
+
+                if (houseNumber != null)
+                    request.setAttribute("houseNumber", houseNumber);
+                if (street != null)
+                    newCustomer.setStreet(street);
+                if (city != null)
+                    newCustomer.setCity(city);
+                if (province != null)
+                    newCustomer.setProvince(province);
+                if (country != null)
+                    newCustomer.setCountry(country);
+                if (postalCode != null)
+                    newCustomer.setPostalCode(postalCode);
+                if (firstName != null)
+                    newCustomer.setFirstName(firstName);
+                if (lastName != null)
+                    newCustomer.setLastName(lastName);
+                if (companyName != null)
+                    newCustomer.setCompanyName(companyName);
+                if (email != null)
+                    newCustomer.setEmail(email);
+                if (position != null)
+                    newCustomer.setPosition(position);
+                if (notes != null)
+                    newCustomer.setNotes(notes);
+
+                request.setAttribute("newCustomer", newCustomer);
+            }
            
             message = status;
         }

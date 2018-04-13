@@ -19,7 +19,7 @@ public class HashingUtil {
      * @param args default arguments
      */
     public static void main (String[] args) {        
-//        System.out.println(HashingUtil.hashByKeccak512("a", "33434323423423423434"));
+        System.out.println(HashingUtil.hashByKeccak512("password", "67844c34e0de7113a88fc136d3d949e3"));
     }
     
     /**

@@ -44,9 +44,9 @@
                     <a href="quote">Quotes</a>
                     <a href="backup">Backup</a>
                 </c:if>
-                ----------------------------------
+                <hr class="logoutHr">
                 <a class="logout" href="login?action=logout">Logout</a>
-                ----------------------------------
+                
     <!--            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>-->
             </div>
 

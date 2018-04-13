@@ -1,5 +1,6 @@
 package dataaccess;
 
+import businesslogic.ReportService;
 import database.ConnectionPool;
 import domainmodel.Customer;
 import domainmodel.Item;
@@ -210,11 +211,14 @@ public class JobBroker {
                 String jobStatus = rs.getString("STATUS");
                 
                 Customer customer = CustomerBroker.getInstance().getById(customerId);
-                List<Report> reportList = new ArrayList<>();
+                 
                 List<User> userList = new ArrayList<>();
                 List<Item> itemList = new ArrayList<>();
+                ReportService reportService = new ReportService();
+                List<Report> reportList = reportService.getByJobName(jobName);
                 
-                job = new Job(jobName, houseNumber, street, city, province, country, postalCode, customer, description, dateStarted, dateFinished, balance, jobStatus, reportList, userList, itemList);
+                 job = new Job(jobName, houseNumber, street, city, province, country, postalCode, customer, description, dateStarted, dateFinished, balance, jobStatus, reportList, userList, itemList);
+                       
                 jobList.add(job);
             }
         } catch (SQLException ex) {
@@ -261,9 +265,10 @@ public class JobBroker {
                 String jobStatus = rs.getString("STATUS");
                 
                 Customer customer = CustomerBroker.getInstance().getById(customerId);
-                List<Report> reportList = new ArrayList<>();
                 List<User> userList = new ArrayList<>();
                 List<Item> itemList = new ArrayList<>();
+                ReportService reportService = new ReportService();
+                List<Report> reportList = reportService.getByJobName(jobName);
                 
                 job = new Job(jobName, houseNumber, street, city, province, country, postalCode, customer, description, dateStarted, dateFinished, balance, jobStatus, reportList, userList, itemList);
                 jobList.add(job);

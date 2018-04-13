@@ -35,6 +35,10 @@
                     <label for="role">Company & Position:</label><br>
                     <input type="text" id="role" class="contentBodyInputNormal" name="companyName" value="${customer.companyName}" />  <input type="text" class="contentBodyInputNormal" name="position" value="${customer.position}" /><br>
                     <br>
+                    <label for="notes">Notes:</label><br>
+                    <textarea class="contentBodyInputNormal description" name="notes">${customer.notes}</textarea>
+                    <br>
+                    <br>
                     
                 </div>
                 <input type="hidden" name="action" value="save">

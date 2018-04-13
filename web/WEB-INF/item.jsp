@@ -58,19 +58,21 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Item Name:</div>
-                    <div class="divTableCellField"><input name="itemName" type="text" placeholder="Item Name" /></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCellLabel">Description:</div>
-                    <div class="divTableCellField"><input name="description" type="text" placeholder="Description" /></div>
+                    <div class="divTableCellField"><input name="itemName" type="text" placeholder="Item Name" value="${newItem.itemName}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Category:</div>
-                    <div class="divTableCellField"><input name="category" type="text" placeholder="Category" /></div>
+                    <div class="divTableCellField"><input name="category" type="text" placeholder="Category" value="${newItem.category}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Quantity:</div>
-                    <div class="divTableCellField"><input name="quantity" type="number" placeholder="Quantity" /></div>
+                    <div class="divTableCellField"><input name="quantity" type="number" placeholder="Quantity" value="${quantity}"/></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCellLabel">Description:</div>
+                    <div class="divTableCellField">
+                        <textarea name="description" placeholder="Description">${newItem.description}</textarea>
+                    </div>
                 </div>
                 
                 <div class="divTableRow">

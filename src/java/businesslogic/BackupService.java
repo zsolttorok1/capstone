@@ -77,7 +77,7 @@ public class BackupService {
      * @return status regarding backup process
      */
     public String makeBackup() {
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");  //yyyy-MM-dd-HH-mm-ss
         String now = formatter.format(new Date());
         String backupFileName = "backup-"+ now;
         String line = "";
@@ -116,33 +116,33 @@ public class BackupService {
      * @return status regarding restoration process
      */
     public String restoreBackup(String backupFileName) {
-            String line = "";
-            
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                line = "cmd /c c:\\cap\\backups\\restore.bat " + backupFileName;
-            }
-            else {
-                //for linux
-            }
-            
-            Process runtimeProcess = null;
-            String message = "unexpected error while attempting to restore backup.";
-            
-            try {
-                runtimeProcess = Runtime.getRuntime().exec(line);
-                int processComplete = runtimeProcess.waitFor();
+        String line = "";
 
-                if (processComplete == 0) {
-                    message = "Restoring Backup ok!";
-                } 
-                
-            } catch (IOException ex) {
-                Logger.getLogger(BackupService.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(BackupService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            return message;
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            line = "cmd /c c:\\cap\\backups\\restore.bat " + backupFileName;
+        }
+        else {
+            //for linux
+        }
+
+        Process runtimeProcess = null;
+        String message = "unexpected error while attempting to restore backup.";
+
+        try {
+            runtimeProcess = Runtime.getRuntime().exec(line);
+            int processComplete = runtimeProcess.waitFor();
+
+            if (processComplete == 0) {
+                message = "Restoring Backup ok!";
+            } 
+
+        } catch (IOException ex) {
+            Logger.getLogger(BackupService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BackupService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return message;
     }
 	
     /**
@@ -158,7 +158,7 @@ public class BackupService {
             public void run() {
                 makeBackup();
             }
-        }, 0, 10, TimeUnit.SECONDS);
+        }, 0, 60*60*24, TimeUnit.SECONDS); //every day
         isRunning = true;
         return "backupper service started!";
     }

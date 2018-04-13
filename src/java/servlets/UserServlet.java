@@ -86,8 +86,39 @@ public class UserServlet extends HttpServlet {
                 String role = request.getParameter("role");
                 String email = request.getParameter("emailAddress");
                 String hourlyRate = request.getParameter("hourlyRate");
-
+                
                 String status = userService.insert(userName, houseNumber, street, city, province, country, postalCode, phoneNumberList, password, firstName, lastName, role, email, hourlyRate);
+                
+                //if adding wasnt successful, please retain filled out fields for easier correction
+                if (!status.equalsIgnoreCase("added")) {
+                    User newUser = new User();
+                    if (userName != null) 
+                        newUser.setUserName(userName);
+                    if (houseNumber != null)
+                        request.setAttribute("houseNumber", houseNumber);
+                    if (street != null)
+                        newUser.setStreet(street);
+                    if (city != null)
+                        newUser.setCity(city);
+                    if (province != null)
+                        newUser.setProvince(province);
+                    if (country != null)
+                        newUser.setCountry(country);
+                    if (postalCode != null)
+                        newUser.setPostalCode(postalCode);
+                    if (firstName != null)
+                        newUser.setFirstName(firstName);
+                    if (lastName != null)
+                        newUser.setLastName(lastName);
+                    if (role != null)
+                        newUser.setRole(role);
+                    if (email != null)
+                        newUser.setEmail(email);
+                    if (hourlyRate != null)
+                        request.setAttribute("hourlyRate", hourlyRate);
+                    
+                    request.setAttribute("newUser", newUser);
+                }
 
                 message = status;
             }

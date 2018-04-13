@@ -1,4 +1,4 @@
-        <h1 class="bodyheaderc">${job.jobName} for ${job.customer.companyName}</h1>
+<h1 class="bodyheaderc">${job.jobName} for ${job.customer.companyName}</h1>
 
 <form method="post" action="viewJob">
     <div class="viewcontentJob">
@@ -48,7 +48,7 @@
 
                     <input name="quantityList[]" class="contentBodyInputSmall fixed" type="number" placeholder="Quantity" value="${item.quantity}"/><input class="deleteButtonSmall" type="submit" name="unallocatedItemName" value="${item.itemName}"><br/><div class="contentBodyLeftInStock"><span>In stock:</span><span>${item.inventoryQuantity}</span></div><br/>
                     <label for="city">Item notes:</label><br/>
-                        <textarea name="noteList[]" class="contentBodyInputNormalTextArea">${item.note}</textarea>
+                        <textarea name="noteList[]" class="contentBodyInputNormalTextArea itemNotes">${item.note}</textarea>
                     <br>
                 </div>
             </c:forEach>
@@ -88,7 +88,9 @@
             <h1 class="bodyheaderc">Job Information</h1>
 
             <p class="contentHeader">Description</p>
-            <input type="text" id="desc" class="contentBodyInput" name="description" value="${job.description}" />
+            <textarea name="description" id="desc" class="contentBodyInput description">${job.description}</textarea>
+            
+            
             <p class="contentHeader">Location</p>
             <label for="street">Street:</label><br>
             <input type="text" id="street" class="contentBodyInputSmall" name="houseNumber" value="${job.houseNumber}" />  <input type="text" class="contentBodyInputBig" name="street" value="${job.street}" /><br>

@@ -2,6 +2,7 @@ package servlets;
 
 import businesslogic.ItemService;
 import domainmodel.Item;
+import domainmodel.User;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -79,6 +80,21 @@ public class ItemServlet extends HttpServlet {
                 String category = request.getParameter("category");
                 String description = request.getParameter("description");
                 String status = itemService.insert(itemName, quantity, category, description);
+                
+                //if adding wasnt successful, please retain filled out fields for easier correction
+                if (!status.equalsIgnoreCase("added")) {
+                    Item newItem = new Item();
+                    if (itemName != null) 
+                        newItem.setItemName(itemName);
+                    if (quantity != null)
+                        request.setAttribute("quantity", quantity);
+                    if (category != null)
+                        newItem.setCategory(category);
+                    if (description != null)
+                        newItem.setDescription(description);
+
+                    request.setAttribute("newItem", newItem);
+                }
 
                 message = status;
             }

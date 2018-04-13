@@ -164,7 +164,7 @@
 <c:if test="${!empty jobList}">    
     <div class="listWrapper">
         
-        <div class="rowWrapper">   
+        <div class="rowWrapper">
             <div class="rowHeaderSearchBanner">
                 <div>Job Results</div>
             </div>
@@ -178,7 +178,6 @@
                 <div class="rowitemHeader">
                     <c:if test="${role eq 'owner'}">Status</c:if>
                 </div>
-                
             </div>
         </div>
 
@@ -206,8 +205,26 @@
                         <button type="button" class="deleteButton" name="action" value="" onclick="closeForm(this);">
                     </form>
                 </c:if>
-
             </div>
+            
+            <c:if test="${role eq 'owner'}">
+            <c:forEach var="report" items="${job.reportList}">
+                <div class="rowWrapper">
+                    <div class="row reportRow">
+                        <form method="post" action="viewJob">
+                            <div class="rowitem">
+                                <fmt:formatDate value="${report.dateCreated}" var="dateFormatted" type="date" pattern="MM/dd/yyyy (HH:mm)" />
+                                <div class="bold">Report at date:</div> ${dateFormatted}
+                                <input type="hidden" name="jobName" value="${job.jobName}"/>
+                                <input type="hidden" name="reportId" value="${report.reportId}"/>
+                                <input type="submit" class="rowButton" value=""/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </c:forEach>
+            </c:if>
+                        
         </c:forEach>
     </div>
 </c:if>

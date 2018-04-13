@@ -56,15 +56,15 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">First Name:</div>
-                    <div class="divTableCellField"><input name="firstName" type="text" placeholder="First Name" /></div>
+                    <div class="divTableCellField"><input name="firstName" type="text" placeholder="First Name" value="${newCustomer.firstName}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Last Name:</div>
-                    <div class="divTableCellField"><input name="lastName" type="text" placeholder="Last Name" /></div>
+                    <div class="divTableCellField"><input name="lastName" type="text" placeholder="Last Name" value="${newCustomer.lastName}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Email:</div>
-                    <div class="divTableCellField"><input name="emailAddress" type="text" placeholder="Email" /></div>
+                    <div class="divTableCellField"><input name="emailAddress" type="text" placeholder="Email" value="${newCustomer.email}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Phone:</div>
@@ -75,39 +75,41 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">House Number:</div>
-                    <div class="divTableCellField"><input name="houseNumber" type="text" placeholder="House Number" /></div>
+                    <div class="divTableCellField"><input name="houseNumber" type="text" placeholder="House Number" value="${houseNumber}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Street Name:</div>
-                    <div class="divTableCellField"><input name="street" type="text" placeholder="Street Name" /></div>
+                    <div class="divTableCellField"><input name="street" type="text" placeholder="Street Name" value="${newCustomer.street}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">City:</div>
-                    <div class="divTableCellField"><input name="city" type="text" placeholder="City" /></div>
+                    <div class="divTableCellField"><input name="city" type="text" placeholder="City" value="${newCustomer.city}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Province:</div>
-                    <div class="divTableCellField"><input name="province" type="text" placeholder="Province" /></div>
+                    <div class="divTableCellField"><input name="province" type="text" placeholder="Province" value="${newCustomer.province}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Postal Code:</div>
-                    <div class="divTableCellField"><input name="postalCode" type="text" placeholder="Postal Code" /></div>
+                    <div class="divTableCellField"><input name="postalCode" type="text" placeholder="Postal Code" value="${newCustomer.postalCode}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Country:</div>
-                    <div class="divTableCellField"><input name="country" type="text" placeholder="Country" /></div>
+                    <div class="divTableCellField"><input name="country" type="text" placeholder="Country" value="${newCustomer.country}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Company:</div>
-                    <div class="divTableCellField"><input name="companyName" type="text" placeholder="Company" /></div>
+                    <div class="divTableCellField"><input name="companyName" type="text" placeholder="Company" value="${newCustomer.companyName}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Position:</div>
-                    <div class="divTableCellField"><input name="position" type="text" placeholder="Position" /></div>
+                    <div class="divTableCellField"><input name="position" type="text" placeholder="Position" value="${newCustomer.position}"/></div>
                 </div>
 				<div class="divTableRow">
                     <div class="divTableCellLabel">Notes:</div>
-                    <div class="divTableCellField"><input name="notes" type="text" placeholder="Some notes." /></div>
+                    <div class="divTableCellField">
+                        <textarea name="notes" placeholder="Some notes.">${newCustomer.notes}</textarea>
+                    </div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellSubmit">

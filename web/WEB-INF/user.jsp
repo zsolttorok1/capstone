@@ -60,7 +60,7 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Username:</div>
-                    <div class="divTableCellField"><input name="userName" type="text" placeholder="Username" /></div>
+                    <div class="divTableCellField"><input name="userName" type="text" placeholder="Username" value="${newUser.userName}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Password:</div>
@@ -68,15 +68,15 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">First Name:</div>
-                    <div class="divTableCellField"><input name="firstName" type="text" placeholder="First Name" /></div>
+                    <div class="divTableCellField"><input name="firstName" type="text" placeholder="First Name" value="${newUser.firstName}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Last Name:</div>
-                    <div class="divTableCellField"><input name="lastName" type="text" placeholder="Last Name" /></div>
+                    <div class="divTableCellField"><input name="lastName" type="text" placeholder="Last Name" value="${newUser.lastName}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Email:</div>
-                    <div class="divTableCellField"><input name="emailAddress" type="text" placeholder="Email" /></div>
+                    <div class="divTableCellField"><input name="emailAddress" type="text" placeholder="Email" value="${newUser.email}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Phone:</div>
@@ -87,27 +87,27 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">House Number:</div>
-                    <div class="divTableCellField"><input name="houseNumber" type="text" placeholder="House Number" /></div>
+                    <div class="divTableCellField"><input name="houseNumber" type="text" placeholder="House Number" value="${houseNumber}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Street Name:</div>
-                    <div class="divTableCellField"><input name="street" type="text" placeholder="Street Name" /></div>
+                    <div class="divTableCellField"><input name="street" type="text" placeholder="Street Name" value="${newUser.street}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">City:</div>
-                    <div class="divTableCellField"><input name="city" type="text" placeholder="City" /></div>
+                    <div class="divTableCellField"><input name="city" type="text" placeholder="City" value="${newUser.city}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Province:</div>
-                    <div class="divTableCellField"><input name="province" type="text" placeholder="Province" /></div>
+                    <div class="divTableCellField"><input name="province" type="text" placeholder="Province" value="${newUser.province}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Postal Code:</div>
-                    <div class="divTableCellField"><input name="postalCode" type="text" placeholder="Postal Code" /></div>
+                    <div class="divTableCellField"><input name="postalCode" type="text" placeholder="Postal Code" value="${newUser.postalCode}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Country:</div>
-                    <div class="divTableCellField"><input name="country" type="text" placeholder="Country" /></div>
+                    <div class="divTableCellField"><input name="country" type="text" placeholder="Country" value="${newUser.country}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Role:</div>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellLabel">Pay Rate:</div>
-                    <div class="divTableCellField"><input name="hourlyRate" type="text" placeholder="$" /></div>
+                    <div class="divTableCellField"><input name="hourlyRate" type="text" placeholder="$" value="${hourlyRate}"/></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCellSubmit">

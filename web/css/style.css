@@ -1,12 +1,4 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Feb 6, 2018, 12:15:15 PM
-    Author     : 685442
-*/
+
 body {
     font-family: 'Open Sans', sans-serif;
     background-color: #e6ecf0;
@@ -133,6 +125,19 @@ p.bodytext {
     background-color: rgba(0,0,0,0.0);
     transition: background-color 1s ease-in-out;
     visibility: hidden;
+}
+
+.modal textarea {
+    width: 178px;
+    height: 95px;
+    padding: 12px 20px;
+    margin: 6px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: tahoma;
+    font-size: 13px;
 }
 
 body.modal_on .modal {
@@ -298,11 +303,11 @@ body.modal_on .modal-content {
     max-height: 50px;
     padding: 10px;
     transition: 0.04s all ease-in-out;
+    min-height: 53px;
 }
 
 .row {
-    height: 70px;
-   /* background-color: white;*/
+    height: 73px;
     overflow: hidden;
     width: calc(100% - 70px);
     display: flex;
@@ -311,6 +316,17 @@ body.modal_on .modal-content {
     cursor: pointer;
     border-bottom: 1px solid rgba(0,0,0,0.3);
 }
+
+.row.reportRow { 
+    margin-left: 100px;
+    margin-right: 70px;
+    justify-content: left;
+}
+
+.bold {
+    font-weight: bold;
+}
+
 
 .background {
     background-image: url("../res/background1.png");
@@ -616,6 +632,9 @@ body.modal_on .modal-content {
     color: white;
 }
 
+.logoutHr {
+    border-color: #36454f;
+}
 
 .formItem {
     background-color: #fefefe;
@@ -653,6 +672,10 @@ body.modal_on .modal-content {
     box-sizing: border-box;
 }
 
+.contentBodyInput.description {
+    height: 200px;
+}
+
 .contentBodyInputNormal {
     width: 45%;
     padding: 12px 20px;
@@ -688,6 +711,10 @@ body.modal_on .modal-content {
     border-radius: 4px;
     box-sizing: border-box;
     margin-left: 30px;
+}
+
+.contentBodyInputNormalTextArea.itemNotes {
+    height:75px;
 }
 
 .contentBodyInputNormalTextArea2 {

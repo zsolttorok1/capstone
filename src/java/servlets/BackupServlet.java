@@ -30,14 +30,16 @@ public class BackupServlet extends HttpServlet {
             return;
         }
         
+        String message = "";
         String backupServiceState = "off";
         if (!BackupService.getInstance().isBackupperServiceRunning()) {
             backupServiceState = "on";
+            message = "Backupper service is NOT running! It's highly advised to turn it on.";
         }
 
         request.setAttribute("backupServiceState", backupServiceState);
         request.setAttribute("backupFileList",  BackupService.getInstance().getBackupFileList());
-        request.setAttribute("message", "is Backupper Service running? " + BackupService.getInstance().isBackupperServiceRunning());
+        request.setAttribute("message", message);
         request.getRequestDispatcher("/WEB-INF/backup.jsp").forward(request, response);
     }
     
